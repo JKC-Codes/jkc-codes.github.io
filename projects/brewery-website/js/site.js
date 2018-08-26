@@ -1,8 +1,3 @@
-document.addEventListener('DOMContentLoaded', function() {
-	siteNav.initialise();
-	carousel.initialise();
-}, {once:true});
-
 /*
 ==========
 Site navigation menu
@@ -149,4 +144,22 @@ var carousel = {
 			beer.style.transform = 'translateX(' + translate + 'rem)';
 		}
 	}
+}
+
+
+/*
+==========
+Run scripts on site load
+==========
+*/
+
+function init() {
+	siteNav.initialise();
+	carousel.initialise();
+}
+
+document.addEventListener('DOMContentLoaded', init, {once: true});
+if(document.readyState !== 'loading') {
+	init();
+	document.removeEventListener('DOMContentLoaded', init, {once: true});
 }
