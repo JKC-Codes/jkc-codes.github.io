@@ -7,19 +7,13 @@ function init() {
 function loadArticles () {
 	var query = new XMLHttpRequest();
 	query.addEventListener('load', parse);
-	query.open('GET', '../js/articleslist.json');
+	query.open('GET', '../../js/articleslist.json');
 	query.send();
 
 	function parse () {
 		var list = JSON.parse(this.responseText);
 		removeCurrentPage(list);
 	}
-}
-
-// Add .html extension in testing environment
-let extension = '';
-if(document.domain.includes('localhost')) {
-	extension = '.html';
 }
 
 function removeCurrentPage(articles) {
@@ -32,7 +26,7 @@ function removeCurrentPage(articles) {
 
 	// Get page's topic and then remove current article from array
 	for(i = 0; i < articles.length; i++) {
-		if(articles[i].url + extension === currentPage) {
+		if(articles[i].url === currentPage) {
 			currentTopic = articles[i].topic;
 			articles.splice([i],1);
 			i--;
@@ -57,7 +51,7 @@ function displayArticles(list, topic) {
 
 	for (i = 0; i < 5; i++) {
 		let li = document.createElement('li');
-		li.innerHTML = '<a href="' + sortedList[i].url + extension + '">' + sortedList[i].title + '</a>';
+		li.innerHTML = '<a href="../' + sortedList[i].url + '">' + sortedList[i].title + '</a>';
 		displayArea.appendChild(li);
 	}
 }

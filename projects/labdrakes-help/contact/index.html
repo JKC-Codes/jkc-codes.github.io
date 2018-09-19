@@ -1,59 +1,54 @@
 <!DOCTYPE html>
 <html lang="en-GB">
-
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>Contact Us - Labdrakes Help</title>
-	<link rel="icon" href="../img/favicon.png">
-	<link rel="stylesheet" href="../css/site.css">
-	<link rel="stylesheet" href="../css/contact.css">
-	<script src="../js/contact.js" defer></script>
-	<script src="../js/chatdialogue.js" defer></script>
+	<link rel="icon" href="/projects/labdrakes-help/img/favicon.png">
+	<link rel="stylesheet" href="/projects/labdrakes-help/css/site.css">
+	<link rel="stylesheet" href="/projects/labdrakes-help/css/contact.css">
+	<script src="/projects/labdrakes-help/js/contact.js" defer></script>
+	<script src="/projects/labdrakes-help/js/chatdialogue.js" defer></script>
 	<script>
-		
+		// Check for Details element support
 		if (!('open' in document.createElement('details'))) {
-			document.write('<script src="../js/polyfill-details-summary.js"><\/script>');
+			document.write('<script src="/projects/labdrakes-help/js/polyfill-details-summary.js"><\/script>');
 		}
-		
+		// Check for Dialog element support
 		if (!('show' in document.createElement('dialog'))) {
-			document.write('<script src="../js/polyfill-dialog.js"><\/script><link rel="stylesheet" href="../css/polyfill-dialog.css">');
+			document.write('<script src="/projects/labdrakes-help/js/polyfill-dialog.js"><\/script><link rel="stylesheet" href="/projects/labdrakes-help/css/polyfill-dialog.css">');
 		}
-		
+		// Check for Custom Properties support
 		if (!this.CSS||!CSS.supports('--custom','properties')) {
-			document.write('<link rel="stylesheet" href="../css/fallback-customproperties.css">');
+			document.write('<link rel="stylesheet" href="/projects/labdrakes-help/css/fallback-customproperties.css">');
 		}
-		
+		// Check for Grid support
 		if (!this.CSS||!CSS.supports('grid-area','auto')) {
-			document.write('<link rel="stylesheet" href="../css/fallback-grid.css">');
+			document.write('<link rel="stylesheet" href="/projects/labdrakes-help/css/fallback-grid.css">');
 		}
 	</script>
 </head>
-
 <body>
-
 	<header class="site">
 	<div class="return dark row">
 		<a href="https://jkc.codes" rel="noopener">Return to labdrakes.com</a>
 	</div>
 
 	<div class="main row">
-		<a href="../">
+		<a href="/projects/labdrakes-help">
 			<picture>
-				<source media="(min-width: 37.5rem)" srcset="../img/logo-wide.png">
-				<img class="logo" src="../img/logo-narrow.png" alt="Labdrakes' logo">
+				<source media="(min-width: 37.5rem)" srcset="/projects/labdrakes-help/img/logo-wide.png">
+				<img class="logo" src="/projects/labdrakes-help/img/logo-narrow.png" alt="Labdrakes' logo">
 			</picture>
 		</a>
-		<form action="https://jkc.codes/projects/labdrakes-help" method="get" id="site-search">
+		<form action="/projects/labdrakes-help" method="get" id="site-search">
 			<label for="site-search-bar" class="a11y">Search the site:</label>
 			<input type="search" id="site-search-bar" name="search" placeholder="How can we help?" required>
 			<button type="submit" form="site-search"><span class="text">Search</span></button>
 		</form>
 	</div>
 </header>
-
 	
-
 <main class="contact">
 	<div class="container">
 		<header>
@@ -69,9 +64,9 @@
 				<button id="chatClose" class="link">Cancel</button>
 			</dialog>
 			<script>
-				
+				// Check for Dialog element support
 				if (!('show' in document.createElement('dialog'))) {
-					
+					// Load polyfill if unsupported
 					dialogPolyfill.registerDialog(chatDialogue);
 				}
 			</script>
@@ -90,7 +85,7 @@
 		<section class="email">
 			<h2>Email</h2>
 			<p>Response time:<br><b>36&ndash;48 hours</b></p>
-			<form id="contact-form" action="contact.html#success" method="post">
+			<form id="contact-form" action="#success" method="post">
 				<fieldset id="your-details">
 					<legend>Your Details</legend>
 					<label for="input-name">Name:
@@ -179,25 +174,22 @@
 				</ul>
 			</dialog>
 			<script>
-				
+				// Check for Dialog element support
 				if (!('show' in document.createElement('dialog'))) {
-					
+					// Load polyfill if unsupported
 					dialogPolyfill.registerDialog(emailErrors);
 				}
 			</script>
 		</section>
 	</div>
 </main>
-
-
-
 	<footer class="site dark">
 	<section class="page-links">
 		<h2 class="a11y">Important Articles</h2>
 		<ul class="no-bullets column">
-			<li><a href="../pages/terms-and-conditions.html" class="button">Terms and Conditions</a></li>
-			<li><a href="../pages/responsible-gambling.html" class="button">Responsible Gambling</a></li>
-			<li><a href="../pages/privacy-policy.html#cookies" class="button">Cookie Policy</a></li>
+			<li><a href="/projects/labdrakes-help/articles/terms-and-conditions" class="button">Terms and Conditions</a></li>
+			<li><a href="/projects/labdrakes-help/articles/responsible-gambling" class="button">Responsible Gambling</a></li>
+			<li><a href="/projects/labdrakes-help/articles/privacy-policy#cookies" class="button">Cookie Policy</a></li>
 		</ul>
 	</section>
 
@@ -205,7 +197,7 @@
 		<h2 class="a11y">Gambling Information</h2>
 		<ul class="no-bullets">
 			<li class="over-18">
-				<a href="../pages/18-plus-policy.html" class="icon over-18">
+				<a href="/projects/labdrakes-help/articles/18-plus-policy" class="icon over-18">
 					<span class="a11y">18 and over Policy</span>
 				</a>
 			</li>
@@ -248,7 +240,7 @@
 			<li><a href="javascript:void(0)" rel="noopener">About Us</a></li>
 			<li><a href="javascript:void(0)" rel="noopener">Affiliates</a></li>
 			<li><a href="javascript:void(0)" rel="noopener">Investor Centre</a></li>
-			<li><a href="../pages/restricted-territories.html">Restricted Territories</a></li>
+			<li><a href="/projects/labdrakes-help/articles/restricted-territories">Restricted Territories</a></li>
 		</ul>
 	</section>
 
@@ -257,7 +249,7 @@
 		<ul class="no-bullets">
 			<li><a href="javascript:void(0)" rel="noopener">Labdrakes.com</a></li>
 			<li><a href="javascript:void(0)" rel="noopener">Shop Locator</a></li>
-			<li><a href="../pages/other-ways-to-bet.html">Other Ways To Bet</a></li>
+			<li><a href="/projects/labdrakes-help/articles/other-ways-to-bet">Other Ways To Bet</a></li>
 			<li><a href="javascript:void(0)" rel="noopener">The Grid</a></li>
 		</ul>
 	</section>
@@ -289,6 +281,5 @@
 		<p class="copyright"><small>Copyright &copy; 2018 Labdrakes</small></p>
 	</section>
 </footer>
-
 </body>
 </html>
