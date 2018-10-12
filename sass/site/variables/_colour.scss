@@ -1,0 +1,9 @@
+$colour-text: #333;
+
+$colour-brand: #ff0000;
+$colour-brand-light: lighten($colour-brand, 10%);
+$colour-brand-dark: darken($colour-brand, 10%);
+
+$colour-alt: #0000ff;
+$colour-alt-light: lighten($colour-alt, 10%);
+$colour-alt-dark: darken($colour-alt, 10%);

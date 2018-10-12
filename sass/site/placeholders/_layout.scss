@@ -1,0 +1,22 @@
+// Clearfix
+%group {
+	display: flow-root;
+
+	&::after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+
+// Display as column
+%column {
+	display: flex;
+	flex-direction: column;
+}
+
+// Display as row
+%row {
+	display: flex;
+	flex-direction: row;
+}

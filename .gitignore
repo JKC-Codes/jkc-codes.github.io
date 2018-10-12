@@ -1,0 +1,5 @@
+.netlify
+.vscode
+css
+node_modules
+staging

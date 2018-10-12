@@ -1,0 +1,16 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	color: $colour-text;
+	font: $font;
+	overflow-wrap: break-word;
+}
+
+body {
+	max-width: 75rem;
+	margin: 0 auto;
+}

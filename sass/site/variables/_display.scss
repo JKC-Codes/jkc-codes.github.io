@@ -1,0 +1,8 @@
+$border-rounded: 0.25em;
+
+$shadow-offset-x: 0.2rem;
+$shadow-offset-y: 0.2rem;
+$shadow-blur: 0.2rem;
+$shadow-spread: 0rem;
+$shadow-colour: rgba(0, 0, 0, 0.25);
+$shadow: $shadow-offset-x $shadow-offset-y $shadow-blur $shadow-spread $shadow-colour;
