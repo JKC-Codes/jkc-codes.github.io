@@ -2,7 +2,6 @@ const
 	gulp = require('gulp'),
 	del = require('del'),
 	shell = require('child_process').exec,
-	project = require('./html/_data/project'),
 	baseFolder = `./staging/`,
 	htmlmin = require('gulp-htmlmin'),
 	sass = require('gulp-sass'),
