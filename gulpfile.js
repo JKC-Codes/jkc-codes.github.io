@@ -12,13 +12,8 @@ const
 	imagemin = require('gulp-imagemin')
 ;
 
-function redirect() {
-	return gulp.src(baseFolder + '_eleventy_redirect/index.html')
-		.pipe(gulp.dest('./staging/'));
-}
-
 function resetStaging() {
-	return del(['./staging/*', '!./staging/index.html']);
+	return del(['./staging/*']);
 }
 
 function eleventy() {
@@ -84,5 +79,5 @@ function git() {
 	return shell('git add docs && git commit -m \"build for publishing\" && git push');
 }
 
-gulp.task('stage', gulp.series(redirect, resetStaging, eleventy, gulp.parallel(html, css, js, img), netlify, browser));
+gulp.task('stage', gulp.series(resetStaging, eleventy, gulp.parallel(html, css, js, img), netlify, browser));
 gulp.task('publish', gulp.series(resetDocs, docs, git));
