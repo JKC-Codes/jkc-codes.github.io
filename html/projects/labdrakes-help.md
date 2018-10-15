@@ -9,20 +9,13 @@ My First Website&trade;
 ## Objective
 Design and build a bookmaker's help pages.
 
-## Background
-I had recently left a job managing a bookmaker's internal knowledge base and wanted to focus my career more on the coding side of things.
-
-Working with an environment I was already familiar with allowed me to quickly gauge my strengths and weaknesses and create a learning path to further my career.
-
-My initial build was a purely HTML and CSS construction due to my previously limited JavaScript knowledge. Having identified this weakness I took steps to learn DOM manipulation with JavaScript.
-
 ## Challenges
 1. Limited JavaScript knowledge
 1. No website hosting experience
 
 ## Solutions
 1. Completed the W3C Introduction to JavaScript course
-1. Researched website hosting solutions, particularly Netlify and GitHub pages
+1. Researched website hosting solutions, particularly Netlify and GitHub Pages
 
 ## Retrospective
 
