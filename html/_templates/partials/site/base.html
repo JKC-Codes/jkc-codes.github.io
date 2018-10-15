@@ -3,7 +3,10 @@
 {% include partials/site/head.html %}
 <body>
 	{% include partials/site/header.html %}
-	{{ content }}
-	{% include partials/site/footer.html %}
+	<main>
+		<h1>{{ title }}</h1>
+		{{ content }}
+	</main>
+		{% include partials/site/footer.html %}
 </body>
 </html>
