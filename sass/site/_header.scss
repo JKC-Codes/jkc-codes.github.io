@@ -1,7 +1,17 @@
 #site-header {
 
-.site-nav-heading {
+.heading {
 	@extend %hide-visually;
+}
+
+.navigation {
+	text-align: right;
+	position: sticky;
+	top: 0;
+}
+
+.links {
+	@extend %no-bullets;
 }
 
 }
