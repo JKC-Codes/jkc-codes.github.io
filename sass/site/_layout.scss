@@ -1,0 +1,17 @@
+body {
+	display: grid;
+	grid-template: auto auto / 6rem auto 6rem;
+	grid-column-gap: 2rem;
+}
+
+#site-header {
+	grid-area: 1 / 1 / -2 / 2;
+}
+
+#site-main {
+	grid-area: 1 / 2 / -2 / -2;
+}
+
+#site-footer {
+	grid-area: -2 / 1 / -1 / -1
+}

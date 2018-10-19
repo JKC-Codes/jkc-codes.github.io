@@ -14,3 +14,42 @@ body {
 	max-width: 75rem;
 	margin: 0 auto;
 }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: $colour-brand;
+}
+
+h2 {
+	font-size: 2.6em;
+}
+
+h3 {
+	font-size: 2em;
+}
+
+h4 {
+	font-size: 1.5em;
+}
+
+a:link {
+ color: $colour-complement;
+}
+
+a:visited {
+ color: $colour-text;
+}
+
+a:hover {
+	color: $colour-brand;
+	text-decoration-style: dashed;
+}
+
+a:active {
+ color: $colour-contrast;
+ text-decoration-color: $colour-contrast;
+}
