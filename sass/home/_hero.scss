@@ -4,7 +4,7 @@ display: grid;
 grid-template-rows: 1fr 1fr 1fr auto 3fr;
 height: 90vh;
 
-.heading {
+.section-heading {
 	@extend %hide-visually;
 }
 
