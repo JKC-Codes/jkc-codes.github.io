@@ -1,0 +1,41 @@
+#hero {
+
+display: grid;
+grid-template-rows: 1fr 1fr 1fr auto 3fr;
+height: 90vh;
+
+.heading {
+	@extend %hide-visually;
+}
+
+.name,
+.job-title,
+.location {
+	color: $colour-brand;
+	margin: 0;
+}
+
+.name {
+	grid-row: 4;
+	font-size: 3.75em;
+	word-break: keep-all;
+	text-align: center;
+}
+
+.job-title,
+.location {
+	font-size: 1.75em;
+	text-align: right;
+}
+
+.job-title {
+	grid-row: 2;
+	align-self: end;
+}
+
+.location {
+	grid-row: 3;
+	align-self: start;
+}
+
+}
