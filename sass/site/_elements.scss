@@ -57,3 +57,22 @@ a:active {
 img {
 	max-width: 100%;
 }
+
+button {
+	text-align: center;
+	padding: 0.5rem 1rem;
+	border: 0.05rem solid $colour-decorate;
+	border-radius: $border-rounded;
+	background-color: transparent;
+	color: $colour-complement;
+
+	&:hover {
+		border-color: $colour-brand;
+		color: $colour-brand;
+	}
+
+	&:active {
+		color: $colour-decorate;
+		border-color: $colour-decorate;
+	}
+}
