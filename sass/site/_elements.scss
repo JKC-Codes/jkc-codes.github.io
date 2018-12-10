@@ -11,7 +11,7 @@ html {
 }
 
 body {
-	max-width: 75rem;
+	max-width: 60rem;
 	margin: 0 auto;
 }
 
@@ -25,15 +25,15 @@ h6 {
 }
 
 h2 {
-	font-size: 2.6em;
+	font-size: 3.25em;
 }
 
 h3 {
-	font-size: 2em;
+	font-size: 1.75em;
 }
 
 h4 {
-	font-size: 1.5em;
+	font-size: 1.25em;
 }
 
 a:link {
@@ -41,7 +41,7 @@ a:link {
 }
 
 a:visited {
- color: $colour-text;
+ color: $colour-brand;
 }
 
 a:hover {
@@ -56,23 +56,4 @@ a:active {
 
 img {
 	max-width: 100%;
-}
-
-button {
-	text-align: center;
-	padding: 0.5rem 1rem;
-	border: 0.05rem solid $colour-decorate;
-	border-radius: $border-rounded;
-	background-color: transparent;
-	color: $colour-complement;
-
-	&:hover {
-		border-color: $colour-brand;
-		color: $colour-brand;
-	}
-
-	&:active {
-		color: $colour-decorate;
-		border-color: $colour-decorate;
-	}
 }

@@ -1,40 +1,7 @@
 #skills {
 
-justify-self: center;
-display: grid;
-grid-template: repeat(6, auto) / repeat(8, auto);
-grid-gap: 2rem;
-min-height: 90vh;
-max-width: 50rem;
-
-.section-heading {
-	margin-top: 1rem;
-	grid-area: 1 / 1 / 2 / -1;
-	justify-self: center;
-}
-
-.skill-heading {
-	margin: 0;
-}
-
-.skill-list {
-	margin-top: 0;
-}
-
-.html {
-	grid-area: 2 / 1 / span 2 / span 4;
-}
-
-.css {
-	grid-area: 3 / -4 / span 2 / -1;
-}
-
-.javascript {
-	grid-area: 4 / 2 / span 2 / span 2;
-}
-
-.tools {
-	grid-area: 5 / -5 / span 2 / -1;
+.skills-heading {
+	text-align: center;
 }
 
 }
