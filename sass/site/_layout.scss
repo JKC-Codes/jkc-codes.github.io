@@ -1,15 +1,11 @@
 body {
 	display: grid;
+	grid-template-columns: 1fr minmax(320px, 1200px) 1fr;
+	margin: 0 1rem;
 }
 
-#site-header {
-	--place: holder;
-}
-
-#site-main {
-	--place: holder;
-}
-
+#site-header,
+#site-main,
 #site-footer {
-	--place: holder;
+	grid-column: 2;
 }
