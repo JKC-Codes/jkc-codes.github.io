@@ -4,11 +4,23 @@
 	display: none;
 }
 
+%transition {
+	transition: all 0.25s ease-in-out;
+}
+
 .navigation {
+	@extend %transition;
 	position: fixed;
 	top: 0;
 	right: 0;
 	padding: 0.5rem;
+	display: flex;
+	flex-direction: row-reverse;
+
+	&[data-open="true"] {
+		background: transparentize($colour-brand,0.05);
+		width: 100%;
+	}
 }
 
 .heading {
@@ -16,6 +28,7 @@
 }
 
 .nav-button {
+	@extend %transition;
 	border: none;
 	border-radius: 0.5rem;
 	background: transparentize($colour-decorate,0.75);
@@ -23,6 +36,20 @@
 	padding: 0.25rem;
 	width: 2.4rem;
 	height: 3rem;
+
+	&:hover {
+		background: transparentize($colour-decorate,0.5);
+	}
+}
+
+.navigation[data-open="true"] .nav-button {
+	background: none;
+	color: white;
+	fill: white;
+
+	&:hover {
+		background: transparentize($colour-decorate,0.75);
+	}
 }
 
 .nav-icon {
@@ -34,8 +61,8 @@
 	.line-mid-right,
 	.line-bottom-left,
 	.line-bottom-right {
+		@extend %transition;
 		fill: $colour-brand;
-		transition: all 5s ease-in-out;
 	}
 
 	.line-top-left {
@@ -61,6 +88,15 @@
 }
 
 .navigation[data-open="true"] .nav-icon {
+	.line-top-left,
+	.line-top-right,
+	.line-mid-left,
+	.line-mid-right,
+	.line-bottom-left,
+	.line-bottom-right {
+		fill: white;
+	}
+
 	.line-top-left {
 		transform: translate(7.5%, -2.5%) rotate(45deg);
 	}
@@ -92,6 +128,23 @@
 
 .links {
 	@extend %no-bullets;
+	flex-grow: 1;
+	margin-left: 15%;
+
+	li {
+		margin-top: 1.5rem;
+	}
+
+	a {
+		color: white;
+	}
+
+	img {
+		border-radius: 50%;
+		margin-right: 0.5rem;
+		max-height: 2rem;
+		vertical-align: middle;
+	}
 }
 
 .navigation[data-open="true"] .links {
