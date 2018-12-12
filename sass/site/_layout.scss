@@ -1,7 +1,7 @@
 body {
 	display: grid;
-	grid-template-columns: 1fr minmax(320px, 1200px) 1fr;
-	margin: 0 1rem;
+	grid-template-columns: 1fr minmax(calc(320px - 2rem), 1200px) 1fr;
+	padding: 0 1rem;
 }
 
 #site-header,
