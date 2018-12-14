@@ -131,3 +131,9 @@
 }
 
 }
+
+body.js-failed-to-load {
+	#site-header .navigation {
+		position: static;
+	}
+}
