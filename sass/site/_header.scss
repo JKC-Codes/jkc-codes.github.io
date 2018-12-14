@@ -26,7 +26,7 @@
 	}
 }
 
-&[data-nav-menu="closed"] .nav-button {
+&[data-nav-menu-open="false"] .nav-button {
 	color: $colour-text;
 }
 
@@ -70,7 +70,7 @@
 	}
 }
 
-&[data-nav-menu="closed"] .nav-icon {
+&[data-nav-menu-open="false"] .nav-icon {
 	.line-top-left,
 	.line-top-right,
 	.line-mid-left,
@@ -92,7 +92,7 @@
 	background: transparentize($colour-brand,0.05);
 }
 
-&[data-nav-menu="closed"] .navigation {
+&[data-nav-menu-open="false"] .navigation {
 	background: transparent;
 	transform: translateX(50vw) scaleX(0);
 	transform-origin: right;
