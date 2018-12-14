@@ -21,7 +21,7 @@
   },
   "scripts": {
     "eleventy": "eleventy --serve",
-    "sass": "sass sass:css --watch --embed-sources --embed-source-map",
+    "sass": "sass sass:css --watch",
     "browser": "delay 1.5 && start firefox.exe -private-window http://localhost:8080",
     "start": "npm-run-all --parallel sass eleventy browser"
   },
