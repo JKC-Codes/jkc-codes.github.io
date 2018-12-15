@@ -6,7 +6,7 @@
 
 .nav-button {
 	@extend %transition;
-	position: fixed;
+	position: absolute;
 	z-index: 1;
 	top: 0;
 	right: 0;
@@ -84,7 +84,7 @@
 
 .navigation {
 	@extend %transition;
-	position: fixed;
+	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -94,8 +94,7 @@
 
 &[data-nav-menu-open="false"] .navigation {
 	background: transparent;
-	transform: translateX(100vw);
-	transform-origin: right;
+	transform: translateY(-100vh);
 }
 
 .name {
