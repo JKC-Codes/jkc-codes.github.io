@@ -1,28 +1,29 @@
 #site-header {
 
 %transition {
-	transition: all 0.25s ease-in-out;
+	transition: 0.25s ease-in-out;
 }
 
 .nav-button {
 	@extend %transition;
+	transition-property: color;
 	position: absolute;
 	z-index: 1;
 	top: 0;
 	right: 0;
-	margin: 0.5rem;
-	border: none;
-	border-radius: 0.5rem;
-	background: transparentize($colour-decorate,0.75);
-	cursor: pointer;
-	padding: 0.25rem;
 	width: 2.4rem;
 	height: 3rem;
+	margin: 0.5rem;
+	padding: 0.25rem;
+	cursor: pointer;
+	border: none;
+	border-radius: 0.5rem;
+	background: none;
 	color: white;
 	font-size: 0.7rem;
 
 	&:hover {
-		background: transparentize($colour-decorate,0.5);
+		background: transparentize($colour-decorate,0.8);
 	}
 }
 
@@ -40,6 +41,7 @@
 	.line-bottom-left,
 	.line-bottom-right {
 		@extend %transition;
+		transition-property: transform, fill;
 		fill: white;
 	}
 
@@ -84,6 +86,7 @@
 
 .navigation {
 	@extend %transition;
+	transition-property: transform, background-color;
 	position: absolute;
 	top: 0;
 	left: 0;
