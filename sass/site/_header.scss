@@ -1,5 +1,8 @@
 #site-header {
 
+$media-narrow: 350px;
+$media-wide: 1200px;
+
 %transition {
 	transition: 0.25s ease-in-out;
 }
@@ -7,6 +10,7 @@
 .nav-button {
 	@extend %transition;
 	transition-property: color;
+	display: none;
 	position: absolute;
 	z-index: 1;
 	top: 0;
@@ -27,8 +31,14 @@
 	}
 }
 
-&[data-nav-menu-open="false"] .nav-button {
-	color: $colour-text;
+@media (max-width: $media-narrow - 1px) {
+	&[data-nav-menu-open] .nav-button {
+		display: block;
+	}
+
+	&[data-nav-menu-open="false"] .nav-button {
+		color: $colour-text;
+	}
 }
 
 .nav-icon {
@@ -87,7 +97,6 @@
 .navigation {
 	@extend %transition;
 	transition-property: transform, background-color;
-	position: absolute;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -95,9 +104,15 @@
 	background: transparentize($colour-brand,0.05);
 }
 
-&[data-nav-menu-open="false"] .navigation {
-	background: transparent;
-	transform: translateY(-100vh);
+@media (max-width: $media-narrow - 1px) {
+	&[data-nav-menu-open] .navigation {
+		position: absolute;
+	}
+
+	&[data-nav-menu-open="false"] .navigation {
+		background: transparent;
+		transform: translateY(-100vh);
+	}
 }
 
 .name {
@@ -133,14 +148,4 @@
 	}
 }
 
-}
-
-body.javascript-failed-to-load {
-	#site-header .nav-button {
-		display: none;
-	}
-
-	#site-header .navigation {
-		position: static;
-	}
 }

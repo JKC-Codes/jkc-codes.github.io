@@ -4,10 +4,6 @@ let header;
 let button;
 
 function initialise() {
-	//Remove fallbacks
-	body = document.querySelector('body');
-	body.classList.remove('javascript-failed-to-load');
-
 	header = document.querySelector('#site-header');
 	button = header.querySelector('#site-nav-menu-button');
 	header.dataset.navMenuOpen = 'false';
