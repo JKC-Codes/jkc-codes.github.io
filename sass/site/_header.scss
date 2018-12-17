@@ -1,6 +1,6 @@
 #site-header {
 
-$media-narrow: 24rem;
+$media-narrow: 34rem;
 $media-wide: 1200px;
 
 %transition {
@@ -31,7 +31,7 @@ $media-wide: 1200px;
 	}
 }
 
-@media (max-width: $media-narrow - 0.05rem) {
+@media (max-width: $media-narrow - 0.0625rem) {
 	&[data-nav-menu-open] .nav-button {
 		display: block;
 	}
@@ -104,7 +104,7 @@ $media-wide: 1200px;
 	background: transparentize($colour-brand,0.05);
 }
 
-@media (max-width: $media-narrow - 0.05rem) {
+@media (max-width: $media-narrow - 0.0625rem) {
 	&[data-nav-menu-open] .navigation {
 		position: absolute;
 	}
@@ -127,17 +127,16 @@ $media-wide: 1200px;
 }
 
 .name {
-	margin: 0;
 	color: white;
-	line-height: 1em;
-	font-size: 1.25em;
+	line-height: 1rem;
+	font-size: 1.25rem;
 	font-weight: 700;
 	text-decoration: none;
 }
 
 @media (min-width: $media-narrow) {
 	.name {
-		margin: 0 2rem 0.5rem 0;
+		margin: 0.5rem 3rem 1rem 0;
 		font-size: 100%;
 	}
 }
@@ -148,7 +147,7 @@ $media-wide: 1200px;
 
 .links {
 	@extend %no-bullets;
-	margin: 1rem 0 0;
+	margin: 2.5rem 0 0;
 
 	li {
 		margin-top: 1.5rem;
@@ -177,11 +176,12 @@ $media-wide: 1200px;
 		}
 
 		li + li {
-			margin-left: 1.5rem;
+			margin-left: 2rem;
 		}
 
 		img {
-			display: none;
+			height: 1.25rem;
+			margin-right: 0.25rem;
 		}
 	}
 }
