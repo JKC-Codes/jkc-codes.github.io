@@ -4,6 +4,10 @@
 	transition: 0.25s ease-in-out;
 }
 
+@media (min-width: $mq-header-narrow) {
+	background: $colour-brand;
+}
+
 .nav-button {
 	@extend %transition;
 	transition-property: color;
@@ -99,6 +103,24 @@
 	width: 100%;
 	padding: 1.25rem 2.5rem 2.5rem;
 	background: transparentize($colour-brand,0.05);
+
+	@media (min-width: $mq-header-narrow) {
+		transition: none;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0.75rem 1rem 0rem;
+	}
+
+	@media (min-width: $mq-header-wide) {
+		align-items: start;
+		padding: 2rem 1rem;
+	}
+
+	@media (min-width: $mq-header-wide) and (min-height: 25rem) {
+		position: sticky;
+	}
 }
 
 @media (max-width: $mq-header-narrow - 0.0625rem) {
@@ -112,29 +134,21 @@
 	}
 }
 
-@media (min-width: $mq-header-narrow) {
-	.navigation {
-		transition: none;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-		align-items: center;
-		padding: 0.75rem 1rem 0rem;
-	}
-}
-
 .name {
 	color: white;
 	line-height: 1rem;
 	font-size: 1.25rem;
 	font-weight: 700;
 	text-decoration: none;
-}
 
-@media (min-width: $mq-header-narrow) {
-	.name {
+	@media (min-width: $mq-header-narrow) {
 		margin: 0 3rem 1rem 0;
 		font-size: 100%;
+	}
+
+	@media (min-width: $mq-header-wide) {
+		margin: 0;
+		writing-mode: sideways-lr;
 	}
 }
 
@@ -160,10 +174,8 @@
 		max-height: 2rem;
 		vertical-align: middle;
 	}
-}
 
-@media (min-width: $mq-header-narrow) {
-	.links {
+	@media (min-width: $mq-header-narrow) {
 		display: flex;
 		justify-content: center;
 		margin: 0 0 1rem 0;
@@ -181,21 +193,8 @@
 			margin-right: 0.25rem;
 		}
 	}
-}
 
-@media (min-width: $mq-header-wide) {
-	.navigation {
-		align-items: start;
-		height: 100%;
-		width: 9.5rem;
-	}
-
-	.name {
-		margin: 0;
-		writing-mode: sideways-lr;
-	}
-
-	.links {
+	@media (min-width: $mq-header-wide) {
 		display: list-item;
 		margin: 0;
 
