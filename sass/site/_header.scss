@@ -1,6 +1,6 @@
 #site-header {
 
-$media-narrow: 350px;
+$media-narrow: 24rem;
 $media-wide: 1200px;
 
 %transition {
@@ -31,7 +31,7 @@ $media-wide: 1200px;
 	}
 }
 
-@media (max-width: $media-narrow - 1px) {
+@media (max-width: $media-narrow - 0.05rem) {
 	&[data-nav-menu-open] .nav-button {
 		display: block;
 	}
@@ -104,7 +104,7 @@ $media-wide: 1200px;
 	background: transparentize($colour-brand,0.05);
 }
 
-@media (max-width: $media-narrow - 1px) {
+@media (max-width: $media-narrow - 0.05rem) {
 	&[data-nav-menu-open] .navigation {
 		position: absolute;
 	}
@@ -115,6 +115,17 @@ $media-wide: 1200px;
 	}
 }
 
+@media (min-width: $media-narrow) {
+	.navigation {
+		transition: none;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0.5rem 1rem 0;
+	}
+}
+
 .name {
 	margin: 0;
 	color: white;
@@ -122,6 +133,13 @@ $media-wide: 1200px;
 	font-size: 1.25em;
 	font-weight: 700;
 	text-decoration: none;
+}
+
+@media (min-width: $media-narrow) {
+	.name {
+		margin: 0 2rem 0.5rem 0;
+		font-size: 100%;
+	}
 }
 
 .heading {
@@ -145,6 +163,26 @@ $media-wide: 1200px;
 		margin-right: 0.5rem;
 		max-height: 2rem;
 		vertical-align: middle;
+	}
+}
+
+@media (min-width: $media-narrow) {
+	.links {
+		display: flex;
+		justify-content: center;
+		margin: 0 0 0.5rem 0;
+
+		li {
+			margin: 0;
+		}
+
+		li + li {
+			margin-left: 1.5rem;
+		}
+
+		img {
+			display: none;
+		}
 	}
 }
 
