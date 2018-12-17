@@ -1,7 +1,12 @@
 body {
 	display: grid;
 	$padding: 1rem;
-	grid-template-columns: 1fr $padding minmax(calc(320px - #{$padding*2}), 1200px) $padding 1fr;
+	$main: minmax(calc(320px - #{$padding*2}), 1200px);
+	grid-template-columns: 1fr $padding $main $padding 1fr;
+
+	@media (min-width: $mq-header-wide) {
+		grid-template-columns: 1fr 9.5rem $padding $main $padding minmax(0, 9.5rem) 1fr;
+	}
 }
 
 #site-header,
@@ -11,4 +16,18 @@ body {
 
 #site-main {
 	grid-column: 3/-3;
+}
+
+@media (min-width: $mq-header-wide) {
+	#site-header {
+		grid-column: 2/3;
+	}
+
+	#site-main {
+		grid-column: 4/5;
+	}
+
+	#site-footer {
+		grid-column: 2/-2;
+	}
 }
