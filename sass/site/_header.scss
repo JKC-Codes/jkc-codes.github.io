@@ -147,8 +147,14 @@
 	}
 
 	@media (min-width: $mq-header-wide) {
-		margin: 0;
-		writing-mode: sideways-lr;
+		margin: 0 0 2rem;
+		font-size: 90%;
+
+		@supports (writing-mode: sideways-lr) {
+			margin: 0;
+			font-size: 100%;
+			writing-mode: sideways-lr;
+		}
 	}
 }
 
