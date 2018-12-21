@@ -2,13 +2,19 @@ $mq-header-narrow: 34rem;
 $mq-header-wide: 77.5rem;
 
 body {
-	display: grid;
-	$padding: 1rem;
-	$main: minmax(calc(320px - #{$padding*2}), 1200px);
-	grid-template-columns: 1fr $padding $main $padding 1fr;
+	max-width: 1200px;
+	margin: 0 auto;
 
-	@media (min-width: $mq-header-wide) {
-		grid-template-columns: 1fr 9.5rem $padding $main $padding 1fr;
+	@supports (grid-area: auto) {
+		max-width: none;
+		display: grid;
+		$padding: 1rem;
+		$main: minmax(calc(320px - #{$padding*2}), 1200px);
+		grid-template-columns: 1fr $padding $main $padding 1fr;
+
+		@media (min-width: $mq-header-wide) {
+			grid-template-columns: 1fr 9.5rem $padding $main $padding 1fr;
+		}
 	}
 }
 
