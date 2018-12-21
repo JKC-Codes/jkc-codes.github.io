@@ -147,12 +147,16 @@
 	}
 
 	@media (min-width: $mq-header-wide) {
-		margin: 0 0 2rem;
-		font-size: 90%;
+		transform: rotate(-90deg);
+		white-space: nowrap;
+		width: 1rem;
+		margin: 7rem 0 0;
 	}
 
 	@supports (writing-mode: sideways-lr) {
 		@media (min-width: $mq-header-wide) {
+			transform: none;
+			width: auto;
 			margin: 0;
 			font-size: 100%;
 			writing-mode: sideways-lr;
