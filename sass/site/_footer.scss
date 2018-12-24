@@ -1,3 +1,8 @@
-#site-footer{
-	--place: holder;
+#site-footer {
+	padding: 1rem;
+	color: hsl(225, 7.5%, 48.25%);
+
+	a:link:not(:hover):not(:active) {
+		color: inherit;
+	}
 }
