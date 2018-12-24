@@ -8,6 +8,13 @@
 		background: $colour-brand;
 	}
 
+	@supports (grid-area: auto) {
+		@media (min-width: $mq-wide) {
+			justify-self: end;
+			width: 9.5rem;
+		}
+	}
+
 	@import './header/menu-button';
 	@import './header/navigation';
 
