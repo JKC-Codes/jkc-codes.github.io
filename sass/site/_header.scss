@@ -4,7 +4,7 @@
 	transition: 0.25s ease-in-out;
 }
 
-@media (min-width: $mq-header-narrow) {
+@media (min-width: $mq-narrow) {
 	background: $colour-brand;
 }
 
@@ -32,7 +32,7 @@
 	}
 }
 
-@media (max-width: $mq-header-narrow - 0.0625rem) {
+@media (max-width: $mq-narrow - 0.0625rem) {
 	&[data-nav-menu-open] .nav-button {
 		display: block;
 	}
@@ -104,7 +104,7 @@
 	padding: 1.25rem 2.5rem 2.5rem;
 	background: transparentize($colour-brand,0.05);
 
-	@media (min-width: $mq-header-narrow) {
+	@media (min-width: $mq-narrow) {
 		transition: none;
 		display: flex;
 		flex-wrap: wrap;
@@ -114,18 +114,18 @@
 	}
 
 	@supports (grid-area: auto) {
-		@media (min-width: $mq-header-wide) {
+		@media (min-width: $mq-wide) {
 			align-items: start;
 			padding: 2rem 1rem;
 		}
 	}
 
-	@media (min-width: $mq-header-wide) and (min-height: 25rem) {
+	@media (min-width: $mq-wide) and (min-height: 25rem) {
 		position: sticky;
 	}
 }
 
-@media (max-width: $mq-header-narrow - 0.0625rem) {
+@media (max-width: $mq-narrow - 0.0625rem) {
 	&[data-nav-menu-open] .navigation {
 		position: absolute;
 	}
@@ -143,13 +143,13 @@
 	font-weight: 700;
 	text-decoration: none;
 
-	@media (min-width: $mq-header-narrow) {
+	@media (min-width: $mq-narrow) {
 		margin: 0 3rem 1rem 0;
 		font-size: 100%;
 	}
 
 	@supports (grid-area: auto) {
-		@media (min-width: $mq-header-wide) {
+		@media (min-width: $mq-wide) {
 			transform: rotate(-90deg);
 			white-space: nowrap;
 			width: 1rem;
@@ -157,7 +157,7 @@
 		}
 
 		@supports (writing-mode: sideways-lr) {
-			@media (min-width: $mq-header-wide) {
+			@media (min-width: $mq-wide) {
 				transform: none;
 				width: auto;
 				margin: 0;
@@ -191,7 +191,7 @@
 		vertical-align: middle;
 	}
 
-	@media (min-width: $mq-header-narrow) {
+	@media (min-width: $mq-narrow) {
 		display: flex;
 		justify-content: center;
 		margin: 0 0 1rem 0;
@@ -211,7 +211,7 @@
 	}
 
 	@supports (grid-area: auto) {
-		@media (min-width: $mq-header-wide) {
+		@media (min-width: $mq-wide) {
 			display: list-item;
 			margin: 0;
 

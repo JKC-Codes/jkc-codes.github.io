@@ -1,18 +1,15 @@
-$mq-header-narrow: 34rem;
-$mq-header-wide: 77.5rem;
-
 body {
 	max-width: 1200px;
 	margin: 0 auto;
 
 	@supports (grid-area: auto) {
-		max-width: none;
+		max-width: none; // Reset fallback
 		display: grid;
 		$padding: 1rem;
 		$main: minmax(calc(320px - #{$padding*2}), 1200px);
 		grid-template-columns: 1fr $padding $main $padding 1fr;
 
-		@media (min-width: $mq-header-wide) {
+		@media (min-width: $mq-wide) {
 			grid-template-columns: 1fr 9.5rem $padding $main $padding 1fr;
 		}
 	}
@@ -27,7 +24,7 @@ body {
 	grid-column: 3/-3;
 }
 
-@media (min-width: $mq-header-wide) {
+@media (min-width: $mq-wide) {
 	#site-header {
 		grid-column: 2/3;
 	}
