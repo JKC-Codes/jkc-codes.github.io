@@ -1,0 +1,87 @@
+// Remove bullet points and padding from ULs
+ul%no-bullets {
+	list-style-type: none;
+	padding-left: 0;
+}
+
+// Display tick, cross or question mark
+// ul + %boolean = ?
+// ul + %boolean + %true = all ✓ (green)
+// ul + %boolean + %false = all ✗ (red)
+// ul + %boolean > li + %true = one ✓ (green)
+// ul + %boolean > li + %false = one ✗ (red)
+ul%boolean {
+	list-style-type: none;
+}
+
+ul%boolean > li {
+	position: relative;
+}
+
+ul%boolean > li::before {
+	position: absolute;
+	right: 100%;
+	font-weight: 700;
+	content: '?\00a0';
+}
+
+ul%boolean%true > li:not(%false)::before,
+ul%boolean > li%true::before {
+	content: '\2713\00a0';
+	color: #00a51b;
+}
+
+ul%boolean%false > li:not(%true)::before,
+ul%boolean > li%false::before {
+	content: '\2717\00a0';
+	color: #a50000;
+}
+
+// Decimal count including children. T&Cs style
+// ol + %ordinal > li = 1.1, 1.2, etc...
+// ol + %ordinal > ol + %reset = a, b, etc...
+// ol + %ordinal + %headings = 1. Heading Text, 2. Heading Text, etc...
+ol%ordinal ol%reset {
+	list-style-type: lower-alpha;
+}
+
+ol%ordinal ol%reset ol {
+	list-style-type: lower-roman;
+}
+
+ol%ordinal,
+ol%ordinal > li > ol,
+ol%ordinal > li > ol > li > ol {
+	list-style-type: none;
+}
+
+ol%ordinal > li,
+ol%ordinal > li > ol > li,
+ol%ordinal > li > ol > li > ol > li {
+	position: relative;
+}
+
+ol%ordinal li::before,
+ol%ordinal%headings > li > :first-child::before {
+	position: absolute;
+	right: 100%;
+}
+
+ol%ordinal,
+ol%ordinal ol {
+	counter-reset: section;
+}
+
+ol%ordinal > li::before,
+ol%ordinal > li > ol > li::before,
+ol%ordinal > li > ol > li> ol > li::before,
+ol%ordinal%headings > li > :first-child::before  {
+	counter-increment: section;
+	content: counters(section, ".") ".\00a0";
+}
+
+ol%ordinal ul li::before,
+ol%ordinal ol%reset li::before,
+ol%ordinal%headings > li::before {
+	content: none;
+}

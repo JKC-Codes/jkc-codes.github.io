@@ -1,0 +1,21 @@
+#site-header {
+
+	%transition {
+		transition: 0.25s ease-in-out;
+	}
+
+	@media (min-width: $mq-narrow) {
+		background: $colour-brand;
+	}
+
+	@supports (grid-area: auto) {
+		@media (min-width: $mq-wide) {
+			justify-self: end;
+			width: 9.5rem;
+		}
+	}
+
+	@import './header/menu-button';
+	@import './header/navigation';
+
+}

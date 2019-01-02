@@ -1,0 +1,49 @@
+.navigation-links {
+	@extend %no-bullets;
+	margin: 2.5rem 0 0;
+
+	li {
+		margin-top: 1.5rem;
+	}
+
+	a {
+		color: white;
+	}
+
+	img {
+		border-radius: 50%;
+		margin-right: 0.5rem;
+		max-height: 2rem;
+		vertical-align: middle;
+	}
+
+	@media (min-width: $mq-narrow) {
+		display: flex;
+		justify-content: center;
+		margin: 0 0 1rem 0;
+
+		li {
+			margin: 0;
+		}
+
+		li + li {
+			margin-left: 2rem;
+		}
+
+		img {
+			max-height: 1.25rem;
+			margin-right: 0.25rem;
+		}
+	}
+
+	@supports (grid-area: auto) {
+		@media (min-width: $mq-wide) {
+			display: list-item;
+			margin: 0;
+
+			li + li {
+				margin: 1.25rem 0;
+			}
+		}
+	}
+}

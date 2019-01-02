@@ -1,0 +1,32 @@
+.navigation-name {
+	flex-grow: 1; //Justifies left in Internet Explorer
+	color: white;
+	line-height: 1rem;
+	font-size: 1.25rem;
+	font-weight: 700;
+	text-decoration: none;
+
+	@media (min-width: $mq-narrow) {
+		margin: 0 3rem 1rem 0;
+		font-size: 100%;
+	}
+
+	@supports (grid-area: auto) {
+		@media (min-width: $mq-wide) {
+			transform: rotate(-90deg);
+			white-space: nowrap;
+			width: 1rem;
+			margin: 7rem 0 0;
+		}
+
+		@supports (writing-mode: sideways-lr) {
+			@media (min-width: $mq-wide) {
+				transform: none;
+				width: auto;
+				margin: 0;
+				font-size: 100%;
+				writing-mode: sideways-lr;
+			}
+		}
+	}
+}

@@ -1,0 +1,27 @@
+body {
+	max-width: 1200px;
+	margin: 0 auto;
+
+	@supports (grid-area: auto) {
+		max-width: none;
+		display: grid;
+		grid-column-gap: 1rem;
+		grid-template-columns: 1fr minmax(calc(320px - 2rem), 60rem) 1fr;
+	}
+}
+
+#site-header {
+	grid-column: 1/-1;
+}
+
+#site-main,
+#site-footer {
+	grid-column: 2;
+}
+
+@media (min-width: $mq-wide) {
+	#site-header {
+		grid-column: 1;
+		grid-row: 1/3;
+	}
+}

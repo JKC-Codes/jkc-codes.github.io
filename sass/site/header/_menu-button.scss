@@ -1,0 +1,39 @@
+.menu-button {
+	@extend %transition;
+	transition-property: color;
+	display: none;
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	right: 0;
+	width: 2.4rem;
+	height: 3rem;
+	margin: 0.5rem;
+	padding: 0.25rem;
+	cursor: pointer;
+	border: none;
+	border-radius: 0.5rem;
+	background: none;
+	color: white;
+	font-size: 0.7rem;
+
+	&:hover {
+		background: transparentize($colour-decorate,0.8);
+	}
+
+	@import './menu-button-icon';
+}
+
+&[data-nav-menu-open="false"] .menu-button {
+	@import './menu-button-icon[closed]';
+}
+
+@media (max-width: $mq-narrow - 0.0625rem) {
+	&[data-nav-menu-open] .menu-button {
+		display: block;
+	}
+
+	&[data-nav-menu-open="false"] .menu-button {
+		color: $colour-text;
+	}
+}

@@ -1,0 +1,54 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	color: $colour-text;
+	font: $font;
+	overflow-wrap: break-word;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	color: $colour-brand;
+}
+
+h2 {
+	font-size: 3.25em;
+}
+
+h3 {
+	font-size: 1.75em;
+}
+
+h4 {
+	font-size: 1.25em;
+}
+
+a:link {
+ color: $colour-complement;
+}
+
+a:visited {
+ color: $colour-brand;
+}
+
+a:hover {
+	color: $colour-brand;
+	text-decoration-style: dotted;
+}
+
+a:active {
+ color: $colour-contrast;
+ text-decoration-color: $colour-contrast;
+}
+
+img {
+	max-width: 100%;
+}
