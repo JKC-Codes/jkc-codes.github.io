@@ -1,13 +1,15 @@
 #hero {
 	display: grid;
-	justify-content: center;
-	margin: 4rem auto;
+	margin: 2rem auto;
+	min-height: 15rem;
+	align-content: center;
 	color: $colour-brand;
 
 	$mq-narrow: 33.2rem;
 
 	@media (min-width: $mq-narrow) {
 		grid-template-columns: 5.5rem auto 5.5rem;
+		justify-content: center;
 	}
 
 .hero-heading {
@@ -16,7 +18,7 @@
 
 .name {
 	grid-row: 2;
-	margin: 0;
+	margin: 2rem 0 0;
 	font-size: 36px;
 	text-align: center;
 
