@@ -66,18 +66,4 @@ function browser() {
 	return shell('start firefox.exe -private-window https://jkc-codes.netlify.com');
 }
 
-function resetDocs() {
-	return del('./docs/*');
-}
-
-function docs() {
-	return gulp.src(baseFolder + '**')
-		.pipe(gulp.dest('./docs'));
-}
-
-function git() {
-	return shell('git add docs && git commit -m \"build for publishing\" && git push');
-}
-
 gulp.task('stage', gulp.series(resetStaging, eleventy, gulp.parallel(html, css, js, img), netlify, browser));
-gulp.task('publish', gulp.series(resetDocs, docs, git));

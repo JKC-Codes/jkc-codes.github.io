@@ -1,6 +1,4 @@
-.netlify
-.vscode
-css
-node_modules
-staging
-package-lock
+Development/.netlify
+Development/.vscode
+Development/node_modules
+Development/staging

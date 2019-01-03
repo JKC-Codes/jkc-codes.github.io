@@ -1,0 +1,66 @@
+#hero .hero-heading, #page-heading {
+  position: absolute !important;
+  top: auto !important;
+  left: -100vw !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: 0 !important;
+  border: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+}
+
+#hero {
+  display: grid;
+  justify-content: center;
+  margin: 4rem auto;
+  color: #203060;
+}
+@media (min-width: 33.2rem) {
+  #hero {
+    grid-template-columns: 5.5rem auto 5.5rem;
+  }
+}
+#hero .name {
+  grid-row: 2;
+  margin: 0;
+  font-size: 36px;
+  text-align: center;
+}
+@media (min-width: 33.2rem) {
+  #hero .name {
+    grid-column: 2;
+    font-size: 6.8vw;
+  }
+}
+@media (min-width: 58.5rem) {
+  #hero .name {
+    font-size: 3.2rem;
+  }
+}
+#hero .description {
+  grid-row: 1;
+}
+@media (min-width: 33.2rem) {
+  #hero .description {
+    grid-column: 2/span 2;
+  }
+}
+#hero .job-title,
+#hero .location {
+  margin: 0;
+  text-align: right;
+}
+#hero .location {
+  margin-top: 0.25rem;
+}
+
+#skills .skills-heading {
+  text-align: center;
+}
+
+#projects .projects-heading {
+  text-align: center;
+}
