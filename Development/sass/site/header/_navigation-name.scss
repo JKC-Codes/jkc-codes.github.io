@@ -23,7 +23,7 @@
 		@supports (writing-mode: sideways-lr) and (grid-area: auto) {
 			transform: none;
 			width: auto;
-			margin: 0;
+			margin: 0 1rem 0 0;
 			writing-mode: sideways-lr;
 		}
 	}

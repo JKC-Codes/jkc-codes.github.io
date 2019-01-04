@@ -19,6 +19,7 @@
 	@supports (grid-area: auto) {
 		@media (min-width: $mq-wide) {
 			align-items: start;
+			justify-content: space-around;
 			padding: 2rem 1rem;
 		}
 	}
