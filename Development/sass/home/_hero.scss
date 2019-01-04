@@ -1,5 +1,6 @@
 #hero {
-	display: grid;
+	@extend %column; // Grid fallback
+	align-items: center; // Grid fallback
 	margin: 2rem auto 6rem;
 	min-height: 15rem;
 	align-content: center;
@@ -10,6 +11,11 @@
 	@media (min-width: $mq-narrow) {
 		grid-template-columns: 5.5rem auto 5.5rem;
 		justify-content: center;
+	}
+
+	@supports (grid-area: auto) {
+		display: grid;
+		align-items: center;
 	}
 
 .hero-heading {
