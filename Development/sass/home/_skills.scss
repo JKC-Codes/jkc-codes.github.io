@@ -1,38 +1,63 @@
 #skills {
-$mq-narrow: 45rem;
-$mq-wide: 75rem;
+$mq-narrow: 30rem;
 
-.skills {
-	--colour-accent: #{$colour-brand};
+.skills-heading {
+	margin-bottom: 2rem;
+}
+
+.skills-details {
 	display: grid;
-	justify-content: center;
 	grid-template-columns: auto;
+	grid-gap: 2rem;
+	justify-content: center;
+
+	@media (min-width: $mq-narrow) {
+		grid-template-columns: repeat(auto-fit, minmax(23rem, auto));
+	}
 }
 
 .html,
 .css,
 .javascript,
 .tools {
-	@extend %row;
-	border: 1px solid var(--colour-accent);
-
-	&:not(:last-child) {
-		border-bottom-color: white;
+	border: 1px solid $colour-brand;
+	max-width: 31rem; // Grid fallback
+	margin: 0 auto 2rem; // Grid fallback
+	@supports (grid-area: auto) {
+		margin: 0;
 	}
-
-	&-heading-background {
+	@media (min-width: $mq-narrow) {
 		display: flex;
-		flex-basis: 7rem;
-		flex-shrink: 0;
-		align-items: center;
-		justify-content: center;
-		margin-right: 1rem;
-		background-color: var(--colour-accent);
 	}
 
 	&-heading {
+		position: relative;
+		@extend %row;
+		justify-content: center;
+		margin: 0;
 		font-size: 1.1em;
 		color: white;
+
+		@media (min-width: $mq-narrow) {
+			flex-basis: 7rem;
+			flex-shrink: 0;
+			align-items: center;
+		}
+
+		&::before {
+			position: absolute;
+			top: 0;
+			left: 0;
+			content: '';
+			z-index: -1;
+			width: 100%;
+			height: 100%;
+			background-color: $colour-brand;
+		}
+	}
+
+	&-skill-list {
+		margin: 1rem;
 	}
 }
 
