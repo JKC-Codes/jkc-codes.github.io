@@ -7,7 +7,7 @@
 	padding: 1.25rem 2.5rem 2.5rem;
 	background: transparentize($colour-brand,0.05);
 
-	@media (min-width: $mq-narrow) {
+	@media (min-width: $mq-header-narrow) {
 		transition: none;
 		display: flex;
 		flex-wrap: wrap;
@@ -17,14 +17,14 @@
 	}
 
 	@supports (grid-area: auto) {
-		@media (min-width: $mq-wide) {
+		@media (min-width: $mq-header-wide) {
 			align-items: start;
 			justify-content: space-around;
 			padding: 2rem 1rem;
 		}
 	}
 
-	@media (min-width: $mq-wide) and (min-height: 25rem) {
+	@media (min-width: $mq-header-wide) and (min-height: 25rem) {
 		position: sticky;
 	}
 
@@ -36,7 +36,7 @@
 	@import './navigation-links';
 }
 
-@media (max-width: $mq-narrow - 0.0625rem) {
+@media (max-width: $mq-header-narrow - 0.0625rem) {
 	&[data-nav-menu-open] .navigation {
 		position: absolute;
 	}

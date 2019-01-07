@@ -17,7 +17,7 @@
 		vertical-align: middle;
 	}
 
-	@media (min-width: $mq-narrow) {
+	@media (min-width: $mq-header-narrow) {
 		display: flex;
 		margin-bottom: 1rem;
 
@@ -36,7 +36,7 @@
 	}
 
 	@supports (grid-area: auto) {
-		@media (min-width: $mq-wide) {
+		@media (min-width: $mq-header-wide) {
 			display: list-item;
 			margin: 0;
 

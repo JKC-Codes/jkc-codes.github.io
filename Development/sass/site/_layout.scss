@@ -19,7 +19,7 @@ body {
 	grid-column: 2;
 }
 
-@media (min-width: $mq-wide) {
+@media (min-width: $mq-header-wide) {
 	#site-header {
 		grid-column: 1;
 		grid-row: 1/3;

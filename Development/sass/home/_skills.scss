@@ -1,5 +1,4 @@
 #skills {
-$mq-narrow: 30rem;
 
 .skills-heading {
 	margin-bottom: 2rem;
@@ -11,7 +10,7 @@ $mq-narrow: 30rem;
 	grid-gap: 2rem;
 	justify-content: center;
 
-	@media (min-width: $mq-narrow) {
+	@media (min-width: $mq-skills-narrow) {
 		grid-template-columns: repeat(auto-fit, minmax(23rem, auto));
 	}
 }
@@ -26,7 +25,7 @@ $mq-narrow: 30rem;
 	@supports (grid-area: auto) {
 		margin: 0;
 	}
-	@media (min-width: $mq-narrow) {
+	@media (min-width: $mq-skills-narrow) {
 		display: flex;
 	}
 
@@ -38,7 +37,7 @@ $mq-narrow: 30rem;
 		font-size: 1.1em;
 		color: white;
 
-		@media (min-width: $mq-narrow) {
+		@media (min-width: $mq-skills-narrow) {
 			flex-basis: 7rem;
 			flex-shrink: 0;
 			align-items: center;

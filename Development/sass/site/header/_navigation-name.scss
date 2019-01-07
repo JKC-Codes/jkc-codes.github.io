@@ -5,13 +5,13 @@
 	font-weight: 700;
 	text-decoration: none;
 
-	@media (min-width: $mq-narrow) {
+	@media (min-width: $mq-header-narrow) {
 		margin: 0 3rem 1rem 0;
 		font-size: 100%;
 	}
 }
 
-@media (min-width: $mq-wide) {
+@media (min-width: $mq-header-wide) {
 	.navigation-name {
 		@supports (grid-area: auto) {
 			transform: translateX(-0.5rem) rotate(-90deg);

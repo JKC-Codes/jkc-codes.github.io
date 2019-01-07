@@ -28,7 +28,7 @@
 	@import './menu-button-icon[closed]';
 }
 
-@media (max-width: $mq-narrow - 0.0625rem) {
+@media (max-width: $mq-header-narrow - 0.0625rem) {
 	&[data-nav-menu-open] .menu-button {
 		display: block;
 	}

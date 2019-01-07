@@ -4,12 +4,12 @@
 		transition: 0.25s ease-in-out;
 	}
 
-	@media (min-width: $mq-narrow) {
+	@media (min-width: $mq-header-narrow) {
 		background: $colour-brand;
 	}
 
 	@supports (grid-area: auto) {
-		@media (min-width: $mq-wide) {
+		@media (min-width: $mq-header-wide) {
 			justify-self: end;
 			width: 9.5rem;
 		}
