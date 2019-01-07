@@ -1,7 +1,39 @@
 #skills {
+$mq-narrow: 45rem;
+$mq-wide: 75rem;
 
-.skills-heading {
-	text-align: center;
+.skills {
+	--colour-accent: #{$colour-brand};
+	display: grid;
+	justify-content: center;
+	grid-template-columns: auto;
+}
+
+.html,
+.css,
+.javascript,
+.tools {
+	@extend %row;
+	border: 1px solid var(--colour-accent);
+
+	&:not(:last-child) {
+		border-bottom-color: white;
+	}
+
+	&-heading-background {
+		display: flex;
+		flex-basis: 7rem;
+		flex-shrink: 0;
+		align-items: center;
+		justify-content: center;
+		margin-right: 1rem;
+		background-color: var(--colour-accent);
+	}
+
+	&-heading {
+		font-size: 1.1em;
+		color: white;
+	}
 }
 
 }
