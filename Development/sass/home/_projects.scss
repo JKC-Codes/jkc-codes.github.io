@@ -1,5 +1,40 @@
 #projects {
 
-	--place: holder;
+margin-top: 4rem;
+
+.project-screenshot {
+	border: 1px solid $colour-decorate;
+}
+
+.explore-heading {
+	@extend %hide-visually;
+}
+
+.explore-list {
+	@extend %no-bullets;
+	@extend %row;
+	margin: 2rem 0 0;
+
+	> *:not(:first-child) {
+		margin-left: 1rem;
+	}
+}
+
+.explore-link {
+	display: inline-block;
+	min-height: 48px;
+	min-width: 48px;
+	width: 6.5rem;
+	padding: 0.5em 0.75em;
+	border: 2px solid $colour-brand;
+	border-radius: $border-rounded;
+	color: $colour-brand;
+	text-align: center;
+}
+
+.explore-link:hover {
+	color: $colour-complement;
+	border-color: $colour-decorate;
+}
 
 }
