@@ -65,3 +65,20 @@ ol {
 li {
 	margin-bottom: 0.5em;
 }
+
+button {
+	display: inline-block;
+	min-height: 48px;
+	min-width: 48px;
+	padding: 0.5em 0.75em;
+	border: 1px solid $colour-brand;
+	border-radius: $border-rounded;
+	text-align: center;
+	background: $colour-brand;
+	color: white;
+
+	&:hover {
+		background-color: $colour-contrast;
+		color: $colour-brand;
+	}
+}
