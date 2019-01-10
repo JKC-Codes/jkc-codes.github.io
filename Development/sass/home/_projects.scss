@@ -2,39 +2,52 @@
 
 margin-top: 4rem;
 
-.project-screenshot {
-	border: 1px solid $colour-decorate;
-}
+.project {
 
-.explore-heading {
-	@extend %hide-visually;
-}
+	&:not(:first-child) {
+		margin-top: 4rem;
+	}
 
-.explore-list {
-	@extend %no-bullets;
-	@extend %row;
-	margin: 2rem 0 0;
-
-	> *:not(:first-child) {
-		margin-left: 1rem;
+	&-screenshot {
+		border: 1px solid $colour-decorate;
 	}
 }
 
-.explore-link {
-	display: inline-block;
-	min-height: 48px;
-	min-width: 48px;
-	width: 6.5rem;
-	padding: 0.5em 0.75em;
-	border: 2px solid $colour-brand;
-	border-radius: $border-rounded;
-	color: $colour-brand;
-	text-align: center;
+.explore {
+
+	&-heading {
+		@extend %hide-visually;
+	}
+
+	&-list {
+		@extend %no-bullets;
+		margin: 2rem 0 0;
+	}
+
+	&-link-site,
+	&-link-code {
+		@extend %button;
+		width: 9rem;
+	}
+
+	&-link-code {
+		margin-top: 1rem;
+		font-family: monospace;
+		font-size: 120%;
+		background: none;
+		color: $colour-brand;
+		text-decoration-line: none;
+	}
 }
 
-.explore-link:hover {
+.link-code-text {
+	font-size: 85%;
+	text-decoration-line: underline;
+}
+
+.explore-link-code:hover .link-code-text {
+	text-decoration-style: dotted;
 	color: $colour-complement;
-	border-color: $colour-decorate;
 }
 
 }
