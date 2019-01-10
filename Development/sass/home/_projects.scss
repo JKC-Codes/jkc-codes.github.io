@@ -46,12 +46,13 @@ margin-top: 4rem;
 }
 
 .link-code-text {
-	font-size: 90%;
+	font-size: 95%;
 	text-decoration: underline;
 }
 
+.explore-link-site:hover,
 .explore-link-code:hover .link-code-text {
-	text-decoration-style: dotted;
+	text-decoration: none;
 	color: $colour-complement;
 }
 
