@@ -21,28 +21,33 @@ margin-top: 4rem;
 
 	&-list {
 		@extend %no-bullets;
+		@extend %row;
+		flex-wrap: wrap;
 		margin: 2rem 0 0;
 	}
 
 	&-link-site,
 	&-link-code {
 		@extend %button;
-		width: 9rem;
+		width: 10.5rem;
+	}
+
+	&-link-site {
+		margin-right: 1rem;
+		margin-bottom: 1rem;
 	}
 
 	&-link-code {
-		margin-top: 1rem;
-		font-family: monospace;
-		font-size: 120%;
+		font-family: courier, monospace;
 		background: none;
 		color: $colour-brand;
-		text-decoration-line: none;
+		text-decoration: none;
 	}
 }
 
 .link-code-text {
-	font-size: 85%;
-	text-decoration-line: underline;
+	font-size: 90%;
+	text-decoration: underline;
 }
 
 .explore-link-code:hover .link-code-text {
