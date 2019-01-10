@@ -9,8 +9,13 @@
 	background: $colour-brand;
 	color: white;
 
-	&:hover {
+	&:hover,
+	&:focus {
 		background-color: $colour-contrast;
 		color: $colour-brand;
+	}
+
+	&:active {
+		background-color: $colour-decorate;
 	}
 }
