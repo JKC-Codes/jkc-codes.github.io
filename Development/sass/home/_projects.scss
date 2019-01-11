@@ -29,7 +29,9 @@ margin-top: 4rem;
 	&-link-site,
 	&-link-code {
 		@extend %button;
-		width: 10.5rem;
+		padding-left: 0em;
+		padding-right: 0em;
+		width: 9rem;
 	}
 
 	&-link-site {
@@ -42,16 +44,16 @@ margin-top: 4rem;
 		background: none;
 		color: $colour-brand;
 		text-decoration: none;
+
+		&-text {
+			font-size: 95%;
+			text-decoration: underline;
+		}
 	}
 }
 
-.link-code-text {
-	font-size: 95%;
-	text-decoration: underline;
-}
-
 .explore-link-site:hover,
-.explore-link-code:hover .link-code-text {
+.explore-link-code:hover .explore-link-code-text {
 	text-decoration: none;
 	color: $colour-complement;
 }
