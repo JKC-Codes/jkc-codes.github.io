@@ -1,6 +1,12 @@
 #projects {
 
-margin-top: 4rem;
+margin-top: 6rem;
+
+.introduction {
+	max-width: 65ch;
+	margin: auto;
+	text-align: center;
+}
 
 .project {
 
@@ -11,43 +17,43 @@ margin-top: 4rem;
 	&-screenshot {
 		border: 1px solid $colour-decorate;
 	}
-}
 
-.explore {
+	&-explore {
 
-	&-heading {
-		@extend %hide-visually;
-	}
+		&-heading {
+			@extend %hide-visually;
+		}
 
-	&-links {
-		@extend %no-bullets;
-		@extend %row;
-		flex-wrap: wrap;
-		margin: 2rem 0 0;
-	}
+		&-links {
+			@extend %no-bullets;
+			@extend %row;
+			flex-wrap: wrap;
+			margin: 2rem 0 0;
+		}
 
-	&-link-site,
-	&-link-code {
-		@extend %button;
-		padding-left: 0em;
-		padding-right: 0em;
-		width: 9rem;
-	}
+		&-link-site,
+		&-link-code {
+			@extend %button;
+			padding-left: 0em;
+			padding-right: 0em;
+			width: 9rem;
+		}
 
-	&-link-site {
-		margin-right: 1rem;
-		margin-bottom: 1rem;
-	}
+		&-link-site {
+			margin-right: 1rem;
+			margin-bottom: 1rem;
+		}
 
-	&-link-code {
-		font-family: courier, monospace;
-		background: none;
-		color: $colour-brand;
-		text-decoration: none;
+		&-link-code {
+			font-family: courier, monospace;
+			background: none;
+			color: $colour-brand;
+			text-decoration: none;
 
-		&-text {
-			font-size: 95%;
-			text-decoration: underline;
+			&-text {
+				font-size: 95%;
+				text-decoration: underline;
+			}
 		}
 	}
 }
