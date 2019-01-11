@@ -1,9 +1,9 @@
 body {
-	max-width: 1200px;
-	margin: 0 auto;
+	max-width: 1200px; // Grid fallback
+	margin: 0 auto; // Grid fallback
 
 	@supports (grid-area: auto) {
-		max-width: none;
+		max-width: none; // Reset fallback
 		display: grid;
 		grid-column-gap: 1rem;
 		grid-template-columns: 1fr minmax(calc(320px - 2rem), 60rem) 1fr;
@@ -17,6 +17,10 @@ body {
 #site-main,
 #site-footer {
 	grid-column: 2;
+	padding: 0 1rem; // Grid fallback
+	@supports (grid-area: auto) {
+		padding: 0; // Reset fallback
+	}
 }
 
 @media (min-width: $mq-header-wide) {
