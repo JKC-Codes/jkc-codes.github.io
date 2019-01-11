@@ -19,7 +19,7 @@ margin-top: 4rem;
 		@extend %hide-visually;
 	}
 
-	&-list {
+	&-links {
 		@extend %no-bullets;
 		@extend %row;
 		flex-wrap: wrap;
