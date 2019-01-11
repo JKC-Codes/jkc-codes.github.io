@@ -8,11 +8,12 @@ margin-top: 6rem;
 	text-align: center;
 }
 
-.project {
+.projects {
+	margin-top: 2rem;
+}
 
-	&:not(:first-child) {
-		margin-top: 4rem;
-	}
+.project {
+	margin-top: 2rem;
 
 	&-screenshot {
 		border: 1px solid $colour-decorate;
@@ -58,8 +59,8 @@ margin-top: 6rem;
 	}
 }
 
-.explore-link-site:hover,
-.explore-link-code:hover .explore-link-code-text {
+.project-explore-link-site:hover,
+.project-explore-link-code:hover .project-explore-link-code-text {
 	text-decoration: none;
 	color: $colour-complement;
 }
