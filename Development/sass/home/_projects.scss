@@ -30,38 +30,38 @@ margin-top: 6rem;
 			flex-wrap: wrap;
 			margin: 2rem 0 0;
 		}
+	}
 
-		&-link-site,
-		&-link-code {
-			@extend %button;
-			padding-left: 0em;
-			padding-right: 0em;
-			width: 9rem;
-		}
+	&-visit-site,
+	&-view-code {
+		@extend %button;
+		padding-left: 0em;
+		padding-right: 0em;
+		width: 9rem;
+	}
 
-		&-link-site {
-			margin-right: 1rem;
-			margin-bottom: 1rem;
-		}
+	&-visit-site {
+		margin-right: 1rem;
+		margin-bottom: 1rem;
+	}
 
-		&-link-code {
-			font-family: courier, monospace;
-			background: none;
-			color: $colour-brand;
-			text-decoration: none;
+	&-view-code {
+		font-family: courier, monospace;
+		background: none;
+		color: $colour-brand;
+		text-decoration: none;
 
-			&-text {
-				font-size: 95%;
-				text-decoration: underline;
-			}
+		&-text {
+			font-size: 95%;
+			text-decoration: underline;
 		}
 	}
-}
 
-.project-explore-link-site:hover,
-.project-explore-link-code:hover .project-explore-link-code-text {
-	text-decoration: none;
-	color: $colour-complement;
+	&-visit-site:hover,
+	&-view-code:hover .project-view-code-text {
+		text-decoration: none;
+		color: $colour-complement;
+	}
 }
 
 }
