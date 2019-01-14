@@ -25,42 +25,44 @@ margin-top: 6rem;
 		}
 
 		&-links {
-			@extend %no-bullets;
 			@extend %row;
 			flex-wrap: wrap;
-			margin: 2rem 0 0;
 		}
 	}
 
 	&-visit-site,
 	&-view-code {
-		@extend %button;
-		padding-left: 0em;
-		padding-right: 0em;
-		width: 9rem;
+		margin: 1rem 0 0 0;
 	}
 
 	&-visit-site {
 		margin-right: 1rem;
-		margin-bottom: 1rem;
 	}
 
-	&-view-code {
+	&-visit-site-link,
+	&-view-code-link {
+		@extend %button;
+		width: 9rem;
+		padding-left: 0;
+		padding-right: 0;
+
+		&:hover,
+		&:hover .project-view-code-text {
+			text-decoration: none;
+			color: $colour-complement;
+		}
+	}
+
+	&-view-code-link {
 		font-family: courier, monospace;
 		background: none;
 		color: $colour-brand;
 		text-decoration: none;
-
-		&-text {
-			font-size: 95%;
-			text-decoration: underline;
-		}
 	}
 
-	&-visit-site:hover,
-	&-view-code:hover .project-view-code-text {
-		text-decoration: none;
-		color: $colour-complement;
+	&-view-code-text {
+		font-size: 95%;
+		text-decoration: underline;
 	}
 }
 
