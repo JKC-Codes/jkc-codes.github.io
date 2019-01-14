@@ -7,22 +7,24 @@ margin-top: 6rem;
 	margin: auto;
 }
 
-.projects {
-	margin-top: 2rem;
-}
-
 .project {
-	margin-top: 2rem;
+	&:not(:first-child) {
+		margin-top: 4rem;
+	}
 
 	@media (min-width: $mq-projects-narrow) {
 		display: grid;
-		grid-template-columns: auto auto 1fr;
+		grid-template-columns: minmax(10rem, 22rem) auto 1fr;
 		grid-template-rows: repeat(5, auto) 1fr;
 		grid-column-gap: 2rem;
 		margin: 4rem auto;
 
+		&:not(:first-child) {
+			margin-top: 6rem;
+		}
+
 		&:nth-child(2n) {
-			grid-template-columns: 1fr auto auto;
+			grid-template-columns: 1fr auto minmax(10rem, 22rem);
 		}
 
 		& > * {
@@ -43,7 +45,6 @@ margin-top: 6rem;
 		@media (min-width: $mq-projects-narrow) {
 			grid-row: 1/7;
 			grid-column: 1;
-			width: 22rem;
 			align-self: stretch;
 			object-fit: cover;
 		}
