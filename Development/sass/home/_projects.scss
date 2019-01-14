@@ -14,8 +14,47 @@ margin-top: 6rem;
 .project {
 	margin-top: 2rem;
 
+	@media (min-width: $mq-projects-narrow) {
+		display: grid;
+		grid-template-columns: auto auto 1fr;
+		grid-template-rows: repeat(5, auto) 1fr;
+		grid-column-gap: 2rem;
+		margin: 4rem auto;
+
+		&:nth-child(2n) {
+			grid-template-columns: 1fr auto auto;
+		}
+
+		& > * {
+			margin-bottom: 0;
+			grid-column: 2;
+		}
+	}
+
+	&-heading {
+		@media (min-width: $mq-projects-narrow) {
+			margin-top: 0;
+		}
+	}
+
 	&-screenshot {
 		border: 1px solid $colour-decorate;
+
+		@media (min-width: $mq-projects-narrow) {
+			grid-row: 1/7;
+			grid-column: 1;
+			width: 22rem;
+			align-self: stretch;
+			object-fit: cover;
+		}
+	}
+
+	&:nth-child(2n) {
+		.project-screenshot {
+			@media (min-width: $mq-projects-narrow) {
+				grid-column: 3;
+			}
+		}
 	}
 
 	&-explore {
