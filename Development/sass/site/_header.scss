@@ -1,21 +1,231 @@
 #site-header {
 
-	%transition {
-		transition: 0.25s ease-in-out;
+%transition {
+	transition: 0.25s ease-in-out;
+}
+
+@media (min-width: $mq-header-narrow) {
+	background: $colour-brand;
+}
+
+@supports (grid-area: auto) {
+	@media (min-width: $mq-header-wide) {
+		justify-self: end;
+		width: 9.5rem;
+	}
+}
+
+.menu-button {
+	@extend %transition;
+	transition-property: color;
+	display: none;
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	right: 0;
+	width: 2.4rem;
+	height: 3rem;
+	margin: 0.5rem;
+	padding: 0.25rem;
+	cursor: pointer;
+	border: none;
+	border-radius: 0.5rem;
+	background: none;
+	color: white;
+	font-size: 0.7rem;
+
+	&:hover {
+		background: transparentize($colour-decorate,0.8);
 	}
 
+	&-icon {
+		width: 1.25rem;
+
+		.line-top-left,
+		.line-top-right,
+		.line-mid-left,
+		.line-mid-right,
+		.line-bottom-left,
+		.line-bottom-right {
+			@extend %transition;
+			transition-property: transform, fill;
+			fill: white;
+		}
+
+		.line-top-left {
+			transform-origin: 0% 10%;
+			transform: translate(7.5%, -2.5%) rotate(45deg);
+		}
+
+		.line-top-right {
+			transform-origin: 100% 10%;
+			transform: translate(-7.5%, -2.5%) rotate(-45deg);
+		}
+
+		.line-mid-left,
+		.line-mid-right {
+			transform-origin: center;
+			transform: scaleX(0);
+		}
+
+		.line-bottom-left {
+			transform-origin: 0% 90%;
+			transform: translate(7.5%, 2.5%) rotate(-45deg);
+		}
+
+		.line-bottom-right {
+			transform-origin: 100% 90%;
+			transform: translate(-7.5%, 2.5%) rotate(45deg);
+		}
+	}
+}
+
+@media (max-width: $mq-header-narrow - 0.0625rem) {
+	&[data-nav-menu-open] .menu-button {
+		display: block;
+	}
+
+	&[data-nav-menu-open="false"] .menu-button {
+		color: $colour-text;
+	}
+}
+
+&[data-nav-menu-open="false"] .menu-button-icon {
+	.line-top-left,
+	.line-top-right,
+	.line-mid-left,
+	.line-mid-right,
+	.line-bottom-left,
+	.line-bottom-right {
+		fill: $colour-brand;
+		transform: none;
+	}
+}
+
+.navigation {
+	@extend %transition;
+	transition-property: transform, background-color;
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding: 1.25rem 2.5rem 2.5rem;
+	background: transparentize($colour-brand,0.05);
+
 	@media (min-width: $mq-header-narrow) {
-		background: $colour-brand;
+		transition: none;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0.75rem 1rem 0rem;
 	}
 
 	@supports (grid-area: auto) {
 		@media (min-width: $mq-header-wide) {
-			justify-self: end;
-			width: 9.5rem;
+			align-items: start;
+			justify-content: space-around;
+			padding: 2rem 1rem;
 		}
 	}
 
-	@import './header/menu-button';
-	@import './header/navigation';
+	@media (min-width: $mq-header-wide) and (min-height: 25rem) {
+		position: sticky;
+	}
+
+	&-heading {
+		@extend %hide-visually;
+	}
+
+	&-name {
+		color: white;
+		line-height: 1rem;
+		font-size: 1.25rem;
+		font-weight: 700;
+		text-decoration: none;
+
+		@media (min-width: $mq-header-narrow) {
+			margin: 0 3rem 1rem 0;
+			font-size: 100%;
+		}
+	}
+
+	@media (min-width: $mq-header-wide) { // Can't nest due to VSCode errors
+		&-name {
+			@supports (grid-area: auto) {
+				transform: translateX(-0.5rem) rotate(-90deg);
+				white-space: nowrap;
+				width: 1rem;
+				margin: 7rem 0 0;
+			}
+
+			@supports (writing-mode: sideways-lr) and (grid-area: auto) {
+				transform: none;
+				width: auto;
+				margin: 0 1rem 0 0;
+				writing-mode: sideways-lr;
+			}
+		}
+	}
+
+	&-links {
+		@extend %no-bullets;
+		margin: 0;
+
+		li {
+			margin: 1.5rem 0 0;
+		}
+
+		a {
+			color: white;
+		}
+
+		img {
+			border-radius: 50%;
+			margin-right: 0.5rem;
+			max-height: 2rem;
+			vertical-align: middle;
+		}
+
+		@media (min-width: $mq-header-narrow) {
+			display: flex;
+			margin-bottom: 1rem;
+
+			li {
+				margin: 0;
+			}
+
+			li + li {
+				margin-left: 2rem;
+			}
+
+			img {
+				max-height: 1.25rem;
+				margin-right: 0.25rem;
+			}
+		}
+
+		@supports (grid-area: auto) {
+			@media (min-width: $mq-header-wide) {
+				display: list-item;
+				margin: 0;
+
+				li + li {
+					margin: 1.25rem 0;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: $mq-header-narrow - 0.0625rem) {
+	&[data-nav-menu-open] .navigation {
+		position: absolute;
+	}
+
+	&[data-nav-menu-open="false"] .navigation {
+		background: transparent;
+		transform: translateY(-20.25rem);
+	}
+}
 
 }
