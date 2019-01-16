@@ -8,23 +8,27 @@ margin-top: 6rem;
 }
 
 .project {
-	&:not(:first-child) {
-		margin-top: 4rem;
+	margin-top: 4rem;
+
+	&:first-child {
+		margin-top: 3rem;
 	}
 
 	@media (min-width: $mq-projects-narrow) {
 		display: grid;
-		grid-template-columns: minmax(10rem, 22rem) auto 1fr;
+		$width-screenshot: 500px;
+		$width-text: 380px;
+		grid-template-columns: minmax(auto, $width-screenshot) $width-text;
 		grid-template-rows: repeat(5, auto) 1fr;
 		grid-column-gap: 2rem;
-		margin: 4rem auto;
-
-		&:not(:first-child) {
-			margin-top: 6rem;
-		}
+		justify-content: center;
 
 		&:nth-child(2n) {
-			grid-template-columns: 1fr auto minmax(10rem, 22rem);
+			grid-template-columns: $width-text minmax(auto, $width-screenshot);
+
+			& > * {
+				grid-column: 1;
+			}
 		}
 
 		& > * {
@@ -40,20 +44,28 @@ margin-top: 6rem;
 	}
 
 	&-screenshot {
+		max-height: 100vw;
+		object-fit: cover;
+		object-position: top left;
 		border: 1px solid $colour-decorate;
+		width: auto; // Grid/Object-Fit fallback
+
+		@supports (grid-area: auto) and (object-fit: cover) {
+			align-self: stretch;
+			width: 100%;
+		}
 
 		@media (min-width: $mq-projects-narrow) {
 			grid-row: 1/7;
 			grid-column: 1;
-			align-self: stretch;
-			object-fit: cover;
+			max-height: 24.5rem;
 		}
 	}
 
 	&:nth-child(2n) {
 		.project-screenshot {
 			@media (min-width: $mq-projects-narrow) {
-				grid-column: 3;
+				grid-column: 2;
 			}
 		}
 	}
@@ -67,6 +79,7 @@ margin-top: 6rem;
 		&-links {
 			@extend %row;
 			flex-wrap: wrap;
+			margin-top: 1rem;
 		}
 	}
 
