@@ -2,7 +2,7 @@
 	margin-top: 6rem;
 	color: hsl(225, 7.5%, 48.25%);
 
-	a:link:not(:hover):not(:active) {
+	a:not(:hover):not(:active) {
 		color: inherit;
 	}
 }
