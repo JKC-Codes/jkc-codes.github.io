@@ -1,6 +1,12 @@
 #projects {
 
+@extend %column;
+align-items: center;
 margin-top: 6rem;
+
+.heading {
+	margin-top: 0;
+}
 
 .introduction {
 	max-width: 65ch;
