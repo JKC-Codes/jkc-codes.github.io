@@ -1,9 +1,34 @@
 #contact {
 	margin-top: 6rem;
+	text-align: center;
 
 	.text {
-		text-align: center;
-		margin-top: 4rem;
+		margin: 4rem 0 0;
 		font-size: 1.2em;
+	}
+
+	.link {
+		@extend %button;
+		display: block;
+		margin: 1rem 2rem 0;
+
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	@media (min-width: $mq-contact-narrow) {
+		.text {
+			display: inline-block;
+			color: hsl(225, 7.5%, 48.25%);
+			border: 1px solid $colour-decorate;
+			border-radius: $border-rounded;
+			padding-left: 1rem;
+		}
+
+		.link {
+			display: inline-block;
+			margin: 0 0 0 1rem;
+		}
 	}
 }
