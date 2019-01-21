@@ -2,11 +2,13 @@
 <html lang="en-GB">
 {% include partials/site/head.html %}
 <body>
-	{% include partials/site/header.html %}
-	<main id="site-main">
-		<h1 id="page-heading">{{ title }}</h1>
-		{{ content }}
-	</main>
-	{% include partials/site/footer.html %}
+	<div id="site-container">
+		{% include partials/site/header.html %}
+		<main id="site-main">
+			<h1 id="page-heading">{{ title }}</h1>
+			{{ content }}
+		</main>
+		{% include partials/site/footer.html %}
+	</div>
 </body>
 </html>

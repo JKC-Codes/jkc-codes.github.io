@@ -6,12 +6,10 @@
 
 .skills {
 	display: grid;
-	grid-template-columns: auto;
 	grid-gap: 2rem;
-	justify-content: center;
 
 	@media (min-width: $mq-skills-narrow) {
-		grid-template-columns: repeat(auto-fit, minmax(23rem, auto));
+		grid-template-columns: 1fr 1fr;
 	}
 }
 
@@ -28,7 +26,8 @@
 
 	&-heading {
 		position: relative;
-		@extend %row;
+		z-index: 0;
+		display: flex;
 		justify-content: center;
 		margin: 0;
 		font-size: 1.1em;
@@ -42,8 +41,8 @@
 
 		&::before {
 			position: absolute;
-			top: 0;
-			left: 0;
+			top: 0; // Necessary for Internet Explorer
+			left: 0; // Necessary for Internet Explorer
 			content: '';
 			z-index: -1;
 			width: 100%;
