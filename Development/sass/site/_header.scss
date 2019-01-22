@@ -167,7 +167,11 @@ margin: 0 -1rem; // Grid fallback
 
 	&-links {
 		@extend %no-bullets;
-		margin: 0;
+		margin: 0 0 0 auto; // auto left margin fixes flexbox bug in Internet Explorer
+
+		@supports not (display: -ms-flexbox) {
+			margin-left: 0;
+		}
 
 		li {
 			margin: 1.5rem 0 0;
