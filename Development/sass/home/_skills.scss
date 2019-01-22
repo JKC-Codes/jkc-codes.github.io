@@ -1,53 +1,44 @@
 #skills {
+margin-top: $spacing * 4;
 
 .heading {
-	margin-bottom: 2rem;
+	margin-bottom: $spacing;
 }
 
 .skills {
 	display: grid;
-	grid-gap: 2rem;
+	grid-gap: $spacing;
+	justify-content: center;
 
-	@media (min-width: $mq-skills-narrow) {
-		grid-template-columns: 1fr 1fr;
+	@media (min-width: $mq-skills-wide) {
+		grid-template-columns: repeat(2, minmax(0, 28rem));
 	}
 }
 
 .skill {
 	border: 1px solid $colour-brand;
-	max-width: 31rem; // Grid fallback
-	margin: 0 auto 2rem; // Grid fallback
-	@supports (grid-area: auto) {
-		margin: 0;
-	}
 	@media (min-width: $mq-skills-narrow) {
 		display: flex;
 	}
+	max-width: 28rem; // Grid fallback
+	margin: $spacing auto 0; // Grid fallback
+	@supports (grid-area: auto) {
+		margin: 0;
+	}
+
 
 	&-heading {
-		position: relative;
-		z-index: 0;
-		display: flex;
-		justify-content: center;
 		margin: 0;
-		font-size: 1.1em;
 		color: white;
+		background: $colour-brand;
+		text-align: center;
 
 		@media (min-width: $mq-skills-narrow) {
 			flex-basis: 7rem;
 			flex-shrink: 0;
+			display: flex;
+			justify-content: center;
 			align-items: center;
-		}
-
-		&::before {
-			position: absolute;
-			top: 0; // Necessary for Internet Explorer
-			left: 0; // Necessary for Internet Explorer
-			content: '';
-			z-index: -1;
-			width: 100%;
-			height: 100%;
-			background-color: $colour-brand;
 		}
 	}
 
