@@ -1,7 +1,7 @@
 body {
 	background: $colour-decorate;
 
-	@media (min-width: $mq-header-wide) {
+	@media (min-width: $mq-site-wide) {
 		display: grid;
 		grid-template-columns: auto 9.5rem;
 		justify-content: center;
@@ -10,7 +10,7 @@ body {
 
 #site-container {
 	display: grid;
-	grid-template-columns: repeat(3, auto);
+	grid-template-columns: auto minmax(auto, $mq-site-wide) auto;
 	grid-column-gap: 1rem;
 	background: white;
 
