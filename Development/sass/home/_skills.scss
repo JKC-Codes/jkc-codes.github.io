@@ -26,7 +26,6 @@ margin-top: $spacing * 4;
 		margin: 0;
 	}
 
-
 	&-heading {
 		margin: 0;
 		color: white;
@@ -34,8 +33,7 @@ margin-top: $spacing * 4;
 		text-align: center;
 
 		@media (min-width: $mq-skills-narrow) {
-			flex-basis: 7rem;
-			flex-shrink: 0;
+			min-width: 8rem;
 			display: flex;
 			justify-content: center;
 			align-items: center;
