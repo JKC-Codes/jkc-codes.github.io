@@ -226,7 +226,7 @@ margin: 0 -1rem; // Grid fallback
 
 	&[data-nav-menu-open="false"] .navigation {
 		background: transparent;
-		transform: translateY(-20.25rem);
+		transform: translateY(-100%);
 	}
 }
 
