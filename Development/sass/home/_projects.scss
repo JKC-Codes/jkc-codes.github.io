@@ -1,12 +1,6 @@
 #projects {
 
-@extend %column;
-align-items: center;
-margin-top: 6rem;
-
-.heading {
-	margin-top: 0;
-}
+margin-top: $spacing * 4;
 
 .introduction {
 	max-width: 65ch;
@@ -14,66 +8,14 @@ margin-top: 6rem;
 }
 
 .project {
-	margin-top: 4rem;
-
-	&:first-child {
-		margin-top: 3rem;
-	}
-
-	@media (min-width: $mq-projects-narrow) {
-		display: grid;
-		$width-screenshot: 500px;
-		$width-text: 380px;
-		grid-template-columns: minmax(auto, $width-screenshot) $width-text;
-		grid-template-rows: repeat(5, auto) 1fr;
-		grid-column-gap: 2rem;
-		justify-content: center;
-
-		&:nth-child(2n) {
-			grid-template-columns: $width-text minmax(auto, $width-screenshot);
-
-			& > * {
-				grid-column: 1;
-			}
-		}
-
-		& > * {
-			margin-bottom: 0;
-			grid-column: 2;
-		}
-	}
-
-	&-heading {
-		@media (min-width: $mq-projects-narrow) {
-			margin-top: 0;
-		}
-	}
+	margin-top: $spacing * 2;
 
 	&-screenshot {
-		max-height: 100vw;
+		width: 100vw;
+		max-height: 50vmin;
 		object-fit: cover;
 		object-position: top left;
 		border: 1px solid $colour-decorate;
-		width: auto; // Grid/Object-Fit fallback
-
-		@supports (grid-area: auto) and (object-fit: cover) {
-			align-self: stretch;
-			width: 100%;
-		}
-
-		@media (min-width: $mq-projects-narrow) {
-			grid-row: 1/7;
-			grid-column: 1;
-			max-height: 24.5rem;
-		}
-	}
-
-	&:nth-child(2n) {
-		.project-screenshot {
-			@media (min-width: $mq-projects-narrow) {
-				grid-column: 2;
-			}
-		}
 	}
 
 	&-explore {
@@ -85,7 +27,7 @@ margin-top: 6rem;
 		&-links {
 			@extend %row;
 			flex-wrap: wrap;
-			margin-top: 1rem;
+			margin-top: 1.5rem;
 		}
 	}
 
@@ -101,20 +43,19 @@ margin-top: 6rem;
 	&-visit-site-link,
 	&-view-code-link {
 		@extend %button;
-		width: 9rem;
+		width: 10rem;
 		padding-left: 0;
 		padding-right: 0;
 
 		&:hover,
 		&:hover .project-view-code-text {
 			text-decoration: none;
-			color: $colour-complement;
 		}
 	}
 
 	&-view-code-link {
 		font-family: courier, monospace;
-		background: none;
+		background: white;
 		color: $colour-brand;
 		text-decoration: none;
 	}
