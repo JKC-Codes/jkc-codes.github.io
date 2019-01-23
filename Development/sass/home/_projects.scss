@@ -2,12 +2,21 @@
 
 margin-top: $spacing * 4;
 
+margin-left: auto; // Grid fallback
+margin-right: auto; // Grid fallback
+max-width: $mq-projects-wide; // Grid fallback
+@supports (grid-area: auto) {
+	max-width: none;
+}
+
 .introduction {
 	max-width: 65ch;
 	margin: 0 auto;
 }
 
 .project {
+	@extend %group; // Grid fallback
+
 	margin-top: $spacing * 2.5;
 
 	&:first-of-type {
@@ -26,24 +35,42 @@ margin-top: $spacing * 4;
 	}
 
 	&-heading {
-		@media (min-width: $mq-projects-wide) {
-			grid-column: 2;
-			margin: 0;
+		@supports (grid-area: auto) {
+			@media (min-width: $mq-projects-wide) {
+				grid-column: 2;
+				margin: 0;
+			}
 		}
 	}
 
 	&-screenshot {
 		width: 100vw;
-		max-height: 50vmin;
+		max-height: none; // Object-fit fallback
 		object-fit: cover;
 		object-position: top left;
 		border: 1px solid $colour-decorate;
+
+		@supports (object-fit: cover) {
+			max-height: 50vmin;
+		}
 
 		@media (min-width: $mq-projects-wide) {
 			grid-row: 1/-1;
 			grid-column: 1;
 			height: 100%;
 			max-height: 100%;
+			float: left; // Grid fallback;
+			width: auto; // Grid fallback;
+			max-height: 25rem; // Grid fallback;
+			margin-right: $spacing; // Grid fallback;
+		}
+
+		@supports (grid-area: auto) {
+			@media (min-width: $mq-projects-wide) {
+				width: 100%;
+				max-height: none;
+				margin-right: 0;
+			}
 		}
 
 		@supports (display: -ms-grid) { // Workaround for Edge not rendering {grid-template-rows: min-content;} properly
