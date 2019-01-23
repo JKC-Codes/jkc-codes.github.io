@@ -11,16 +11,16 @@ margin-top: $spacing * 4;
 	justify-content: center;
 
 	@media (min-width: $mq-skills-wide) {
-		grid-template-columns: repeat(2, minmax(0, 28rem));
+		grid-template-columns: auto auto;
 	}
 }
 
 .skill {
+	max-width: 31.5rem;
 	border: 1px solid $colour-brand;
 	@media (min-width: $mq-skills-narrow) {
 		display: flex;
 	}
-	max-width: 28rem; // Grid fallback
 	margin: $spacing auto 0; // Grid fallback
 	@supports (grid-area: auto) {
 		margin: 0;
