@@ -8,11 +8,12 @@
 	text-align: center;
 	background: $colour-brand;
 	color: white;
+	cursor: pointer;
 
 	&:hover,
 	&:focus {
 		background-color: $colour-contrast;
-		color: $colour-brand;
+		color: $colour-complement;
 	}
 
 	&:active {
