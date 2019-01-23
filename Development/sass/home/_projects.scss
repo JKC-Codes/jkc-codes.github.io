@@ -4,11 +4,33 @@ margin-top: $spacing * 4;
 
 .introduction {
 	max-width: 65ch;
-	margin: auto;
+	margin: 0 auto;
 }
 
 .project {
-	margin-top: $spacing * 2;
+	margin-top: $spacing * 2.5;
+
+	&:first-of-type {
+		margin-top: $spacing * 1.5;
+	}
+
+	@media (min-width: $mq-projects-wide) {
+		display: grid;
+		grid-template-rows: min-content min-content;
+		grid-template-columns: 50% auto 1fr;
+		grid-column-gap: $spacing;
+
+		&:nth-of-type(2n) {
+			grid-template-columns: 1fr auto 50%;
+		}
+	}
+
+	&-heading {
+		@media (min-width: $mq-projects-wide) {
+			grid-column: 2;
+			margin: 0;
+		}
+	}
 
 	&-screenshot {
 		width: 100vw;
@@ -16,6 +38,34 @@ margin-top: $spacing * 4;
 		object-fit: cover;
 		object-position: top left;
 		border: 1px solid $colour-decorate;
+
+		@media (min-width: $mq-projects-wide) {
+			grid-row: 1/-1;
+			grid-column: 1;
+			height: 100%;
+			max-height: 100%;
+		}
+
+		@supports (display: -ms-grid) { // Workaround for Edge not rendering {grid-template-rows: min-content;} properly
+			@media (min-width: $mq-projects-wide) {
+				max-height: 25rem;
+				width: 100%;
+			}
+		}
+	}
+
+	&:nth-of-type(2n) {
+		& .project-screenshot {
+			@media (min-width: $mq-projects-wide) {
+				grid-column: 3;
+			}
+		}
+	}
+
+	&-details {
+		@media (min-width: $mq-projects-wide) {
+			grid-column: 2;
+		}
 	}
 
 	&-explore {
