@@ -5,12 +5,11 @@ const
 	baseFolder = `./staging/`,
 	htmlmin = require('gulp-htmlmin'),
 	sass = require('gulp-sass'),
-	postcss = require('gulp-postcss'),
-	autoprefixer = require('autoprefixer'),
-	cssnano = require('cssnano'),
 	terser = require('gulp-terser'),
 	imagemin = require('gulp-imagemin')
 ;
+
+sass.compiler = require('dart-sass');
 
 function resetStaging() {
 	return del(['./staging/*']);
@@ -41,8 +40,7 @@ function html() {
 
 function css() {
 	return gulp.src('sass/**/*.scss')
-		.pipe(sass().on('error', sass.logError))
-		.pipe(postcss([ autoprefixer(), cssnano() ]))
+		.pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
 		.pipe(gulp.dest(baseFolder + 'css'));
 }
 
