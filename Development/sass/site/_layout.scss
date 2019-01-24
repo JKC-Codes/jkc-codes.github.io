@@ -10,7 +10,7 @@ body {
 
 #site-container {
 	display: grid;
-	grid-template-columns: auto minmax(auto, $mq-site-wide) auto;
+	grid-template-columns: auto minmax(auto, 65rem) auto;
 	grid-column-gap: 1rem;
 	background: white;
 	padding: 0 1rem; // Grid fallback;
