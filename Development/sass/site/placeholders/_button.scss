@@ -8,14 +8,21 @@
 	text-align: center;
 	background: $colour-brand;
 	color: white;
+	cursor: pointer;
 
 	&:hover,
 	&:focus {
 		background-color: $colour-contrast;
-		color: $colour-brand;
+		color: $colour-complement;
+		text-decoration: none;
 	}
 
 	&:active {
 		background-color: $colour-decorate;
 	}
+}
+
+a%button:hover,
+a%button:focus {
+	text-decoration: none;
 }

@@ -1,54 +1,42 @@
 #skills {
+$skill-box-max-width: 31.5rem;
 
-.heading {
-	margin-bottom: 2rem;
-}
+margin-top: $spacing * 4;
 
 .skills {
 	display: grid;
-	grid-template-columns: auto;
-	grid-gap: 2rem;
+	grid-gap: $spacing;
 	justify-content: center;
 
 	@media (min-width: $mq-skills-narrow) {
-		grid-template-columns: repeat(auto-fit, minmax(23rem, auto));
+		grid-template-columns: repeat(2, minmax(0, $skill-box-max-width));
 	}
 }
 
 .skill {
 	border: 1px solid $colour-brand;
-	max-width: 31rem; // Grid fallback
-	margin: 0 auto 2rem; // Grid fallback
-	@supports (grid-area: auto) {
-		margin: 0;
-	}
-	@media (min-width: $mq-skills-narrow) {
+
+	@media (min-width: $mq-skills-wide) {
 		display: flex;
 	}
 
-	&-heading {
-		position: relative;
-		@extend %row;
-		justify-content: center;
+	max-width: $skill-box-max-width; // Grid fallback
+	margin: $spacing auto 0; // Grid fallback
+	@supports (grid-area: auto) {
 		margin: 0;
-		font-size: 1.1em;
+	}
+
+	&-heading {
+		margin: 0;
 		color: white;
+		background: $colour-brand;
+		text-align: center;
 
-		@media (min-width: $mq-skills-narrow) {
-			flex-basis: 7rem;
-			flex-shrink: 0;
+		@media (min-width: $mq-skills-wide) {
+			min-width: 8rem;
+			display: flex;
+			justify-content: center;
 			align-items: center;
-		}
-
-		&::before {
-			position: absolute;
-			top: 0;
-			left: 0;
-			content: '';
-			z-index: -1;
-			width: 100%;
-			height: 100%;
-			background-color: $colour-brand;
 		}
 	}
 

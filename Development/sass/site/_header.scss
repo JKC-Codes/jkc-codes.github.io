@@ -4,13 +4,11 @@
 	transition: 0.25s ease-in-out;
 }
 
-@media (min-width: $mq-header-narrow) {
-	background: $colour-brand;
-}
-
+background: $colour-brand;
+margin: 0 -1rem; // Grid fallback
 @supports (grid-area: auto) {
+	margin: 0;
 	@media (min-width: $mq-header-wide) {
-		justify-self: end;
 		width: 9.5rem;
 	}
 }
@@ -169,7 +167,11 @@
 
 	&-links {
 		@extend %no-bullets;
-		margin: 0;
+		margin: 0 0 0 auto; // auto left margin fixes flexbox bug in Internet Explorer
+
+		@supports not (display: -ms-flexbox) {
+			margin-left: 0;
+		}
 
 		li {
 			margin: 1.5rem 0 0;
@@ -224,7 +226,7 @@
 
 	&[data-nav-menu-open="false"] .navigation {
 		background: transparent;
-		transform: translateY(-20.25rem);
+		transform: translateY(-100%);
 	}
 }
 

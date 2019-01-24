@@ -10,6 +10,7 @@
 <script src="/js/site.js" defer></script>
 </head>
 <body>
+<div id="site-container">
 <header id="site-header">
 <button type="button" id="site-nav-menu-button" class="menu-button">
 <svg class="menu-button-icon" viewBox="0 0 100 100" aria-hidden="true">
@@ -38,13 +39,11 @@ Menu
 <section id="hero">
 <h2 class="heading">Overview</h2>
 <p class="name">John Kemp-Cruz</p>
-<div class="description">
 <p class="job-title">Front-end web developer</p>
 <p class="location">London, UK</p>
-</div>
 </section>
 <section id="skills">
-<h2 class="heading">Skills</h2>
+<h2>Skills</h2>
 <div class="skills">
 <section class="skill">
 <h3 class="skill-heading">HTML</h3>
@@ -85,12 +84,12 @@ Menu
 </div>
 </section>
 <section id="projects">
-<h2 class="heading">Projects</h2>
+<h2>Projects</h2>
 <p class="introduction">All projects are fully responsive down to 320px width. Tested in IE11, Chrome, Firefox and Edge; sorry Safari users, I don't own an Apple device.</p>
-<div class="projects">
 <article class="project">
 <h3 class="project-heading">Landing Page</h3>
 <img class="project-screenshot" src="/img/brewery-website-screenshot.jpg" alt="Screenshot of Brewery Website project">
+<div class="project-details">
 <h4>Objective</h4>
 <p>Using a <a href="https://github.com/kevin-powell/brewery-start/blob/master/Brewery%20Homepage%20-%20desktop.png" rel="noopener">reference image</a> build a "pixel perfect" landing page for a brewery.</p>
 <h4>Highlights</h4>
@@ -104,10 +103,12 @@ Menu
 <p class="project-visit-site"><a class="project-visit-site-link" href="https://jkc-codes.github.io/brewery-website/" rel="noopener">Visit site</a></p>
 <p class="project-view-code"><a class="project-view-code-link" href="https://github.com/JKC-Codes/brewery-website" rel="noopener"><span aria-hidden="true">&lt; </span><span class="project-view-code-text">View code</span><span aria-hidden="true"> /&gt;</span></a></p>
 </div>
+</div>
 </article>
 <article class="project">
 <h3 class="project-heading">Help Site</h3>
 <img class="project-screenshot" src="/img/labdrakes-help-screenshot.jpg" alt="Screenshot of Labdrakes Help project">
+<div class="project-details">
 <h4>Objective</h4>
 <p>Design and build a full website from scratch.</p>
 <h4>Highlights</h4>
@@ -121,12 +122,12 @@ Menu
 <p class="project-visit-site"><a class="project-visit-site-link" href="https://jkc-codes.github.io/labdrakes-help/" rel="noopener">Visit site</a></p>
 <p class="project-view-code"><a class="project-view-code-link" href="https://github.com/JKC-Codes/labdrakes-help" rel="noopener"><span aria-hidden="true">&lt; </span><span class="project-view-code-text">View code</span><span aria-hidden="true"> /&gt;</span></a></p>
 </div>
-</article>
 </div>
+</article>
 </section>
 <section id="contact">
 <h2>Contact</h2>
-<p class="text">Get in touch via <a class="link" href="https://www.linkedin.com/in/johnkempcruz/" rel="noopener"><span class="link-text">LinkedIn</span></a></p>
+<p class="text">Get in touch via <a class="link" href="https://www.linkedin.com/in/johnkempcruz/" rel="noopener">LinkedIn</a></p>
 </section>
 </main>
 <footer id="site-footer">
@@ -134,5 +135,6 @@ Menu
 <p><small>Source code available at <a href="https://github.com/JKC-Codes/jkc-codes.github.io" rel="noopener">GitHub</a>.</small></p>
 <p><small>&copy; John Kemp-Cruz <time datetime="2018">2018</time>&ndash;<time datetime="2019">2019</time></small></p>
 </footer>
+</div>
 </body>
 </html>

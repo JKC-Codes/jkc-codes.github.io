@@ -1,33 +1,23 @@
 #hero {
 	@extend %column; // Grid fallback
 	align-items: center; // Grid fallback
-	margin: 2rem auto 6rem;
-	min-height: 15rem;
-	align-content: center;
+	display: grid;
+	grid-template-columns: minmax(0, 5.5rem) max-content minmax(0, 5.5rem);
+	justify-content: center;
+	padding-top: 5rem;
 	color: $colour-brand;
-
-	@media (min-width: $mq-hero-narrow) {
-		grid-template-columns: 5.5rem auto 5.5rem;
-		justify-content: center;
-	}
-
-	@supports (grid-area: auto) {
-		display: grid;
-		align-items: center;
-	}
 
 .heading {
 	@extend %hide-visually;
 }
 
 .name {
-	grid-row: 2;
+	grid-row: 3;
+	grid-column: 2;
 	margin: 2rem 0 0;
-	font-size: 36px;
-	text-align: center;
+	font-size: 1.8rem;
 
 	@media (min-width: $mq-hero-narrow) {
-		grid-column: 2;
 		font-size: 6.8vw;
 	}
 
@@ -36,16 +26,9 @@
 	}
 }
 
-.description {
-	grid-row: 1;
-
-	@media (min-width: $mq-hero-narrow) {
-		grid-column: 2/span 2;
-	}
-}
-
 .job-title,
 .location {
+	grid-column: 2/-1;
 	margin: 0;
 	text-align: right;
 }
