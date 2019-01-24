@@ -1,5 +1,6 @@
 #site-footer {
 	margin-top: 6rem;
+	padding-bottom: 1rem; // Fixes grey margin at bottom of page in Internet Explorer
 	color: hsl(225, 7.5%, 48.25%);
 
 	a:not(:hover):not(:active) {
