@@ -1,0 +1,17 @@
+#images {
+margin-top: $spacing;
+
+.images-list {
+	@extend %no-bullets;
+
+	& > li {
+		display: inline;
+	}
+}
+
+.images-image {
+	width: 2.5rem;
+	margin: 0.25rem;
+}
+
+}
