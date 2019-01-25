@@ -5,9 +5,7 @@
 }
 
 background: $colour-brand;
-margin: 0 -1rem; // Grid fallback
 @supports (grid-area: auto) {
-	margin: 0;
 	@media (min-width: $mq-header-wide) {
 		width: 9.5rem;
 	}
