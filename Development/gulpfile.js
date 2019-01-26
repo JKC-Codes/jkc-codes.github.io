@@ -52,7 +52,9 @@ function js() {
 
 function img() {
 	return gulp.src(baseFolder + '**/img/**')
-		.pipe(imagemin())
+		.pipe(imagemin([
+			imagemin.svgo({plugins: [{removeViewBox: false}]})
+		]))
 		.pipe(gulp.dest(baseFolder));
 }
 
