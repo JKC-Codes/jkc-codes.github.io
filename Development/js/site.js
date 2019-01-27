@@ -15,6 +15,11 @@ function initialise() {
 	headerIsWide.addListener(fixHeader);
 	fixHeader(headerIsWide);
 
+	// Prevent transition on initial page load
+	if(!headerIsWide.matches) {
+		menu.style.display = 'none';
+	}
+
 	// Enable menu button
 	button.addEventListener('click', toggleNav);
 }
