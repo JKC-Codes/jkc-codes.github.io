@@ -77,16 +77,16 @@ background: $colour-brand;
 }
 
 @media (max-width: $mq-header-narrow - 0.0625rem) {
-	&[data-nav-menu-open] .menu-button {
+	&[class^="nav-menu"] .menu-button {
 		display: block;
 	}
 
-	&[data-nav-menu-open="false"] .menu-button {
+	&.nav-menu-closed .menu-button {
 		color: $colour-text;
 	}
 }
 
-&[data-nav-menu-open="false"] .menu-button-icon {
+&.nav-menu-closed .menu-button-icon {
 	.line-top-left,
 	.line-top-right,
 	.line-mid-left,
@@ -218,11 +218,11 @@ background: $colour-brand;
 }
 
 @media (max-width: $mq-header-narrow - 0.0625rem) {
-	&[data-nav-menu-open] .navigation {
+	&[class^="nav-menu"] .navigation {
 		position: absolute;
 	}
 
-	&[data-nav-menu-open="false"] .navigation {
+	&.nav-menu-closed .navigation {
 		background: transparent;
 		transform: translateY(-100%);
 	}

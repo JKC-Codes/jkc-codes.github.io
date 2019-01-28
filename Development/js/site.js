@@ -25,7 +25,7 @@ function initialise() {
 }
 
 function toggleNav() {
-	if(header.dataset.navMenuOpen === 'false') {
+	if(header.classList.contains('nav-menu-closed')) {
 		openMenu();
 	} else {
 		closeMenu();
@@ -35,7 +35,8 @@ function toggleNav() {
 function openMenu() {
 	menu.removeAttribute('style', 'display: none');
 	setTimeout(function() {
-		header.dataset.navMenuOpen = 'true';
+		header.classList.remove('nav-menu-closed');
+		header.classList.add('nav-menu-open');
 	}, 10);
 
 	// Close menu when out of viewport
@@ -51,9 +52,10 @@ function closeMenu() {
 	let transitionLength = (parseFloat(transitionDelay) + parseFloat(transitionDuration)) * 1000;
 
 	if(!headerIsWide.matches) {
-		header.dataset.navMenuOpen = 'false';
+		header.classList.remove('nav-menu-open');
+		header.classList.add('nav-menu-closed');
 		setTimeout(function() {
-			if(header.dataset.navMenuOpen === 'false') {
+			if(header.classList.contains('nav-menu-closed')) {
 				menu.style.display = 'none';
 			}
 		}, transitionLength);
@@ -71,7 +73,7 @@ function fixHeader(mediaQuery) {
 
 function menuObserver(intersections, subject) {
 	for(i = 0; i < intersections.length; i++) {
-		if(!intersections[i].isIntersecting && header.dataset.navMenuOpen === 'true') {
+		if(!intersections[i].isIntersecting && header.classList.contains('nav-menu-open')) {
 			closeMenu();
 			subject.disconnect();
 		}
