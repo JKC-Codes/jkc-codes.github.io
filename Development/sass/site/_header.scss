@@ -77,16 +77,16 @@ background: $colour-brand;
 }
 
 @media (max-width: $mq-header-narrow - 0.0625rem) {
-	&[class^="nav-menu"] .menu-button {
+	&[class^="menu"] .menu-button {
 		display: block;
 	}
 
-	&.nav-menu-closed .menu-button {
+	&.menu-closed .menu-button {
 		color: $colour-text;
 	}
 }
 
-&.nav-menu-closed .menu-button-icon {
+&.menu-closed .menu-button-icon {
 	.line-top-left,
 	.line-top-right,
 	.line-mid-left,
@@ -218,11 +218,11 @@ background: $colour-brand;
 }
 
 @media (max-width: $mq-header-narrow - 0.0625rem) {
-	&[class^="nav-menu"] .navigation {
+	&[class^="menu"] .navigation {
 		position: absolute;
 	}
 
-	&.nav-menu-closed .navigation {
+	&.menu-closed .navigation {
 		background: transparent;
 		transform: translateY(-100%);
 	}
