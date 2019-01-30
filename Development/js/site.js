@@ -1,81 +1,95 @@
-document.addEventListener('DOMContentLoaded', initialise, {once: true});
+class Menu {
+  constructor(stateHolder, stateController, contentHolder, mediaQuery) {
+		// Name arguments
+    this.container = stateHolder;
+    this.button = stateController;
+    this.content = contentHolder;
+		this.mediaQuery = mediaQuery;
 
-let header;
-let button;
-let menu;
-let	headerIsWide = window.matchMedia('(min-width: 36rem)');
+		// Start media query listener
+		this.pageIsWide = window.matchMedia('(min-width: '+ this.mediaQuery +')');
+		this.pageIsWide.addListener(this.handleViewportChange.bind(this));
+		this.handleViewportChange(this.pageIsWide);
 
-function initialise() {
-	// Define DOM elements
+		// Listen for button clicks
+		this.button.addEventListener('click', ()=> {
+			if(this.container.classList.contains('menu-closed')) {
+				this.openMenu();
+			} else {
+				this.closeMenu();
+			}
+		});
+	}
+
+	addToDOM() {
+		this.content.removeAttribute('style', 'display: none');
+	}
+
+	removeFromDOM() {
+		this.content.style.display = 'none';
+	}
+
+	openMenu() {
+		this.addToDOM();
+		setTimeout( ()=> {
+			this.container.classList.remove('menu-closed');
+			this.container.classList.add('menu-open');
+		}, 20);
+	}
+
+	closeMenu() {
+		if(!this.pageIsWide.matches) {
+			this.container.classList.remove('menu-open');
+			this.container.classList.add('menu-closed');
+			setTimeout( ()=> {
+				if(this.container.classList.contains('menu-closed')) {
+					this.removeFromDOM();
+				}
+			}, this.transitionLength);
+		}
+	}
+
+	handleViewportChange() {
+		if(this.pageIsWide.matches) {
+			this.addToDOM();
+		} else {
+			let transitionDelay = window.getComputedStyle(this.content).transitionDelay;
+			let transitionDuration = window.getComputedStyle(this.content).transitionDuration;
+			this.transitionLength = (parseFloat(transitionDelay) + parseFloat(transitionDuration)) * 1000;
+			setTimeout( ()=> {
+				this.removeFromDOM();
+				this.closeMenu();
+			}, 20);
+		}
+	}
+}
+
+document.addEventListener('DOMContentLoaded', function() {
 	header = document.querySelector('#site-header');
 	button = header.querySelector('#site-nav-menu-button');
 	menu = header.querySelector('#site-nav-menu');
 
-	// Ensure header is always shown on wide screens
-	headerIsWide.addListener(fixHeader);
-	fixHeader(headerIsWide);
-
-	// Prevent transition on initial page load
-	if(!headerIsWide.matches) {
-		menu.style.display = 'none';
-	}
-
-	// Enable menu button
-	button.addEventListener('click', toggleNav);
-}
-
-function toggleNav() {
-	if(header.classList.contains('nav-menu-closed')) {
-		openMenu();
-	} else {
-		closeMenu();
-	}
-}
-
-function openMenu() {
-	menu.removeAttribute('style', 'display: none');
-	setTimeout(function() {
-		header.classList.remove('nav-menu-closed');
-		header.classList.add('nav-menu-open');
-	}, 10);
-
-	// Close menu when out of viewport
-	if('IntersectionObserver' in window) {
-		let observer = new IntersectionObserver(menuObserver,{rootMargin: '-120px'});
-		observer.observe(menu);
-	}
-}
-
-function closeMenu() {
-	let transitionDelay = window.getComputedStyle(menu).transitionDelay;
-	let transitionDuration = window.getComputedStyle(menu).transitionDuration;
-	let transitionLength = (parseFloat(transitionDelay) + parseFloat(transitionDuration)) * 1000;
-
-	if(!headerIsWide.matches) {
-		header.classList.remove('nav-menu-open');
-		header.classList.add('nav-menu-closed');
-		setTimeout(function() {
-			if(header.classList.contains('nav-menu-closed')) {
-				menu.style.display = 'none';
-			}
-		}, transitionLength);
-	}
-}
-
-function fixHeader(mediaQuery) {
-	if(mediaQuery.matches) {
-		openMenu();
-	} else {
-		closeMenu();
-	}
-}
+	new Menu(header, button, menu, '36rem');
+}, {once: true});
 
 
-function menuObserver(intersections, subject) {
-	for(i = 0; i < intersections.length; i++) {
-		if(!intersections[i].isIntersecting && header.classList.contains('nav-menu-open')) {
-			closeMenu();
-			subject.disconnect();
-		}
-	};
-};
+
+
+
+
+// 	// Close menu when out of viewport
+// 	if('IntersectionObserver' in window) {
+// 		setTimeout(function() {
+// 			let observer = new IntersectionObserver(menuObserver,{rootMargin: '-160px'});
+// 			observer.observe(menu);
+// 		}, transitionLength);
+// 	}
+// }
+// function menuObserver(intersections, subject) {
+// 	for(i = 0; i < intersections.length; i++) {
+// 		if(!intersections[i].isIntersecting) {
+// 			closeMenu();
+// 			subject.disconnect();
+// 		}
+// 	};
+// };
