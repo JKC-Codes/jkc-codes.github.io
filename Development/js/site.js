@@ -5,13 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	// Activate site nav menu
 	var navMenu = new Menu(header, button, menu, '36rem');
-
-	// Fixes Firefox issue where CSS fails to load in time for getComputedStyle
-	if(navMenu.transitionLength === 0) {
-		window.addEventListener("load", function() {
-			navMenu.getTransitionLength();
-		}, {once: true});
-	}
 }, {once: true});
 
 function Menu(stateHolder, stateController, contentHolder, mediaQuery) {
@@ -26,7 +19,14 @@ function Menu(stateHolder, stateController, contentHolder, mediaQuery) {
 	this.pageIsWide.addListener(this.handleViewportChange.bind(this));
 	this.handleViewportChange(this.pageIsWide);
 
-	// Listen for button clicks
+	// Fixes Firefox issue where CSS fails to load in time for getComputedStyle
+	if(this.transitionLength === 0) {
+		window.addEventListener('load', function() {
+			this.getTransitionLength();
+		}, {once: true});
+	}
+
+	// Listen for menu button clicks
 	this.button.addEventListener('click', function() {
 		if(this.container.classList.contains('menu-closed')) {
 			this.openMenu();
