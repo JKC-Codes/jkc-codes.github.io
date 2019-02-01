@@ -3,7 +3,15 @@ document.addEventListener('DOMContentLoaded', function() {
 	button = header.querySelector('#site-nav-menu-button');
 	menu = header.querySelector('#site-nav-menu');
 
+	// Activate site nav menu
 	var navMenu = new Menu(header, button, menu, '36rem');
+
+	// Fixes Firefox issue where CSS fails to load in time for getComputedStyle
+	if(navMenu.transitionLength === 0) {
+		window.addEventListener("load", function() {
+			navMenu.getTransitionLength();
+		}, {once: true});
+	}
 }, {once: true});
 
 function Menu(stateHolder, stateController, contentHolder, mediaQuery) {
@@ -56,14 +64,18 @@ Menu.prototype.closeMenu = function() {
 	}
 }
 
+Menu.prototype.getTransitionLength = function() {
+	var transitionDelay = window.getComputedStyle(this.content).transitionDelay;
+	var transitionDuration = window.getComputedStyle(this.content).transitionDuration;
+	this.transitionLength = (parseFloat(transitionDelay) + parseFloat(transitionDuration)) * 1000;
+}
+
 Menu.prototype.handleViewportChange = function() {
 	if(this.pageIsWide.matches) {
 		this.addToDOM();
 	} else {
-		// Set transition length before calling closeMenu
-		let transitionDelay = window.getComputedStyle(this.content).transitionDelay;
-		let transitionDuration = window.getComputedStyle(this.content).transitionDuration;
-		this.transitionLength = (parseFloat(transitionDelay) + parseFloat(transitionDuration)) * 1000;
+		// Set transition length before removing from DOM
+		this.getTransitionLength();
 
 		// Ignore animation when closing menu
 		this.removeFromDOM();
@@ -80,7 +92,7 @@ Menu.prototype.handleViewportChange = function() {
 // 	// Close menu when out of viewport
 // 	if('IntersectionObserver' in window) {
 // 		setTimeout(function() {
-// 			let observer = new IntersectionObserver(menuObserver,{rootMargin: '-160px'});
+// 			var observer = new IntersectionObserver(menuObserver,{rootMargin: '-160px'});
 // 			observer.observe(menu);
 // 		}, transitionLength);
 // 	}
