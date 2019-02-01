@@ -8,6 +8,15 @@ html {
 	color: $colour-text;
 	font: $font;
 	overflow-wrap: break-word;
+	scroll-behavior: smooth;
+
+	@media (prefers-reduced-motion: reduce) {
+		scroll-behavior: auto;
+
+		* {
+			transition-duration: 0ms !important;
+		}
+	}
 }
 
 h1,
