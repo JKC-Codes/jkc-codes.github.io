@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	menu = header.querySelector('#site-nav-menu');
 
 	// Activate site nav menu
-	var navMenu = new Menu(header, button, menu, '36rem');
+	new Menu(header, button, menu, '36rem');
 }, {once: true});
 
 function Menu(stateHolder, stateController, contentHolder, mediaQuery) {
@@ -19,18 +19,12 @@ function Menu(stateHolder, stateController, contentHolder, mediaQuery) {
 	this.pageIsWide.addListener(this.handleViewportChange.bind(this));
 	this.handleViewportChange(this.pageIsWide);
 
-	// Fixes Firefox issue where CSS fails to load in time for getComputedStyle
-	if(this.transitionLength === 0) {
-		window.addEventListener('load', function() {
-			this.getTransitionLength();
-		}, {once: true});
-	}
-
 	// Listen for menu button clicks
 	this.button.addEventListener('click', function() {
 		if(this.container.classList.contains('menu-closed')) {
 			this.openMenu();
-		} else {
+		}
+		else {
 			this.closeMenu();
 		}
 	}.bind(this));
@@ -56,6 +50,9 @@ Menu.prototype.closeMenu = function() {
 	if(!this.pageIsWide.matches) {
 		this.container.classList.remove('menu-open');
 		this.container.classList.add('menu-closed');
+		if(this.transitionLength === undefined && document.readyState === 'complete') {
+			this.getTransitionLength();
+		}
 		setTimeout(function() {
 			if(this.container.classList.contains('menu-closed')) {
 				this.removeFromDOM();
@@ -73,35 +70,10 @@ Menu.prototype.getTransitionLength = function() {
 Menu.prototype.handleViewportChange = function() {
 	if(this.pageIsWide.matches) {
 		this.addToDOM();
-	} else {
-		// Set transition length before removing from DOM
-		this.getTransitionLength();
-
+	}
+	else {
 		// Ignore animation when closing menu
 		this.removeFromDOM();
 		this.closeMenu();
 	}
 }
-
-
-
-
-
-
-
-// 	// Close menu when out of viewport
-// 	if('IntersectionObserver' in window) {
-// 		setTimeout(function() {
-// 			var observer = new IntersectionObserver(menuObserver,{rootMargin: '-160px'});
-// 			observer.observe(menu);
-// 		}, transitionLength);
-// 	}
-// }
-// function menuObserver(intersections, subject) {
-// 	for(i = 0; i < intersections.length; i++) {
-// 		if(!intersections[i].isIntersecting) {
-// 			closeMenu();
-// 			subject.disconnect();
-// 		}
-// 	};
-// };
