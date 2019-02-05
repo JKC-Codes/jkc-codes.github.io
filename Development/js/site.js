@@ -28,6 +28,11 @@ function Menu(stateHolder, stateController, contentHolder, mediaQuery) {
 			this.closeMenu();
 		}
 	}.bind(this));
+
+	// Ensure listener context is always the same so it can be removed
+	this.handleOffMenuClick = function(event) {
+		this.handleOffMenuClickFunc(event);
+	}.bind(this);
 }
 
 Menu.prototype.addToDOM = function() {
@@ -43,13 +48,21 @@ Menu.prototype.openMenu = function() {
 	setTimeout(function() {
 		this.container.classList.remove('menu-closed');
 		this.container.classList.add('menu-open');
-	}.bind(this), 10);
+		document.addEventListener('click', this.handleOffMenuClick);
+	}.bind(this), 50);
+}
+
+Menu.prototype.handleOffMenuClickFunc = function(event) {
+	if(!event.target.closest('#site-nav-menu')) {
+		this.closeMenu();
+	}
 }
 
 Menu.prototype.closeMenu = function() {
 	if(!this.pageIsWide.matches) {
 		this.container.classList.remove('menu-open');
 		this.container.classList.add('menu-closed');
+		document.removeEventListener('click', this.handleOffMenuClick);
 		if(this.transitionLength === undefined && document.readyState === 'complete') {
 			this.getTransitionLength();
 		}
@@ -76,4 +89,21 @@ Menu.prototype.handleViewportChange = function() {
 		this.removeFromDOM();
 		this.closeMenu();
 	}
+}
+
+// Element.closest polyfill
+if (!Element.prototype.matches) {
+	Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
+}
+
+if (!Element.prototype.closest) {
+	Element.prototype.closest = function(s) {
+		var el = this;
+
+		do {
+			if (el.matches(s)) return el;
+			el = el.parentElement || el.parentNode;
+		} while (el !== null && el.nodeType === 1);
+		return null;
+	};
 }
