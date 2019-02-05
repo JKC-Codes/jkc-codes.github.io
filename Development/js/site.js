@@ -43,7 +43,7 @@ Menu.prototype.openMenu = function() {
 	setTimeout(function() {
 		this.container.classList.remove('menu-closed');
 		this.container.classList.add('menu-open');
-	}.bind(this), 20);
+	}.bind(this), 10);
 }
 
 Menu.prototype.closeMenu = function() {
