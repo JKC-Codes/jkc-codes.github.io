@@ -1,16 +1,18 @@
 document.addEventListener('DOMContentLoaded', function() {
-	header = document.querySelector('#site-header');
-	button = header.querySelector('#site-nav-menu-button');
-	menu = header.querySelector('#site-nav-menu');
+	menuHeader = document.querySelector('#site-header');
+	menuButton = menuHeader.querySelector('#site-nav-menu-button');
+	menuButtonText = menuButton.querySelector('#site-nav-menu-button-text');
+	menuContent = menuHeader.querySelector('#site-nav-menu');
 
 	// Activate site nav menu
-	new Menu(header, button, menu, '36rem');
+	new Menu(menuHeader, menuButton, menuButtonText, menuContent, '36rem');
 }, {once: true});
 
-function Menu(stateHolder, stateController, contentHolder, mediaQuery) {
+function Menu(stateHolder, stateController, stateControllerText, contentHolder, mediaQuery) {
 	// Name arguments
 	this.container = stateHolder;
 	this.button = stateController;
+	this.buttonText = stateControllerText;
 	this.content = contentHolder;
 	this.mediaQuery = mediaQuery;
 
@@ -48,6 +50,7 @@ Menu.prototype.openMenu = function() {
 	setTimeout(function() {
 		this.container.classList.remove('menu-closed');
 		this.container.classList.add('menu-open');
+		this.buttonText.textContent = 'Close';
 		document.addEventListener('click', this.handleOffMenuClick);
 	}.bind(this), 50);
 }
@@ -62,6 +65,7 @@ Menu.prototype.closeMenu = function() {
 	if(!this.pageIsWide.matches) {
 		this.container.classList.remove('menu-open');
 		this.container.classList.add('menu-closed');
+		this.buttonText.textContent = 'Open';
 		document.removeEventListener('click', this.handleOffMenuClick);
 		if(this.transitionLength === undefined && document.readyState === 'complete') {
 			this.getTransitionLength();
@@ -91,7 +95,7 @@ Menu.prototype.handleViewportChange = function() {
 	}
 }
 
-// Element.closest polyfill
+// Polyfill for Element.closest
 if (!Element.prototype.matches) {
 	Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
 }
