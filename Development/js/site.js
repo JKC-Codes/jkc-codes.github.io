@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+	// Define DOM elements
 	menuHeader = document.querySelector('#site-header');
 	menuButton = menuHeader.querySelector('#site-nav-menu-button');
 	menuButtonText = menuButton.querySelector('#site-nav-menu-button-text');
@@ -8,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	new Menu(menuHeader, menuButton, menuButtonText, menuContent, '36rem');
 }, {once: true});
 
+
 function Menu(stateHolder, stateController, stateControllerText, contentHolder, mediaQuery) {
 	// Name arguments
 	this.container = stateHolder;
@@ -16,84 +18,134 @@ function Menu(stateHolder, stateController, stateControllerText, contentHolder, 
 	this.content = contentHolder;
 	this.mediaQuery = mediaQuery;
 
-	// Start media query listener
+	// Start viewport width listener
 	this.pageIsWide = window.matchMedia('(min-width: '+ this.mediaQuery +')');
-	this.pageIsWide.addListener(this.handleViewportChange.bind(this));
-	this.handleViewportChange(this.pageIsWide);
+	this.pageIsWide.addListener(this.reactToViewport.bind(this));
+	this.reactToViewport(this.pageIsWide);
 
-	// Listen for menu button clicks
-	this.button.addEventListener('click', function() {
-		if(this.container.classList.contains('menu-closed')) {
-			this.openMenu();
-		}
-		else {
-			this.closeMenu();
-		}
-	}.bind(this));
+	// Start menu button click listener
+	this.button.addEventListener('click', this.reactToMenuButton.bind(this));
 
-	// Ensure listener context is always the same so it can be removed
-	this.handleOffMenuClick = function(event) {
-		this.handleOffMenuClickFunc(event);
+	// Create a fixed variable so viewport width listener can be removed later
+	this.reactToOffMenu = function(event) {
+		this._reactToOffMenu(event);
 	}.bind(this);
 }
 
-Menu.prototype.addToDOM = function() {
-	this.content.removeAttribute('style', 'display: none');
+// Menu state change handler
+Menu.prototype = {
+	set state(newState) {
+
+		if(newState === 'open') {
+			this.updateDOM('add');
+			// Wait for menu to be added to DOM before referencing it
+			setTimeout(function() {
+				this.updateClass('open');
+				this.updateButtonText('close');
+				this.setListenerOffMenu();
+			}.bind(this), 50);
+		}
+
+		else if(newState === 'closed') {
+			this.updateClass('closed');
+			this.updateButtonText('open');
+			this.removeListenerOffMenu();
+			// Get transition time for timeout
+			if(this.transitionLength === undefined && document.readyState === 'complete') {
+				this.getTransitionLength();
+			}
+			// Ensure menu is removed from DOM only after transition has finished
+			setTimeout(function() {
+				// Check that state hasn't changed during transition
+				if(this.state === 'closed') {
+					this.updateDOM('remove');
+				}
+			}.bind(this), this.transitionLength);
+		}
+
+		else if(newState === 'fixed') {
+			this.updateDOM('add');
+		}
+
+		this._state = newState;
+	}
 }
 
-Menu.prototype.removeFromDOM = function() {
-	this.content.style.display = 'none';
+
+// Menu listeners that change state
+Menu.prototype.reactToViewport = function() {
+	if(this.pageIsWide.matches) {
+		this.state = 'fixed';
+	}
+	else {
+		this.state = 'closed';
+		// Prevent transition on viewport change
+		this.updateDOM('remove');
+	}
 }
 
-Menu.prototype.openMenu = function() {
-	this.addToDOM();
-	setTimeout(function() {
+Menu.prototype.reactToMenuButton = function() {
+	if(this._state === 'open') {
+		this.state = 'closed';
+	}
+	else {
+		this.state = 'open';
+	}
+}
+
+Menu.prototype._reactToOffMenu = function(event) {
+	if(!event.target.closest('#site-nav-menu')) {
+		this.state = 'closed';
+	}
+}
+
+
+// Menu handlers that react to state
+Menu.prototype.updateDOM = function(action) {
+	if(action === 'add') {
+		this.content.removeAttribute('style', 'display: none');
+	}
+	else {
+		this.content.style.display = 'none';
+	}
+}
+
+Menu.prototype.updateClass = function(name) {
+	if(name === 'open') {
 		this.container.classList.remove('menu-closed');
 		this.container.classList.add('menu-open');
-		this.buttonText.textContent = 'Close';
-		document.addEventListener('click', this.handleOffMenuClick);
-	}.bind(this), 50);
-}
-
-Menu.prototype.handleOffMenuClickFunc = function(event) {
-	if(!event.target.closest('#site-nav-menu')) {
-		this.closeMenu();
 	}
-}
-
-Menu.prototype.closeMenu = function() {
-	if(!this.pageIsWide.matches) {
+	else {
 		this.container.classList.remove('menu-open');
 		this.container.classList.add('menu-closed');
-		this.buttonText.textContent = 'Open';
-		document.removeEventListener('click', this.handleOffMenuClick);
-		if(this.transitionLength === undefined && document.readyState === 'complete') {
-			this.getTransitionLength();
-		}
-		setTimeout(function() {
-			if(this.container.classList.contains('menu-closed')) {
-				this.removeFromDOM();
-			}
-		}.bind(this), this.transitionLength);
 	}
 }
 
+Menu.prototype.updateButtonText = function(text) {
+	if(text === 'open') {
+		this.buttonText.textContent = 'Open';
+	}
+	else {
+		this.buttonText.textContent = 'Close';
+	}
+}
+
+
+// Menu utilities
 Menu.prototype.getTransitionLength = function() {
 	var transitionDelay = window.getComputedStyle(this.content).transitionDelay;
 	var transitionDuration = window.getComputedStyle(this.content).transitionDuration;
 	this.transitionLength = (parseFloat(transitionDelay) + parseFloat(transitionDuration)) * 1000;
 }
 
-Menu.prototype.handleViewportChange = function() {
-	if(this.pageIsWide.matches) {
-		this.addToDOM();
-	}
-	else {
-		// Ignore animation when closing menu
-		this.removeFromDOM();
-		this.closeMenu();
-	}
+Menu.prototype.setListenerOffMenu = function() {
+	document.addEventListener('click', this.reactToOffMenu);
 }
+
+Menu.prototype.removeListenerOffMenu = function() {
+	document.removeEventListener('click', this.reactToOffMenu);
+}
+
 
 // Polyfill for Element.closest
 if (!Element.prototype.matches) {
