@@ -27,8 +27,8 @@ function Menu(stateHolder, stateController, stateControllerText, contentHolder, 
 	this.button.addEventListener('click', this.reactToMenuButton.bind(this));
 
 	// Create a fixed variable so viewport width listener can be removed later
-	this.reactToOffMenu = function(event) {
-		this._reactToOffMenu(event);
+	this.reactToClickOffMenu = function(event) {
+		this._reactToClickOffMenu(event);
 	}.bind(this);
 }
 
@@ -42,14 +42,16 @@ Menu.prototype = {
 			setTimeout(function() {
 				this.updateClass('open');
 				this.updateButtonText('close');
-				this.setListenerOffMenu();
+				this.setListenerClickOffMenu();
+				this.setListenerScrollOutOfView();
 			}.bind(this), 50);
 		}
 
 		else if(newState === 'closed') {
 			this.updateClass('closed');
 			this.updateButtonText('open');
-			this.removeListenerOffMenu();
+			this.removeListenerClickOffMenu();
+			this.removeListenerScrollOutOfView();
 			// Get transition time for timeout
 			if(this.transitionLength === undefined && document.readyState === 'complete') {
 				this.getTransitionLength();
@@ -65,6 +67,8 @@ Menu.prototype = {
 
 		else if(newState === 'fixed') {
 			this.updateDOM('add');
+			this.removeListenerClickOffMenu();
+			this.removeListenerScrollOutOfView();
 		}
 
 		this._state = newState;
@@ -93,14 +97,20 @@ Menu.prototype.reactToMenuButton = function() {
 	}
 }
 
-Menu.prototype._reactToOffMenu = function(event) {
+Menu.prototype._reactToClickOffMenu = function(event) {
 	if(!event.target.closest('#site-nav-menu')) {
 		this.state = 'closed';
 	}
 }
 
+Menu.prototype.reactToScrollOutOfView = function(intersection) {
+	if(intersection[0].boundingClientRect.top + window.pageYOffset >= 0) {
+		this.state = 'closed';
+	}
+}
 
-// Menu handlers that react to state
+
+// Menu handlers that react to state change handler
 Menu.prototype.updateDOM = function(action) {
 	if(action === 'add') {
 		this.content.removeAttribute('style', 'display: none');
@@ -138,12 +148,25 @@ Menu.prototype.getTransitionLength = function() {
 	this.transitionLength = (parseFloat(transitionDelay) + parseFloat(transitionDuration)) * 1000;
 }
 
-Menu.prototype.setListenerOffMenu = function() {
-	document.addEventListener('click', this.reactToOffMenu);
+Menu.prototype.setListenerClickOffMenu = function() {
+	document.addEventListener('click', this.reactToClickOffMenu);
 }
 
-Menu.prototype.removeListenerOffMenu = function() {
-	document.removeEventListener('click', this.reactToOffMenu);
+Menu.prototype.removeListenerClickOffMenu = function() {
+	document.removeEventListener('click', this.reactToClickOffMenu);
+}
+
+Menu.prototype.setListenerScrollOutOfView =function() {
+	if('IntersectionObserver' in window) {
+		this.observer = new IntersectionObserver(this.reactToScrollOutOfView.bind(this), {threshold: 0.3});
+		this.observer.observe(this.content);
+	}
+}
+
+Menu.prototype.removeListenerScrollOutOfView =function() {
+	if(this.observer) {
+		this.observer.unobserve(this.content);
+	}
 }
 
 
