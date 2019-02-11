@@ -1,3 +1,10 @@
+// Start service worker
+if ('serviceWorker' in navigator) {
+	navigator.serviceWorker.register('/serviceworker.js');
+}
+
+
+// Start javascript events
 document.addEventListener('DOMContentLoaded', function() {
 	// Define DOM elements
 	menuHeader = document.querySelector('#site-header');
@@ -10,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
 }, {once: true});
 
 
+// Menu class
 function Menu(stateHolder, stateController, stateControllerText, contentHolder, mediaQuery) {
 	// Name arguments
 	this.container = stateHolder;
@@ -32,10 +40,14 @@ function Menu(stateHolder, stateController, stateControllerText, contentHolder, 
 	}.bind(this);
 }
 
+
 // Menu state change handler
 Menu.prototype = {
-	set state(newState) {
+	get state() {
+		return this._state;
+	},
 
+	set state(newState) {
 		if(newState === 'open') {
 			this.updateDOM('add');
 			// Wait for menu to be added to DOM before referencing it
@@ -48,6 +60,10 @@ Menu.prototype = {
 		}
 
 		else if(newState === 'closed') {
+			// Prevent transition on viewport change
+			if(this.state === 'fixed') {
+				this.updateDOM('remove');
+			}
 			this.updateClass('closed');
 			this.updateButtonText('open');
 			this.removeListenerClickOffMenu();
@@ -83,13 +99,11 @@ Menu.prototype.reactToViewport = function() {
 	}
 	else {
 		this.state = 'closed';
-		// Prevent transition on viewport change
-		this.updateDOM('remove');
 	}
 }
 
 Menu.prototype.reactToMenuButton = function() {
-	if(this._state === 'open') {
+	if(this.state === 'open') {
 		this.state = 'closed';
 	}
 	else {
