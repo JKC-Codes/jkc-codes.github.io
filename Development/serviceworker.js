@@ -5,7 +5,11 @@ self.addEventListener('install', function(event) {
 				'/',
 				'/css/site.css',
 				'/css/home.css',
-				'/js/site.js'
+				'/js/site.js',
+				'/img/icon-skills.svg',
+				'/img/icon-projects.svg',
+				'/img/icon-github.svg',
+				'/img/icon-linkedin.svg'
 			]);
 		})
 	);
