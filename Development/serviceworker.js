@@ -1,8 +1,8 @@
-self.addEventListener("install", function(event) {
+self.addEventListener('install', function(event) {
 	event.waitUntil(caches.open('offline')
 		.then(function(cache) {
 			return cache.addAll([
-				'/index.html',
+				'/',
 				'/css/site.css',
 				'/css/home.css',
 				'/js/site.js'
@@ -13,19 +13,27 @@ self.addEventListener("install", function(event) {
 
 
 self.addEventListener('fetch', function(event) {
-	if(event.request.method === 'GET') {
+	// Cache incoming requests only
+  if (event.request.method === 'GET') {
 		event.respondWith(
-			caches.match(event.request)
-			.then(function(resp) {
-				return resp || fetch(event.request)
-				.then(function(response) {
-					return caches.open('offline')
-					.then(function(cache) {
-						cache.put(event.request, response.clone());
-						return response;
-					});
-				});
+			// Get response from network
+			fetch(event.request)
+			.then(function(response) {
+				// Copy response as it can only be used once
+				var copyOfResponse = response.clone();
+				// Put network response in cache folder named offline
+				caches.open('offline')
+				.then(function(cache) {
+					cache.put(event.request, copyOfResponse);
+				})
+				// Serve response to browser
+				return response;
 			})
-		);
+			// If network response fails
+			.catch(function(error) {
+				// Return cache entry
+				return caches.match(event.request);
+			})
+		)
 	}
-});
+})
