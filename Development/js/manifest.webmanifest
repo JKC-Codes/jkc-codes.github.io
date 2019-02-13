@@ -1,0 +1,19 @@
+{
+	"lang": "en-GB",
+	"name": "John Kemp-Cruz's Portfolio",
+	"short_name": "John's Site",
+	"description": "Portfolio for John Kemp-Cruz, a front-end web developer in London, UK",
+	"scope": "../",
+	"icons": [
+  	{
+    	"src": "/img/favicon.png",
+    	"sizes": "250x250",
+    	"type": "image/png"
+  	}
+	],
+	"display": "minimal-ui",
+	"orientation": "any",
+	"start_url": "../",
+	"theme_color": "#203060",
+	"background_color": "#203060"
+}
