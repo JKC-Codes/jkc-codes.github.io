@@ -2,11 +2,16 @@
 	"lang": "en-GB",
 	"name": "John Kemp-Cruz's Portfolio",
 	"short_name": "John's Site",
-	"description": "Portfolio of John Kemp-Cruz, a front-end web developer in London, UK",
+	"description": "Portfolio of John Kemp-Cruz, a front-end web developer based in London, UK",
 	"scope": "../",
 	"icons": [
   	{
     	"src": "/img/favicon.png",
+    	"sizes": "32x32",
+    	"type": "image/png"
+  	},
+		{
+    	"src": "/img/icon.png",
     	"sizes": "250x250",
     	"type": "image/png"
   	}
