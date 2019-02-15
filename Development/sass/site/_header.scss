@@ -6,8 +6,8 @@
 
 background: $colour-brand;
 
-@supports (grid-area: auto) {
-	@media (min-width: $mq-header-wide) {
+@media (min-width: $mq-header-wide) {
+	@supports (grid-area: auto) {
 		width: 9.5rem;
 	}
 }
@@ -53,6 +53,10 @@ background: $colour-brand;
 			margin-top: 0.5rem;
 		}
 	}
+}
+
+.navigation {
+	height: 100%;
 }
 
 .menu-button {
@@ -119,38 +123,43 @@ background: $colour-brand;
 			transform: translate(-7.5%, 2.5%) rotate(45deg);
 		}
 	}
+
+	@media (max-width: $mq-header-narrow - 0.0625rem) {
+		&[aria-expanded] {
+			display: block;
+		}
+
+		&[aria-expanded="false"] {
+			color: $colour-text;
+
+			.menu-button-icon {
+				.line-top-left,
+				.line-top-right,
+				.line-mid-left,
+				.line-mid-right,
+				.line-bottom-left,
+				.line-bottom-right {
+					fill: $colour-brand;
+					transform: none;
+				}
+			}
+		}
+	}
 }
 
-@media (max-width: $mq-header-narrow - 0.0625rem) {
-	&[class^="menu"] .menu-button {
-		display: block;
-	}
-
-	&.menu-closed .menu-button {
-		color: $colour-text;
-	}
-}
-
-&.menu-closed .menu-button-icon {
-	.line-top-left,
-	.line-top-right,
-	.line-mid-left,
-	.line-mid-right,
-	.line-bottom-left,
-	.line-bottom-right {
-		fill: $colour-brand;
-		transform: none;
-	}
-}
-
-.navigation {
+.navigation-links {
 	@extend %transition;
 	transition-property: transform, background-color;
+	list-style-type: none;
 	top: 0;
 	left: 0;
 	width: 100%;
 	padding: 1.25rem 2.5rem 2.5rem;
 	background: transparentize($colour-brand,0.05);
+	margin: 0 0 0 auto; // auto left margin fixes flexbox bug in Internet Explorer
+	@supports not (display: -ms-flexbox) {
+		margin-left: 0;
+	}
 
 	@media (min-width: $mq-header-narrow) {
 		transition: none;
@@ -158,13 +167,14 @@ background: $colour-brand;
 		flex-wrap: wrap;
 		justify-content: space-between;
 		align-items: center;
-		padding: 0.75rem 1rem 0rem;
+		padding: 0.75rem 1rem;
 	}
 
-	@supports (grid-area: auto) {
-		@media (min-width: $mq-header-wide) {
+	@media (min-width: $mq-header-wide) {
+		@supports (grid-area: auto) {
+			display: grid;
 			align-items: start;
-			justify-content: space-around;
+			grid-row-gap: 1.25rem;
 			padding: 2rem 1rem;
 		}
 	}
@@ -173,100 +183,96 @@ background: $colour-brand;
 		position: sticky;
 	}
 
-	&-name {
-		color: white;
-		line-height: 1rem;
-		font-size: 1.25rem;
-		font-weight: 700;
-		text-decoration: none;
+	li {
+		margin: 1.5rem 0 0;
 
-		@media (min-width: $mq-header-narrow) {
-			margin: 0 3rem 1rem 0;
-			font-size: 100%;
-		}
-	}
-
-	@media (min-width: $mq-header-wide) { // Can't nest due to VSCode errors
-		&-name {
-			@supports (grid-area: auto) {
-				transform: translateX(-0.5rem) rotate(-90deg);
-				white-space: nowrap;
-				width: 1rem;
-				margin: 7rem 0 0;
-			}
-
-			@supports (writing-mode: sideways-lr) and (grid-area: auto) {
-				transform: none;
-				width: auto;
-				margin: 0 1rem 0 0;
-				writing-mode: sideways-lr;
-			}
-		}
-	}
-
-	&-links {
-		@extend %no-bullets;
-		margin: 0 0 0 auto; // auto left margin fixes flexbox bug in Internet Explorer
-
-		@supports not (display: -ms-flexbox) {
-			margin-left: 0;
-		}
-
-		li {
-			margin: 1.5rem 0 0;
-		}
-
-		a {
-			color: white;
-		}
-
-		img {
-			border-radius: 50%;
-			margin-right: 0.5rem;
-			max-height: 2rem;
-			vertical-align: middle;
+		&:first-child {
+			margin-top: 0;
 		}
 
 		@media (min-width: $mq-header-narrow) {
-			display: flex;
-			margin-bottom: 1rem;
+			margin: 0;
 
-			li {
-				margin: 0;
+			&:first-child {
+				flex-grow: 1;
 			}
 
-			li + li {
+			& + li {
 				margin-left: 2rem;
 			}
-
-			img {
-				max-height: 1.25rem;
-				margin-right: 0.25rem;
-			}
 		}
 
-		@supports (grid-area: auto) {
-			@media (min-width: $mq-header-wide) {
-				display: list-item;
-				margin: 0;
+		@media (min-width: $mq-header-wide) {
+			@supports (grid-area: auto) {
+				grid-column: 2;
 
-				li + li {
-					margin: 1.25rem 0;
+				&:first-child{
+					grid-row: 1/5;
+					grid-column: 1;
+				}
+
+				& + li {
+					margin-left: 0;
 				}
 			}
+		}
+	}
+
+	a {
+		color: white;
+	}
+
+	img {
+		border-radius: 50%;
+		margin-right: 0.5rem;
+		max-height: 2rem;
+		vertical-align: middle;
+
+		@media (min-width: $mq-header-narrow) {
+			max-height: 1.25rem;
+			margin-right: 0.25rem;
 		}
 	}
 }
 
 @media (max-width: $mq-header-narrow - 0.0625rem) {
-	&[class^="menu"] .navigation {
+	.menu-button[aria-expanded] ~ .navigation-links {
 		position: absolute;
 	}
 
-	&.menu-closed .navigation {
+	.menu-button[aria-expanded="false"] ~ .navigation-links {
 		background: transparent;
 		transform: translateY(-100%);
 	}
 }
+
+.navigation-name {
+	line-height: 1rem;
+	font-size: 1.25rem;
+	font-weight: 700;
+	text-decoration: none;
+
+	@media (min-width: $mq-header-narrow) {
+		font-size: 100%;
+	}
+
+	@media (min-width: $mq-header-wide) {
+		@supports (grid-area: auto) {
+			display: block;
+			transform: rotate(-90deg);
+			margin-top: 7rem;
+			white-space: nowrap;
+			width: 1rem;
+		}
+
+		@supports (writing-mode: sideways-lr) and (grid-area: auto) {
+			transform: none;
+			width: auto;
+			margin: 0 1rem 0 0;
+			writing-mode: sideways-lr;
+		}
+	}
+}
+
 
 }
