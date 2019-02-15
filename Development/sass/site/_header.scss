@@ -156,10 +156,8 @@ background: $colour-brand;
 	width: 100%;
 	padding: 1.25rem 2.5rem 2.5rem;
 	background: transparentize($colour-brand,0.05);
-	margin: 0 0 0 auto; // auto left margin fixes flexbox bug in Internet Explorer
-	@supports not (display: -ms-flexbox) {
-		margin-left: 0;
-	}
+	margin: 0;
+
 
 	@media (min-width: $mq-header-narrow) {
 		transition: none;
