@@ -129,10 +129,6 @@ background: $colour-brand;
 		position: sticky;
 	}
 
-	&-heading {
-		@extend %hide-visually;
-	}
-
 	&-name {
 		color: white;
 		line-height: 1rem;
