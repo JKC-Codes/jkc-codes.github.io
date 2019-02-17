@@ -10,12 +10,14 @@
 <link rel="stylesheet" href="/css/credits.css">
 <script src="/js/site.js" defer></script>
 <link rel="manifest" href="/js/manifest.webmanifest">
+<meta name="theme-color" content="#203060">
 <meta name="author" content="John Kemp-Cruz">
 <meta name="description" content="Portfolio of John Kemp-Cruz, a front-end web developer based in London, UK">
-<meta property="og:title" content="John Kemp-Cruz's Portfolio">
+<meta property="og:title" content="John Kemp-Cruz — Credits">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jkc.codes/">
 <meta property="og:image" content="/img/icon.png">
+<meta property="og:site_name" content="John Kemp-Cruz">
 <script type="application/ld+json">
 {
       "@context": "http://schema.org",
@@ -34,7 +36,9 @@
 <body>
 <div id="site-container">
 <header id="site-header">
-<button type="button" id="site-nav-menu-button" class="menu-button">
+<a href="#site-main" class="skip-to-content">Skip to main content</a>
+<nav id="site-nav-menu" class="navigation">
+<button type="button" aria-controls="site-nav-content" id="site-nav-menu-button" class="menu-button">
 <svg class="menu-button-icon" viewBox="0 0 100 100" aria-hidden="true">
 <rect class="line-top-left" x="0" y="0" width="60" height="20"/>
 <rect class="line-top-right" x="40" y="0" width="60" height="20"/>
@@ -45,21 +49,19 @@
 </svg>
 <span id="site-nav-menu-button-text">Open</span> menu
 </button>
-<nav id="site-nav-menu" class="navigation">
-<h2 class="navigation-heading">Site navigation</h2>
-<a href="/" class="navigation-name">John Kemp-Cruz</a>
-<ul class="navigation-links">
-<li><a href="/#skills"><img src="/img/icon-skills.svg" alt="An open book">Skills</a></li>
-<li><a href="/#projects"><img src="/img/icon-projects.svg" alt="A web page">Projects</a></li>
-<li><a href="https://github.com/JKC-Codes/" rel="noopener"><img src="/img/icon-github.svg" alt="Github's logo">GitHub</a></li>
-<li><a href="https://www.linkedin.com/in/johnkempcruz/" rel="noopener"><img src="/img/icon-linkedin.svg" alt="LinkedIn's logo">LinkedIn</a></li>
+<ul id="site-nav-content" class="navigation-links">
+<li><a href="/" class="navigation-name">John Kemp-Cruz</a></li>
+<li><a href="/#skills"><img src="/img/icon-skills.svg" alt="">Skills</a></li>
+<li><a href="/#projects"><img src="/img/icon-projects.svg" alt="">Projects</a></li>
+<li><a href="https://github.com/JKC-Codes/" rel="noopener"><img src="/img/icon-github.svg" alt="">GitHub</a></li>
+<li><a href="https://www.linkedin.com/in/johnkempcruz/" rel="noopener"><img src="/img/icon-linkedin.svg" alt="">LinkedIn</a></li>
 </ul>
 </nav>
 </header>
 <main id="site-main">
 <h1 id="page-heading">Credits</h1>
-<section id="images">
-<h2>Images</h2>
+<section id="images" aria-labelledby="images-heading">
+<h2 id="images-heading">Images</h2>
 <p>Icons sourced from <a href="https://www.iconfinder.com/">iconfinder.com</a></p>
 <ul class="images-list">
 <li><a href="https://www.iconfinder.com/icons/728912/book_education_knowledge_learning_library_reading_study_icon" rel="noopener"><img class="images-image" src="/img/icon-skills.svg" alt="An open book full of writing"></a></li>
@@ -68,8 +70,8 @@
 <li><a href="https://www.iconfinder.com/icons/834713/linkedin_icon" rel="noopener"><img class="images-image" src="/img/icon-linkedin.svg" alt="LinkedIn's logo"></a></li>
 </ul>
 </section>
-<section id="thanks">
-<h2>Thanks</h2>
+<section id="thanks" aria-labelledby="thanks-heading">
+<h2 id="thanks-heading">Thanks</h2>
 <p>This career would not have been possible without the generous help of the web development community.</p>
 <p>In particular, I would like to thank:</p>
 <ul>
@@ -77,7 +79,6 @@
 <li><a href="https://rachelandrew.co.uk/" rel="noopener" class="recipient">Rachel Andrew</a> for her various talks on CSS Grid, as well as <a href="http://csslayout.news/" rel="noopener">CSS Layout News</a></li>
 <li><a href="https://www.smashingmagazine.com/" rel="noopener" class="recipient">Smashing Magazine's</a> authors</li>
 <li><a href="http://jensimmons.com/" rel="noopener" class="recipient">Jen Simmons</a> for her <a href="https://www.youtube.com/channel/UC7TizprGknbDalbHplROtag" rel="noopener">Layout Land</a> videos</li>
-<li><a href="https://twitter.com/ChrisFerdinandi" rel="noopener" class="recipient">Chris Ferdinandi</a> for his <a href="https://gomakethings.com/" rel="noopener">daily tips</a></li>
 <li><a href="https://www.kevinpowell.co/" rel="noopener" class="recipient">Kevin Powell</a> for his <a href="https://www.youtube.com/user/KepowOb" rel="noopener">tips, tricks and tutorial videos</a></li>
 <li><a href="http://cwbuecheler.com/" rel="noopener" class="recipient">Christopher Buecheler</a> for his <a href="https://www.youtube.com/channel/UCuRrj99X_0F0Eoux7EOgbHw" rel="noopener">JS Quick Hits</a></li>
 <li><a href="https://marijnhaverbeke.nl/" rel="noopener" class="recipient">Marijn Haverbeke</a> for his <a href="http://eloquentjavascript.net/" rel="noopener">Eloquent JavaScript book</a></li>

@@ -10,12 +10,14 @@
 <link rel="stylesheet" href="/css/home.css">
 <script src="/js/site.js" defer></script>
 <link rel="manifest" href="/js/manifest.webmanifest">
+<meta name="theme-color" content="#203060">
 <meta name="author" content="John Kemp-Cruz">
 <meta name="description" content="Portfolio of John Kemp-Cruz, a front-end web developer based in London, UK">
-<meta property="og:title" content="John Kemp-Cruz's Portfolio">
+<meta property="og:title" content="John Kemp-Cruz — Home">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jkc.codes/">
 <meta property="og:image" content="/img/icon.png">
+<meta property="og:site_name" content="John Kemp-Cruz">
 <script type="application/ld+json">
 {
       "@context": "http://schema.org",
@@ -34,7 +36,9 @@
 <body>
 <div id="site-container">
 <header id="site-header">
-<button type="button" id="site-nav-menu-button" class="menu-button">
+<a href="#site-main" class="skip-to-content">Skip to main content</a>
+<nav id="site-nav-menu" class="navigation">
+<button type="button" aria-controls="site-nav-content" id="site-nav-menu-button" class="menu-button">
 <svg class="menu-button-icon" viewBox="0 0 100 100" aria-hidden="true">
 <rect class="line-top-left" x="0" y="0" width="60" height="20"/>
 <rect class="line-top-right" x="40" y="0" width="60" height="20"/>
@@ -45,27 +49,25 @@
 </svg>
 <span id="site-nav-menu-button-text">Open</span> menu
 </button>
-<nav id="site-nav-menu" class="navigation">
-<h2 class="navigation-heading">Site navigation</h2>
-<a href="/" class="navigation-name">John Kemp-Cruz</a>
-<ul class="navigation-links">
-<li><a href="/#skills"><img src="/img/icon-skills.svg" alt="An open book">Skills</a></li>
-<li><a href="/#projects"><img src="/img/icon-projects.svg" alt="A web page">Projects</a></li>
-<li><a href="https://github.com/JKC-Codes/" rel="noopener"><img src="/img/icon-github.svg" alt="Github's logo">GitHub</a></li>
-<li><a href="https://www.linkedin.com/in/johnkempcruz/" rel="noopener"><img src="/img/icon-linkedin.svg" alt="LinkedIn's logo">LinkedIn</a></li>
+<ul id="site-nav-content" class="navigation-links">
+<li><a href="/" class="navigation-name">John Kemp-Cruz</a></li>
+<li><a href="/#skills"><img src="/img/icon-skills.svg" alt="">Skills</a></li>
+<li><a href="/#projects"><img src="/img/icon-projects.svg" alt="">Projects</a></li>
+<li><a href="https://github.com/JKC-Codes/" rel="noopener"><img src="/img/icon-github.svg" alt="">GitHub</a></li>
+<li><a href="https://www.linkedin.com/in/johnkempcruz/" rel="noopener"><img src="/img/icon-linkedin.svg" alt="">LinkedIn</a></li>
 </ul>
 </nav>
 </header>
 <main id="site-main">
 <h1 id="page-heading">Home</h1>
-<section id="hero">
-<h2 class="heading">Overview</h2>
+<section id="hero" aria-labelledby="hero-heading">
+<h2 class="heading" id="hero-heading">Overview</h2>
 <p class="name">John Kemp-Cruz</p>
 <p class="job-title">Front-end web developer</p>
 <p class="location">London, UK</p>
 </section>
-<section id="skills">
-<h2>Skills</h2>
+<section id="skills" aria-labelledby="skills-heading">
+<h2 id="skills-heading">Skills</h2>
 <div class="skills">
 <section class="skill">
 <h3 class="skill-heading">HTML</h3>
@@ -105,8 +107,8 @@
 </section>
 </div>
 </section>
-<section id="projects">
-<h2>Projects</h2>
+<section id="projects" aria-labelledby="projects-heading">
+<h2 id="projects-heading">Projects</h2>
 <p class="introduction">All projects are fully responsive down to 320px width. Tested in IE11, Chrome, Firefox and Edge; sorry Safari users, I don't own an Apple device.</p>
 <article class="project">
 <h3 class="project-heading">Landing Page</h3>
@@ -147,8 +149,8 @@
 </div>
 </article>
 </section>
-<section id="contact">
-<h2>Contact</h2>
+<section id="contact" aria-labelledby="contact-heading">
+<h2 id="contact-heading">Contact</h2>
 <p class="text">Get in touch via <a class="link" href="https://www.linkedin.com/in/johnkempcruz/" rel="noopener">LinkedIn</a></p>
 </section>
 </main>
