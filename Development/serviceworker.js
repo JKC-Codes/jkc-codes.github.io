@@ -16,6 +16,12 @@ self.addEventListener('install', function(event) {
 });
 
 
+self.addEventListener('activate', function(event) {
+	// Start immediately instead of waiting for a page load
+	event.waitUntil(clients.claim());
+});
+
+
 self.addEventListener('fetch', function(event) {
 	// Cache incoming requests only
   if (event.request.method === 'GET') {
@@ -40,4 +46,4 @@ self.addEventListener('fetch', function(event) {
 			})
 		)
 	}
-})
+});
