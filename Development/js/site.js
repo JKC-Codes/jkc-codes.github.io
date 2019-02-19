@@ -32,7 +32,7 @@ function Menu(stateController, stateControllerText, contentHolder, mediaQuery) {
 	// Start menu button click listener
 	this.button.addEventListener('click', this.reactToMenuButton.bind(this));
 
-	// Create a fixed variable so viewport width listener can be removed later
+	// Create a fixed variable so click listener can be removed later
 	this.reactToClickOffMenu = function(event) {
 		this._reactToClickOffMenu(event);
 	}.bind(this);
@@ -166,14 +166,14 @@ Menu.prototype.removeListenerClickOffMenu = function() {
 	document.removeEventListener('click', this.reactToClickOffMenu);
 }
 
-Menu.prototype.setListenerScrollOutOfView =function() {
+Menu.prototype.setListenerScrollOutOfView = function() {
 	if('IntersectionObserver' in window) {
 		this.observer = new IntersectionObserver(this.reactToScrollOutOfView.bind(this), {threshold: 0.3});
 		this.observer.observe(this.container);
 	}
 }
 
-Menu.prototype.removeListenerScrollOutOfView =function() {
+Menu.prototype.removeListenerScrollOutOfView = function() {
 	if(this.observer) {
 		this.observer.unobserve(this.container);
 	}
