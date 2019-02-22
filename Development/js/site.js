@@ -32,9 +32,13 @@ function Menu(stateController, stateControllerText, contentHolder, mediaQuery) {
 	// Start menu button click listener
 	this.button.addEventListener('click', this.reactToMenuButton.bind(this));
 
-	// Create a fixed variable so click listener can be removed later
+	// Create fixed variables so listeners can be removed later
 	this.reactToClickOffMenu = function(event) {
 		this._reactToClickOffMenu(event);
+	}.bind(this);
+
+	this.reactToEscapeKey = function(event) {
+		this._reactToEscapeKey(event);
 	}.bind(this);
 }
 
@@ -53,6 +57,7 @@ Menu.prototype = {
 				this.updateView('open');
 				this.updateButtonText('close');
 				this.setListenerClickOffMenu();
+				this.setListenerEscapeKey();
 				this.setListenerScrollOutOfView();
 			}.bind(this), 50);
 		}
@@ -65,6 +70,7 @@ Menu.prototype = {
 			this.updateView('closed');
 			this.updateButtonText('open');
 			this.removeListenerClickOffMenu();
+			this.removeListenerEscapeKey();
 			this.removeListenerScrollOutOfView();
 			// Get transition time for timeout
 			if(this.transitionLength === undefined && document.readyState === 'complete') {
@@ -82,6 +88,7 @@ Menu.prototype = {
 		else if(newState === 'fixed') {
 			this.updateDOM('add');
 			this.removeListenerClickOffMenu();
+			this.removeListenerEscapeKey();
 			this.removeListenerScrollOutOfView();
 		}
 
@@ -111,6 +118,12 @@ Menu.prototype.reactToMenuButton = function() {
 
 Menu.prototype._reactToClickOffMenu = function(event) {
 	if(!event.target.closest('#site-nav-content')) {
+		this.state = 'closed';
+	}
+}
+
+Menu.prototype._reactToEscapeKey = function(event) {
+	if(event.key === 'Escape' || event.key === 'Esc') {
 		this.state = 'closed';
 	}
 }
@@ -164,6 +177,14 @@ Menu.prototype.setListenerClickOffMenu = function() {
 
 Menu.prototype.removeListenerClickOffMenu = function() {
 	document.removeEventListener('click', this.reactToClickOffMenu);
+}
+
+Menu.prototype.setListenerEscapeKey = function() {
+	document.addEventListener('keyup', this.reactToEscapeKey);
+}
+
+Menu.prototype.removeListenerEscapeKey = function() {
+	document.removeEventListener('keyup', this.reactToEscapeKey);
 }
 
 Menu.prototype.setListenerScrollOutOfView = function() {
