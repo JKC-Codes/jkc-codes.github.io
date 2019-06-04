@@ -6,15 +6,15 @@
   "dependencies": {},
   "devDependencies": {
     "@11ty/eleventy": "^0.8.3",
-    "dart-sass": "^1.20.1",
+    "dart-sass": "^1.20.3",
     "del": "^4.1.1",
     "delay-cli": "^1.1.0",
-    "gulp": "^4.0.1",
+    "gulp": "^4.0.2",
     "gulp-htmlmin": "^5.0.1",
     "gulp-imagemin": "^5.0.3",
     "gulp-sass": "^4.0.2",
-    "gulp-terser": "^1.1.7",
-    "netlify-cli": "^2.11.15",
+    "gulp-terser": "^1.2.0",
+    "netlify-cli": "^2.11.19",
     "npm-run-all": "^4.1.5"
   },
   "scripts": {
