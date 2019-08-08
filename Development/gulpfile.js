@@ -9,7 +9,7 @@ const
 	imagemin = require('gulp-imagemin')
 ;
 
-sass.compiler = require('dart-sass');
+sass.compiler = require('sass');
 
 function resetStaging() {
 	return del(['./staging/*']);
