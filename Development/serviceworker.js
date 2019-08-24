@@ -1,5 +1,5 @@
-const cacheName = 'offline';
-const initialCache = [
+const CACHE_NAME = 'offline';
+const INITIAL_CACHE = [
 	'/',
 	'/css/site.css',
 	'/css/home.css',
@@ -9,15 +9,15 @@ const initialCache = [
 	'/img/icon-github.svg',
 	'/img/icon-linkedin.svg'
 ];
-const maxWaitTime = 3000;
+const MAX_WAIT_TIME = 3000;
 
 
 self.addEventListener('install', event => {
 	// Create cache
-	event.waitUntil(caches.open(cacheName)
+	event.waitUntil(caches.open(CACHE_NAME)
 		.then(cache => {
 			// Add common files to the cache
-			return cache.addAll(initialCache);
+			cache.addAll(INITIAL_CACHE);
 		})
 	);
 });
@@ -32,65 +32,71 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
 	// Cache incoming requests only
   if (event.request.method === 'GET') {
-		event.respondWith(
-			new Promise((resolve, reject) => {
-				let loaded = false;
-				// Wait a maximum time before returning the cache
-				let timeLimit;
-				function setTimeLimit() {
-					timeLimit = setTimeout(() => {
-						if(!loaded) {
-							loaded = true;
-							resolve(caches.match(event.request));
-						}
-					}, maxWaitTime)
-				}
 
-				// Check for cached version
-				caches.match(event.request)
-				.then(cacheResponse => {
-					if(cacheResponse) {
-						// Start countdown
-						setTimeLimit();
-					}
-				})
-
-				// Get response from network
-				fetch(event.request)
-				.then(response => {
-					// Copy response as it can only be used once
-					let copyOfResponse = response.clone();
-					// Put copy of network response in cache
-					caches.open(cacheName)
-					.then(cache => {
-						cache.put(event.request, copyOfResponse);
-					})
-					// Serve response to browser
-					if(!loaded) {
-						loaded = true;
-						clearTimeout(timeLimit);
-						resolve(response);
-					}
-				})
-				// If network response fails, try the cache
-				.catch(error => {
-					// Check for cache entry
-					caches.match(event.request)
-					.then(cacheResponse => {
-						if(cacheResponse) {
-							// Return cache entry if available
-							if(!loaded) {
-								loaded = true;
-								clearTimeout(timeLimit);
-								resolve(caches.match(event.request));
-							}
-						} else {
-							// Throw if nothing available
-							return reject(new Error(error));
-						}
-					})
-				})
+		// Update the cache with new response
+		function updateCache(response) {
+			caches.open(CACHE_NAME)
+			.then(cache => {
+				cache.put(event.request, response);
 			})
-		);
+		}
+
+		// Return cache matching the request
+		function getCache(request) {
+			return caches.match(request)
+			.then(cacheResponse => {
+				if(cacheResponse) {
+					return cacheResponse;
+				} else {
+					throw new Error('No cache entry');
+				}
+			})
+			.catch(error => {
+				throw error;
+			})
+		}
+
+		// Respond to fetch request
+		let eventResponse = new Promise((resolve, reject) => {
+			// Ensure cache from network before service worker is shut down
+			event.waitUntil(
+				fetch(event.request)
+				.then(networkResponse => {
+					// Response can only be used once so must be cloned
+					updateCache(networkResponse.clone());
+					resolve(networkResponse)
+				})
+				.catch(networkError => {
+					getCache(event.request)
+					.then(cacheResponse => {
+						resolve(cacheResponse);
+					})
+					.catch(cacheError => {
+						let failureResponse = new Response(null, {
+							'url': event.request.url,
+							'status': 404
+						});
+						resolve(failureResponse);
+					})
+				})
+				// Load from cache is no longer necessary
+				.then(() => {
+					clearTimeout(countdown);
+				})
+			)
+
+			// Wait x seconds for the network before going to the cache
+			var countdown;
+			caches.match(event.request)
+			.then(cacheResponse => {
+				if(cacheResponse) {
+					countdown = setTimeout(() => {
+						resolve(cacheResponse);
+					}, MAX_WAIT_TIME, cacheResponse);
+				}
+			})
+		});
+
+		event.respondWith(eventResponse)
 	}
 });
