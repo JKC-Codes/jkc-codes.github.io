@@ -74,7 +74,8 @@ self.addEventListener('fetch', event => {
 					.catch(cacheError => {
 						let failureResponse = new Response(null, {
 							'url': event.request.url,
-							'status': 404
+							'status': 404,
+							'statusText': 'Not Found'
 						});
 						resolve(failureResponse);
 					})
