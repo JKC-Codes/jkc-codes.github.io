@@ -66,19 +66,19 @@ self.addEventListener('fetch', event => {
 					updateCache(networkResponse.clone());
 					resolve(networkResponse)
 				})
-				.catch(networkError => {
-					getCache(event.request)
+				.catch(async networkError => {
+					await getCache(event.request)
 					.then(cacheResponse => {
 						resolve(cacheResponse);
 					})
-					.catch(cacheError => {
-						let failureResponse = new Response(null, {
-							'url': event.request.url,
-							'status': 404,
-							'statusText': 'Not Found'
-						});
-						resolve(failureResponse);
-					})
+				})
+				.catch(cacheError => {
+					let failureResponse = new Response(null, {
+						'url': event.request.url,
+						'status': 404,
+						'statusText': 'Not Found'
+					});
+					resolve(failureResponse);
 				})
 				// Load from cache is no longer necessary
 				.then(() => {
