@@ -39,7 +39,7 @@ async function updateCache(request, response) {
 }
 
 // Fetch request then cache and return response
-async function networkResponse(request) {
+async function getNetworkResponse(request) {
 	return await fetch(request)
 	.then(networkResponse => {
 		// Response can only be used once so must be cloned
@@ -49,7 +49,7 @@ async function networkResponse(request) {
 }
 
 // Return response from cache
-async function cacheResponse(request) {
+async function getCacheResponse(request) {
 	return await caches.match(request)
 	.then(cacheResponse => {
 		if(cacheResponse) {
@@ -63,18 +63,33 @@ async function cacheResponse(request) {
 self.addEventListener('fetch', event => {
 	// Cache incoming requests only
 	if (event.request.method === 'GET') {
-		event.respondWith(
-			networkResponse(event.request)
+		event.respondWith(new Promise(resolve => {
+			// Set time limit before cache is returned automatically
+			let timeLimit = setTimeout((request) => {
+				caches.match(request)
+				.then(cacheResponse => {
+					if(cacheResponse) {
+						resolve(cacheResponse);
+					}
+				})
+			}, MAX_WAIT_TIME, event.request)
+
+			// Respond with network request with cache as fallback
+			getNetworkResponse(event.request)
 			.catch(()=> {
-				return cacheResponse(event.request)
+				return getCacheResponse(event.request)
 			})
-			.catch(error => {
+			.catch(() => {
 				return new Response(null, {
 					'url': event.request.url,
 					'status': 404,
 					'statusText': 'Not Found'
 				});
 			})
-		)
+			.then(response => {
+				resolve(response);
+				clearTimeout(timeLimit);
+			})
+		}))
 	}
 });
