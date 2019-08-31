@@ -9,7 +9,6 @@ const INITIAL_CACHE = [
 	'/img/icon-github.svg',
 	'/img/icon-linkedin.svg'
 ];
-const MAX_WAIT_TIME = 3000;
 
 
 self.addEventListener('install', event => {
@@ -63,18 +62,7 @@ async function getCacheResponse(request) {
 self.addEventListener('fetch', event => {
 	// Cache incoming requests only
 	if (event.request.method === 'GET') {
-		event.respondWith(new Promise(resolve => {
-			// Set time limit before cache is returned automatically
-			let timeLimit = setTimeout((request) => {
-				caches.match(request)
-				.then(cacheResponse => {
-					if(cacheResponse) {
-						resolve(cacheResponse);
-					}
-				})
-			}, MAX_WAIT_TIME, event.request)
-
-			// Respond with network request with cache as fallback
+		event.respondWith(
 			getNetworkResponse(event.request)
 			.catch(()=> {
 				return getCacheResponse(event.request)
@@ -86,10 +74,6 @@ self.addEventListener('fetch', event => {
 					'statusText': 'Not Found'
 				});
 			})
-			.then(response => {
-				resolve(response);
-				clearTimeout(timeLimit);
-			})
-		}))
+		)
 	}
 });
