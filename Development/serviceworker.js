@@ -68,6 +68,7 @@ self.addEventListener('fetch', event => {
 				return getCacheResponse(event.request)
 			})
 			.catch(() => {
+				// Show a 404 in network console rather than net::ERR_FAILED
 				return new Response(null, {
 					'url': event.request.url,
 					'status': 404,
