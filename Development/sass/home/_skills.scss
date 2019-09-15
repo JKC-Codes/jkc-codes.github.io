@@ -18,7 +18,7 @@ margin-top: $spacing * 4;
 		display: flex;
 	}
 
-	max-width: 31.5rem; // Grid fallback
+	max-width: 65ch; // Grid fallback
 	margin: $spacing auto 0; // Grid fallback
 	@supports (grid-area: auto) {
 		max-width: none;

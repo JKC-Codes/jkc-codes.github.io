@@ -4,7 +4,7 @@ margin-top: $spacing * 4;
 
 margin-left: auto; // Grid fallback
 margin-right: auto; // Grid fallback
-max-width: $mq-projects-wide; // Grid fallback
+max-width: 65ch; // Grid fallback
 @supports (grid-area: auto) {
 	max-width: none;
 }
@@ -15,8 +15,6 @@ max-width: $mq-projects-wide; // Grid fallback
 }
 
 .project {
-	@extend %group; // Grid fallback
-
 	margin-top: $spacing * 2.5;
 
 	&:first-of-type {
@@ -24,32 +22,32 @@ max-width: $mq-projects-wide; // Grid fallback
 	}
 
 	@media (min-width: $mq-projects-wide) {
+		$image-column: calc(50% - #{$spacing/2});
+		$text-column: minmax(min-content, max-content);
+
 		display: grid;
 		grid-template-rows: min-content min-content;
-		grid-template-columns: calc(50% - #{$spacing/2}) minmax(min-content, max-content);
+		grid-template-columns: $image-column $text-column;
 		grid-column-gap: $spacing;
-		justify-content: left;
 
 		&:nth-of-type(2n) {
-			grid-template-columns: minmax(min-content, max-content) calc(50% - #{$spacing/2});
+			grid-template-columns: $text-column $image-column;
 			justify-content: right;
 		}
 	}
 
 	&-heading {
-		@supports (grid-area: auto) {
-			@media (min-width: $mq-projects-wide) {
+		@media (min-width: $mq-projects-wide) {
+			@supports (grid-area: auto) {
 				grid-column: 2;
 				margin: 0;
 			}
 		}
 	}
 
-	&:nth-of-type(2n) {
-		& .project-heading {
-			@media (min-width: $mq-projects-wide) {
-				grid-column: 1;
-			}
+	&:nth-of-type(2n) .project-heading {
+		@media (min-width: $mq-projects-wide) {
+			grid-column: 1;
 		}
 	}
 
@@ -66,48 +64,31 @@ max-width: $mq-projects-wide; // Grid fallback
 		@media (min-width: $mq-projects-wide) {
 			grid-row: 1/-1;
 			grid-column: 1;
+			width: 100%; // Required because of Edge not calculating max-width: 100% correctly
 			height: 100%;
-			float: left; // Grid fallback
-			width: auto; // Grid fallback
-			max-height: 25rem; // Grid fallback
-			margin-right: $spacing; // Grid fallback
-		}
+			max-height: none;
 
-		@supports (grid-area: auto) {
-			@media (min-width: $mq-projects-wide) {
-				width: 100%;
-				max-height: none;
-				margin-right: 0;
-			}
-		}
-
-		@supports (display: -ms-grid) { // Workaround for Edge not rendering {grid-template-rows: min-content;} properly
-			@media (min-width: $mq-projects-wide) {
-				max-height: 25rem;
+			@supports (display: -ms-grid) { // Workaround for Edge not rendering {grid-template-rows: min-content;} properly
+				max-height: 24rem;
 			}
 		}
 	}
 
-	&:nth-of-type(2n) {
-		& .project-screenshot {
-			@media (min-width: $mq-projects-wide) {
-				grid-column: 2;
-			}
+	&:nth-of-type(2n) .project-screenshot {
+		@media (min-width: $mq-projects-wide) {
+			grid-column: 2;
 		}
 	}
 
 	&-details {
 		@media (min-width: $mq-projects-wide) {
-			float: left; // Grid fallback
 			grid-column: 2;
 		}
 	}
 
-	&:nth-of-type(2n) {
-		& .project-details {
-			@media (min-width: $mq-projects-wide) {
-				grid-column: 1;
-			}
+	&:nth-of-type(2n) .project-details {
+		@media (min-width: $mq-projects-wide) {
+			grid-column: 1;
 		}
 	}
 
