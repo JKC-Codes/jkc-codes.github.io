@@ -84,7 +84,6 @@ max-width: $mq-projects-wide; // Grid fallback
 		@supports (display: -ms-grid) { // Workaround for Edge not rendering {grid-template-rows: min-content;} properly
 			@media (min-width: $mq-projects-wide) {
 				max-height: 25rem;
-				width: 100%;
 			}
 		}
 	}
