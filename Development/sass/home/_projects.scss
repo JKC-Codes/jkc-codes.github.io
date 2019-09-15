@@ -55,7 +55,6 @@ max-width: $mq-projects-wide; // Grid fallback
 
 	&-screenshot {
 		width: 100vw;
-		max-height: none; // Object-fit fallback
 		object-fit: cover;
 		object-position: top left;
 		border: 1px solid $colour-decorate;
