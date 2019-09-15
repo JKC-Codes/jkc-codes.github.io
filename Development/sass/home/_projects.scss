@@ -67,10 +67,10 @@ max-width: $mq-projects-wide; // Grid fallback
 			grid-row: 1/-1;
 			grid-column: 1;
 			height: 100%;
-			float: left; // Grid fallback;
-			width: auto; // Grid fallback;
-			max-height: 25rem; // Grid fallback;
-			margin-right: $spacing; // Grid fallback;
+			float: left; // Grid fallback
+			width: auto; // Grid fallback
+			max-height: 25rem; // Grid fallback
+			margin-right: $spacing; // Grid fallback
 		}
 
 		@supports (grid-area: auto) {
@@ -99,6 +99,7 @@ max-width: $mq-projects-wide; // Grid fallback
 
 	&-details {
 		@media (min-width: $mq-projects-wide) {
+			float: left; // Grid fallback
 			grid-column: 2;
 		}
 	}
