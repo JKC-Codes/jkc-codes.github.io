@@ -7,27 +7,27 @@ if ('serviceWorker' in navigator) {
 // Start javascript events
 document.addEventListener('DOMContentLoaded', function() {
 	// Define DOM elements
-	menuButton = document.querySelector('#site-nav-menu-button');
-	menuButtonText = menuButton.querySelector('#site-nav-menu-button-text');
-	menuContent = document.querySelector('#site-nav-content');
+	var menuButton = document.querySelector('#site-nav-menu-button');
+	var menuButtonText = menuButton.querySelector('#site-nav-menu-button-text');
+	var menuContent = document.querySelector('#site-nav-content');
 
 	// Activate site nav menu
-	new Menu(menuButton, menuButtonText, menuContent, '48rem');
+	var siteNavMenu = new Menu(menuButton, menuButtonText, menuContent, '48rem');
 }, {once: true});
 
 
 // Menu class
-function Menu(stateController, stateControllerText, contentHolder, mediaQuery) {
+function Menu(stateController, stateControllerText, contentHolder, mediaQueryValue) {
 	// Name arguments
 	this.button = stateController;
 	this.text = stateControllerText;
 	this.container = contentHolder;
-	this.mediaQuery = mediaQuery;
+	this.minWidth = mediaQueryValue;
 
 	// Start viewport width listener
-	this.pageIsWide = window.matchMedia('(min-width: '+ this.mediaQuery +')');
-	this.pageIsWide.addListener(this.reactToViewport.bind(this));
-	this.reactToViewport(this.pageIsWide);
+	var mediaQuery = window.matchMedia('(min-width: '+ this.minWidth +')');
+	mediaQuery.addListener(this.reactToViewport.bind(this));
+	this.reactToViewport(mediaQuery);
 
 	// Start menu button click listener
 	this.button.addEventListener('click', this.reactToMenuButton.bind(this));
@@ -55,10 +55,8 @@ Menu.prototype = {
 			// Wait for menu to be added to DOM before referencing it
 			setTimeout(function() {
 				this.updateView('open');
-				this.updateButtonText('close');
-				this.setListenerClickOffMenu();
-				this.setListenerEscapeKey();
-				this.setListenerScrollOutOfView();
+				this.updateButtonText('Close');
+				this.updateListeners('add');
 			}.bind(this), 50);
 		}
 
@@ -68,10 +66,8 @@ Menu.prototype = {
 				this.updateDOM('remove');
 			}
 			this.updateView('closed');
-			this.updateButtonText('open');
-			this.removeListenerClickOffMenu();
-			this.removeListenerEscapeKey();
-			this.removeListenerScrollOutOfView();
+			this.updateButtonText('Open');
+			this.updateListeners('remove');
 			// Get transition time for timeout
 			if(this.transitionLength === undefined && document.readyState === 'complete') {
 				this.getTransitionLength();
@@ -87,9 +83,7 @@ Menu.prototype = {
 
 		else if(newState === 'fixed') {
 			this.updateDOM('add');
-			this.removeListenerClickOffMenu();
-			this.removeListenerEscapeKey();
-			this.removeListenerScrollOutOfView();
+			this.updateListeners('remove');
 		}
 
 		this._state = newState;
@@ -98,8 +92,8 @@ Menu.prototype = {
 
 
 // Menu listeners that change state
-Menu.prototype.reactToViewport = function() {
-	if(this.pageIsWide.matches) {
+Menu.prototype.reactToViewport = function(mediaQuery) {
+	if(mediaQuery.matches) {
 		this.state = 'fixed';
 	}
 	else {
@@ -129,7 +123,7 @@ Menu.prototype._reactToEscapeKey = function(event) {
 }
 
 Menu.prototype.reactToScrollOutOfView = function(intersection) {
-	if(intersection[0].boundingClientRect.top + window.pageYOffset >= 0) {
+	if((intersection[0].boundingClientRect.top + window.pageYOffset) >= 0) {
 		this.state = 'closed';
 	}
 }
@@ -140,64 +134,48 @@ Menu.prototype.updateDOM = function(action) {
 	if(action === 'add') {
 		this.container.removeAttribute('style', 'display: none');
 	}
-	else {
+	else if(action === 'remove') {
 		this.container.style.display = 'none';
 	}
 }
 
-Menu.prototype.updateView = function(name) {
-	if(name === 'open') {
+Menu.prototype.updateView = function(state) {
+	if(state === 'open') {
 		this.button.setAttribute('aria-expanded', 'true');
 	}
-	else {
+	else if(state === 'closed') {
 		this.button.setAttribute('aria-expanded', 'false');
 	}
 }
 
 Menu.prototype.updateButtonText = function(text) {
-	if(text === 'open') {
-		this.text.textContent = 'Open';
+	this.text.textContent = text;
+}
+
+Menu.prototype.updateListeners = function(action) {
+	if(action === 'add') {
+		document.addEventListener('click', this.reactToClickOffMenu);
+		document.addEventListener('keyup', this.reactToEscapeKey);
+		if('IntersectionObserver' in window) {
+			this.observer = new IntersectionObserver(this.reactToScrollOutOfView.bind(this), {threshold: 0.3});
+			this.observer.observe(this.container);
+		}
 	}
-	else {
-		this.text.textContent = 'Close';
+	else if(action === 'remove') {
+		document.removeEventListener('click', this.reactToClickOffMenu);
+		document.removeEventListener('keyup', this.reactToEscapeKey);
+		if(this.observer) {
+			this.observer.unobserve(this.container);
+		}
 	}
 }
 
-
-// Menu utilities
 Menu.prototype.getTransitionLength = function() {
-	var transitionDelay = window.getComputedStyle(this.container).transitionDelay;
-	var transitionDuration = window.getComputedStyle(this.container).transitionDuration;
-	this.transitionLength = (parseFloat(transitionDelay) + parseFloat(transitionDuration)) * 1000;
-}
+	var containerStyles = window.getComputedStyle(this.container);
+	var transitionDelay = parseFloat(containerStyles.transitionDelay);
+	var transitionDuration = parseFloat(containerStyles.transitionDuration);
 
-Menu.prototype.setListenerClickOffMenu = function() {
-	document.addEventListener('click', this.reactToClickOffMenu);
-}
-
-Menu.prototype.removeListenerClickOffMenu = function() {
-	document.removeEventListener('click', this.reactToClickOffMenu);
-}
-
-Menu.prototype.setListenerEscapeKey = function() {
-	document.addEventListener('keyup', this.reactToEscapeKey);
-}
-
-Menu.prototype.removeListenerEscapeKey = function() {
-	document.removeEventListener('keyup', this.reactToEscapeKey);
-}
-
-Menu.prototype.setListenerScrollOutOfView = function() {
-	if('IntersectionObserver' in window) {
-		this.observer = new IntersectionObserver(this.reactToScrollOutOfView.bind(this), {threshold: 0.3});
-		this.observer.observe(this.container);
-	}
-}
-
-Menu.prototype.removeListenerScrollOutOfView = function() {
-	if(this.observer) {
-		this.observer.unobserve(this.container);
-	}
+	this.transitionLength = (transitionDelay + transitionDuration) * 1000;
 }
 
 
