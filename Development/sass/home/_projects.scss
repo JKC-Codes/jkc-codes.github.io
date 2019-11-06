@@ -15,6 +15,9 @@ max-width: 65ch; // Grid fallback
 }
 
 .project {
+	$image-column: calc(50% - #{$spacing/2});
+
+	position: relative;
 	margin-top: $spacing * 2.5;
 
 	&:first-of-type {
@@ -22,16 +25,13 @@ max-width: 65ch; // Grid fallback
 	}
 
 	@media (min-width: $mq-projects-wide) {
-		$image-column: calc(50% - #{$spacing/2});
-		$text-column: minmax(min-content, max-content);
-
 		display: grid;
 		grid-template-rows: min-content min-content;
-		grid-template-columns: $image-column $text-column;
+		grid-template-columns: $image-column auto;
 		grid-column-gap: $spacing;
 
 		&:nth-of-type(2n) {
-			grid-template-columns: $text-column $image-column;
+			grid-template-columns: auto $image-column;
 			justify-content: right;
 		}
 	}
@@ -62,21 +62,18 @@ max-width: 65ch; // Grid fallback
 		}
 
 		@media (min-width: $mq-projects-wide) {
-			grid-row: 1/-1;
-			grid-column: 1;
-			width: 100%; // Required because of Edge not calculating max-width: 100% correctly
 			height: 100%;
 			max-height: none;
-
-			@supports (display: -ms-grid) { // Workaround for Edge not rendering {grid-template-rows: min-content;} properly
-				max-height: 24rem;
+			@supports (grid-area: auto) {
+				position: absolute; // Grid fallback
+				width: $image-column; // Grid fallback
 			}
 		}
 	}
 
 	&:nth-of-type(2n) .project-screenshot {
 		@media (min-width: $mq-projects-wide) {
-			grid-column: 2;
+			left: calc(50% + #{$spacing/2});
 		}
 	}
 
