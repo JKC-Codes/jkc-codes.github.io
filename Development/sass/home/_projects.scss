@@ -65,8 +65,8 @@ max-width: 65ch; // Grid fallback
 			height: 100%;
 			max-height: none;
 			@supports (grid-area: auto) {
-				position: absolute; // Grid fallback
-				width: $image-column; // Grid fallback
+				position: absolute;
+				width: $image-column;
 			}
 		}
 	}
