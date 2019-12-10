@@ -258,18 +258,19 @@ background: $colour-brand;
 
 	@media (min-width: $mq-header-wide) {
 		@supports (grid-area: auto) {
-			display: block;
-			transform: rotate(-90deg);
-			margin-top: 7rem;
-			white-space: nowrap;
-			width: 1rem;
-		}
-
-		@supports (writing-mode: sideways-lr) and (grid-area: auto) {
-			transform: none;
-			width: auto;
-			margin: 0 1rem 0 0;
 			writing-mode: sideways-lr;
+
+			@supports (not (writing-mode: sideways-lr)) {
+				display: block;
+				transform: rotate(-90deg);
+				margin-top: 7rem;
+				white-space: nowrap;
+				width: 1rem;
+
+				&:active {
+					background-color: transparent; // Prevents a:active background from showing
+				}
+			}
 		}
 	}
 }

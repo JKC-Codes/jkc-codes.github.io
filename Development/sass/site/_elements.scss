@@ -44,21 +44,21 @@ h4 {
 }
 
 a:link {
- color: $colour-complement;
+	color: $colour-brand;
 }
 
 a:visited {
- color: $colour-brand;
+	color: $colour-complement;
 }
 
 a:hover {
-	color: $colour-brand;
-	text-decoration-style: dotted;
+	color: $colour-complement;
+	text-decoration-style: dashed;
 }
 
 a:active {
- color: $colour-contrast;
- text-decoration-color: $colour-contrast;
+	border-radius: $border-rounded;
+	background-color: transparentize($colour-contrast, 0.25);
 }
 
 img {
