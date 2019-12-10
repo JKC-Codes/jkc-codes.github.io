@@ -17,7 +17,7 @@
 	@media (min-width: $mq-contact-narrow) {
 		.text {
 			display: inline-block;
-			color: hsl(225, 7.5%, 48.25%);
+			color: $colour-minimal;
 			border: 1px solid $colour-decorate;
 			border-radius: $border-rounded;
 			padding-left: 1rem;
