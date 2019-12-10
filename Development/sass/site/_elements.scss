@@ -58,7 +58,7 @@ a:hover {
 
 a:active {
 	border-radius: $border-rounded;
-	background-color: transparentize($colour-contrast, 0.25);
+	background-color: transparentize($colour-contrast, 0.75);
 }
 
 img {
