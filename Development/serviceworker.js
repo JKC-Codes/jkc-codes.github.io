@@ -4,10 +4,10 @@ const INITIAL_CACHE = [
 	'/css/site.css',
 	'/css/home.css',
 	'/js/site.js',
-	'/img/icon-skills.svg',
-	'/img/icon-projects.svg',
-	'/img/icon-github.svg',
-	'/img/icon-linkedin.svg'
+	'/img/site/icon-skills.svg',
+	'/img/site/icon-projects.svg',
+	'/img/site/icon-github.svg',
+	'/img/site/icon-linkedin.svg'
 ];
 
 
