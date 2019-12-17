@@ -66,6 +66,8 @@ max-width: 65ch; // Grid fallback
 			max-height: none;
 			@supports (grid-area: auto) {
 				position: absolute;
+				top: 0;
+				left: 0;
 				width: $image-column;
 			}
 		}
@@ -73,7 +75,8 @@ max-width: 65ch; // Grid fallback
 
 	&:nth-of-type(2n) .project-screenshot {
 		@media (min-width: $mq-projects-wide) {
-			left: calc(50% + #{$spacing/2});
+			left: auto;
+			right: 0;
 		}
 	}
 
