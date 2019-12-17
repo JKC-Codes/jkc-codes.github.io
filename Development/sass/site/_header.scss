@@ -261,15 +261,8 @@ background: $colour-brand;
 			writing-mode: sideways-lr;
 
 			@supports (not (writing-mode: sideways-lr)) {
-				display: block;
-				transform: rotate(-90deg);
-				margin-top: 7rem;
-				white-space: nowrap;
-				width: 1rem;
-
-				&:active {
-					background-color: transparent; // Prevents a:active background from showing
-				}
+				writing-mode: vertical-lr;
+				transform: rotate(-180deg);
 			}
 		}
 	}
