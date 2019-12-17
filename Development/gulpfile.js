@@ -12,7 +12,7 @@ const
 sass.compiler = require('sass');
 
 function resetStaging() {
-	return del(['./staging/*']);
+	return del([baseFolder + '*']);
 }
 
 function eleventy() {
@@ -53,6 +53,9 @@ function js() {
 function img() {
 	return gulp.src(baseFolder + '**/img/**')
 		.pipe(imagemin([
+			imagemin.gifsicle(),
+			imagemin.jpegtran(),
+			imagemin.optipng(),
 			imagemin.svgo({plugins: [{removeViewBox: false}]})
 		]))
 		.pipe(gulp.dest(baseFolder));

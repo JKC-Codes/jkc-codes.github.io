@@ -21,7 +21,8 @@
     "eleventy": "eleventy --serve",
     "sass": "sass sass:css --watch --no-source-map",
     "browser": "delay 1.5 && start firefox.exe -private-window http://localhost:8080",
-    "start": "npm-run-all --parallel sass eleventy browser"
+    "start": "npm-run-all --parallel sass eleventy browser",
+    "restart": "npm-run-all --parallel sass eleventy"
   },
   "author": "John Kemp-Cruz",
   "license": "GPL-3.0-or-later",
