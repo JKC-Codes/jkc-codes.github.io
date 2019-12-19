@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg19"
+   version="1.1"
+   viewBox="0 0 135.467 135.467"
+   height="512"
+   width="512">
+  <metadata
+     id="metadata23">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs2" />
+  <defs
+     id="defs7">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="a">
+      <path
+         id="path4"
+         paint-order="markers stroke fill"
+         d="M25.997 21.172h131.256v86.829H25.997z"
+         stroke-width="0"
+         stroke-linecap="square"
+         stroke="#000"
+         fill="#5e7d6d" />
+    </clipPath>
+  </defs>
+  <path
+     id="path9"
+     paint-order="markers stroke fill"
+     d="M0 0h135.467v135.467H0z"
+     fill="#203060" />
+  <g
+     transform="matrix(0.7568585,0,0,0.7568585,16.468825,16.473858)"
+     id="g839">
+    <path
+       d="m 42.92,27.443 v 80.503 H 61.07 V 86.34 l 9.384,-12.347 19.632,33.954 h 18.39 c -0.005,-0.08 -0.002,-0.16 0,-0.245 0,-0.01 0,0.003 0.001,-0.004 v -0.199 c 0.313,-0.92 -0.094,-0.446 0.645,-0.97 L 81.196,59.544 105.52,27.442 H 85.518 L 61.564,60.41 H 61.07 V 27.443 Z m 66.614,79.778 c -0.023,0.012 -0.048,0.023 -0.07,0.036 l 0.071,-0.033 z m -0.07,0.036 h -0.001 a 0.04,0.04 0 0 1 -0.01,0.005 l -0.018,0.016 -0.003,0.006 0.104,-0.058 v -0.002 c -0.01,0.003 -0.043,0.018 -0.073,0.032 z m -0.03,0.021 0.004,-0.006 c -0.002,0 -0.026,0.015 -0.036,0.021 -0.018,0.011 -0.034,0.025 -0.051,0.037 l 0.065,-0.036 0.02,-0.016 z m 0.004,-0.006 c 0,0 0.018,-0.01 0.016,-0.01 l -0.016,0.008 z m -0.081,0.047 c -0.1,0.057 -0.18,0.107 -0.008,0.013 z m -0.008,0.013 c -0.02,0.014 -0.04,0.027 -0.058,0.043 -0.014,0.012 -0.032,0.038 -0.049,0.059 l 0.084,-0.066 a 0.926,0.926 0 0 1 0.023,-0.036 z m -0.127,0.07 c -0.02,0.006 -0.197,0.18 -0.147,0.15 0.029,-0.019 0.055,-0.04 0.083,-0.059 0.02,-0.027 0.043,-0.053 0.062,-0.082 0.005,-0.007 0.005,-0.01 0.002,-0.01 z m -0.601,0.288 c -0.008,-0.008 0.017,0.044 0.037,0.086 l 0.001,-0.022 -0.012,-0.024 a 0.292,0.292 0 0 0 -0.026,-0.04 z m -0.119,0.093 a 0.54,0.54 0 0 0 -0.006,0.164 h 0.002 c 0,-0.054 -0.002,-0.107 0.004,-0.164 z M 42.884,60.736 V 78.19 c 0,5.35 -0.864,9.055 -2.592,11.112 -1.647,1.976 -4.116,2.963 -7.409,2.963 -2.058,0 -4.074,-0.658 -6.05,-1.975 -1.975,-1.317 -3.704,-3.333 -5.186,-6.05 L 9.3,93.377 c 2.798,4.939 6.256,8.602 10.372,10.99 4.198,2.386 9.383,3.58 15.557,3.58 26.583,1.114 24.962,-42.618 7.655,-47.211 z m 46.493,-12.3 c 1.497,-1.524 3.165,-2.731 5.004,-3.619 2.47,-1.235 5.062,-1.852 7.779,-1.852 2.88,0 5.433,0.617 7.655,1.852 2.305,1.152 4.487,2.675 6.544,4.569 l 9.631,-11.607 c -2.716,-2.799 -6.132,-5.227 -10.248,-7.285 a 29.027,29.027 0 0 0 -9.869,-3.043 C 92.702,27.888 86.125,43.075 89.377,48.435 Z"
+       font-size="123.472"
+       font-weight="700"
+       letter-spacing="0"
+       word-spacing="0"
+       style="font-weight:700;font-size:123.47200012px;line-height:1.25;font-family:'Source Sans Pro';-inkscape-font-specification:'Source Sans Pro, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0;word-spacing:0;fill:#fffff7"
+       id="path11" />
+    <path
+       d="m 117.88,85.99 c -1.975,2.14 -4.28,3.95 -6.914,5.432 -2.551,1.4 -5.473,2.1 -8.766,2.1 -19.324,-9.527 -11.492,15.637 -0.74,15.68 10.618,0 19.302,-3.95 26.052,-11.853 z"
+       clip-path="url(#a)"
+       font-size="123.472"
+       font-weight="700"
+       letter-spacing="0"
+       transform="translate(-1.345,-0.039)"
+       word-spacing="0"
+       style="font-weight:700;font-size:123.47200012px;line-height:1.25;font-family:'Source Sans Pro';-inkscape-font-specification:'Source Sans Pro, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;letter-spacing:0;word-spacing:0;fill:#ffffff"
+       id="path13" />
+    <path
+       style="fill:#203060;stroke:#203060;stroke-width:0.26499999"
+       d="M 42.788,107.947 V 27.443 m 38.585,32.089 24.374,-32.181"
+       id="path15" />
+    <path
+       style="fill:none;stroke:#203060;stroke-width:0.26499999"
+       d="m 82.291,61.133 27.925,46.982"
+       id="path17" />
+  </g>
+</svg>
