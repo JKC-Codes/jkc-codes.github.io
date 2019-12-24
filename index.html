@@ -4,11 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Home — John Kemp-Cruz</title>
-<link rel="icon" href="/img/favicon.png" type="image/png" sizes="32x32">
-<link rel="icon" href="/img/icon.png" type="image/png" sizes="250x250">
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/home.css">
 <script src="/js/site.js" defer></script>
+<link rel="icon" href="/img/site/icon-site-16x16.png" type="image/png" sizes="16x16">
+<link rel="icon" href="/img/site/icon-site-32x32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/img/site/icon-site-192x192.png" sizes="192x192">
+<link rel="mask-icon" href="/img/site/icon-site-apple-mask.svg" color="#203060">
+<link rel="icon" href="/img/site/icon-site.svg" type="image/svg+xml" sizes="any">
 <link rel="manifest" href="/js/manifest.webmanifest">
 <meta name="theme-color" content="#203060">
 <meta name="author" content="John Kemp-Cruz">
@@ -16,7 +19,7 @@
 <meta property="og:title" content="John Kemp-Cruz — Home">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jkc.codes/">
-<meta property="og:image" content="/img/icon.png">
+<meta property="og:image" content="/img/site/icon-site-512x512.png">
 <meta property="og:site_name" content="John Kemp-Cruz">
 <script type="application/ld+json">
 {
@@ -51,10 +54,10 @@
 </button>
 <ul id="site-nav-content" class="navigation-links">
 <li><a href="/" class="navigation-name">John Kemp-Cruz</a></li>
-<li><a href="/#skills"><img src="/img/icon-skills.svg" alt="" width="128" height="128">Skills</a></li>
-<li><a href="/#projects"><img src="/img/icon-projects.svg" alt="" width="128" height="128">Projects</a></li>
-<li><a href="https://github.com/JKC-Codes/" rel="noopener"><img src="/img/icon-github.svg" alt="" width="128" height="128">GitHub</a></li>
-<li><a href="https://www.linkedin.com/in/johnkempcruz/" rel="noopener"><img src="/img/icon-linkedin.svg" alt="" width="128" height="128">LinkedIn</a></li>
+<li><a href="/#skills"><img src="/img/site/icon-skills.svg" alt="" width="128" height="128">Skills</a></li>
+<li><a href="/#projects"><img src="/img/site/icon-projects.svg" alt="" width="128" height="128">Projects</a></li>
+<li><a href="https://github.com/JKC-Codes/" rel="noopener"><img src="/img/site/icon-github.svg" alt="" width="128" height="128">GitHub</a></li>
+<li><a href="https://www.linkedin.com/in/johnkempcruz/" rel="noopener"><img src="/img/site/icon-linkedin.svg" alt="" width="128" height="128">LinkedIn</a></li>
 </ul>
 </nav>
 </header>
@@ -112,7 +115,21 @@
 <p class="introduction">All projects are fully responsive down to 320px width. Tested in IE11, Chrome, Firefox and Edge; sorry Safari users, I don't own an Apple device.</p>
 <article class="project">
 <h3 class="project-heading">Landing Page</h3>
-<img class="project-screenshot" srcset="/img/brewery-website-screenshot-2x.jpg 2x" src="/img/brewery-website-screenshot.jpg" alt="Screenshot of Brewery Website project" width="1150" height="2300">
+<picture>
+<source type="image/webp" sizes="
+					(min-width: 110rem) 39.375rem,
+					(min-width: 95rem) calc((100vw - 31.25rem) / 2),
+					(min-width: 50rem) calc((100vw - 7.5rem) / 2),
+					calc(100vw - 2.5rem)
+				" srcset="/img/home/screenshot-brewery-website-480w.webp 480w, /img/home/screenshot-brewery-website-688w.webp 688w, /img/home/screenshot-brewery-website-896w.webp 896w, /img/home/screenshot-brewery-website-1104w.webp 1104w, /img/home/screenshot-brewery-website-1312w.webp 1312w, /img/home/screenshot-brewery-website-1520w.webp 1520w">
+<source type="image/jpeg" sizes="
+					(min-width: 110rem) 39.375rem,
+					(min-width: 95rem) calc((100vw - 31.25rem) / 2),
+					(min-width: 50rem) calc((100vw - 7.5rem) / 2),
+					calc(100vw - 2.5rem)
+				" srcset="/img/home/screenshot-brewery-website-480w.jpg 480w, /img/home/screenshot-brewery-website-600w.jpg 600w, /img/home/screenshot-brewery-website-740w.jpg 740w, /img/home/screenshot-brewery-website-880w.jpg 880w, /img/home/screenshot-brewery-website-980w.jpg 980w, /img/home/screenshot-brewery-website-1120w.jpg 1120w, /img/home/screenshot-brewery-website-1220w.jpg 1220w, /img/home/screenshot-brewery-website-1340w.jpg 1340w, /img/home/screenshot-brewery-website-1440w.jpg 1440w, /img/home/screenshot-brewery-website-1520w.jpg 1520w">
+<img class="project-screenshot" src="/img/home/screenshot-brewery-website-740w.jpg" alt="Screenshot of Brewery Website project" width="740" height="1222">
+</picture>
 <div class="project-details">
 <h4>Objective</h4>
 <p>Using a <a href="https://github.com/kevin-powell/brewery-start/blob/master/Brewery%20Homepage%20-%20desktop.png" rel="noopener">reference image</a> build a "pixel perfect" landing page for a brewery.</p>
@@ -131,7 +148,21 @@
 </article>
 <article class="project">
 <h3 class="project-heading">Help Site</h3>
-<img class="project-screenshot" srcset="/img/labdrakes-help-screenshot-2x.jpg 2x" src="/img/labdrakes-help-screenshot.jpg" alt="Screenshot of Labdrakes Help project" width="1200" height="1400">
+<picture>
+<source type="image/webp" sizes="
+					(min-width: 110rem) 39.375rem,
+					(min-width: 95rem) calc((100vw - 31.25rem) / 2),
+					(min-width: 50rem) calc((100vw - 7.5rem) / 2),
+					calc(100vw - 2.5rem)
+				" srcset="/img/home/screenshot-labdrakes-help-480w.webp 480w, /img/home/screenshot-labdrakes-help-688w.webp 688w, /img/home/screenshot-labdrakes-help-896w.webp 896w, /img/home/screenshot-labdrakes-help-1104w.webp 1104w, /img/home/screenshot-labdrakes-help-1312w.webp 1312w, /img/home/screenshot-labdrakes-help-1520w.webp 1520w">
+<source type="image/jpeg" sizes="
+					(min-width: 110rem) 39.375rem,
+					(min-width: 95rem) calc((100vw - 31.25rem) / 2),
+					(min-width: 50rem) calc((100vw - 7.5rem) / 2),
+					calc(100vw - 2.5rem)
+				" srcset="/img/home/screenshot-labdrakes-help-480w.jpg 480w, /img/home/screenshot-labdrakes-help-640w.jpg 640w, /img/home/screenshot-labdrakes-help-800w.jpg 800w, /img/home/screenshot-labdrakes-help-860w.jpg 860w, /img/home/screenshot-labdrakes-help-960w.jpg 960w, /img/home/screenshot-labdrakes-help-1040w.jpg 1040w, /img/home/screenshot-labdrakes-help-1200w.jpg 1200w, /img/home/screenshot-labdrakes-help-1220w.jpg 1220w, /img/home/screenshot-labdrakes-help-1280w.jpg 1280w, /img/home/screenshot-labdrakes-help-1360w.jpg 1360w, /img/home/screenshot-labdrakes-help-1440w.jpg 1440w, /img/home/screenshot-labdrakes-help-1520w.jpg 1520w">
+<img class="project-screenshot" src="/img/home/screenshot-labdrakes-help-800w.jpg" alt="Screenshot of Labdrakes Help project" width="884" height="1039">
+</picture>
 <div class="project-details">
 <h4>Objective</h4>
 <p>Design and build a full website from scratch.</p>
@@ -155,7 +186,7 @@
 </section>
 </main>
 <footer id="site-footer">
-<p><small>Site built using <a href="https://11ty.io/" rel="noopener">Eleventy</a> and knowledge from <a href="/credits/">several wonderful people</a>.</small></p>
+<p><small>Site built using <a href="https://www.11ty.dev/" rel="noopener">Eleventy</a> and knowledge from <a href="/credits/">several wonderful people</a>.</small></p>
 <p><small>Source code available at <a href="https://github.com/JKC-Codes/jkc-codes.github.io" rel="noopener">GitHub</a>.</small></p>
 <p><small>&copy; John Kemp-Cruz <time datetime="2018">2018</time>&ndash;<time datetime="2019">2019</time></small></p>
 </footer>
