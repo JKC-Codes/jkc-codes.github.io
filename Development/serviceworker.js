@@ -59,13 +59,41 @@ async function getCacheResponse(request) {
 	})
 }
 
+// Return alternatively sized image from cache
+async function getAlternativeCacheResponse(request) {
+	if(request.destination === 'image') {
+		return await caches.open(CACHE_NAME)
+		.then(cache => {
+			return cache.matchAll()
+		})
+		.then(matches => {
+			const fileName = request.url.slice(0, request.url.lastIndexOf('-'));
+			const alternativeCacheEntry = matches.find(entry => {
+				return entry.url.includes(fileName);
+			})
+			if(alternativeCacheEntry) {
+				return alternativeCacheEntry;
+			}
+			else {
+				throw new Error(`No alternative cache entry for ${request.url}`);
+			}
+		})
+	}
+	else {
+		throw new Error(`No alternative cache entry for ${request.url}`);
+	}
+}
+
 self.addEventListener('fetch', event => {
 	// Cache incoming requests only
-	if (event.request.method === 'GET') {
+	if(event.request.method === 'GET') {
 		event.respondWith(
 			getNetworkResponse(event.request)
 			.catch(()=> {
-				return getCacheResponse(event.request)
+				return getCacheResponse(event.request);
+			})
+			.catch(()=> {
+				return getAlternativeCacheResponse(event.request);
 			})
 			.catch(() => {
 				// Show a 404 in network console rather than net::ERR_FAILED
