@@ -59,29 +59,29 @@ async function getCacheResponse(request) {
 	})
 }
 
-// Return alternatively sized image from cache
+// Return alternative response from cache
 async function getAlternativeCacheResponse(request) {
 	if(request.destination === 'image') {
 		return await caches.open(CACHE_NAME)
 		.then(cache => {
 			return cache.matchAll()
 		})
-		.then(matches => {
+		.then(cacheEntries => {
 			const fileName = request.url.slice(0, request.url.lastIndexOf('-'));
-			const alternativeCacheEntry = matches.find(entry => {
+			const matches = cacheEntries.filter(entry => {
 				return entry.url.includes(fileName);
 			})
-			if(alternativeCacheEntry) {
-				return alternativeCacheEntry;
-			}
-			else {
-				throw new Error(`No alternative cache entry for ${request.url}`);
+			const match = matches.reduce((acc, cur) => {
+				const acca = acc.headers.get('Content-Length');
+				const curr = cur.headers.get('Content-Length');
+				return (acca > curr ? acc : cur);
+			})
+			if(match) {
+				return match;
 			}
 		})
 	}
-	else {
-		throw new Error(`No alternative cache entry for ${request.url}`);
-	}
+	throw new Error(`No alternative cache entry for ${request.url}`);
 }
 
 self.addEventListener('fetch', event => {
