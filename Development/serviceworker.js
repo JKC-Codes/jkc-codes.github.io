@@ -47,6 +47,31 @@ async function getNetworkResponse(request) {
 	})
 }
 
+// Return alternatively sized image from cache
+async function getAlternativeImage(request) {
+	return await caches.open(CACHE_NAME)
+	.then(cache => {
+		return cache.matchAll()
+	})
+	.then(cacheEntries => {
+		const fileName = request.url.slice(0, request.url.lastIndexOf('-'));
+		const matches = cacheEntries.filter(entry => {
+			return entry.url.includes(fileName);
+		})
+		const match = matches.reduce((acc, cur) => {
+			const accSize = acc.headers.get('Content-Length');
+			const curSize = cur.headers.get('Content-Length');
+			return (accSize > curSize ? acc : cur);
+		})
+		if(match) {
+			return match;
+		}
+		else {
+			throw new Error(`No alternative cache entry for ${request.url}`);
+		}
+	})
+}
+
 // Return response from cache
 async function getCacheResponse(request) {
 	return await caches.match(request)
@@ -57,32 +82,16 @@ async function getCacheResponse(request) {
 			throw new Error(`No cache entry for ${request.url}`);
 		}
 	})
+	.catch(error => {
+		if(request.destination === 'image') {
+			return getAlternativeImage(request);
+		}
+		else {
+			throw error;
+		}
+	})
 }
 
-// Return alternative response from cache
-async function getAlternativeCacheResponse(request) {
-	if(request.destination === 'image') {
-		return await caches.open(CACHE_NAME)
-		.then(cache => {
-			return cache.matchAll()
-		})
-		.then(cacheEntries => {
-			const fileName = request.url.slice(0, request.url.lastIndexOf('-'));
-			const matches = cacheEntries.filter(entry => {
-				return entry.url.includes(fileName);
-			})
-			const match = matches.reduce((acc, cur) => {
-				const acca = acc.headers.get('Content-Length');
-				const curr = cur.headers.get('Content-Length');
-				return (acca > curr ? acc : cur);
-			})
-			if(match) {
-				return match;
-			}
-		})
-	}
-	throw new Error(`No alternative cache entry for ${request.url}`);
-}
 
 self.addEventListener('fetch', event => {
 	// Cache incoming requests only
@@ -91,9 +100,6 @@ self.addEventListener('fetch', event => {
 			getNetworkResponse(event.request)
 			.catch(()=> {
 				return getCacheResponse(event.request);
-			})
-			.catch(()=> {
-				return getAlternativeCacheResponse(event.request);
 			})
 			.catch(() => {
 				// Show a 404 in network console rather than net::ERR_FAILED
