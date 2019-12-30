@@ -12,11 +12,9 @@ const INITIAL_CACHE = [
 
 
 self.addEventListener('install', event => {
-	// Create cache
 	event.waitUntil(
 		caches.open(CACHE_NAME)
 		.then(cache => {
-			// Add common files to the cache
 			cache.addAll(INITIAL_CACHE);
 		})
 	);
@@ -24,22 +22,19 @@ self.addEventListener('install', event => {
 
 
 self.addEventListener('activate', event => {
-	// Start immediately if no current worker instead of waiting for next page load
 	event.waitUntil(clients.claim());
 });
 
 
-// Update the cache with new response
-async function updateCache(request, response) {
-	await caches.open(CACHE_NAME)
+function updateCache(request, response) {
+	caches.open(CACHE_NAME)
 	.then(cache => {
 		cache.put(request, response);
 	})
 }
 
-// Fetch request then cache and return response
-async function getNetworkResponse(request) {
-	return await fetch(request)
+function getNetworkResponse(request) {
+	return fetch(request)
 	.then(networkResponse => {
 		// Response can only be used once so must be cloned
 		updateCache(request, networkResponse.clone());
@@ -47,9 +42,8 @@ async function getNetworkResponse(request) {
 	})
 }
 
-// Return alternatively sized image from cache
-async function getAlternativeImage(request) {
-	return await caches.open(CACHE_NAME)
+function getAlternativeImage(request) {
+	return caches.open(CACHE_NAME)
 	.then(cache => {
 		return cache.matchAll()
 	})
@@ -59,27 +53,23 @@ async function getAlternativeImage(request) {
 			return entry.url.includes(fileName);
 		})
 		const match = matches.reduce((acc, cur) => {
-			const accSize = acc.headers.get('Content-Length');
-			const curSize = cur.headers.get('Content-Length');
-			return (accSize > curSize ? acc : cur);
+			const sizeOf = response => response.headers.get('Content-Length');
+			return (sizeOf(acc) > sizeOf(cur) ? acc : cur);
 		})
-		if(match) {
-			return match;
-		}
-		else {
-			throw new Error(`No alternative cache entry for ${request.url}`);
-		}
+		return match;
+	})
+	.catch(() => {
+			throw new Error(`No alternative cache entry`);
 	})
 }
 
-// Return response from cache
-async function getCacheResponse(request) {
-	return await caches.match(request)
+function getCacheResponse(request) {
+	return caches.match(request)
 	.then(cacheResponse => {
 		if(cacheResponse) {
 			return cacheResponse;
 		} else {
-			throw new Error(`No cache entry for ${request.url}`);
+			throw new Error(`No cache entry`);
 		}
 	})
 	.catch(error => {
@@ -94,19 +84,17 @@ async function getCacheResponse(request) {
 
 
 self.addEventListener('fetch', event => {
-	// Cache incoming requests only
 	if(event.request.method === 'GET') {
 		event.respondWith(
 			getNetworkResponse(event.request)
 			.catch(()=> {
 				return getCacheResponse(event.request);
 			})
-			.catch(() => {
-				// Show a 404 in network console rather than net::ERR_FAILED
+			.catch(error => {
 				return new Response(null, {
 					'url': event.request.url,
 					'status': 404,
-					'statusText': 'Not Found'
+					'statusText': error.message
 				});
 			})
 		)
