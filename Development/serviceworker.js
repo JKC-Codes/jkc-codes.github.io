@@ -49,17 +49,15 @@ function getAlternativeImage(request) {
 	})
 	.then(cacheEntries => {
 		const fileName = request.url.slice(0, request.url.lastIndexOf('-'));
-		const matches = cacheEntries.filter(entry => {
+		return cacheEntries.filter(entry => {
 			return entry.url.includes(fileName);
-		})
-		const match = matches.reduce((acc, cur) => {
+		}).reduce((acc, cur) => {
 			const sizeOf = response => response.headers.get('Content-Length');
 			return (sizeOf(acc) > sizeOf(cur) ? acc : cur);
 		})
-		return match;
 	})
 	.catch(() => {
-			throw new Error(`No alternative cache entry`);
+			throw new Error('No alternative cache entry');
 	})
 }
 
@@ -69,7 +67,7 @@ function getCacheResponse(request) {
 		if(cacheResponse) {
 			return cacheResponse;
 		} else {
-			throw new Error(`No cache entry`);
+			throw new Error('No cache entry');
 		}
 	})
 	.catch(error => {
