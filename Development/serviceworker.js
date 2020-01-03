@@ -40,6 +40,9 @@ function getNetworkResponse(request) {
 		updateCache(request, networkResponse.clone());
 		return networkResponse;
 	})
+	.catch(()=> {
+		throw new Error('Network error')
+	})
 }
 
 function getAlternativeImage(request) {
@@ -80,21 +83,57 @@ function getCacheResponse(request) {
 	})
 }
 
+let countdown;
+function startCountdown(time) {
+	countdown = time;
+	let timer = setInterval(()=> {
+		countdown -= 50;
+		if(countdown <= 0) {
+			clearInterval(timer);
+		}
+	}, 50)
+}
+
 
 self.addEventListener('fetch', event => {
 	if(event.request.method === 'GET') {
-		event.respondWith(
-			getNetworkResponse(event.request)
+		event.respondWith(new Promise(fulfill => {
+			// Start timer at page load
+			if(event.request.destination === 'document') {
+				startCountdown(3000);
+			}
+
+			getCacheResponse(event.request)
+			.then(cacheEntry => {
+				if(countdown <= 0) {
+					event.waitUntil(getNetworkResponse(event.request))
+					return(cacheEntry);
+				}
+				else {
+					// Set time limit for network response
+					setTimeout(()=> {
+						fulfill(cacheEntry);
+					}, countdown)
+
+					return getNetworkResponse(event.request)
+					.catch(()=> {
+						return cacheEntry;
+					})
+				}
+			})
 			.catch(()=> {
-				return getCacheResponse(event.request);
+				return getNetworkResponse(event.request)
+				.catch(()=> {
+					return new Response(null, {
+						'url': event.request.url,
+						'status': 404,
+						'statusText': 'Not found'
+					})
+				})
 			})
-			.catch(error => {
-				return new Response(null, {
-					'url': event.request.url,
-					'status': 404,
-					'statusText': error.message
-				});
+			.then(response => {
+				fulfill(response);
 			})
-		)
+		}))
 	}
 });
