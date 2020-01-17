@@ -97,7 +97,7 @@ function startCountdown(time) {
 
 self.addEventListener('fetch', event => {
 	if(event.request.method === 'GET') {
-		event.respondWith(new Promise(fulfill => {
+		event.respondWith(new Promise(resolve => {
 			// Start timer at page load
 			if(event.request.destination === 'document') {
 				startCountdown(3000);
@@ -112,7 +112,7 @@ self.addEventListener('fetch', event => {
 				else {
 					// Set time limit for network response
 					setTimeout(()=> {
-						fulfill(cacheEntry);
+						resolve(cacheEntry);
 					}, countdown)
 
 					return getNetworkResponse(event.request)
@@ -132,7 +132,7 @@ self.addEventListener('fetch', event => {
 				})
 			})
 			.then(response => {
-				fulfill(response);
+				resolve(response);
 			})
 		}))
 	}
