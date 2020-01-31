@@ -117,9 +117,7 @@ max-width: 65ch; // Grid fallback
 	&-visit-site-link,
 	&-view-code-link {
 		@extend %button;
-		width: 10rem;
-		padding-left: 0;
-		padding-right: 0;
+		min-width: 10rem;
 
 		&:hover .project-view-code-text {
 			text-decoration: none;
