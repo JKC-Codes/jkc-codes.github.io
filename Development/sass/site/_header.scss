@@ -172,6 +172,7 @@ background: $colour-brand;
 		@supports (grid-area: auto) {
 			display: grid;
 			align-items: start;
+			grid-column-gap: 1rem;
 			grid-row-gap: 1.25rem;
 			padding: 2rem 1rem;
 		}
