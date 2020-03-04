@@ -5,17 +5,17 @@
   "main": "",
   "dependencies": {},
   "devDependencies": {
-    "@11ty/eleventy": "^0.10.0",
-    "del": "^5.1.0",
-    "delay-cli": "^1.1.0",
-    "gulp": "^4.0.2",
-    "gulp-htmlmin": "^5.0.1",
-    "gulp-imagemin": "^6.2.0",
-    "gulp-sass": "^4.0.2",
-    "gulp-terser": "^1.2.0",
-    "netlify-cli": "^2.25.0",
-    "npm-run-all": "^4.1.5",
-    "sass": "^1.24.3"
+    "@11ty/eleventy": "*",
+    "del": "*",
+    "delay-cli": "*",
+    "gulp": "*",
+    "gulp-htmlmin": "*",
+    "gulp-imagemin": "*",
+    "gulp-sass": "*",
+    "gulp-terser": "*",
+    "netlify-cli": "*",
+    "npm-run-all": "*",
+    "sass": "*"
   },
   "scripts": {
     "eleventy": "eleventy --serve",
