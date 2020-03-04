@@ -54,7 +54,7 @@ function img() {
 	return gulp.src(baseFolder + '**/img/**')
 		.pipe(imagemin([
 			imagemin.gifsicle(),
-			imagemin.jpegtran(),
+			imagemin.mozjpeg(),
 			imagemin.optipng(),
 			imagemin.svgo({plugins: [{removeViewBox: false}]})
 		]))
@@ -66,7 +66,7 @@ function netlify() {
 }
 
 function browser() {
-	return shell('start firefox.exe -private-window https://jkc-codes.netlify.com');
+	return shell('start firefox.exe -private-window https://jkc-codes.netlify.app');
 }
 
 gulp.task('stage', gulp.series(resetStaging, eleventy, gulp.parallel(html, css, js, img), netlify, browser));
