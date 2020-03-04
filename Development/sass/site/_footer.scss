@@ -6,4 +6,8 @@
 	a:not(:hover):not(:active) {
 		color: inherit;
 	}
+
+	.date-divider-text {
+		@extend %hide-visually;
+	}
 }
