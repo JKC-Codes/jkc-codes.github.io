@@ -1,43 +1,43 @@
 const
 	gulp = require('gulp'),
+	baseFolder = './staging/',
 	del = require('del'),
-	shell = require('child_process').exec,
-	baseFolder = `./staging/`,
 	htmlmin = require('gulp-htmlmin'),
 	sass = require('gulp-sass'),
 	terser = require('gulp-terser'),
-	imagemin = require('gulp-imagemin')
+	imagemin = require('gulp-imagemin'),
+	shell = require('child_process').exec
 ;
 
-sass.compiler = require('sass');
 
-function resetStaging() {
-	return del([baseFolder + '*']);
+function reset() {
+	return del(baseFolder);
 }
 
 function eleventy() {
-	return shell('eleventy');
+	return shell(`eleventy --output="${baseFolder}"`);
 }
 
 function html() {
 	return gulp.src(baseFolder + '**/*.html')
-    .pipe(htmlmin({
-			collapseBooleanAttributes: true,
-			collapseInlineTagWhitespace: true,
-			collapseWhitespace: true,
-			conservativeCollapse: true,
-			minifyCSS: true,
-			minifyJS: true,
-			preserveLineBreaks: true,
-			removeComments: true,
-			removeEmptyAttributes: true,
-			removeRedundantAttributes: true,
-			removeScriptTypeAttributes: true,
-			removeStyleLinkTypeAttributes: true
-		}))
-    .pipe(gulp.dest(baseFolder));
+	.pipe(htmlmin({
+		collapseBooleanAttributes: true,
+		collapseInlineTagWhitespace: true,
+		collapseWhitespace: true,
+		conservativeCollapse: true,
+		minifyCSS: true,
+		minifyJS: true,
+		preserveLineBreaks: true,
+		removeComments: true,
+		removeEmptyAttributes: true,
+		removeRedundantAttributes: true,
+		removeScriptTypeAttributes: true,
+		removeStyleLinkTypeAttributes: true
+	}))
+	.pipe(gulp.dest(baseFolder));
 }
 
+sass.compiler = require('sass');
 function css() {
 	return gulp.src('sass/**/*.scss')
 		.pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
@@ -64,25 +64,26 @@ function sw() {
 
 function img() {
 	return gulp.src(baseFolder + '**/img/**')
-		.pipe(imagemin([
-			imagemin.gifsicle(),
-			imagemin.mozjpeg(),
-			imagemin.optipng(),
-			imagemin.svgo({plugins: [{removeViewBox: false}]})
-		]))
+	.pipe(imagemin([
+		imagemin.gifsicle(),
+		imagemin.mozjpeg(),
+		imagemin.optipng(),
+		imagemin.svgo({plugins: [{removeViewBox: false}]})
+	]))
 		.pipe(gulp.dest(baseFolder));
 }
 
 function netlify() {
-	return shell('netlify deploy --dir=staging --prod');
+	return shell(`netlify deploy --dir=${baseFolder} --prod`);
 }
 
 function browser() {
 	return shell('start firefox.exe -private-window https://jkc-codes.netlify.app');
 }
 
-gulp.task('stage', gulp.series(
-	resetStaging,
+
+exports.stage = gulp.series(
+	reset,
 	eleventy,
 	gulp.parallel(
 		html,
@@ -90,6 +91,6 @@ gulp.task('stage', gulp.series(
 		gulp.series(js, sw),
 		img
 	),
- netlify,
- browser
-));
+	netlify,
+	browser
+);
