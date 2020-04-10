@@ -9,6 +9,7 @@ const INITIAL_CACHE = [
 	'/img/site/icon-github.svg',
 	'/img/site/icon-linkedin.svg'
 ];
+const TIME_LIMIT = 3000;
 
 
 self.addEventListener('install', event => {
@@ -51,6 +52,7 @@ function getAlternativeImage(request) {
 		return cache.matchAll()
 	})
 	.then(cacheEntries => {
+		// Remove size and extension from file name, e.g. "image-480.jpg" becomes "image"
 		const fileName = request.url.slice(0, request.url.lastIndexOf('-'));
 		return cacheEntries.filter(entry => {
 			return entry.url.includes(fileName);
@@ -86,12 +88,13 @@ function getCacheResponse(request) {
 let countdown;
 function startCountdown(time) {
 	countdown = time;
+	const INTERVAL = 50;
 	let timer = setInterval(()=> {
-		countdown -= 50;
+		countdown -= INTERVAL;
 		if(countdown <= 0) {
 			clearInterval(timer);
 		}
-	}, 50)
+	}, INTERVAL)
 }
 
 
@@ -100,7 +103,7 @@ self.addEventListener('fetch', event => {
 		event.respondWith(new Promise(resolve => {
 			// Start timer at page load
 			if(event.request.destination === 'document') {
-				startCountdown(3000);
+				startCountdown(TIME_LIMIT);
 			}
 
 			getCacheResponse(event.request)
