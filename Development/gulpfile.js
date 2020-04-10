@@ -50,6 +50,18 @@ function js() {
 		.pipe(gulp.dest(baseFolder));
 }
 
+function sw() {
+	return new Promise((resolve, reject) => {
+		gulp.src(baseFolder + 'js/serviceworker.js')
+			.pipe(gulp.dest(baseFolder))
+			.on('end', ()=> {
+				return del([baseFolder + 'js/serviceworker.js'])
+			})
+			.on('end', resolve)
+			.on('error', reject);
+	})
+}
+
 function img() {
 	return gulp.src(baseFolder + '**/img/**')
 		.pipe(imagemin([
@@ -69,4 +81,15 @@ function browser() {
 	return shell('start firefox.exe -private-window https://jkc-codes.netlify.app');
 }
 
-gulp.task('stage', gulp.series(resetStaging, eleventy, gulp.parallel(html, css, js, img), netlify, browser));
+gulp.task('stage', gulp.series(
+	resetStaging,
+	eleventy,
+	gulp.parallel(
+		html,
+		css,
+		gulp.series(js, sw),
+		img
+	),
+ netlify,
+ browser
+));
