@@ -74,9 +74,18 @@ background: $colour-brand;
 	border: none;
 	border-radius: 0.5rem;
 	background: none;
-	color: white;
+	color: $colour-text;
 	font-size: 0.7rem;
 	text-align: center;
+
+	// Only display when JavaScript has added ARIA attribute
+	&[aria-expanded] {
+		display: block;
+	}
+
+	&[aria-expanded="true"] {
+		color: white;
+	}
 
 	&:hover {
 		background: transparentize($colour-decorate,0.8);
@@ -96,55 +105,67 @@ background: $colour-brand;
 		.line-bottom-right {
 			@extend %transition;
 			transition-property: transform, fill;
-			fill: white;
+			fill:  $colour-brand;
 		}
 
 		.line-top-left {
-			transform-origin: 0% 10%;
-			transform: translate(7.5%, -2.5%) rotate(45deg);
+			transform-origin: 0% 10px;
 		}
 
 		.line-top-right {
-			transform-origin: 100% 10%;
-			transform: translate(-7.5%, -2.5%) rotate(-45deg);
+			transform-origin: 100% 10px;
 		}
 
 		.line-mid-left,
 		.line-mid-right {
 			transform-origin: center;
+		}
+
+		.line-bottom-left {
+			transform-origin: 0% calc(100% - 10px);
+		}
+
+		.line-bottom-right {
+			transform-origin: 100% calc(100% - 10px);
+		}
+
+	}
+
+	&[aria-expanded="true"] .menu-button-icon {
+		.line-top-left,
+		.line-top-right,
+		.line-mid-left,
+		.line-mid-right,
+		.line-bottom-left,
+		.line-bottom-right {
+			fill: white;
+		}
+
+		.line-top-left {
+			transform: translate(5px, -5px) rotate(45deg) scaleX(1.1);
+		}
+
+		.line-top-right {
+			transform: translate(-5px, -5px) rotate(-45deg) scaleX(1.1);
+		}
+
+		.line-mid-left,
+		.line-mid-right {
 			transform: scaleX(0);
 		}
 
 		.line-bottom-left {
-			transform-origin: 0% 90%;
-			transform: translate(7.5%, 2.5%) rotate(-45deg);
+			transform: translate(5px, 5px) rotate(-45deg) scaleX(1.1);
 		}
 
 		.line-bottom-right {
-			transform-origin: 100% 90%;
-			transform: translate(-7.5%, 2.5%) rotate(45deg);
+			transform: translate(-5px, 5px) rotate(45deg) scaleX(1.1);
 		}
 	}
 
-	@media (max-width: $mq-header-narrow - 0.0625rem) {
-		&[aria-expanded] {
-			display: block;
-		}
-
-		&[aria-expanded="false"] {
-			color: $colour-text;
-
-			.menu-button-icon {
-				.line-top-left,
-				.line-top-right,
-				.line-mid-left,
-				.line-mid-right,
-				.line-bottom-left,
-				.line-bottom-right {
-					fill: $colour-brand;
-					transform: none;
-				}
-			}
+	@media (min-width: $mq-header-narrow) {
+		&[aria-expanded] { // Extra specificity is required
+			display: none;
 		}
 	}
 }
@@ -157,9 +178,7 @@ background: $colour-brand;
 	left: 0;
 	width: 100%;
 	padding: 1.25rem 2.5rem 2.5rem;
-	background: transparentize($colour-brand,0.05);
 	margin: 0;
-
 
 	@media (min-width: $mq-header-narrow) {
 		transition: none;
@@ -238,14 +257,28 @@ background: $colour-brand;
 	}
 }
 
-@media (max-width: $mq-header-narrow - 0.0625rem) {
+// Only overlay when JavaScript has added ARIA attribute
+.menu-button[aria-expanded] ~ .navigation-links {
+	position: absolute;
+}
+
+.menu-button[aria-expanded="false"] ~ .navigation-links {
+	transform: translateY(-100%);
+	background: transparent;
+}
+
+.menu-button[aria-expanded="true"] ~ .navigation-links {
+	transform: translateY(0%);
+	background: transparentize($colour-brand,0.05);
+}
+
+@media (min-width: $mq-header-narrow) {
 	.menu-button[aria-expanded] ~ .navigation-links {
-		position: absolute;
+		position: static;
 	}
 
 	.menu-button[aria-expanded="false"] ~ .navigation-links {
-		background: transparent;
-		transform: translateY(-100%);
+		transform: translateY(0%);
 	}
 }
 
