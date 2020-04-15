@@ -2,7 +2,7 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy("./img/");
 	eleventyConfig.addPassthroughCopy("./js/");
 	eleventyConfig.addPassthroughCopy({"./js/serviceworker.js":"./serviceworker.js"});
-	eleventyConfig.addWatchTarget("./sass/");
+	eleventyConfig.addPassthroughCopy({"./.netlify/_redirects":"./_redirects"});
   return {
     dir: {
 			input: "html/",
