@@ -1,8 +1,6 @@
 const CACHE_NAME = 'offline';
 const INITIAL_CACHE = [
-	'/',
 	'/css/site.css',
-	'/css/home.css',
 	'/js/site.js',
 	'/img/site/icon-skills.svg',
 	'/img/site/icon-projects.svg',

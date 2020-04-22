@@ -1,6 +1,33 @@
 // Start service worker
 if ('serviceWorker' in navigator) {
 	navigator.serviceWorker.register('/serviceworker.js');
+
+	// Cache files downloaded before service worker started
+	if (!navigator.serviceWorker.controller) {
+		function fillCache() {
+			var initialCache = [];
+			initialCache.push(window.location.pathname);
+
+			var stylesheets = document.querySelectorAll('link[rel="stylesheet"');
+			stylesheets.forEach(function(stylesheet) {
+				initialCache.push(stylesheet.href);
+			});
+
+			caches.open('offline')
+			.then(cache => {
+				cache.addAll(initialCache);
+			})
+
+			window.removeEventListener('load', fillCache, {once: true});
+		}
+
+		if(document.readyState === 'complete') {
+			fillCache();
+		}
+		else {
+			window.addEventListener('load', fillCache, {once: true});
+		}
+	}
 }
 
 // Create nav menu
