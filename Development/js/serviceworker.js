@@ -1,23 +1,14 @@
 const CACHE_NAME = 'offline';
-const INITIAL_CACHE = [
-	'/css/site.css',
-	'/js/site.js',
-	'/img/site/icon-skills.svg',
-	'/img/site/icon-projects.svg',
-	'/img/site/icon-github.svg',
-	'/img/site/icon-linkedin.svg'
-];
 const TIME_LIMIT = 3000;
 
-
-self.addEventListener('install', event => {
-	event.waitUntil(
+self.addEventListener('message', message => {
+	if(message.data.command === 'fillInitialCache') {
 		caches.open(CACHE_NAME)
 		.then(cache => {
-			cache.addAll(INITIAL_CACHE);
+			cache.addAll(message.data.payload);
 		})
-	);
-});
+	}
+})
 
 
 self.addEventListener('activate', event => {

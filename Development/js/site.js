@@ -1,10 +1,20 @@
 // Start service worker
 if ('serviceWorker' in navigator) {
-	navigator.serviceWorker.register('/serviceworker.js');
+	var serviceWorker = navigator.serviceWorker;
+	serviceWorker.register('/serviceworker.js');
 
 	// Cache files downloaded before service worker started
-	if (!navigator.serviceWorker.controller) {
+	if (!serviceWorker.controller) {
+
+		function sendCacheToServiceWorker(cacheSet) {
+			serviceWorker.controller.postMessage({
+				command: 'fillInitialCache',
+				payload: Array.from(cacheSet)
+			});
+		}
+
 		function fillCache() {
+			// Using a set prevents duplicates
 			var initialCache = new Set();
 
 			// HTML
@@ -25,15 +35,21 @@ if ('serviceWorker' in navigator) {
 			// Images
 			var images = document.querySelectorAll('img');
 			images.forEach(function(image) {
-				if (image.complete) {
+				if(image.complete) {
 					initialCache.add(image.currentSrc);
 				}
 			});
 
-			caches.open('offline')
-			.then(cache => {
-				cache.addAll(Array.from(initialCache));
-			})
+			// Check if service worker is active
+			if(serviceWorker.controller) {
+				sendCacheToServiceWorker(initialCache);
+			}
+			else {
+				serviceWorker.oncontrollerchange = function() {
+					sendCacheToServiceWorker(initialCache);
+				}
+			}
+
 			window.removeEventListener('load', fillCache, {once: true});
 		}
 
