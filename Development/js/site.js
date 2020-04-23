@@ -5,19 +5,35 @@ if ('serviceWorker' in navigator) {
 	// Cache files downloaded before service worker started
 	if (!navigator.serviceWorker.controller) {
 		function fillCache() {
-			var initialCache = [];
-			initialCache.push(window.location.pathname);
+			var initialCache = new Set();
 
+			// HTML
+			initialCache.add(window.location.pathname);
+
+			// CSS
 			var stylesheets = document.querySelectorAll('link[rel="stylesheet"');
 			stylesheets.forEach(function(stylesheet) {
-				initialCache.push(stylesheet.href);
+				initialCache.add(stylesheet.href);
+			});
+
+			// JavaScript
+			var scripts = document.querySelectorAll('script[src]');
+			scripts.forEach(function(script) {
+				initialCache.add(script.src);
+			});
+
+			// Images
+			var images = document.querySelectorAll('img');
+			images.forEach(function(image) {
+				if (image.complete) {
+					initialCache.add(image.currentSrc);
+				}
 			});
 
 			caches.open('offline')
 			.then(cache => {
-				cache.addAll(initialCache);
+				cache.addAll(Array.from(initialCache));
 			})
-
 			window.removeEventListener('load', fillCache, {once: true});
 		}
 
