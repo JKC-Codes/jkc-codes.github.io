@@ -1,13 +1,12 @@
 // Start service worker
 if ('serviceWorker' in navigator) {
-	var serviceWorker = navigator.serviceWorker;
-	serviceWorker.register('/serviceworker.js');
+	navigator.serviceWorker.register('/serviceworker.js');
 
 	// Cache files downloaded before service worker started
-	if (!serviceWorker.controller) {
+	if (!navigator.serviceWorker.controller) {
 
 		function sendCacheToServiceWorker(cacheSet) {
-			serviceWorker.controller.postMessage({
+			navigator.serviceWorker.controller.postMessage({
 				command: 'fillInitialCache',
 				payload: Array.from(cacheSet)
 			});
@@ -41,11 +40,11 @@ if ('serviceWorker' in navigator) {
 			});
 
 			// Check if service worker is active
-			if(serviceWorker.controller) {
+			if(navigator.serviceWorker.controller) {
 				sendCacheToServiceWorker(initialCache);
 			}
 			else {
-				serviceWorker.oncontrollerchange = function() {
+				navigator.serviceWorker.oncontrollerchange = function() {
 					sendCacheToServiceWorker(initialCache);
 				}
 			}
