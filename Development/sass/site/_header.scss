@@ -197,10 +197,6 @@ background: $colour-brand;
 		}
 	}
 
-	@media (min-width: $mq-header-wide) and (min-height: 25rem) {
-		position: sticky;
-	}
-
 	li {
 		margin: 1.5rem 0 0;
 
@@ -277,6 +273,12 @@ background: $colour-brand;
 
 	.menu-button[aria-expanded="false"] ~ .navigation-links {
 		transform: translateY(0%);
+	}
+}
+
+@media (min-width: $mq-header-wide) and (min-height: 25rem) {
+	.menu-button[aria-expanded] ~ .navigation-links {
+		position: sticky;
 	}
 }
 
