@@ -62,7 +62,6 @@ background: $colour-brand;
 .menu-button {
 	@extend %transition;
 	transition-property: color;
-	display: none;
 	position: absolute;
 	z-index: 1;
 	top: 0;
@@ -76,17 +75,16 @@ background: $colour-brand;
 	color: $colour-text;
 	font-size: 0.7rem;
 
-	// Only display when JavaScript has added ARIA attribute
-	&[aria-expanded] {
-		display: block;
-	}
-
 	&[aria-expanded="true"] {
 		color: white;
 	}
 
 	&:hover {
 		background: transparentize($colour-decorate,0.8);
+	}
+
+	@media (min-width: $mq-header-narrow) {
+		display: none;
 	}
 
 	&-icon {
@@ -126,7 +124,6 @@ background: $colour-brand;
 		.line-bottom-right {
 			transform-origin: 100% calc(100% - 10px);
 		}
-
 	}
 
 	&[aria-expanded="true"] .menu-button-icon {
@@ -158,12 +155,6 @@ background: $colour-brand;
 
 		.line-bottom-right {
 			transform: translate(-5px, 5px) rotate(45deg) scaleX(1.1);
-		}
-	}
-
-	@media (min-width: $mq-header-narrow) {
-		&[aria-expanded] { // Extra specificity is required
-			display: none;
 		}
 	}
 }

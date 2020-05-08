@@ -105,6 +105,7 @@ var MENU = {
 		this.mediaQuery.addListener(this.handleViewportChange.bind(this));
 
 		// Trigger menu activation
+		this.button.removeAttribute('hidden');
 		this.handleViewportChange(this.mediaQuery);
 	},
 
