@@ -1,5 +1,7 @@
 const CACHE_NAME = 'offline';
 const TIME_LIMIT = 3000;
+let countdown = TIME_LIMIT;
+let pageLoaded = false;
 
 self.addEventListener('message', message => {
 	if(message.data.command === 'fillInitialCache') {
@@ -7,6 +9,10 @@ self.addEventListener('message', message => {
 		.then(cache => {
 			cache.addAll(message.data.payload);
 		})
+	}
+	else if(message.data === 'pageLoaded') {
+		pageLoaded = true;
+		countdown = TIME_LIMIT;
 	}
 })
 
@@ -60,7 +66,8 @@ function getCacheResponse(request) {
 	.then(cacheResponse => {
 		if(cacheResponse) {
 			return cacheResponse;
-		} else {
+		}
+		else {
 			throw new Error('No cache entry');
 		}
 	})
@@ -74,7 +81,6 @@ function getCacheResponse(request) {
 	})
 }
 
-let countdown;
 function startCountdown(time) {
 	countdown = time;
 	const INTERVAL = 50;
@@ -93,12 +99,15 @@ self.addEventListener('fetch', event => {
 			// Start timer at page load
 			if(event.request.destination === 'document') {
 				startCountdown(TIME_LIMIT);
+				pageLoaded = false;
 			}
 
 			getCacheResponse(event.request)
 			.then(cacheEntry => {
-				if(countdown <= 0) {
-					event.waitUntil(getNetworkResponse(event.request))
+				if(countdown <= 0 && !pageLoaded) {
+					event.waitUntil(
+						getNetworkResponse(event.request)
+					)
 					return(cacheEntry);
 				}
 				else {

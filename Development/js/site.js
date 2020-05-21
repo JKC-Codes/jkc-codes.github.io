@@ -1,77 +1,75 @@
 // Start service worker
-if ('serviceWorker' in navigator) {
+if('serviceWorker' in navigator) {
 	navigator.serviceWorker.register('/serviceworker.js');
 
-	// Cache files downloaded before service worker started
-	if (!navigator.serviceWorker.controller) {
+	// Tell service worker the page has loaded so dynamic resources will be fetched from the network
+	window.addEventListener('load', function() {
 
-		function sendCacheToServiceWorker(cacheSet) {
-			navigator.serviceWorker.controller.postMessage({
-				command: 'fillInitialCache',
-				payload: Array.from(cacheSet)
-			});
+		function sendMessage() {
+			navigator.serviceWorker.controller.postMessage('pageLoaded');
 		}
 
-		function fillCache() {
-			// Using a set prevents duplicates
-			var initialCache = new Set();
-
-			// HTML
-			initialCache.add(window.location.pathname);
-
-			// CSS
-			var stylesheets = document.querySelectorAll('link[rel="stylesheet"');
-			stylesheets.forEach(function(stylesheet) {
-				initialCache.add(stylesheet.href);
-			});
-
-			// JavaScript
-			var scripts = document.querySelectorAll('script[src]');
-			scripts.forEach(function(script) {
-				initialCache.add(script.src);
-			});
-
-			// Images
-			var images = document.querySelectorAll('img');
-			images.forEach(function(image) {
-				if(image.complete) {
-					initialCache.add(image.currentSrc);
-				}
-			});
-
-			// Check if service worker is active
-			if(navigator.serviceWorker.controller) {
-				sendCacheToServiceWorker(initialCache);
-			}
-			else {
-				navigator.serviceWorker.oncontrollerchange = function() {
-					sendCacheToServiceWorker(initialCache);
-				}
-			}
-
-			window.removeEventListener('load', fillCache, {once: true});
-		}
-
-		if(document.readyState === 'complete') {
-			fillCache();
+		if(navigator.serviceWorker.controller) {
+			sendMessage();
 		}
 		else {
-			window.addEventListener('load', fillCache, {once: true});
+			navigator.serviceWorker.addEventListener('controllerchange', sendMessage, {once: true})
 		}
-	}
+
+	}, {once: true});
 }
 
-// Create nav menu
+
 document.addEventListener('DOMContentLoaded', function() {
 
+	// Cache files downloaded before service worker activated
+	if('serviceWorker' in navigator && !navigator.serviceWorker.controller) {
+		navigator.serviceWorker.addEventListener('controllerchange', fillServiceWorkerCache, {once: true})
+	}
+
+	// Create nav menu
 	var menuButton = document.querySelector('#site-nav-menu-button');
 	var menuButtonText = menuButton.querySelector('#site-nav-menu-button-text');
 	var menuContent = document.querySelector('#site-nav-content');
-
+	var siteNavMenu = Object.create(MENU);
 	siteNavMenu.init(menuButton, menuButtonText, menuContent, '48rem');
 
 }, {once: true});
 
+
+function fillServiceWorkerCache() {
+	// Using a set prevents duplicates
+	var initialCache = new Set();
+
+	// HTML
+	initialCache.add(window.location.pathname);
+
+	// CSS
+	var stylesheets = document.querySelectorAll('link[rel="stylesheet"');
+	stylesheets.forEach(function(stylesheet) {
+		initialCache.add(stylesheet.href);
+	});
+
+	// JavaScript
+	var scripts = document.querySelectorAll('script[src]');
+	scripts.forEach(function(script) {
+		initialCache.add(script.src);
+	});
+
+	// Images
+	var images = document.querySelectorAll('img');
+	images.forEach(function(image) {
+		initialCache.add(image.currentSrc);
+	});
+
+	navigator.serviceWorker.controller.postMessage({
+		command: 'fillInitialCache',
+		payload: Array.from(initialCache)
+	});
+}
+
+
+// Site navigation menu
 var MENU = {
 	init: function init(stateController, stateText, contentContainer, mediaQueryValue) {
 		this.button = stateController;
@@ -204,7 +202,6 @@ var MENU = {
 		this.transitionLength = (transitionDelay + transitionDuration) * 1000;
 	}
 }
-var siteNavMenu = Object.create(MENU);
 
 
 // Polyfill for Element.closest used in clicks off menu
