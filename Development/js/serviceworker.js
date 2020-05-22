@@ -1,7 +1,6 @@
 const CACHE_NAME = 'offline';
 const TIME_LIMIT = 3000;
-let countdown = TIME_LIMIT;
-let pageLoaded = false;
+const activeClients = {};
 
 self.addEventListener('message', message => {
 	if(message.data.command === 'fillInitialCache') {
@@ -10,38 +9,39 @@ self.addEventListener('message', message => {
 			cache.addAll(message.data.payload);
 		})
 	}
-	else if(message.data === 'pageLoaded') {
-		pageLoaded = true;
-		countdown = TIME_LIMIT;
-	}
 })
-
 
 self.addEventListener('activate', event => {
 	event.waitUntil(clients.claim());
 });
 
-
 function updateCache(request, response) {
+	console.log(`Network caching ${request.url}`);
 	caches.open(CACHE_NAME)
 	.then(cache => {
 		cache.put(request, response);
+		console.log(`Network cached ${request.url}`);
 	})
 }
 
 function getNetworkResponse(request) {
+	console.log(`Network fetching ${request.url}`);
 	return fetch(request)
 	.then(networkResponse => {
+		console.log(`Network fetch received ${request.url}`);
 		// Response can only be used once so must be cloned
 		updateCache(request, networkResponse.clone());
+		console.log(`Network fetched ${request.url}`);
 		return networkResponse;
 	})
 	.catch(()=> {
-		throw new Error('Network error')
+		console.warn(`Network failed to fetch ${request.url}`);
+		throw new Error(`Network error fetching ${request.url}`)
 	})
 }
 
 function getAlternativeImage(request) {
+	console.log(`Cache fetching alternative to ${request.url}`);
 	return caches.open(CACHE_NAME)
 	.then(cache => {
 		return cache.matchAll()
@@ -49,92 +49,78 @@ function getAlternativeImage(request) {
 	.then(cacheEntries => {
 		// Remove size and extension from file name, e.g. "image-480.jpg" becomes "image"
 		const fileName = request.url.slice(0, request.url.lastIndexOf('-'));
+
 		return cacheEntries.filter(entry => {
 			return entry.url.includes(fileName);
-		}).reduce((acc, cur) => {
+		})
+		.reduce((acc, cur) => {
 			const sizeOf = response => response.headers.get('Content-Length');
+			console.log(`Cache returning alternative to ${request.url}`);
 			return (sizeOf(acc) > sizeOf(cur) ? acc : cur);
 		})
 	})
 	.catch(() => {
-			throw new Error('No alternative cache entry');
+		console.error(`Cache failed to fetch alternative to ${request.url}`);
+		throw new Error(`No alternative cache entry for ${request.url}`);
 	})
 }
 
 function getCacheResponse(request) {
+	console.log(`Cache fetching ${request.url}`);
 	return caches.match(request)
 	.then(cacheResponse => {
 		if(cacheResponse) {
+			console.log(`Cache returning ${request.url}`);
 			return cacheResponse;
 		}
-		else {
-			throw new Error('No cache entry');
-		}
-	})
-	.catch(error => {
-		if(request.destination === 'image') {
+		else if(request.destination === 'image') {
 			return getAlternativeImage(request);
 		}
 		else {
-			throw error;
+			console.warn(`Cache failed to fetch ${request.url}`);
+			throw new Error(`No cache entry for ${request.url}`);
 		}
 	})
 }
 
-function startCountdown(time) {
-	countdown = time;
-	const INTERVAL = 50;
-	let timer = setInterval(()=> {
-		countdown -= INTERVAL;
-		if(countdown <= 0) {
-			clearInterval(timer);
-		}
-	}, INTERVAL)
-}
-
-
 self.addEventListener('fetch', event => {
 	if(event.request.method === 'GET') {
+
 		event.respondWith(new Promise(resolve => {
-			// Start timer at page load
-			if(event.request.destination === 'document') {
-				startCountdown(TIME_LIMIT);
-				pageLoaded = false;
-			}
 
-			getCacheResponse(event.request)
-			.then(cacheEntry => {
-				if(countdown <= 0 && !pageLoaded) {
-					event.waitUntil(
-						getNetworkResponse(event.request)
-					)
-					return(cacheEntry);
-				}
-				else {
-					// Set time limit for network response
-					setTimeout(()=> {
-						resolve(cacheEntry);
-					}, countdown)
-
-					return getNetworkResponse(event.request)
-					.catch(()=> {
-						return cacheEntry;
-					})
-				}
-			})
-			.catch(()=> {
-				return getNetworkResponse(event.request)
-				.catch(()=> {
+			event.waitUntil(
+				getNetworkResponse(event.request)
+				.catch(() => {
+					return getCacheResponse(event.request);
+				})
+				.catch(() => {
 					return new Response(null, {
 						'url': event.request.url,
 						'status': 404,
 						'statusText': 'Not found'
 					})
 				})
+				.then(response => {
+					console.log(`Resolving ${event.request.url} with ${response}`);
+					resolve(response);
+				})
+			)
+
+
+
+			// console.log(`target is: ${event.resultingClientId}, current is: ${event.clientId}, url is: ${event.request.url}`);
+			self.clients.matchAll()
+			.then(clients => {
+				console.log(...clients);
 			})
-			.then(response => {
-				resolve(response);
-			})
-		}))
+
+			// save client on new page load
+			// start countdown on new page load
+			// update clients on new page load
+			// once countdown = 0 return cache
+
+
+		}));
+
 	}
 });
