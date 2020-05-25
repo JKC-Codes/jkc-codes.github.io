@@ -2,27 +2,6 @@ const CACHE_NAME = 'offline';
 const TIME_LIMIT = 3000;
 const activeClients = {};
 
-self.addEventListener('message', message => {
-	if(message.data.command === 'fillInitialCache') {
-		caches.open(CACHE_NAME)
-		.then(cache => {
-			cache.addAll(message.data.payload);
-		})
-	}
-})
-
-self.addEventListener('activate', event => {
-	event.waitUntil(
-		clients.claim()
-		.then(clients.matchAll()
-		.then(clients => {
-			clients.forEach(client => {
-				addToActiveClients(client.id);
-				startPageTimer(client.id);
-			});
-		}))
-	);
-});
 
 function addToActiveClients(pageID) {
 	activeClients[pageID] = {
@@ -109,12 +88,37 @@ function getCacheResponse(request) {
 	})
 }
 
-self.addEventListener('fetch', event => {
 
+self.addEventListener('message', message => {
+	if(message.data.command === 'fillInitialCache') {
+		caches.open(CACHE_NAME)
+		.then(cache => {
+			cache.addAll(message.data.payload);
+		})
+	}
+})
+
+self.addEventListener('activate', event => {
+	event.waitUntil(
+		clients.claim()
+		.then(clients.matchAll()
+		.then(clients => {
+			clients.forEach(client => {
+				addToActiveClients(client.id);
+				startPageTimer(client.id);
+			});
+		}))
+	);
+});
+
+self.addEventListener('fetch', event => {
 	if(event.request.method === 'GET') {
 
 		event.respondWith(new Promise(resolve => {
 
+			let resolved = false;
+
+			// Return network response or cache if it fails
 			event.waitUntil(
 				getNetworkResponse(event.request)
 				.catch(() => {
@@ -128,23 +132,48 @@ self.addEventListener('fetch', event => {
 					})
 				})
 				.then(response => {
-					console.log(`Resolving ${event.request.url} with ${response}`);
-					resolve(response);
+					if(!resolved) {
+						console.log(`Resolving ${event.request.url} with ${response}`);
+						resolved = true;
+						resolve(response);
+					}
 				})
 			)
 
-
-
-
-
+			// Return cache response if page has taken too long to load
 			if(event.request.destination === 'document') {
-				let newPage = event.resultingClientId;
-				addToActiveClients(newPage);
-				startPageTimer(newPage);
+				let newPageID = event.resultingClientId;
+				addToActiveClients(newPageID);
+				startPageTimer(newPageID);
 			}
 
+			let pageID = event.clientId || event.resultingClientId;
 
+			function resolveWithCache(request) {
+				getCacheResponse(request)
+				.then(response => {
+					console.log(`Resolving ${request.url} with cached ${response} after time out`);
+					resolved = true;
+					resolve(response);
+				})
+				.catch(()=> {
+					console.error(`no cache for timed out ${request.url}`);
+				})
+			}
 
+			if(activeClients[pageID].loadTime >= TIME_LIMIT && !resolved) {
+				console.log(`Page already timed out, getting cache response for ${event.request.url}`);
+				resolveWithCache(event.request);
+			}
+			else {
+				let countdown = setTimeout(()=> {
+					if(!resolved) {
+						console.log(`Page timed out while fetching ${event.request.url}, getting cache response`);
+						resolveWithCache(event.request);
+					}
+					clearTimeout(countdown);
+				}, TIME_LIMIT - activeClients[pageID].loadTime);
+			}
 
 
 
