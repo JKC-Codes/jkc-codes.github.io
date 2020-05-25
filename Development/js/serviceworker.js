@@ -12,8 +12,33 @@ self.addEventListener('message', message => {
 })
 
 self.addEventListener('activate', event => {
-	event.waitUntil(clients.claim());
+	event.waitUntil(
+		clients.claim()
+		.then(clients.matchAll()
+		.then(clients => {
+			clients.forEach(client => {
+				addToActiveClients(client.id);
+				startPageTimer(client.id);
+			});
+		}))
+	);
 });
+
+function addToActiveClients(pageID) {
+	activeClients[pageID] = {
+		loaded: false,
+		loadTime: 0
+	};
+}
+
+function startPageTimer(pageID) {
+	let timer = setInterval(()=> {
+		activeClients[pageID].loadTime += 50;
+		if(activeClients[pageID].loadTime >= TIME_LIMIT) {
+			clearInterval(timer);
+		}
+	}, 50);
+}
 
 function updateCache(request, response) {
 	console.log(`Network caching ${request.url}`);
@@ -54,6 +79,7 @@ function getAlternativeImage(request) {
 			return entry.url.includes(fileName);
 		})
 		.reduce((acc, cur) => {
+			// Get best quality image
 			const sizeOf = response => response.headers.get('Content-Length');
 			console.log(`Cache returning alternative to ${request.url}`);
 			return (sizeOf(acc) > sizeOf(cur) ? acc : cur);
@@ -84,6 +110,7 @@ function getCacheResponse(request) {
 }
 
 self.addEventListener('fetch', event => {
+
 	if(event.request.method === 'GET') {
 
 		event.respondWith(new Promise(resolve => {
@@ -108,16 +135,17 @@ self.addEventListener('fetch', event => {
 
 
 
-			// console.log(`target is: ${event.resultingClientId}, current is: ${event.clientId}, url is: ${event.request.url}`);
-			self.clients.matchAll()
-			.then(clients => {
-				console.log(...clients);
-			})
 
-			// save client on new page load
-			// start countdown on new page load
-			// update clients on new page load
-			// once countdown = 0 return cache
+
+			if(event.request.destination === 'document') {
+				let newPage = event.resultingClientId;
+				addToActiveClients(newPage);
+				startPageTimer(newPage);
+			}
+
+
+
+
 
 
 		}));
