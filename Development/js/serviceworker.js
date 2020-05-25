@@ -44,31 +44,32 @@ function getNetworkResponse(request) {
 	})
 }
 
-function getAlternativeImage(request) {
-	console.log(`Cache fetching alternative to ${request.url}`);
-	return caches.open(CACHE_NAME)
-	.then(cache => {
-		return cache.matchAll()
-	})
-	.then(cacheEntries => {
-		// Remove size and extension from file name, e.g. "image-480.jpg" becomes "image"
-		const fileName = request.url.slice(0, request.url.lastIndexOf('-'));
+// function getAlternativeImage(request) {
+// 	console.log(`Cache fetching alternative to ${request.url}`);
+// 	return caches.open(CACHE_NAME)
+// 	.then(cache => {
+// 		return cache.matchAll()
+// 	})
+// 	.then(cacheEntries => {
+// 		// Remove size and extension from file name, e.g. "/image-480.jpg" becomes "/image"
+// 		const fileName = request.url.slice(request.url.lastIndexOf('/'), request.url.lastIndexOf('-'));
 
-		return cacheEntries.filter(entry => {
-			return entry.url.includes(fileName);
-		})
-		.reduce((acc, cur) => {
-			// Get best quality image
-			const sizeOf = response => response.headers.get('Content-Length');
-			console.log(`Cache returning alternative to ${request.url}`);
-			return (sizeOf(acc) > sizeOf(cur) ? acc : cur);
-		})
-	})
-	.catch(() => {
-		console.error(`Cache failed to fetch alternative to ${request.url}`);
-		throw new Error(`No alternative cache entry for ${request.url}`);
-	})
-}
+// 		console.log(fileName);
+// 		return cacheEntries.filter(entry => {
+// 			return entry.url.includes(fileName);
+// 		})
+// 		.reduce((acc, cur) => {
+// 			// Get best quality image
+// 			const sizeOf = response => response.headers.get('Content-Length');
+// 			console.log(`Cache returning alternative to ${request.url}`);
+// 			return (sizeOf(acc) > sizeOf(cur) ? acc : cur);
+// 		})
+// 	})
+// 	.catch(() => {
+// 		console.error(`Cache failed to fetch alternative to ${request.url}`);
+// 		throw new Error(`No alternative cache entry for ${request.url}`);
+// 	})
+// }
 
 function getCacheResponse(request) {
 	console.log(`Cache fetching ${request.url}`);
@@ -78,9 +79,9 @@ function getCacheResponse(request) {
 			console.log(`Cache returning ${request.url}`);
 			return cacheResponse;
 		}
-		else if(request.destination === 'image') {
-			return getAlternativeImage(request);
-		}
+		// else if(request.destination === 'image') {
+		// 	return getAlternativeImage(request);
+		// }
 		else {
 			console.warn(`Cache failed to fetch ${request.url}`);
 			throw new Error(`No cache entry for ${request.url}`);
