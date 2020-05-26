@@ -97,6 +97,10 @@ self.addEventListener('message', message => {
 			cache.addAll(message.data.payload);
 		})
 	}
+	else if(message.data === 'pageLoaded') {
+		activeClients[message.source.id].loaded = true;
+		console.table(activeClients);
+	}
 })
 
 self.addEventListener('activate', event => {
@@ -141,14 +145,12 @@ self.addEventListener('fetch', event => {
 				})
 			)
 
-			// Return cache response if page has taken too long to load
+			// Time how long the page takes to load
 			if(event.request.destination === 'document') {
 				let newPageID = event.resultingClientId;
 				addToActiveClients(newPageID);
 				startPageTimer(newPageID);
 			}
-
-			let pageID = event.clientId || event.resultingClientId;
 
 			function resolveWithCache(request) {
 				getCacheResponse(request)
@@ -162,18 +164,23 @@ self.addEventListener('fetch', event => {
 				})
 			}
 
-			if(activeClients[pageID].loadTime >= TIME_LIMIT && !resolved) {
-				console.log(`Page already timed out, getting cache response for ${event.request.url}`);
-				resolveWithCache(event.request);
-			}
-			else {
-				let countdown = setTimeout(()=> {
-					if(!resolved) {
-						console.log(`Page timed out while fetching ${event.request.url}, getting cache response`);
-						resolveWithCache(event.request);
-					}
-					clearTimeout(countdown);
-				}, TIME_LIMIT - activeClients[pageID].loadTime);
+			// Return cache response if page has taken too long to load
+			let pageID = event.clientId || event.resultingClientId;
+
+			if(!activeClients[pageID].loaded) {
+				if(activeClients[pageID].loadTime >= TIME_LIMIT && !resolved) {
+					console.log(`Page already timed out, getting cache response for ${event.request.url}`);
+					resolveWithCache(event.request);
+				}
+				else {
+					let countdown = setTimeout(()=> {
+						if(!resolved) {
+							console.log(`Page timed out while fetching ${event.request.url}, getting cache response`);
+							resolveWithCache(event.request);
+						}
+						clearTimeout(countdown);
+					}, TIME_LIMIT - activeClients[pageID].loadTime);
+				}
 			}
 
 
