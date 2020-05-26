@@ -12,6 +12,9 @@ function addToActiveClients(pageID) {
 
 function startPageTimer(pageID) {
 	let timer = setInterval(()=> {
+		if(!activeClients[pageID].loadTime) {
+			clearInterval(timer);
+		}
 		activeClients[pageID].loadTime += 50;
 		if(activeClients[pageID].loadTime >= TIME_LIMIT) {
 			clearInterval(timer);
@@ -99,7 +102,19 @@ self.addEventListener('message', message => {
 	}
 	else if(message.data === 'pageLoaded') {
 		activeClients[message.source.id].loaded = true;
-		console.table(activeClients);
+
+		// Update clients list
+		clients.matchAll()
+		.then(clients => {
+			let currentClients = clients.map(client => client.id);
+			let previousClients = Object.keys(activeClients);
+
+			previousClients.forEach(client => {
+				if(!currentClients.includes(client)) {
+					delete activeClients[client];
+				}
+			})
+		})
 	}
 })
 
