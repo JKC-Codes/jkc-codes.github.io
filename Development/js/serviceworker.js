@@ -23,70 +23,66 @@ function startPageTimer(pageID) {
 }
 
 function updateCache(request, response) {
-	console.log(`Network caching ${request.url}`);
 	caches.open(CACHE_NAME)
 	.then(cache => {
 		cache.put(request, response);
-		console.log(`Network cached ${request.url}`);
 	})
 }
 
 function getNetworkResponse(request) {
-	console.log(`Network fetching ${request.url}`);
 	return fetch(request)
 	.then(networkResponse => {
-		console.log(`Network fetch received ${request.url}`);
 		// Response can only be used once so must be cloned
 		updateCache(request, networkResponse.clone());
-		console.log(`Network fetched ${request.url}`);
 		return networkResponse;
 	})
 	.catch(()=> {
-		console.warn(`Network failed to fetch ${request.url}`);
 		throw new Error(`Network error fetching ${request.url}`)
 	})
 }
 
-// function getAlternativeImage(request) {
-// 	console.log(`Cache fetching alternative to ${request.url}`);
-// 	return caches.open(CACHE_NAME)
-// 	.then(cache => {
-// 		return cache.matchAll()
-// 	})
-// 	.then(cacheEntries => {
-// 		// Remove size and extension from file name, e.g. "/image-480.jpg" becomes "/image"
-// 		const fileName = request.url.slice(request.url.lastIndexOf('/'), request.url.lastIndexOf('-'));
+function getAlternativeImage(request) {
+	return caches.open(CACHE_NAME)
+	.then(cache => {
+		return cache.matchAll()
+	})
+	.then(cacheEntries => {
+		function escapeRegularExpression(string) {
+			return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
+		}
+		// Remove size and extension from file name, e.g. "/image-480w.jpg" becomes "/image-"
+		const fileName = request.url.slice(0, request.url.lastIndexOf('-') + 1);
+		// Format is: filename-123w.abc
+		const format = new RegExp(`${escapeRegularExpression(fileName)}\\d+w\\.\\w{3,4}`);
 
-// 		console.log(fileName);
-// 		return cacheEntries.filter(entry => {
-// 			return entry.url.includes(fileName);
-// 		})
-// 		.reduce((acc, cur) => {
-// 			// Get best quality image
-// 			const sizeOf = response => response.headers.get('Content-Length');
-// 			console.log(`Cache returning alternative to ${request.url}`);
-// 			return (sizeOf(acc) > sizeOf(cur) ? acc : cur);
-// 		})
-// 	})
-// 	.catch(() => {
-// 		console.error(`Cache failed to fetch alternative to ${request.url}`);
-// 		throw new Error(`No alternative cache entry for ${request.url}`);
-// 	})
-// }
+		return cacheEntries.filter(entry => {
+			return format.test(entry.url);
+		})
+		.reduce((acc, cur) => {
+			// Get best quality image
+			const sizeOf = response => response.headers.get('Content-Length');
+			return (sizeOf(acc) > sizeOf(cur) ? acc : cur);
+		})
+	})
+	.catch(() => {
+		throw new Error(`No alternative cache entry for ${request.url}`);
+	})
+}
 
 function getCacheResponse(request) {
-	console.log(`Cache fetching ${request.url}`);
 	return caches.match(request)
 	.then(cacheResponse => {
+		const isImage = request.destination === 'image';
+		// Look for -123w.abc at end of URL
+		const fileNameIncludesSize = /-\d+w\.\w{3,4}$/.test(request.url);
+
 		if(cacheResponse) {
-			console.log(`Cache returning ${request.url}`);
 			return cacheResponse;
 		}
-		// else if(request.destination === 'image') {
-		// 	return getAlternativeImage(request);
-		// }
+		else if(isImage && fileNameIncludesSize) {
+			return getAlternativeImage(request);
+		}
 		else {
-			console.warn(`Cache failed to fetch ${request.url}`);
 			throw new Error(`No cache entry for ${request.url}`);
 		}
 	})
@@ -133,9 +129,7 @@ self.addEventListener('activate', event => {
 
 self.addEventListener('fetch', event => {
 	if(event.request.method === 'GET') {
-
 		event.respondWith(new Promise(resolve => {
-
 			let resolved = false;
 
 			// Return network response or cache if it fails
@@ -153,7 +147,6 @@ self.addEventListener('fetch', event => {
 				})
 				.then(response => {
 					if(!resolved) {
-						console.log(`Resolving ${event.request.url} with ${response}`);
 						resolved = true;
 						resolve(response);
 					}
@@ -170,13 +163,10 @@ self.addEventListener('fetch', event => {
 			function resolveWithCache(request) {
 				getCacheResponse(request)
 				.then(response => {
-					console.log(`Resolving ${request.url} with cached ${response} after time out`);
 					resolved = true;
 					resolve(response);
 				})
-				.catch(()=> {
-					console.error(`no cache for timed out ${request.url}`);
-				})
+				.catch(()=> {null})
 			}
 
 			// Return cache response if page has taken too long to load
@@ -184,23 +174,17 @@ self.addEventListener('fetch', event => {
 
 			if(!activeClients[pageID].loaded) {
 				if(activeClients[pageID].loadTime >= TIME_LIMIT && !resolved) {
-					console.log(`Page already timed out, getting cache response for ${event.request.url}`);
 					resolveWithCache(event.request);
 				}
 				else {
 					let countdown = setTimeout(()=> {
 						if(!resolved) {
-							console.log(`Page timed out while fetching ${event.request.url}, getting cache response`);
 							resolveWithCache(event.request);
 						}
 						clearTimeout(countdown);
 					}, TIME_LIMIT - activeClients[pageID].loadTime);
 				}
 			}
-
-
-
 		}));
-
 	}
 });
