@@ -12,13 +12,11 @@ function addToActiveClients(pageID) {
 
 function startPageTimer(pageID) {
 	let timer = setInterval(()=> {
-		if(!activeClients[pageID].loadTime) {
+		let loadTime = activeClients[pageID].loadTime;
+		if(loadTime === undefined || loadTime >= TIME_LIMIT) {
 			clearInterval(timer);
 		}
 		activeClients[pageID].loadTime += 50;
-		if(activeClients[pageID].loadTime >= TIME_LIMIT) {
-			clearInterval(timer);
-		}
 	}, 50);
 }
 
@@ -155,9 +153,8 @@ self.addEventListener('fetch', event => {
 
 			// Time how long the page takes to load
 			if(event.request.destination === 'document') {
-				let newPageID = event.resultingClientId;
-				addToActiveClients(newPageID);
-				startPageTimer(newPageID);
+				addToActiveClients(event.resultingClientId);
+				startPageTimer(event.resultingClientId);
 			}
 
 			function resolveWithCache(request) {
@@ -177,11 +174,10 @@ self.addEventListener('fetch', event => {
 					resolveWithCache(event.request);
 				}
 				else {
-					let countdown = setTimeout(()=> {
+					setTimeout(()=> {
 						if(!resolved) {
 							resolveWithCache(event.request);
 						}
-						clearTimeout(countdown);
 					}, TIME_LIMIT - activeClients[pageID].loadTime);
 				}
 			}
