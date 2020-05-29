@@ -45,7 +45,7 @@ function fillServiceWorkerCache() {
 	initialCache.add(window.location.pathname);
 
 	// CSS
-	var stylesheets = document.querySelectorAll('link[rel="stylesheet"');
+	var stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
 	stylesheets.forEach(function(stylesheet) {
 		initialCache.add(stylesheet.href);
 	});
