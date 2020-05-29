@@ -12,8 +12,7 @@ function addToActiveClients(pageID) {
 
 function startPageTimer(pageID) {
 	let timer = setInterval(()=> {
-		let loadTime = activeClients[pageID].loadTime;
-		if(loadTime === undefined || loadTime >= TIME_LIMIT) {
+		if(!activeClients[pageID] || activeClients[pageID].loadTime >= TIME_LIMIT) {
 			clearInterval(timer);
 		}
 		activeClients[pageID].loadTime += 50;
