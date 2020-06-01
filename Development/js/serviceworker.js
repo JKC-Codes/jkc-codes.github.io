@@ -14,6 +14,7 @@ function startPageTimer(pageID) {
 	let timer = setInterval(()=> {
 		if(!activeClients[pageID] || activeClients[pageID].loadTime >= TIME_LIMIT) {
 			clearInterval(timer);
+			return;
 		}
 		activeClients[pageID].loadTime += 50;
 	}, 50);
