@@ -15,7 +15,7 @@ function reset() {
 }
 
 function eleventy() {
-	return shell(`eleventy --output="${baseFolder}"`);
+	return shell(`npx @11ty/eleventy --output="${baseFolder}"`);
 }
 
 function html() {
@@ -37,7 +37,6 @@ function html() {
 	.pipe(gulp.dest(baseFolder));
 }
 
-sass.compiler = require('sass');
 function css() {
 	return gulp.src('sass/**/*.scss')
 		.pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))

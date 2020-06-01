@@ -5,6 +5,7 @@
   "main": "",
   "dependencies": {},
   "devDependencies": {
+    "@11ty/eleventy": "*",
     "del": "*",
     "gulp": "*",
     "gulp-htmlmin": "*",
@@ -15,11 +16,10 @@
     "sass": "*"
   },
   "scripts": {
-    "eleventy": "eleventy --serve",
+    "eleventy": "npx @11ty/eleventy --serve",
     "sass": "sass sass:staging/css --watch --source-map-urls=absolute",
     "browser": "start firefox.exe -private-window http://localhost:8080",
-    "start": "npm-run-all --parallel eleventy browser sass",
-    "restart": "npm-run-all --parallel sass eleventy"
+    "start": "npm-run-all --parallel eleventy browser sass"
   },
   "author": "John Kemp-Cruz",
   "license": "GPL-3.0-or-later"
