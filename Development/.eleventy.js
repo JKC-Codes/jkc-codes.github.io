@@ -4,7 +4,7 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy({"./js/serviceworker.js":"./serviceworker.js"});
 	eleventyConfig.addPassthroughCopy({"./.netlify/_redirects":"./_redirects"});
 	eleventyConfig.setBrowserSyncConfig({
-    files: "./staging/css/**/*"
+    files: ["./staging/css/**/*.css", "!./staging/css/**/*.map"]
   });
   return {
     dir: {
