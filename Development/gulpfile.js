@@ -69,7 +69,7 @@ function img() {
 		imagemin.optipng(),
 		imagemin.svgo({plugins: [{removeViewBox: false}]})
 	]))
-		.pipe(gulp.dest(baseFolder));
+	.pipe(gulp.dest(baseFolder));
 }
 
 function netlify() {
