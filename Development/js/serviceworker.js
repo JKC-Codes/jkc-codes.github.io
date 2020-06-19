@@ -157,29 +157,20 @@ self.addEventListener('fetch', event => {
 				startPageTimer(event.resultingClientId);
 			}
 
-			function resolveWithCache(request) {
-				getCacheResponse(request)
-				.then(response => {
-					resolved = true;
-					resolve(response);
-				})
-				.catch(()=> {null})
-			}
-
 			// Return cache response if page has taken too long to load
 			let pageID = event.clientId || event.resultingClientId;
 
 			if(!activeClients[pageID].loaded) {
-				if(activeClients[pageID].loadTime >= TIME_LIMIT && !resolved) {
-					resolveWithCache(event.request);
-				}
-				else {
-					setTimeout(()=> {
-						if(!resolved) {
-							resolveWithCache(event.request);
-						}
-					}, TIME_LIMIT - activeClients[pageID].loadTime);
-				}
+				setTimeout(()=> {
+					if(!resolved) {
+						getCacheResponse(event.request)
+						.then(response => {
+							resolved = true;
+							resolve(response);
+						})
+						.catch(()=> {null})
+					}
+				}, TIME_LIMIT - activeClients[pageID].loadTime);
 			}
 		}));
 	}
