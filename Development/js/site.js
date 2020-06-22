@@ -1,37 +1,43 @@
 // Start service worker
 if('serviceWorker' in navigator) {
+
 	navigator.serviceWorker.register('/serviceworker.js');
+
+	// Cache files downloaded before service worker activated
+	if(!navigator.serviceWorker.controller) {
+		navigator.serviceWorker.addEventListener('controllerchange', fillServiceWorkerCache, {once: true})
+	}
+
+	// Update list of controlled pages
+	window.addEventListener('DOMContentLoaded', function() {
+		if(navigator.serviceWorker.controller) {
+			navigator.serviceWorker.controller.postMessage('DOMLoaded');
+		}
+	}, {once: true})
 
 	// Tell service worker the page has loaded so dynamic resources will be fetched from the network
 	window.addEventListener('load', function() {
-
-		function sendMessage() {
+		function sendPageLoadedMessage() {
 			navigator.serviceWorker.controller.postMessage('pageLoaded');
 		}
 
 		if(navigator.serviceWorker.controller) {
-			sendMessage();
+			sendPageLoadedMessage();
 		}
 		else {
-			navigator.serviceWorker.addEventListener('controllerchange', sendMessage, {once: true})
+			navigator.serviceWorker.addEventListener('controllerchange', sendPageLoadedMessage, {once: true})
 		}
-
 	}, {once: true});
 }
 
 
 document.addEventListener('DOMContentLoaded', function() {
-
-	// Cache files downloaded before service worker activated
-	if('serviceWorker' in navigator && !navigator.serviceWorker.controller) {
-		navigator.serviceWorker.addEventListener('controllerchange', fillServiceWorkerCache, {once: true})
-	}
-
 	// Create nav menu
 	var menuButton = document.querySelector('#site-nav-menu-button');
 	var menuButtonText = menuButton.querySelector('#site-nav-menu-button-text');
 	var menuContent = document.querySelector('#site-nav-content');
 	var siteNavMenu = Object.create(MENU);
+
 	siteNavMenu.init(menuButton, menuButtonText, menuContent, '48rem');
 
 }, {once: true});

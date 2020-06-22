@@ -94,9 +94,7 @@ self.addEventListener('message', message => {
 			cache.addAll(message.data.payload);
 		})
 	}
-	else if(message.data === 'pageLoaded') {
-		activeClients[message.source.id].loaded = true;
-
+	else if(message.data === 'DOMLoaded') {
 		// Update clients list
 		clients.matchAll()
 		.then(clients => {
@@ -109,6 +107,9 @@ self.addEventListener('message', message => {
 				}
 			})
 		})
+	}
+	else if(message.data === 'pageLoaded') {
+		activeClients[message.source.id].loaded = true;
 	}
 })
 
