@@ -93,7 +93,7 @@ self.addEventListener('message', message => {
 			cache.addAll(message.data.payload);
 		})
 	}
-	else if(message.data === 'pageLoaded') {
+	else if(message.data === 'pageLoaded' && activeClients[message.source.id]) {
 		clearInterval(activeClients[message.source.id].timer);
 		delete activeClients[message.source.id];
 	}
@@ -102,13 +102,6 @@ self.addEventListener('message', message => {
 self.addEventListener('activate', event => {
 	event.waitUntil(
 		clients.claim()
-		.then(clients.matchAll()
-		.then(clients => {
-			clients.forEach(client => {
-				addToActiveClients(client.id);
-				startPageTimer(client.id);
-			});
-		}))
 	);
 });
 
@@ -142,7 +135,6 @@ self.addEventListener('fetch', event => {
 			if(event.request.destination === 'document') {
 				addToActiveClients(event.resultingClientId);
 				startPageTimer(event.resultingClientId);
-				console.table(activeClients);
 			}
 
 			// Return cache response if page has taken too long to load
