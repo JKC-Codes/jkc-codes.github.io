@@ -8,13 +8,6 @@ if('serviceWorker' in navigator) {
 		navigator.serviceWorker.addEventListener('controllerchange', fillServiceWorkerCache, {once: true})
 	}
 
-	// Update list of controlled pages
-	window.addEventListener('DOMContentLoaded', function() {
-		if(navigator.serviceWorker.controller) {
-			navigator.serviceWorker.controller.postMessage('DOMLoaded');
-		}
-	}, {once: true})
-
 	// Tell service worker the page has loaded so dynamic resources will be fetched from the network
 	window.addEventListener('load', function() {
 		function sendPageLoadedMessage() {

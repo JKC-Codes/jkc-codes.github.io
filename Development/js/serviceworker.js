@@ -5,18 +5,17 @@ const activeClients = {};
 
 function addToActiveClients(pageID) {
 	activeClients[pageID] = {
-		loaded: false,
+		loading: true,
 		loadTime: 0
 	};
 }
 
 function startPageTimer(pageID) {
-	let timer = setInterval(()=> {
-		if(!activeClients[pageID] || activeClients[pageID].loadTime >= TIME_LIMIT) {
-			clearInterval(timer);
-			return;
-		}
+	activeClients[pageID].timer = setInterval(()=> {
 		activeClients[pageID].loadTime += 50;
+		if(activeClients[pageID].loadTime >= TIME_LIMIT) {
+			clearInterval(activeClients[pageID].timer);
+		}
 	}, 50);
 }
 
@@ -94,22 +93,9 @@ self.addEventListener('message', message => {
 			cache.addAll(message.data.payload);
 		})
 	}
-	else if(message.data === 'DOMLoaded') {
-		// Update clients list
-		clients.matchAll()
-		.then(clients => {
-			let currentClients = clients.map(client => client.id);
-			let previousClients = Object.keys(activeClients);
-
-			previousClients.forEach(client => {
-				if(!currentClients.includes(client)) {
-					delete activeClients[client];
-				}
-			})
-		})
-	}
 	else if(message.data === 'pageLoaded') {
-		activeClients[message.source.id].loaded = true;
+		activeClients[message.source.id].loading = false;
+		clearInterval(activeClients[message.source.id].timer);
 	}
 })
 
@@ -161,7 +147,7 @@ self.addEventListener('fetch', event => {
 			// Return cache response if page has taken too long to load
 			let pageID = event.clientId || event.resultingClientId;
 
-			if(!activeClients[pageID].loaded) {
+			if(activeClients[pageID].loading) {
 				setTimeout(()=> {
 					if(!resolved) {
 						getCacheResponse(event.request)
