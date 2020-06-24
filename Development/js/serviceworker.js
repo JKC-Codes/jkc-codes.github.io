@@ -94,8 +94,8 @@ self.addEventListener('message', message => {
 		})
 	}
 	else if(message.data === 'pageLoaded') {
-		activeClients[message.source.id].loading = false;
 		clearInterval(activeClients[message.source.id].timer);
+		delete activeClients[message.source.id];
 	}
 })
 
@@ -142,12 +142,13 @@ self.addEventListener('fetch', event => {
 			if(event.request.destination === 'document') {
 				addToActiveClients(event.resultingClientId);
 				startPageTimer(event.resultingClientId);
+				console.table(activeClients);
 			}
 
 			// Return cache response if page has taken too long to load
 			let pageID = event.clientId || event.resultingClientId;
 
-			if(activeClients[pageID].loading) {
+			if(activeClients[pageID] && activeClients[pageID].loading) {
 				setTimeout(()=> {
 					if(!resolved) {
 						getCacheResponse(event.request)
