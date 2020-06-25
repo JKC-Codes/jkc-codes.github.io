@@ -1,22 +1,7 @@
 const CACHE_NAME = 'offline';
 const TIME_LIMIT = 3000;
-const activeClients = {};
+const loadingClients = {};
 
-
-function addToActiveClients(pageID) {
-	activeClients[pageID] = {
-		loadTime: 0
-	};
-}
-
-function startPageTimer(pageID) {
-	activeClients[pageID].timer = setInterval(()=> {
-		activeClients[pageID].loadTime += 50;
-		if(activeClients[pageID].loadTime >= TIME_LIMIT) {
-			clearInterval(activeClients[pageID].timer);
-		}
-	}, 50);
-}
 
 function updateCache(request, response) {
 	caches.open(CACHE_NAME)
@@ -92,9 +77,9 @@ self.addEventListener('message', message => {
 			cache.addAll(message.data.payload);
 		})
 	}
-	else if(message.data === 'pageLoaded' && activeClients[message.source.id]) {
-		clearInterval(activeClients[message.source.id].timer);
-		delete activeClients[message.source.id];
+	else if(message.data === 'pageLoaded' && loadingClients[message.source.id]) {
+		clearInterval(loadingClients[message.source.id].timer);
+		delete loadingClients[message.source.id];
 	}
 })
 
@@ -132,14 +117,21 @@ self.addEventListener('fetch', event => {
 
 			// Time how long the page takes to load
 			if(event.request.destination === 'document') {
-				addToActiveClients(event.resultingClientId);
-				startPageTimer(event.resultingClientId);
+				loadingClients[event.resultingClientId] = {
+					loadTime: 0,
+					timer: setInterval( ()=> {
+						loadingClients[event.resultingClientId].loadTime += 50;
+						if(loadingClients[event.resultingClientId].loadTime >= TIME_LIMIT) {
+							clearInterval(loadingClients[event.resultingClientId].timer);
+						}
+					}, 50)
+				}
 			}
 
 			// Return cache response if page has taken too long to load
 			let pageID = event.clientId || event.resultingClientId;
 
-			if(activeClients[pageID]) {
+			if(loadingClients[pageID]) {
 				setTimeout(()=> {
 					if(!resolved) {
 						getCacheResponse(event.request)
@@ -149,7 +141,7 @@ self.addEventListener('fetch', event => {
 						})
 						.catch(()=> {null})
 					}
-				}, TIME_LIMIT - activeClients[pageID].loadTime);
+				}, TIME_LIMIT - loadingClients[pageID].loadTime);
 			}
 		}));
 	}
