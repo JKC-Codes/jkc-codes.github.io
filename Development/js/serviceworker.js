@@ -117,15 +117,15 @@ self.addEventListener('fetch', event => {
 
 			// Time how long the page takes to load
 			if(event.request.destination === 'document') {
-				loadingClients[event.resultingClientId] = {
-					loadTime: 0,
-					timer: setInterval( ()=> {
-						loadingClients[event.resultingClientId].loadTime += 50;
-						if(loadingClients[event.resultingClientId].loadTime >= TIME_LIMIT) {
-							clearInterval(loadingClients[event.resultingClientId].timer);
-						}
-					}, 50)
-				}
+				loadingClients[event.resultingClientId] = {loadTime: 0};
+				let page = loadingClients[event.resultingClientId];
+				page.timer = setInterval( ()=> {
+					page.loadTime += 50;
+					if(page.loadTime >= TIME_LIMIT) {
+						clearInterval(page.timer);
+						delete page;
+					}
+				}, 50)
 			}
 
 			// Return cache response if page has taken too long to load
