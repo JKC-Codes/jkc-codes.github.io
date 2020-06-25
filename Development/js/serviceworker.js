@@ -5,7 +5,6 @@ const activeClients = {};
 
 function addToActiveClients(pageID) {
 	activeClients[pageID] = {
-		loading: true,
 		loadTime: 0
 	};
 }
@@ -140,7 +139,7 @@ self.addEventListener('fetch', event => {
 			// Return cache response if page has taken too long to load
 			let pageID = event.clientId || event.resultingClientId;
 
-			if(activeClients[pageID] && activeClients[pageID].loading) {
+			if(activeClients[pageID]) {
 				setTimeout(()=> {
 					if(!resolved) {
 						getCacheResponse(event.request)
