@@ -1,6 +1,5 @@
-// Start service worker
 if('serviceWorker' in navigator) {
-
+	// Start service worker
 	navigator.serviceWorker.register('/serviceworker.js');
 
 	// Cache files downloaded before service worker activated
