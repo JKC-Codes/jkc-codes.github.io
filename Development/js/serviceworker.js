@@ -1,6 +1,6 @@
 const CACHE_NAME = 'offline';
 const TIME_LIMIT = 3000;
-const loadingClients = {};
+const loadingPages = {};
 
 
 function updateCache(request, response) {
@@ -70,6 +70,12 @@ function getCacheResponse(request) {
 }
 
 
+self.addEventListener('activate', event => {
+	event.waitUntil(
+		clients.claim()
+	);
+});
+
 self.addEventListener('message', message => {
 	if(message.data.command === 'fillInitialCache') {
 		caches.open(CACHE_NAME)
@@ -77,72 +83,65 @@ self.addEventListener('message', message => {
 			cache.addAll(message.data.payload);
 		})
 	}
-	else if(message.data === 'pageLoaded' && loadingClients[message.source.id]) {
-		clearInterval(loadingClients[message.source.id].timer);
-		delete loadingClients[message.source.id];
+	else if(message.data === 'pageLoaded') {
+		delete loadingPages[message.source.id];
 	}
-})
-
-self.addEventListener('activate', event => {
-	event.waitUntil(
-		clients.claim()
-	);
 });
 
 self.addEventListener('fetch', event => {
-	if(event.request.method === 'GET') {
-		event.respondWith(new Promise(resolve => {
-			let resolved = false;
+	// Only worry about outgoing requests
+	if(event.request.method !== 'GET') { return; };
 
-			// Return network response or cache if it fails
-			event.waitUntil(
-				getNetworkResponse(event.request)
-				.catch(() => {
-					return getCacheResponse(event.request);
+	let fetchResolved = false;
+	event.respondWith(new Promise(resolve => {
+		// Return network response or cache if it fails
+		event.waitUntil(
+			getNetworkResponse(event.request)
+			.catch(() => {
+				return getCacheResponse(event.request);
+			})
+			.catch(() => {
+				return new Response(null, {
+					'url': event.request.url,
+					'status': 404,
+					'statusText': 'Not found'
 				})
-				.catch(() => {
-					return new Response(null, {
-						'url': event.request.url,
-						'status': 404,
-						'statusText': 'Not found'
-					})
-				})
-				.then(response => {
-					if(!resolved) {
-						resolved = true;
-						resolve(response);
-					}
-				})
-			)
+			})
+			.then(response => {
+				if(!fetchResolved) {
+					fetchResolved = true;
+					resolve(response);
+				}
+			})
+		)
 
-			// Time how long the page takes to load
+		// Note time of page request
+		if(event.request.destination === 'document') {
+			loadingPages[event.resultingClientId] = Date.now();
+		}
+
+		// Compare time of page request to time of current request
+		let pageID = event.clientId || event.resultingClientId;
+		let delay = 0;
+		if(loadingPages[pageID]) {
+			delay = Date.now() - loadingPages[pageID];
+		}
+
+		setTimeout(()=> {
+			// Clean up loadingPages object in case page fails to load
 			if(event.request.destination === 'document') {
-				loadingClients[event.resultingClientId] = {loadTime: 0};
-				let page = loadingClients[event.resultingClientId];
-				page.timer = setInterval( ()=> {
-					page.loadTime += 50;
-					if(page.loadTime >= TIME_LIMIT) {
-						clearInterval(page.timer);
-						delete page;
-					}
-				}, 50)
+				delete loadingPages[pageID];
 			}
 
 			// Return cache response if page has taken too long to load
-			let pageID = event.clientId || event.resultingClientId;
-
-			if(loadingClients[pageID]) {
-				setTimeout(()=> {
-					if(!resolved) {
-						getCacheResponse(event.request)
-						.then(response => {
-							resolved = true;
-							resolve(response);
-						})
-						.catch(()=> {null})
-					}
-				}, TIME_LIMIT - loadingClients[pageID].loadTime);
+			if(!fetchResolved) {
+				getCacheResponse(event.request)
+				.then(response => {
+					fetchResolved = true;
+					resolve(response);
+				})
+				.catch(()=> { null })
 			}
-		}));
-	}
+		}, TIME_LIMIT - delay);
+	}));
 });
