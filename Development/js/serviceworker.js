@@ -1,6 +1,4 @@
 const CACHE_NAME = 'offline';
-const TIME_LIMIT = 3000;
-const loadingPages = {};
 
 
 function updateCache(request, response) {
@@ -83,65 +81,24 @@ self.addEventListener('message', message => {
 			cache.addAll(message.data.payload);
 		})
 	}
-	else if(message.data === 'pageLoaded') {
-		delete loadingPages[message.source.id];
-	}
 });
 
 self.addEventListener('fetch', event => {
 	// Only worry about outgoing requests
 	if(event.request.method !== 'GET') { return; };
 
-	let fetchResolved = false;
-	event.respondWith(new Promise(resolve => {
-		// Return network response or cache if it fails
-		event.waitUntil(
-			getNetworkResponse(event.request)
-			.catch(() => {
-				return getCacheResponse(event.request);
+	// Return network response or cache if it fails
+	event.respondWith(
+		getNetworkResponse(event.request)
+		.catch(() => {
+			return getCacheResponse(event.request);
+		})
+		.catch(() => {
+			return new Response(null, {
+				'url': event.request.url,
+				'status': 404,
+				'statusText': 'Not found'
 			})
-			.catch(() => {
-				return new Response(null, {
-					'url': event.request.url,
-					'status': 404,
-					'statusText': 'Not found'
-				})
-			})
-			.then(response => {
-				if(!fetchResolved) {
-					fetchResolved = true;
-					resolve(response);
-				}
-			})
-		)
-
-		// Note time of page request
-		if(event.request.destination === 'document') {
-			loadingPages[event.resultingClientId] = Date.now();
-		}
-
-		// Compare time of page request to time of current request
-		let pageID = event.clientId || event.resultingClientId;
-		let delay = 0;
-		if(loadingPages[pageID]) {
-			delay = Date.now() - loadingPages[pageID];
-		}
-
-		setTimeout(()=> {
-			// Clean up loadingPages object in case page fails to load
-			if(event.request.destination === 'document') {
-				delete loadingPages[pageID];
-			}
-
-			// Return cache response if page has taken too long to load
-			if(!fetchResolved) {
-				getCacheResponse(event.request)
-				.then(response => {
-					fetchResolved = true;
-					resolve(response);
-				})
-				.catch(()=> { null })
-			}
-		}, TIME_LIMIT - delay);
-	}));
+		})
+	)
 });
