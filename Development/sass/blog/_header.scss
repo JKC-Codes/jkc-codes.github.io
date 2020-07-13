@@ -7,11 +7,9 @@
 	padding-top: 5rem;
 	font-size: 80%;
 
-	img {
+	.rss-icon {
 		margin-right: 0.25rem;
-	}
-
-	a {
-		color: $colour-minimal;
+		vertical-align: middle;
+		color: hsl(30, 90%, 45%);
 	}
 }
