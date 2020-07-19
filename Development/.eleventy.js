@@ -10,7 +10,8 @@ module.exports = function(eleventyConfig) {
     dir: {
 			input: "html/",
 			output: "staging/",
-			includes: "_templates/"
+			includes: "_includes",
+			layouts: "_layouts"
 		},
 		passthroughFileCopy: true
   };
