@@ -2,6 +2,11 @@
 layout: base
 css: blog
 title: Blog
+pagination:
+ data: collections.blogpost
+ size: 10
+ reverse: true
+ alias: blog
 ---
 
 <header>
@@ -16,43 +21,13 @@ title: Blog
 </header>
 
 <ul id="articles">
-	<li>
-		<article>
-			<h2><a href="/blog/post">Praesent pretium pellentesque massa, ac</a></h2>
-			<p class="introduction">You really think you can fly that thing? We gotta burn the rain forest, dump toxic waste, pollute the air, and rip up the OZONE! 'Cause maybe if we screw up this planet enough, they won't want it anymore! Did he just throw my cat out of the window? Just my luck, no ice.</p>
-			<a href="/blog/post">Continue reading Praesent pretium pellentesque massa, ac</a>
-		</article>
-	</li>
-
-	<li>
-		<article>
-			<h2><a href="/blog/post">Pellentesque habitant morbi tristique senectus</a></h2>
-			<p class="introduction">We gotta burn the rain forest, dump toxic waste, pollute the air, and rip up the OZONE! 'Cause maybe if we screw up this planet enough, they won't want it anymore! God help us, we're in the hands of engineers. I was part of something special. Eventually, you do plan to have dinosaurs on your dinosaur tour, right?</p>
-			<a href="/blog/post">Continue reading Pellentesque habitant morbi tristique senectus</a>
-		</article>
-	</li>
-
-	<li>
-		<article>
-			<h2><a href="/blog/post">Vivamus laoreet, mi ut semper</a></h2>
-			<p class="introduction">Must go faster. Must go faster. God creates dinosaurs. God destroys dinosaurs. God creates Man. Man destroys God. Man creates Dinosaurs. Did he just throw my cat out of the window? Remind me to thank John for a lovely weekend. You're a very talented young man, with your own clever thoughts and ideas. Do you need a manager?</p>
-			<a href="/blog/post">Continue reading Vivamus laoreet, mi ut semper</a>
-		</article>
-	</li>
-
-	<li>
-		<article>
-			<h2><a href="/blog/post">Vestibulum pellentesque gravida lectus, ut ullamcorper dolor aliquet venenatis</a></h2>
-			<p class="introduction">You really think you can fly that thing? You know what? It is beets. I've crashed into a beet truck. Yeah, but John, if The Pirates of the Caribbean breaks down, the pirates don’t eat the tourists. I was part of something special. God creates dinosaurs. God destroys dinosaurs. God creates Man. Man destroys God. Man creates Dinosaurs.</p>
-			<a href="/blog/post">Continue reading Vestibulum pellentesque gravida lectus, ut ullamcorper dolor aliquet venenatis</a>
-		</article>
-	</li>
-
-	<li>
-		<article>
-			<h2><a href="/blog/post">Proin a placerat quam</a></h2>
-			<p class="introduction">So you two dig up, dig up dinosaurs? Did he just throw my cat out of the window? This thing comes fully loaded. AM/FM radio, reclining bucket seats, and... power windows. I gave it a cold? I gave it a virus. A computer virus. Is this my espresso machine? Wh-what is-h-how did you get my espresso machine?</p>
-			<a href="/blog/post">Continue reading Proin a placerat quam</a>
-		</article>
-	</li>
+	{%- for post in blog %}
+		<li>
+			<article>
+				<h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+				<div class="introduction">{% summarise post %}</div>
+				<a href="{{ post.url }}">Continue reading {{ post.data.title }}</a>
+			</article>
+		</li>
+	{%- endfor %}
 </ul>
