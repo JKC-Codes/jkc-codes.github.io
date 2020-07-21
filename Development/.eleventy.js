@@ -1,8 +1,15 @@
 module.exports = function(eleventyConfig) {
+	// Move folders directly to the build directory
 	eleventyConfig.addPassthroughCopy("./img/");
 	eleventyConfig.addPassthroughCopy("./js/");
+
+	// Move service worker from JS folder to the root directory
 	eleventyConfig.addPassthroughCopy({"./js/serviceworker.js":"./serviceworker.js"});
+
+	// Redirect missing pages on stage to production
 	eleventyConfig.addPassthroughCopy({"./.netlify/_redirects":"./_redirects"});
+
+	// Refresh browser when CSS updates
 	eleventyConfig.setBrowserSyncConfig({
 	files: ["./staging/css/**/*.css", "!./staging/css/**/*.map"]
 	});
@@ -10,9 +17,7 @@ module.exports = function(eleventyConfig) {
 	return {
 		dir: {
 			input: "html/",
-			output: "staging/",
-			includes: "_includes",
-			layouts: "_layouts"
+			output: "staging/"
 		},
 		passthroughFileCopy: true
   };
