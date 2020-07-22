@@ -11,12 +11,12 @@ module.exports = function(eleventyConfig) {
 
 	// Refresh browser when CSS updates
 	eleventyConfig.setBrowserSyncConfig({
-	files: ['./staging/css/**/*.css', '!./staging/css/**/*.map']
+		files: ['./staging/css/**/*.css', '!./staging/css/**/*.map']
 	});
 
 	// Create summaries for blog posts
-	eleventyConfig.addShortcode('summarise', function(article) {
-		return getSummary(article);
+	eleventyConfig.addShortcode('summarise', function(article, wordLimit) {
+		return getSummary(article.templateContent, wordLimit);
 	});
 
 	return {
@@ -28,7 +28,19 @@ module.exports = function(eleventyConfig) {
   };
 };
 
-function getSummary(article) {
-	let content = article.templateContent;
-	return content;
+function getSummary(text, wordLimit = 50, start = 0) {
+	// Look for '<p ' + some type of attribute may go here + '>'
+	const firstParagraph = text.search(/<p\b.*>/);
+	const closingTag = text.indexOf('</p>', start);
+	const extract = text.slice(firstParagraph, closingTag);
+	const words = extract.split(' ', wordLimit);
+
+	if(words.length < wordLimit && closingTag !== -1) {
+		return getSummary(text, wordLimit, closingTag + 4);
+	}
+	else {
+		const summary = Array.from(words);
+		summary[summary.length - 1] = summary[summary.length - 1] + '&hellip;';
+		return summary.join(' ');
+	}
 }
