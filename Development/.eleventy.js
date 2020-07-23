@@ -16,7 +16,7 @@ module.exports = function(eleventyConfig) {
 
 	// Create summaries for blog posts
 	eleventyConfig.addShortcode('summarise', function(article, wordLimit) {
-		// Pass in templateContent so only content will be passed in
+		// Pass in templateContent so only content will be used
 		return getSummary(article.templateContent, wordLimit);
 	});
 
@@ -30,17 +30,21 @@ module.exports = function(eleventyConfig) {
 };
 
 function getSummary(text, wordLimit = 50) {
-	// Look for '<p ' + some type of attribute may go here + '>'
-	const firstParagraph = text.search(/<p\b.*>/);
+	// Look for '<p' + some type of attribute(s) may go here + '>'
+	const firstParagraph = text.search(/<p(\s.*)?>/, 'i');
 	// Get the first X number of words starting from the first paragraph
 	const extract = text.slice(firstParagraph).split(' ', wordLimit).join(' ');
+
+	// Remove images ('<img ' + whatever + '>')
+	const imageFree = extract.replace(/<img\s.*>/gi, '');
+
 	// Add an ellipsis to the last word
-	const summary = extract + '&hellip;';
+	const summary = imageFree + '&hellip;';
 
 
 
 	return summary;
 
 
-	// TODO strip out images and videos, reduce headings by one level
+	// TODO reduce headings by one level
 }
