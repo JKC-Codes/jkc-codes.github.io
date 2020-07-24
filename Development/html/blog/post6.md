@@ -3,11 +3,15 @@ title: Ut turpis nisl, interdum id justo ac.
 reviewed: TODO
 ---
 
-This one has an image
+This one had 2 images
 
 ![a test image](/img/site/icon-site-16x16.png)
 
 ^ That was an image.
+
+![a second test image](/img/site/icon-site-32x32.png)
+
+^ That was another.
 
 Yeah, but John, if The Pirates of the Caribbean breaks down, the pirates don’t eat the tourists. Must go faster. I was part of something special. Must go faster.
 
