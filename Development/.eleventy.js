@@ -30,21 +30,23 @@ module.exports = function(eleventyConfig) {
 };
 
 function getSummary(text, wordLimit = 50) {
-	// Look for '<p' + some type of attribute(s) may go here + '>'
-	const firstParagraph = text.search(/<p(\s.*)?>/, 'i');
+	// Regex = '<p' + 0 or more characters that are not '>' + '>'
+	const firstParagraph = text.search(/<p[^>]*>/, 'i');
 	// Get the first X number of words starting from the first paragraph
-	const extract = text.slice(firstParagraph).split(' ', wordLimit).join(' ');
+	let extract = text.slice(firstParagraph).split(' ', wordLimit).join(' ');
 
-	// Remove images ('<img ' + whatever + '>')
-	const imageFree = extract.replace(/<img\s.*>/gi, '');
+	// Remove images
+	// Regex = '<img' + 0 or more characters that are not '>' + '>'
+	extract = extract.replace(/<img[^>]*>/gi, '');
+
+	// Remove any resulting empty elements
+	// Regex = '<' + any number of letters + 0 or more characters that are not '>' + '>' + any number of spaces + '</' + first set of letters + '>'
+	extract = extract.replace(/<([a-z]+)[^>]*>\s*<\/\1>/gi, '');
 
 	// Add an ellipsis to the last word
-	const summary = imageFree + '&hellip;';
+	extract = extract + '&hellip;';
 
-
-
-	return summary;
-
+	return extract;
 
 	// TODO reduce headings by one level
 }
