@@ -54,3 +54,35 @@ function createIntroduction(text, wordLimit = 50) {
 	// TODO reduce headings by one level
 	// TODO close any unclosed tags
 }
+
+/*
+<p>something <div><b>bold</b> foo <b><i>multiple</i></b></div></p>
+<div>
+	<p>something contained</p>
+	<aside>
+		<p>something floated</p>
+	</aside>
+</div>
+
+
+node = opening or closing tag
+
+for each node
+if opening tag
+	if not heading, paragraph, list or blockquote AND unclosed list doesn't contain these either
+		continue
+	if image
+		continue
+	push closing tag to unclosed list
+else if closing tag
+	if last item of unclosed list doesn't match closing tag
+		continue
+	pop unclosed list
+add node to html extract
+add node words count to extract words count
+if extract words count is less than word limit
+	continue
+else if word limit reached
+	add ellipsis to html extract
+	join unclosed tags to html extract
+*/
