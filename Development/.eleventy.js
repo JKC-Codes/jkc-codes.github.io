@@ -15,8 +15,8 @@ module.exports = function(eleventyConfig) {
 	});
 
 	// Create summaries for blog posts
-	eleventyConfig.addShortcode('introduce', function(article, wordLimit) {
-		return createIntroduction(article.templateContent || article, wordLimit);
+	eleventyConfig.addShortcode('extract', function(article, wordLimit) {
+		return createExtract(article.templateContent || article, wordLimit);
 	});
 
 	return {
@@ -28,7 +28,7 @@ module.exports = function(eleventyConfig) {
   };
 };
 
-function createIntroduction(text, wordLimit = 50) {
+function createExtractORIGINAL(text, wordLimit = 50) {
 	// Get index of the first <p> tag
 	// Regex = '<p' + optional space followed by 0 or more characters that are not '>' + '>'
 	const firstParagraph = text.search(/<p(\s[^>]*)?>/, 'i');
@@ -50,9 +50,37 @@ function createIntroduction(text, wordLimit = 50) {
 	extract = extract + '&hellip;';
 
 	return extract;
+}
 
-	// TODO reduce headings by one level
-	// TODO close any unclosed tags
+function createExtract(text, wordLimit = 50) {
+	// Start from first paragraph
+	// Regex = '<p' + optional space followed by 0 or more characters that are not '>' + '>'
+	const firstParagraph = text.search(/<p(\s[^>]*)?>/, 'i');
+	let article = text.slice(firstParagraph);
+
+	function segment(string) {
+		// Regex = '<' + optional '/' + any number of letters + optional any number of space followed by 0 or more characters that are not '>' + '>'
+		let regex = /<\/?([a-z]+)(\s[^>]*)?>/i;
+		let tag = string.match(regex);
+		let tagElement = tag[1];
+		let tagIndex = tag.index;
+		let tagType = tag[0][1] === '/' ? 'closing' : 'opening';
+		let nextTagIndex = string.slice(1).match(regex).index + 1;
+		let tagContent = string.slice(0, nextTagIndex);
+		let tagText = tagContent.slice(tagContent.indexOf('>') + 1);
+
+		return {
+			content: tagContent,
+			text: tagText,
+			index: tagIndex,
+			element: tagElement,
+			type: tagType
+		}
+	}
+
+	let test = segment(article).content;
+	return test;
+
 }
 
 /*
@@ -67,14 +95,24 @@ function createIntroduction(text, wordLimit = 50) {
 
 node = opening or closing tag
 
+getSection = substring.match then new index = match length
+openingTag = regex
+closingTag = regex
+isImage
+countWords
+
+
+
 for each node
 if opening tag
-	if not heading, paragraph, list or blockquote AND unclosed list doesn't contain these either
-		continue
 	if image
 		continue
+	if heading
+		lower heading level
 	push closing tag to unclosed list
 else if closing tag
+	if heading
+		lower heading level
 	if last item of unclosed list doesn't match closing tag
 		continue
 	pop unclosed list
