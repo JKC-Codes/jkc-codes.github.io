@@ -15,9 +15,8 @@ module.exports = function(eleventyConfig) {
 	});
 
 	// Create summaries for blog posts
-	eleventyConfig.addShortcode('summarise', function(article, wordLimit) {
-		// Pass in templateContent so only content will be used
-		return getSummary(article.templateContent, wordLimit);
+	eleventyConfig.addShortcode('introduce', function(article, wordLimit) {
+		return createIntroduction(article.templateContent || article, wordLimit);
 	});
 
 	return {
@@ -29,11 +28,15 @@ module.exports = function(eleventyConfig) {
   };
 };
 
-function getSummary(text, wordLimit = 50) {
+function createIntroduction(text, wordLimit = 50) {
+	// Get index of the first <p> tag
 	// Regex = '<p' + optional space followed by 0 or more characters that are not '>' + '>'
 	const firstParagraph = text.search(/<p(\s[^>]*)?>/, 'i');
 	// Get the first X number of words starting from the first paragraph
 	let extract = text.slice(firstParagraph).split(' ', wordLimit).join(' ');
+
+	// Close any unclosed tags
+
 
 	// Remove images
 	// Regex = '<img' + optional space followed by 0 or more characters that are not '>' + '>'
@@ -43,10 +46,11 @@ function getSummary(text, wordLimit = 50) {
 	// Regex = '<' + any number of letters + optional space followed by 0 or more characters that are not '>' + '>' + any number of spaces + '</' + first set of letters + '>'
 	extract = extract.replace(/<([a-z]+)(\s[^>]*)?>\s*<\/\1>/gi, '');
 
-	// Add an ellipsis to the last word
+	// Add an ellipsis to the end
 	extract = extract + '&hellip;';
 
 	return extract;
 
 	// TODO reduce headings by one level
+	// TODO close any unclosed tags
 }
