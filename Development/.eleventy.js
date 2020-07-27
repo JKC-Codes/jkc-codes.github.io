@@ -52,18 +52,38 @@ function createExtractORIGINAL(text, wordLimit = 50) {
 	return extract;
 }
 
-function createExtract(text, wordLimit = 50) {
-	// Start from first paragraph
+function createExtract(text, wordLimit = 10) {
+	// Start from first paragraph so any table of contents are skipped
 	// Regex = '<p' + optional space followed by 0 or more characters that are not '>' + '>'
 	const firstParagraph = text.search(/<p(\s[^>]*)?>/, 'i');
 	let article = text.slice(firstParagraph);
+
+	let wordCount = 0;
+	let extract = '';
+	let currentIndex = 0;
+	while (wordCount < wordLimit && text.length > extract.length) {
+		let snippet = segment(article.slice(currentIndex));
+		let words = snippet.text.split(' ')
+		wordCount += words.length;
+		if (wordCount < wordLimit) {
+			extract += snippet.content;
+			currentIndex += snippet.index + snippet.content.length;
+		}
+		else {
+			let excessWords = wordCount - wordLimit;
+			let contentAsArray = snippet.content.split(' ');
+			let lastSnippet = contentAsArray.slice(0, contentAsArray.length - excessWords);
+			extract += lastSnippet.join(' ') + '&hellip;';
+		}
+	}
+
+	return extract;
 
 	function segment(string) {
 		// Regex = '<' + optional '/' + any number of letters + optional any number of space followed by 0 or more characters that are not '>' + '>'
 		let regex = /<\/?([a-z]+)(\s[^>]*)?>/i;
 		let tag = string.match(regex);
 		let tagElement = tag[1];
-		let tagIndex = tag.index;
 		let tagType = tag[0][1] === '/' ? 'closing' : 'opening';
 		let nextTagIndex = string.slice(1).match(regex).index + 1;
 		let tagContent = string.slice(0, nextTagIndex);
@@ -72,15 +92,10 @@ function createExtract(text, wordLimit = 50) {
 		return {
 			content: tagContent,
 			text: tagText,
-			index: tagIndex,
 			element: tagElement,
 			type: tagType
 		}
 	}
-
-	let test = segment(article).content;
-	return test;
-
 }
 
 /*
