@@ -28,75 +28,83 @@ module.exports = function(eleventyConfig) {
   };
 };
 
-function createExtractORIGINAL(text, wordLimit = 50) {
-	// Get index of the first <p> tag
-	// Regex = '<p' + optional space followed by 0 or more characters that are not '>' + '>'
-	const firstParagraph = text.search(/<p(\s[^>]*)?>/, 'i');
-	// Get the first X number of words starting from the first paragraph
-	let extract = text.slice(firstParagraph).split(' ', wordLimit).join(' ');
-
-	// Close any unclosed tags
 
 
-	// Remove images
-	// Regex = '<img' + optional space followed by 0 or more characters that are not '>' + '>'
-	extract = extract.replace(/<img(\s[^>]*)?>/gi, '');
 
-	// Remove any resulting empty elements
-	// Regex = '<' + any number of letters + optional space followed by 0 or more characters that are not '>' + '>' + any number of spaces + '</' + first set of letters + '>'
-	extract = extract.replace(/<([a-z]+)(\s[^>]*)?>\s*<\/\1>/gi, '');
 
-	// Add an ellipsis to the end
-	extract = extract + '&hellip;';
 
-	return extract;
-}
+
+
+
+
 
 function createExtract(text, wordLimit = 10) {
 	// Start from first paragraph so any table of contents are skipped
 	// Regex = '<p' + optional space followed by 0 or more characters that are not '>' + '>'
 	const firstParagraph = text.search(/<p(\s[^>]*)?>/, 'i');
-	let article = text.slice(firstParagraph);
+	const article = text.slice(firstParagraph);
 
-	let wordCount = 0;
+	// Regex = '<' + optional '/' + any number of letters + optional any number of space followed by 0 or more characters that are not '>' + '>'
+	const tagsRegex = RegExp(/<(\/?)([a-z]+)(\s[^>]*)?>/, 'gim');
+	let firstTag = tagsRegex.exec(article);
+	let secondTag = tagsRegex.exec(article);
+	let extractWordCount = 0;
 	let extract = '';
-	let currentIndex = 0;
-	while (wordCount < wordLimit && text.length > extract.length) {
-		let snippet = segment(article.slice(currentIndex));
-		let words = snippet.text.split(' ')
-		wordCount += words.length;
-		if (wordCount < wordLimit) {
-			extract += snippet.content;
-			currentIndex += snippet.index + snippet.content.length;
-		}
-		else {
-			let excessWords = wordCount - wordLimit;
-			let contentAsArray = snippet.content.split(' ');
-			let lastSnippet = contentAsArray.slice(0, contentAsArray.length - excessWords);
-			extract += lastSnippet.join(' ') + '&hellip;';
-		}
-	}
 
+	while(extractWordCount < wordLimit && secondTag !== null) {
+		let segmentHTML = article.slice(firstTag.index, secondTag.index);
+		const segmentText = segmentHTML.slice(segmentHTML.indexOf('>') + 1);
+		const segmentWordCount = segmentText.split(/\s/).filter(word => word).length;
+		const segmentTag = firstTag[2];
+		const segmentType = firstTag[1] ? 'closing' : 'opening';
+
+		// Check word count
+		extractWordCount += segmentWordCount;
+		if(extractWordCount > wordLimit) {
+			const difference = extractWordCount - wordLimit;
+			const textAsArray = segmentText.split(/\s/);
+			textAsArray.length -= difference;
+			segmentHTML = firstTag[0] + textAsArray.join(' ');
+		}
+
+		// Remove images
+
+		// Update heading levels
+
+		// Update extract
+		extract += segmentHTML;
+
+		// Iterate to next segment
+		firstTag = secondTag;
+		secondTag = tagsRegex.exec(article);
+	}
 	return extract;
-
-	function segment(string) {
-		// Regex = '<' + optional '/' + any number of letters + optional any number of space followed by 0 or more characters that are not '>' + '>'
-		let regex = /<\/?([a-z]+)(\s[^>]*)?>/i;
-		let tag = string.match(regex);
-		let tagElement = tag[1];
-		let tagType = tag[0][1] === '/' ? 'closing' : 'opening';
-		let nextTagIndex = string.slice(1).match(regex).index + 1;
-		let tagContent = string.slice(0, nextTagIndex);
-		let tagText = tagContent.slice(tagContent.indexOf('>') + 1);
-
-		return {
-			content: tagContent,
-			text: tagText,
-			element: tagElement,
-			type: tagType
-		}
-	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
 <p>something <div><b>bold</b> foo <b><i>multiple</i></b></div></p>
