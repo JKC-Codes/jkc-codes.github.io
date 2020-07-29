@@ -16,7 +16,7 @@ module.exports = function(eleventyConfig) {
 
 	// Create summaries for blog posts
 	eleventyConfig.addShortcode('extract', function(article, wordLimit) {
-		return createExtract(article.templateContent || article, wordLimit);
+		return createExtract((article.templateContent || article), wordLimit);
 	});
 
 	return {
@@ -38,14 +38,14 @@ module.exports = function(eleventyConfig) {
 
 
 
-function createExtract(text, wordLimit = 50) {
+function createExtract(text, wordLimit = 10) {
 	// Start from first paragraph so any table of contents are skipped
 	// Regex = '<p' + optional space followed by 0 or more characters that are not '>' + '>'
 	const firstParagraph = text.search(/<p(\s[^>]*)?>/, 'i');
 	const article = text.slice(firstParagraph);
 
-	// Regex = '<' + optional '/' + any number of letters + optional any number of space followed by 0 or more characters that are not '>' + '>'
-	const tagsRegex = RegExp(/<(\/?)([a-z]+)(\s[^>]*)?>/, 'gim');
+	// Regex = '<' + optional '/' + 1 or more characters that aren't '<' or whitespace + optional any number of space followed by 0 or more characters that are not '>' + '>'
+	const tagsRegex = RegExp(/<(\/?)(([^>\s])+)(\s[^>]*)?>/, 'gim');
 	let firstTag = tagsRegex.exec(article);
 	let secondTag = tagsRegex.exec(article);
 	let extractWordCount = 0;
@@ -54,9 +54,13 @@ function createExtract(text, wordLimit = 50) {
 	while(extractWordCount < wordLimit && secondTag !== null) {
 		let segmentHTML = article.slice(firstTag.index, secondTag.index);
 		const segmentText = segmentHTML.slice(segmentHTML.indexOf('>') + 1);
+		// Split text by whitespace and filter out any empty strings
 		const segmentWordCount = segmentText.split(/\s/).filter(word => word).length;
 		const segmentTag = firstTag[2];
 		const segmentType = firstTag[1] ? 'closing' : 'opening';
+
+		// Remove images
+
 
 		// Check word count
 		extractWordCount += segmentWordCount;
@@ -69,9 +73,8 @@ function createExtract(text, wordLimit = 50) {
 			segmentHTML = firstTag[0] + newText.join('');
 		}
 
-		// Remove images
-
 		// Update heading levels
+		console.log(segmentTag, segmentType);
 
 		// Update extract
 		extract += segmentHTML;
@@ -82,6 +85,7 @@ function createExtract(text, wordLimit = 50) {
 	}
 
 	// Close any unclosed tags
+
 
 	// Add an ellipsis to the end
 
