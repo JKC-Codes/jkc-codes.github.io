@@ -38,7 +38,7 @@ module.exports = function(eleventyConfig) {
 
 
 
-function createExtract(text, wordLimit = 10) {
+function createExtract(text, wordLimit = 50) {
 	// Start from first paragraph so any table of contents are skipped
 	// Regex = '<p' + optional space followed by 0 or more characters that are not '>' + '>'
 	const firstParagraph = text.search(/<p(\s[^>]*)?>/, 'i');
@@ -62,9 +62,11 @@ function createExtract(text, wordLimit = 10) {
 		extractWordCount += segmentWordCount;
 		if(extractWordCount > wordLimit) {
 			const difference = extractWordCount - wordLimit;
-			const textAsArray = segmentText.split(/\s/);
-			textAsArray.length -= difference;
-			segmentHTML = firstTag[0] + textAsArray.join(' ');
+			const desiredWordCount = segmentWordCount - difference;
+			// Regex = 0 or more whitespace characters + 1 or more non-whitespace characters
+			const newText = segmentText.match(/\s*\S+/gim);
+			newText.length = desiredWordCount;
+			segmentHTML = firstTag[0] + newText.join('');
 		}
 
 		// Remove images
@@ -78,72 +80,11 @@ function createExtract(text, wordLimit = 10) {
 		firstTag = secondTag;
 		secondTag = tagsRegex.exec(article);
 	}
+
+	// Close any unclosed tags
+
+	// Add an ellipsis to the end
+
+
 	return extract;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-<p>something <div><b>bold</b> foo <b><i>multiple</i></b></div></p>
-<div>
-	<p>something contained</p>
-	<aside>
-		<p>something floated</p>
-	</aside>
-</div>
-
-
-node = opening or closing tag
-
-getSection = substring.match then new index = match length
-openingTag = regex
-closingTag = regex
-isImage
-countWords
-
-
-
-for each node
-if opening tag
-	if image
-		continue
-	if heading
-		lower heading level
-	push closing tag to unclosed list
-else if closing tag
-	if heading
-		lower heading level
-	if last item of unclosed list doesn't match closing tag
-		continue
-	pop unclosed list
-add node to html extract
-add node words count to extract words count
-if extract words count is less than word limit
-	continue
-else if word limit reached
-	add ellipsis to html extract
-	join unclosed tags to html extract
-*/
