@@ -74,7 +74,12 @@ function createExtract(text, wordLimit = 10) {
 		}
 
 		// Update heading levels
-		console.log(segmentTag, segmentType);
+		if(/h[0-6]/i.test(segmentTag)) {
+			const headingLevel = segmentHTML.match(/[0-6]/);
+			const newHeadingLevel = Number(headingLevel) + 1;
+			const newTag = firstTag[0].replace(headingLevel, newHeadingLevel.toString(10));
+			segmentHTML = newTag + segmentText;
+		}
 
 		// Update extract
 		extract += segmentHTML;
