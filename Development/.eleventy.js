@@ -15,8 +15,8 @@ module.exports = function(eleventyConfig) {
 	});
 
 	// Create summaries for blog posts
-	eleventyConfig.addShortcode('extract', function(article, wordLimit) {
-		return createExtract((article.templateContent || article), wordLimit);
+	eleventyConfig.addShortcode('extract', function(article, options) {
+		return createExtract(article, options);
 	});
 
 	return {
@@ -38,18 +38,29 @@ module.exports = function(eleventyConfig) {
 
 
 
-function createExtract(text, wordLimit = 10) {
+function createExtract(text, options = {}) {
+
+	// Set options as arguments or default values
+	const {
+		wordLimit = 50,
+		maxHeadingLevel = 3
+	} = options;
+
+	// Use file's text content or take a string directly
+	text = text.templateContent || text;
+
 	// Start from first paragraph so any table of contents are skipped
 	// Regex = '<p' + optional space followed by 0 or more characters that are not '>' + '>'
 	const firstParagraph = text.search(/<p(\s[^>]*)?>/, 'i');
 	const article = text.slice(firstParagraph);
 
-	// Regex = '<' + optional '/' + 1 or more characters that aren't '<' or whitespace + optional any number of space followed by 0 or more characters that are not '>' + '>'
-	const tagsRegex = RegExp(/<(\/?)(([^>\s])+)(\s[^>]*)?>/, 'gim');
+	// Regex = '<' + optional '/' + 1 or more characters that aren't '>' or whitespace + optional any number of space followed by 0 or more characters that are not '>' + '>'
+	const tagsRegex = RegExp(/<(\/?)([^>\s]+)(\s[^>]*)?>/, 'gim');
 	let firstTag = tagsRegex.exec(article);
 	let secondTag = tagsRegex.exec(article);
 	let extractWordCount = 0;
 	let extract = '';
+	let headingLevelOffset = null;
 
 	while(extractWordCount < wordLimit && secondTag !== null) {
 		let segmentHTML = article.slice(firstTag.index, secondTag.index);
@@ -74,9 +85,24 @@ function createExtract(text, wordLimit = 10) {
 		}
 
 		// Update heading levels
-		if(/h[0-6]/i.test(segmentTag)) {
-			const headingLevel = segmentHTML.match(/[0-6]/);
-			const newHeadingLevel = Number(headingLevel) + 1;
+		if(/h[1-6]/i.test(segmentTag)) {
+			const headingLevel = firstTag[0].match(/[1-6]/);
+			let newHeadingLevel = Number(headingLevel);
+
+			// Create offset against max heading level
+			if(headingLevelOffset === null) {
+				headingLevelOffset = maxHeadingLevel - newHeadingLevel;
+			}
+
+			// Adjust heading level
+			newHeadingLevel += headingLevelOffset;
+
+			// Make sure heading level isn't invalid
+			if(newHeadingLevel > 6) {
+				newHeadingLevel = 6;
+			}
+
+			// Replace heading level and add to HTML segment
 			const newTag = firstTag[0].replace(headingLevel, newHeadingLevel.toString(10));
 			segmentHTML = newTag + segmentText;
 		}
