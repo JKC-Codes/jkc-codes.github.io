@@ -43,16 +43,32 @@ function createExtract(text, options = {}) {
 	// Set options as arguments or default values
 	const {
 		wordLimit = 50,
-		maxHeadingLevel = 3
+		initialHeadingLevel = 3
 	} = options;
 
 	// Use file's text content or take a string directly
 	text = text.templateContent || text;
 
+	// Check arguments are valid
+	if(typeof wordLimit !== 'number' || wordLimit < 1) {
+		throw new Error('wordLimit must be an integer greater than 1');
+	}
+
+	if(typeof initialHeadingLevel !== 'number' || initialHeadingLevel < 1 || initialHeadingLevel > 6) {
+		throw new Error('intitialHeadingLevel must be an integer from 1 to 6');
+	}
+
+	if(typeof text !== 'string' || text.length < 1) {
+		throw new Error('extract target must be a non-empty string');
+	}
+
 	// Start from first paragraph so any table of contents are skipped
 	// Regex = '<p' + optional space followed by 0 or more characters that are not '>' + '>'
 	const firstParagraph = text.search(/<p(\s[^>]*)?>/, 'i');
 	const article = text.slice(firstParagraph);
+	if(firstParagraph === -1) {
+		return `<p>${text}</p>`;
+	}
 
 	// Regex = '<' + optional '/' + 1 or more characters that aren't '>' or whitespace + optional any number of space followed by 0 or more characters that are not '>' + '>'
 	const tagsRegex = RegExp(/<(\/?)([^>\s]+)(\s[^>]*)?>/, 'gim');
@@ -71,6 +87,7 @@ function createExtract(text, options = {}) {
 		const segmentType = firstTag[1] ? 'closing' : 'opening';
 
 		// Remove images
+			// TODO remove empty tags
 
 
 		// Check word count
@@ -85,13 +102,14 @@ function createExtract(text, options = {}) {
 		}
 
 		// Update heading levels
+		// Regex = 'h' + a number from 1-6
 		if(/h[1-6]/i.test(segmentTag)) {
 			const headingLevel = firstTag[0].match(/[1-6]/);
 			let newHeadingLevel = Number(headingLevel);
 
 			// Create offset against max heading level
 			if(headingLevelOffset === null) {
-				headingLevelOffset = maxHeadingLevel - newHeadingLevel;
+				headingLevelOffset = initialHeadingLevel - newHeadingLevel;
 			}
 
 			// Adjust heading level
