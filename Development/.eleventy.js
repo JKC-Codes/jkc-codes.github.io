@@ -42,7 +42,7 @@ function createExtract(text, options = {}) {
 
 	// Set options as arguments or default values
 	const {
-		wordLimit = 50,
+		wordLimit = 10,
 		initialHeadingLevel = 3
 	} = options;
 
@@ -59,16 +59,13 @@ function createExtract(text, options = {}) {
 	}
 
 	if(typeof text !== 'string' || text.length < 1) {
-		throw new Error('extract target must be a non-empty string');
+		throw new Error('extract source must be a non-empty string');
 	}
 
 	// Start from first paragraph so any table of contents are skipped
 	// Regex = '<p' + optional space followed by 0 or more characters that are not '>' + '>'
 	const firstParagraph = text.search(/<p(\s[^>]*)?>/, 'i');
-	const article = text.slice(firstParagraph);
-	if(firstParagraph === -1) {
-		return `<p>${text}</p>`;
-	}
+	const article = firstParagraph === -1 ? text : text.slice(firstParagraph);
 
 	// Regex = '<' + optional '/' + 1 or more characters that aren't '>' or whitespace + optional any number of space followed by 0 or more characters that are not '>' + '>'
 	const tagsRegex = RegExp(/<(\/?)([^>\s]+)(\s[^>]*)?>/, 'gim');
@@ -77,6 +74,7 @@ function createExtract(text, options = {}) {
 	let extractWordCount = 0;
 	let extract = '';
 	let headingLevelOffset = null;
+	let unclosedTags = [];
 
 	while(extractWordCount < wordLimit && secondTag !== null) {
 		let segmentHTML = article.slice(firstTag.index, secondTag.index);
@@ -87,8 +85,12 @@ function createExtract(text, options = {}) {
 		const segmentType = firstTag[1] ? 'closing' : 'opening';
 
 		// Remove images
-			// TODO remove empty tags
-
+		if(segmentTag === 'img') {
+			// Iterate to next segment
+			firstTag = secondTag;
+			secondTag = tagsRegex.exec(article);
+			continue;
+		}
 
 		// Check word count
 		extractWordCount += segmentWordCount;
@@ -125,6 +127,14 @@ function createExtract(text, options = {}) {
 			segmentHTML = newTag + segmentText;
 		}
 
+		// Note any unclosed tags
+		if(segmentType === 'opening') {
+			unclosedTags.push(segmentTag);
+		}
+		else if(segmentType === 'closing') {
+			unclosedTags.pop();
+		}
+
 		// Update extract
 		extract += segmentHTML;
 
@@ -133,7 +143,12 @@ function createExtract(text, options = {}) {
 		secondTag = tagsRegex.exec(article);
 	}
 
-	// Close any unclosed tags
+	//Close any unclosed tags
+	unclosedTags.forEach(tag => {
+		extract += `</${tag}>`;
+	});
+
+	// Remove any empty tags
 
 
 	// Add an ellipsis to the end
