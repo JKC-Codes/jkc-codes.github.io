@@ -149,10 +149,11 @@ function createExtract(text, options = {}) {
 	});
 
 	// Remove any empty tags
-
+	// TODO ===================
 
 	// Add an ellipsis to the end
-
+	// Regex = last instance of 1 or more of: 0 or more whitespace characters + '</' + 1 or more of any character that isn't '>' + '>'
+	extract = extract.replace(/(\s*<\/[^>]+>)+$/i, '&hellip;$&');
 
 	return extract;
 }
