@@ -2,3 +2,4 @@ Development/.netlify
 Development/.vscode
 Development/node_modules
 Development/staging
+Development/package-lock.json
