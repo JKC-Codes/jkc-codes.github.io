@@ -8,7 +8,7 @@ module.exports = function(eleventyConfig, options = {}) {
 
 		// Set options as arguments or default values
 		const {
-			wordLimit = 50,
+			wordLimit = 100,
 			initialHeadingLevel = 3
 		} = options;
 
@@ -118,9 +118,11 @@ module.exports = function(eleventyConfig, options = {}) {
 		// Regex = '<' + 1 or more characters that aren't '>' or whitespace + optional any number of space followed by 0 or more characters that are not '>' + '>' + 0 or more whitespace + '</' + same opening tag + '>'
 		extract = extract.replace(/<([^>\s]+)(\s[^>]*)?>\s*<\/\1>/gim, '');
 
-		// Add an ellipsis to the end
-		// Regex = last instance of 1 or more of: 0 or more whitespace characters + '</' + 1 or more of any character that isn't '>' + '>'
-		extract = extract.replace(/(\s*<\/[^>]+>)+$/i, '&hellip;$&');
+		// Add an ellipsis to the end if there's more text
+		if(!(secondTag === null && extractWordCount <= wordLimit)) {
+			// Regex = last instance of 1 or more of: 0 or more whitespace characters + '</' + 1 or more of any character that isn't '>' + '>'
+			extract = extract.replace(/(\s*<\/[^>]+>)+$/i, '&hellip;$&');
+		}
 
 		return extract;
 	}
