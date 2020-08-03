@@ -1,6 +1,6 @@
 {
-  "name": "eleventy-plugin-extract",
-  "version": "1.0.0",
+	"name": "eleventy-plugin-extract",
+	"version": "1.0.0",
 	"description": "",
 	"publishConfig": {},
 	"main": ".eleventy.js",
@@ -9,7 +9,7 @@
 	},
 	"repository": {},
 	"keywords": [],
-  "author": {
+	"author": {
 		"name": "John Kemp-Cruz",
 		"url": "https://jkc.codes/"
 	},
