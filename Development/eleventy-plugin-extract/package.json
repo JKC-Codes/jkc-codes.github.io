@@ -1,0 +1,17 @@
+{
+  "name": "eleventy-plugin-extract",
+  "version": "1.0.0",
+	"description": "",
+	"publishConfig": {},
+	"main": ".eleventy.js",
+	"peerDependencies": {
+		"@11ty/eleventy": "^0.11.0"
+	},
+	"repository": {},
+	"keywords": [],
+  "author": {
+		"name": "John Kemp-Cruz",
+		"url": "https://jkc.codes/"
+	},
+	"license": "GPL-3.0-or-later"
+}
