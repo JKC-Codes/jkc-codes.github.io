@@ -16,6 +16,10 @@ module.exports = function(eleventyConfig) {
 		files: ['./staging/css/**/*.css', '!./staging/css/**/*.map']
 	});
 
+	eleventyConfig.addCollection('posts', function(collectionAPI) {
+		return collectionAPI.getFilteredByGlob('html/blog/*').reverse();
+	});
+
 	// Create summaries for blog posts
 	eleventyConfig.addPlugin(pluginExtract, {
 		wordLimit: 50,
