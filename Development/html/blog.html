@@ -18,7 +18,7 @@ title: Blog
 <ul id="articles">
 	{%- for post in collections.posts %}
 		<li>
-			<article>
+			<article aria-label="{{ post.data.title }}">
 				<h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
 				<div class="introduction">{% extract post %}</div>
 				<a href="{{ post.url }}">Continue reading {{ post.data.title }}</a>
