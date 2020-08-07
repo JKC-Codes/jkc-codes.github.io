@@ -23,6 +23,11 @@ function cname() {
 		.pipe(gulp.dest(destination));
 }
 
+function redirect() {
+	return gulp.src('./.netlify/_redirects')
+		.pipe(gulp.dest(destination));
+}
+
 function html() {
 	return gulp.src(destination + '**/*.html')
 	.pipe(htmlmin({
@@ -85,16 +90,13 @@ function browser() {
 	return shell('start firefox.exe -private-window https://jkc-codes.netlify.app');
 }
 
-function removeRedirects() {
-	return del(`${destination}_redirects`);
-}
-
 
 exports.stage = gulp.series(
 	reset,
 	eleventy,
 	gulp.parallel(
 		cname,
+		redirect,
 		html,
 		css,
 		gulp.series(js, sw),
@@ -112,7 +114,6 @@ exports.publish = gulp.series(
 		html,
 		css,
 		gulp.series(js, sw),
-		img,
-		removeRedirects
+		img
 	)
 );
