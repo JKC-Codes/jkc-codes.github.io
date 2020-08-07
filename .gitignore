@@ -1,5 +1,6 @@
-Development/.netlify
-Development/.vscode
-Development/node_modules
-Development/staging
-Development/package-lock.json
+.netlify
+.vscode
+node_modules
+staging
+temp
+package-lock.json
