@@ -90,11 +90,13 @@ function browser() {
 
 exports.default = gulp.series(
 	reset,
-	eleventy,
 	gulp.parallel(
 		cname,
 		redirect,
-		html,
+		gulp.series(
+			eleventy,
+			html
+		),
 		css,
 		js,
 		img
