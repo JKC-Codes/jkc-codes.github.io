@@ -10,7 +10,8 @@ module.exports = function(eleventyConfig) {
 
 	// Refresh browser when CSS updates
 	eleventyConfig.setBrowserSyncConfig({
-		files: ['./staging/css/**/*.css', '!./staging/css/**/*.map']
+		files: './staging/css/**/*.css',
+		ignore: './staging/css/**/*.map'
 	});
 
 	// Group all blog posts together
