@@ -1,6 +1,6 @@
 const
 	gulp = require('gulp'),
-	destination = './staging/',
+	destination = './temp/',
 	del = require('del'),
 	htmlmin = require('gulp-htmlmin'),
 	sass = require('gulp-sass'),
@@ -48,31 +48,28 @@ function html() {
 }
 
 function css() {
-	return gulp.src('sass/**/*.scss')
+	return gulp.src('./Styles/**/*.scss')
 		.pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-		.pipe(gulp.dest(destination + 'css'));
+		.pipe(gulp.dest(destination + 'css/'));
 }
 
 function js() {
-	return gulp.src(destination + '**/*.js')
-		.pipe(terser())
-		.pipe(gulp.dest(destination));
-}
+	return Promise.all([
+		gulp.src(['./Scripts/**/*.js', '!./Scripts/**/serviceworker.js'])
+			.pipe(terser())
+			.pipe(gulp.dest(destination + 'js/')),
 
-function sw() {
-	return new Promise((resolve, reject) => {
-		gulp.src(destination + 'js/serviceworker.js')
-			.pipe(gulp.dest(destination))
-			.on('end', ()=> {
-				return del([destination + 'js/serviceworker.js'])
-			})
-			.on('end', resolve)
-			.on('error', reject);
-	})
+		gulp.src(['./Scripts/**/serviceworker.js'])
+			.pipe(terser())
+			.pipe(gulp.dest(destination)),
+
+		gulp.src(['./Scripts/**', '!./Scripts/**/*.js'])
+			.pipe(gulp.dest(destination + 'js/'))
+	]);
 }
 
 function img() {
-	return gulp.src(destination + 'img/**')
+	return gulp.src('./Images/**')
 	.pipe(imagemin([
 		imagemin.gifsicle(),
 		imagemin.mozjpeg(),
@@ -91,7 +88,7 @@ function browser() {
 }
 
 
-exports.stage = gulp.series(
+exports.default = gulp.series(
 	reset,
 	eleventy,
 	gulp.parallel(
@@ -99,21 +96,12 @@ exports.stage = gulp.series(
 		redirect,
 		html,
 		css,
-		gulp.series(js, sw),
+		js,
 		img
 	),
 	netlify,
-	browser
-);
-
-exports.publish = gulp.series(
-	reset,
-	eleventy,
 	gulp.parallel(
-		cname,
-		html,
-		css,
-		gulp.series(js, sw),
-		img
+		browser,
+		reset
 	)
 );

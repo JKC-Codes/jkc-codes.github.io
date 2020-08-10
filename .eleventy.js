@@ -1,22 +1,26 @@
 const pluginExtract = require('./eleventy-plugin-extract/.eleventy.js');
 
 module.exports = function(eleventyConfig) {
-	// Move folders directly to the build directory
-	eleventyConfig.addPassthroughCopy('./img/');
-	eleventyConfig.addPassthroughCopy('./js/');
-
-	// Move service worker from JS folder to the root directory
-	eleventyConfig.addPassthroughCopy({'./js/serviceworker.js':'./serviceworker.js'});
-
-	// Refresh browser when CSS updates
 	eleventyConfig.setBrowserSyncConfig({
-		files: './staging/css/**/*.css',
-		ignore: './staging/css/**/*.map'
+		// Refresh browser when CSS updates
+		files: './css/**/*.css',
+		ignore: './css/**/*.map',
+
+		// Redirect live server requests
+		server: {
+			baseDir: './html',
+			routes: {
+				'/css': './css',
+				'/img': './Images',
+				'/js': './Scripts',
+				'/js/serviceworker.js': './Scripts/serviceworker.js'
+			}
+	}
 	});
 
 	// Group all blog posts together
 	eleventyConfig.addCollection('posts', function(collectionAPI) {
-		return collectionAPI.getFilteredByGlob('html/blog/*').reverse();
+		return collectionAPI.getFilteredByGlob('./Markup/blog/*').reverse();
 	});
 
 	// Create summaries for blog posts
@@ -27,8 +31,8 @@ module.exports = function(eleventyConfig) {
 
 	return {
 		dir: {
-			input: 'html/',
-			output: 'staging/'
+			input: './Markup/',
+			output: './html/'
 		},
 		passthroughFileCopy: true
   };

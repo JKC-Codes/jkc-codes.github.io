@@ -1,6 +1,7 @@
 .netlify
 .vscode
+css
+html
 node_modules
-staging
 temp
 package-lock.json
