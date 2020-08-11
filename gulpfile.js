@@ -1,6 +1,6 @@
 const
 	gulp = require('gulp'),
-	destination = './temp/',
+	destination = './docs/',
 	del = require('del'),
 	htmlmin = require('gulp-htmlmin'),
 	sass = require('gulp-sass'),
@@ -105,5 +105,19 @@ exports.default = gulp.series(
 	gulp.parallel(
 		browser,
 		reset
+	)
+);
+
+exports.publish = gulp.series(
+	reset,
+	gulp.parallel(
+		cname,
+		gulp.series(
+			eleventy,
+			html
+		),
+		css,
+		js,
+		img
 	)
 );
