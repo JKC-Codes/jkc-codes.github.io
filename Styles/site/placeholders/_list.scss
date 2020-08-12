@@ -75,7 +75,7 @@ ol%ordinal ol {
 ol%ordinal > li::before,
 ol%ordinal > li > ol > li::before,
 ol%ordinal > li > ol > li> ol > li::before,
-ol%ordinal%headings > li > :first-child::before  {
+ol%ordinal%headings > li > :first-child::before {
 	counter-increment: section;
 	content: counters(section, ".") ".\00a0";
 }

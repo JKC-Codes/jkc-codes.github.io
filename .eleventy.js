@@ -15,7 +15,7 @@ module.exports = function(eleventyConfig) {
 				'/js': './Scripts',
 				'/js/serviceworker.js': './Scripts/serviceworker.js'
 			}
-	}
+		}
 	});
 
 	// Group all blog posts together
@@ -35,5 +35,5 @@ module.exports = function(eleventyConfig) {
 			output: './html/'
 		},
 		passthroughFileCopy: true
-  };
+	};
 };

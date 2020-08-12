@@ -101,7 +101,7 @@ background: $colour-brand;
 		.line-bottom-right {
 			@extend %transition;
 			transition-property: transform, fill;
-			fill:  $colour-brand;
+			fill: $colour-brand;
 		}
 
 		.line-top-left {
