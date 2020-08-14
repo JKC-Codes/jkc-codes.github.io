@@ -3,24 +3,24 @@ const pluginExtract = require('./eleventy-plugin-extract/.eleventy.js');
 module.exports = function(eleventyConfig) {
 	eleventyConfig.setBrowserSyncConfig({
 		// Refresh browser when CSS updates
-		files: './css/**/*.css',
-		ignore: './css/**/*.map',
+		files: './src/css/**/*.css',
+		ignore: './src/css/**/*.map',
 
 		// Redirect live server requests
 		server: {
-			baseDir: './html',
+			baseDir: './src/html',
 			routes: {
-				'/css': './css',
-				'/img': './Images',
-				'/js': './Scripts',
-				'/js/serviceworker.js': './Scripts/serviceworker.js'
+				'/css': './src/css',
+				'/img': './src/img',
+				'/js': './src/js',
+				'/serviceworker.js': './src/js/serviceworker.js'
 			}
 		}
 	});
 
 	// Group all blog posts together
 	eleventyConfig.addCollection('posts', function(collectionAPI) {
-		return collectionAPI.getFilteredByGlob('./Markup/blog/*').reverse();
+		return collectionAPI.getFilteredByGlob('./src/pages/blog/*').reverse();
 	});
 
 	// Create summaries for blog posts
@@ -31,8 +31,8 @@ module.exports = function(eleventyConfig) {
 
 	return {
 		dir: {
-			input: './Markup/',
-			output: './html/'
+			input: './src/pages/',
+			output: './src/html/'
 		},
 		passthroughFileCopy: true
 	};

@@ -48,28 +48,28 @@ function html() {
 }
 
 function css() {
-	return gulp.src('./Styles/**/*.scss')
+	return gulp.src('./src/scss/**/*.scss')
 		.pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
 		.pipe(gulp.dest(destination + 'css/'));
 }
 
 function js() {
 	return Promise.all([
-		gulp.src(['./Scripts/**/*.js', '!./Scripts/**/serviceworker.js'])
+		gulp.src(['./src/js/**/*.js', '!./src/js/**/serviceworker.js'])
 			.pipe(terser())
 			.pipe(gulp.dest(destination + 'js/')),
 
-		gulp.src(['./Scripts/**/serviceworker.js'])
+		gulp.src(['./src/js/**/serviceworker.js'])
 			.pipe(terser())
 			.pipe(gulp.dest(destination)),
 
-		gulp.src(['./Scripts/**', '!./Scripts/**/*.js'])
+		gulp.src(['./src/js/**', '!./src/js/**/*.js'])
 			.pipe(gulp.dest(destination + 'js/'))
 	]);
 }
 
 function img() {
-	return gulp.src('./Images/**')
+	return gulp.src('./src/img/**')
 	.pipe(imagemin([
 		imagemin.gifsicle(),
 		imagemin.mozjpeg(),

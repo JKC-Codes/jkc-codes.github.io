@@ -1,6 +1,6 @@
 .netlify
-.vscode
-css
-html
+src/.vscode
+src/css
+src/html
 node_modules
 package-lock.json

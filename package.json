@@ -17,7 +17,7 @@
 	},
 	"scripts": {
 		"eleventy": "npx @11ty/eleventy --serve",
-		"sass": "sass Styles:css --watch --source-map-urls=absolute",
+		"sass": "sass src/scss:src/css --watch --source-map-urls=absolute",
 		"browser": "start firefox.exe -private-window http://localhost:8080",
 		"start": "npm-run-all --parallel eleventy browser sass"
 	},
