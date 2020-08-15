@@ -20,7 +20,7 @@ module.exports = function(eleventyConfig) {
 
 	// Group all blog posts together
 	eleventyConfig.addCollection('posts', function(collectionAPI) {
-		return collectionAPI.getFilteredByGlob('./src/pages/blog/*').reverse();
+		return collectionAPI.getFilteredByGlob('./src/pages/posts/*').reverse();
 	});
 
 	// Create summaries for blog posts
