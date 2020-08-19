@@ -7,6 +7,7 @@
 	"devDependencies": {
 		"@11ty/eleventy": "*",
 		"del": "*",
+		"del-cli": "*",
 		"gulp": "*",
 		"gulp-htmlmin": "*",
 		"gulp-imagemin": "*",
@@ -16,10 +17,11 @@
 		"sass": "*"
 	},
 	"scripts": {
+		"clean": "del-cli site/html site/css",
 		"eleventy": "npx @11ty/eleventy --serve",
 		"sass": "sass site/scss:site/css --watch --source-map-urls=absolute",
 		"browser": "start firefox.exe -private-window http://localhost:8080",
-		"start": "npm-run-all --parallel eleventy browser sass",
+		"start": "npm-run-all clean --parallel eleventy browser sass",
 		"build": "gulp publish"
 	},
 	"repository": {
