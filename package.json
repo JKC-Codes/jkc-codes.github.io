@@ -8,8 +8,9 @@
 		"@11ty/eleventy": "*",
 		"del-cli": "*",
 		"gulp": "*",
+		"gulp-html-minimizer": "*",
 		"gulp-imagemin": "*",
-		"gulp-minifier": "*",
+		"gulp-terser": "*",
 		"npm-run-all": "*",
 		"sass": "*"
 	},
