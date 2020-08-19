@@ -28,7 +28,7 @@
 		"type": "git",
 		"url": "git+https://github.com/JKC-Codes/jkc-codes.github.io.git"
 	},
-	"author": "John Kemp-Cruz",
+	"author": "John Kemp-Cruz (https://jkc.codes/)",
 	"license": "GPL-3.0-or-later",
 	"bugs": {
 		"url": "https://github.com/JKC-Codes/jkc-codes.github.io/issues"
