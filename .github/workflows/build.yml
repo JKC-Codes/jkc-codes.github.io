@@ -1,0 +1,18 @@
+name: Build Site
+on: workflow_dispatch
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git checkout --orphan live
+          npm install
+          npm run build
+          git reset
+          git add docs -f
+          git commit -m "Build for publishing"
+          git push -f --set-upstream origin live

@@ -19,7 +19,8 @@
 		"eleventy": "npx @11ty/eleventy --serve",
 		"sass": "sass src/scss:src/css --watch --source-map-urls=absolute",
 		"browser": "start firefox.exe -private-window http://localhost:8080",
-		"start": "npm-run-all --parallel eleventy browser sass"
+		"start": "npm-run-all --parallel eleventy browser sass",
+		"build": "gulp publish"
 	},
 	"repository": {
 		"type": "git",
