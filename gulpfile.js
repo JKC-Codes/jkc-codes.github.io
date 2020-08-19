@@ -1,6 +1,6 @@
 const
-	gulp = require('gulp'),
 	destination = './docs/',
+	gulp = require('gulp'),
 	del = require('del'),
 	htmlmin = require('gulp-htmlmin'),
 	sass = require('gulp-sass'),
@@ -48,28 +48,28 @@ function html() {
 }
 
 function css() {
-	return gulp.src('./src/scss/**/*.scss')
+	return gulp.src('./site/scss/**/*.scss')
 		.pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
 		.pipe(gulp.dest(destination + 'css/'));
 }
 
 function js() {
 	return Promise.all([
-		gulp.src(['./src/js/**/*.js', '!./src/js/**/serviceworker.js'])
+		gulp.src(['./site/js/**/*.js', '!./site/js/**/serviceworker.js'])
 			.pipe(terser())
 			.pipe(gulp.dest(destination + 'js/')),
 
-		gulp.src(['./src/js/**/serviceworker.js'])
+		gulp.src(['./site/js/**/serviceworker.js'])
 			.pipe(terser())
 			.pipe(gulp.dest(destination)),
 
-		gulp.src(['./src/js/**', '!./src/js/**/*.js'])
+		gulp.src(['./site/js/**', '!./site/js/**/*.js'])
 			.pipe(gulp.dest(destination + 'js/'))
 	]);
 }
 
 function img() {
-	return gulp.src('./src/img/**')
+	return gulp.src('./site/img/**')
 	.pipe(imagemin([
 		imagemin.gifsicle(),
 		imagemin.mozjpeg(),
