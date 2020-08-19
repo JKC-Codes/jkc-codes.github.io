@@ -33,7 +33,6 @@ module.exports = function(eleventyConfig) {
 		dir: {
 			input: './site/pages/',
 			output: './site/html/'
-		},
-		passthroughFileCopy: true
+		}
 	};
 };
