@@ -1,17 +1,14 @@
 const
 	destination = './docs/',
 	gulp = require('gulp'),
-	del = require('del'),
-	htmlmin = require('gulp-htmlmin'),
-	sass = require('gulp-sass'),
-	terser = require('gulp-terser'),
+	minify = require('gulp-minifier'),
 	imagemin = require('gulp-imagemin'),
 	shell = require('child_process').exec
 ;
 
 
 function reset() {
-	return del(`${destination}`);
+	return shell(`npx del-cli ${destination}`);
 }
 
 function eleventy() {
@@ -30,37 +27,44 @@ function redirect() {
 
 function html() {
 	return gulp.src(destination + '**/*.html')
-	.pipe(htmlmin({
-		collapseBooleanAttributes: true,
-		collapseInlineTagWhitespace: true,
-		collapseWhitespace: true,
-		conservativeCollapse: true,
-		minifyCSS: true,
-		minifyJS: true,
-		preserveLineBreaks: true,
-		removeComments: true,
-		removeEmptyAttributes: true,
-		removeRedundantAttributes: true,
-		removeScriptTypeAttributes: true,
-		removeStyleLinkTypeAttributes: true
+	.pipe(minify({
+		minify: true,
+		minifyHTML: {
+			collapseBooleanAttributes: true,
+			collapseInlineTagWhitespace: true,
+			collapseWhitespace: true,
+			conservativeCollapse: true,
+			minifyCSS: true,
+			minifyJS: true,
+			preserveLineBreaks: true,
+			removeComments: true,
+			removeEmptyAttributes: true,
+			removeRedundantAttributes: true,
+			removeScriptTypeAttributes: true,
+			removeStyleLinkTypeAttributes: true
+		}
 	}))
 	.pipe(gulp.dest(destination));
 }
 
 function css() {
-	return gulp.src('./site/scss/**/*.scss')
-		.pipe(sass({outputStyle: 'compressed'}).on('error', sass.logError))
-		.pipe(gulp.dest(destination + 'css/'));
+	return shell(`npx sass site/scss:${destination}css --style=compressed --no-source-map`);
 }
 
 function js() {
 	return Promise.all([
 		gulp.src(['./site/js/**/*.js', '!./site/js/**/serviceworker.js'])
-			.pipe(terser())
+			.pipe(minify({
+				minify: true,
+				minifyJS: {}
+			}))
 			.pipe(gulp.dest(destination + 'js/')),
 
 		gulp.src(['./site/js/**/serviceworker.js'])
-			.pipe(terser())
+			.pipe(minify({
+				minify: true,
+				minifyJS: {}
+			}))
 			.pipe(gulp.dest(destination)),
 
 		gulp.src(['./site/js/**', '!./site/js/**/*.js'])

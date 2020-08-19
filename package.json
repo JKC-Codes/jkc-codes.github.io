@@ -6,13 +6,10 @@
 	"dependencies": {},
 	"devDependencies": {
 		"@11ty/eleventy": "*",
-		"del": "*",
 		"del-cli": "*",
 		"gulp": "*",
-		"gulp-htmlmin": "*",
 		"gulp-imagemin": "*",
-		"gulp-sass": "*",
-		"gulp-terser": "*",
+		"gulp-minifier": "*",
 		"npm-run-all": "*",
 		"sass": "*"
 	},
