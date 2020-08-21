@@ -1,0 +1,7 @@
+#site-main {
+
+& > *:not(pre):not(code):not(blockquote):not(img) {
+	max-width: 65ch;
+}
+
+}

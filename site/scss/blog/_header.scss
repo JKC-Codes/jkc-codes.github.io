@@ -1,0 +1,16 @@
+#page-heading {
+	display: inline-block;
+	margin-bottom: 0;
+}
+
+#rss {
+	float: right;
+	margin-top: 5rem;
+	font-size: 80%;
+
+	.rss-icon {
+		margin-right: 0.25rem;
+		vertical-align: middle;
+		color: hsl(30, 90%, 45%);
+	}
+}
