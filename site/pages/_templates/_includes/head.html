@@ -1,0 +1,11 @@
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{{ title }} — John Kemp-Cruz</title>
+	<link rel="stylesheet" href="/css/site.css">
+	{% if css %}<link rel="stylesheet" href="/css/{{ css }}.css">{% endif %}
+	<script src="/js/site.js" defer></script>
+	{% if js %}<script src="/js/{{ js }}.js" defer></script>{% endif %}
+	{% include ./head/icons.html %}
+	{% include ./head/meta.html %}
+</head>

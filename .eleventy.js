@@ -32,7 +32,9 @@ module.exports = function(eleventyConfig) {
 	return {
 		dir: {
 			input: './site/pages/',
-			output: './site/html/'
+			output: './site/html/',
+			includes: './_templates/_includes',
+			layouts: './_templates/_layouts'
 		}
 	};
 };
