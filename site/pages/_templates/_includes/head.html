@@ -1,11 +1,24 @@
+{%- assign description = "Website for John Kemp-Cruz, a front-end web developer based in London, UK" -%}
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<title>{{ title }} — John Kemp-Cruz</title>
+
 	<link rel="stylesheet" href="/css/site.css">
 	{% if css %}<link rel="stylesheet" href="/css/{{ css }}.css">{% endif %}
+
 	<script src="/js/site.js" defer></script>
 	{% if js %}<script src="/js/{{ js }}.js" defer></script>{% endif %}
+
 	{% include ./head/icons.html %}
-	{% include ./head/meta.html %}
+
+	<link rel="manifest" href="/js/manifest.webmanifest">
+
+	<meta name="theme-color" content="#203060">
+	<meta name="author" content="John Kemp-Cruz">
+	<meta name="description" content="{{ description }}">
+
+	{% include ./head/opengraph.html %}
+	{% include ./head/schema.html %}
 </head>
