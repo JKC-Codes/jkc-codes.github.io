@@ -1,5 +1,3 @@
-const pluginExtract = require('./eleventy-plugin-extract/.eleventy.js');
-
 module.exports = function(eleventyConfig) {
 	eleventyConfig.setBrowserSyncConfig({
 		// Refresh browser when CSS updates
@@ -21,12 +19,6 @@ module.exports = function(eleventyConfig) {
 	// Group all blog posts together
 	eleventyConfig.addCollection('posts', function(collectionAPI) {
 		return collectionAPI.getFilteredByGlob('./site/pages/posts/*').reverse();
-	});
-
-	// Create summaries for blog posts
-	eleventyConfig.addPlugin(pluginExtract, {
-		wordLimit: 50,
-		initialHeadingLevel: 3
 	});
 
 	return {
