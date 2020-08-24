@@ -1,3 +1,17 @@
+{% unless description -%}
+	{% capture description -%}
+		{% if page.inputPath contains "./site/pages/posts/" -%}
+			{% for post in collections.posts -%}
+				{% if post.inputPath == page.inputPath -%}
+					{{ post.templateContent | strip_html | strip | truncate: 150, "…" }}
+				{%- endif %}
+			{%- endfor %}
+		{%- else -%}
+			Website for John Kemp-Cruz, a front-end web developer based in London, UK
+		{%- endif %}
+	{%- endcapture %}
+{%- endunless %}
+
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,7 +34,7 @@
 
 	<meta name="theme-color" content="#203060">
 	<meta name="author" content="John Kemp-Cruz">
-	<meta name="description" content="Website for John Kemp-Cruz, a front-end web developer based in London, UK">
+	<meta name="description" content="{{ description }}">
 
 	<meta property="og:title" content="{{ title }}">
 	{% if page.inputPath contains "./site/pages/posts/" -%}
@@ -39,7 +53,7 @@
 	<meta property="og:image:height" content="512">
 	<meta property="og:image:alt" content="JKC">
 	<meta property="og:url" content="https://jkc.codes{{ page.url }}">
-	<meta property="og:description" content="Website for John Kemp-Cruz, a front-end web developer based in London, UK">
+	<meta property="og:description" content="{{ description }}">
 	<meta property="og:locale" content="en-GB">
 	<meta property="og:site_name" content="John Kemp-Cruz"/>
 
