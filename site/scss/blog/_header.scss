@@ -1,16 +1,20 @@
-#page-heading {
-	display: inline-block;
-	margin-bottom: 0;
-}
+#page-header {
 
-#rss {
-	float: right;
-	margin-top: 5rem;
-	font-size: 80%;
+	@extend %row;
+	justify-content: space-between;
+	align-items: baseline;
 
-	.rss-icon {
-		margin-right: 0.25rem;
-		vertical-align: middle;
-		color: hsl(30, 90%, 45%);
+	#page-heading {
+		margin-bottom: 0;
 	}
+
+	.rss {
+		font-size: 80%;
+
+		svg {
+			margin-right: 0.25rem;
+			color: hsl(30, 90%, 45%);
+		}
+	}
+
 }
