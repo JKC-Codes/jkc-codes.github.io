@@ -3,14 +3,7 @@ module.exports = () => {
 		layout: "post",
 		permalink: "blog/{{ page.fileSlug | slug }}/",
 		eleventyComputed: {
-			title: function(data) {
-				if(data.title) {
-					return data.title
-				}
-				else {
-					return data.page.fileSlug;
-				}
-			}
+			title: data => data.title ? data.title : data.page.fileSlug
 		}
 	}
 }
