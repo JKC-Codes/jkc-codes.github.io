@@ -1,10 +1,13 @@
+const pluginExtract = require('./eleventy_plugins/extract.js');
+const pluginTimeToRead = require('./eleventy_plugins/timetoread.js');
+
 module.exports = function(eleventyConfig) {
 	eleventyConfig.setBrowserSyncConfig({
 		// Refresh browser when CSS updates
 		files: './site/css/**/*.css',
 		ignore: './site/css/**/*.map',
 
-		// Redirect live server requests
+		// Redirect live server requests so content isn't duplicated
 		server: {
 			baseDir: './site/html',
 			routes: {
@@ -20,6 +23,14 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addCollection('posts', function(collectionAPI) {
 		return collectionAPI.getFilteredByGlob('./site/pages/posts/*').reverse();
 	});
+
+	// Add plugins
+	eleventyConfig.addPlugin(pluginExtract, {
+		wordLimit: 50,
+		initialHeadingLevel: 3
+	});
+
+	eleventyConfig.addPlugin(pluginTimeToRead);
 
 	return {
 		dir: {
