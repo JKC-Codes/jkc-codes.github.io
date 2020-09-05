@@ -5,7 +5,7 @@ css: post
 
 <header>
 	<h1 id="page-heading">{{ title }}</h1>
-	<p class="reading-time">About {% time-to-read content %} to read</p>
+	<p class="reading-time">About {{ content | time-to-read }} to read</p>
 </header>
 
 {{ content }}

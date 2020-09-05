@@ -1,5 +1,5 @@
 const pluginExtract = require('./eleventy_plugins/extract.js');
-const pluginTimeToRead = require('./eleventy_plugins/timetoread.js');
+const pluginTimeToRead = require('./eleventy_plugins/time-to-read/.eleventy.js');
 
 module.exports = function(eleventyConfig) {
 	eleventyConfig.setBrowserSyncConfig({
@@ -30,7 +30,11 @@ module.exports = function(eleventyConfig) {
 		initialHeadingLevel: 3
 	});
 
-	eleventyConfig.addPlugin(pluginTimeToRead);
+	eleventyConfig.addPlugin(pluginTimeToRead, {
+		measure: 'words',
+		interval: 'minute',
+		value: 250
+	});
 
 	return {
 		dir: {
