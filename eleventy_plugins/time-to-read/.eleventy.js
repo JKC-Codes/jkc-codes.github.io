@@ -1,24 +1,30 @@
-const parseOptions = require('./src/parse-options.js');
+const parseOptions = require('./src/options-parser.js');
 const measureTime = require('./src/measure-time.js');
+const validateOptions = require('./src/options-validator.js');
 
 module.exports = function(eleventyConfig, customOptions) {
 
 	const defaultOptions = {
-		hour: ' hour',
-		hours: ' hours',
-		minute: ' minute',
-		minutes: ' minutes',
-		second: ' second',
-		seconds: ' seconds',
-		format: 'm',
+		hour: ['h', 'hr', ' hour'],
+		hours: ['h', 'hrs', ' hours'],
+		minute: ['m', 'min', ' minute'],
+		minutes: ['m', 'mins', ' minutes'],
+		second: ['s', 'sec', ' second'],
+		seconds: ['s', 'secs', ' seconds'],
+		format: '{mmm}',
 		quantity: 1000,
 		measure: 'characters',
 		interval: 'minute'
 	};
-	const globalOptions = Object.assign({}, defaultOptions, parseOptions(customOptions));
+	const globalOptions = Object.assign({}, defaultOptions, customOptions);
 
 	eleventyConfig.addFilter('time-to-read', function(input, ...instanceOptions) {
-		const options = Object.assign({}, globalOptions, parseOptions(instanceOptions));
-		return measureTime(input, options);
+		try {
+			const options = Object.assign({}, globalOptions, parseOptions(instanceOptions));
+			return measureTime(input, options);
+		}
+		catch(error) {
+			throw validateOptions(parseOptions(instanceOptions)) || validateOptions(customOptions) || new Error(error);
+		}
 	});
 }
