@@ -11,7 +11,7 @@ module.exports = function(customOptions) {
 	if(Array.isArray(customOptions)) {
 		options = {};
 		customOptions.forEach(option => {
-			if(option.match(regExSpeed)) {
+			if(regExSpeed.test(option)) {
 				options.speed = option;
 			}
 			else {
@@ -21,47 +21,64 @@ module.exports = function(customOptions) {
 	}
 
 	// Validate options
-	function validateAffixes(key, value) {
-		if(typeof value === 'string') {
-			value = [value];
+	function validateAffixes(optionKey, affix) {
+		if(typeof affix === 'string') {
+			affix = [affix];
 			return;
 		}
 		else if(
-			Array.isArray(value) && value.every(entry => typeof entry === 'string')) {
+			Array.isArray(affix) && affix.every(entry => typeof entry === 'string')) {
 			return;
 		}
 		else {
-			throw new Error(`Time-to-read's ${key} option must be a string or array of strings`);
+			throw new Error(`Time-to-read's ${optionKey} option must be a string or array of strings`);
 		}
 	}
 
-	function validateFormat(value) {
-		const isString = typeof value === 'string';
+	function validateFormat(options) {
+		const format = options.format;
+		const isString = typeof format === 'string';
 		// Regex = 1 or more of: 0 or more numbers + 'h', 'm' or 's' + optional 1 or more spaces
-		const isOnlyTime = value.match(/^([0-9]*[hms] *)+$/i);
+		const isOnlyTime = /^([0-9]*[hms] *)+$/i.test(format);
 		// Regex = '{' + 1 or more 'h', 'm' or 's' + '}'
-		const hasExpression = value.match(/{(h+|m+|s+)}+/i);
+		const hasExpression = /{(h+|m+|s+)}+/i.test(format);
 
 		if(!(isString && (isOnlyTime || hasExpression))) {
-			throw new Error(`Time-to-read's format option must be a string containing only h, m or s preceeded by numbers, or any string with them enclosed by {}. Received '${value}'`);
+			throw new Error(`Time-to-read's format option must be a string containing only h, m or s each optionally preceeded by numbers, or any string with them enclosed by {}. Received '${format}'`);
 		}
 	}
 
-	function validateSpeed(value) {
-		if(!value.match(regExSpeed)) {
-			throw new Error(`Time-to-read's speed option must be a string matching: '(Number) ${regExMeasure} (optional 'per' or 'a' or 'an') ${regExInterval}'. Received '${value}'`);
+	function validateSpeed(options) {
+		const speed = options.speed;
+		if(!regExSpeed.test(speed)) {
+			throw new Error(`Time-to-read's speed option must be a string matching: '(Number) ${regExMeasure} (optional 'per' or 'a' or 'an') ${regExInterval}'. Received '${speed}'`);
 		}
 	}
 
-	function addFormatKeys() {
+	// Add required keys to options object
+	function addKeysFormat(format) {
+		/*
+			hours index
+			minutes index
+			seconds index
+			hours padding
+			minutes padding
+			seconds padding
+			custom text
+		*/
 
+		if(/{(h+|m+|s+)}+/i.test(format)) {
+			// has expressions
+		}
+
+		delete options.format;
 	}
 
-	function addSpeedKeys(entryString) {
-		const optionsArray = entryString.split(' ');
-		options.quantity = Number(optionsArray[0]);
-		options.measure = optionsArray[1];
-		options.interval = optionsArray[optionsArray.length - 1];
+	function addKeysSpeed(options) {
+		const speedArray = options.speed.split(' ');
+		options.quantity = Number(speedArray[0]);
+		options.measure = speedArray[1];
+		options.interval = speedArray[speedArray.length - 1];
 		delete options.speed;
 	}
 
@@ -77,13 +94,13 @@ module.exports = function(customOptions) {
 			break;
 
 			case 'format':
-				validateFormat(options[option]);
-				addFormatKeys();
+				validateFormat(options);
+				addKeysFormat(options);
 			break;
 
 			case 'speed':
-				validateSpeed(options[option]);
-				addSpeedKeys(options[option]);
+				validateSpeed(options);
+				addKeysSpeed(options);
 			break;
 
 			default: throw new Error(`Time-to-read encountered an unrecognised option: ${option}`);
