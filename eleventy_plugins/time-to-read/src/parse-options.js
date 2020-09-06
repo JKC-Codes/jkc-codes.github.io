@@ -5,7 +5,7 @@ module.exports = function(customOptions) {
 	const regExMeasure = String.raw`(characters|words)`;
 	const regExInterval = String.raw`(hour|minute|second)`;
 	// Regex = quantity + space + measure + space + optional 'per ' or 'a ' + interval
-	const regExSpeed = new RegExp(`^${regExQuantity} ${regExMeasure} ((per|a) )?${regExInterval}$`, 'i');
+	const regExSpeed = new RegExp(`^${regExQuantity} ${regExMeasure} ((per|a|an) )?${regExInterval}$`, 'i');
 
 	// Create object from instance's options array
 	if(Array.isArray(customOptions)) {
@@ -35,13 +35,21 @@ module.exports = function(customOptions) {
 		}
 	}
 
-	function validateFormat(key, value) {
+	function validateFormat(value) {
+		const isString = typeof value === 'string';
+		// Regex = 1 or more of: 0 or more numbers + 'h', 'm' or 's' + optional 1 or more spaces
+		const isOnlyTime = value.match(/^([0-9]*[hms] *)+$/i);
+		// Regex = '{' + 1 or more 'h', 'm' or 's' + '}'
+		const hasExpression = value.match(/{(h+|m+|s+)}+/i);
 
+		if(!(isString && (isOnlyTime || hasExpression))) {
+			throw new Error(`Time-to-read's format option must be a string containing only h, m or s preceeded by numbers, or any string with them enclosed by {}. Received '${value}'`);
+		}
 	}
 
-	function validateSpeed(key, value) {
+	function validateSpeed(value) {
 		if(!value.match(regExSpeed)) {
-			throw new Error(`Time-to-read's ${key} option must be a string matching: '(Number) ${regExMeasure} (optional 'per' or 'a') ${regExInterval}'. Received '${value}'`);
+			throw new Error(`Time-to-read's speed option must be a string matching: '(Number) ${regExMeasure} (optional 'per' or 'a' or 'an') ${regExInterval}'. Received '${value}'`);
 		}
 	}
 
@@ -69,12 +77,12 @@ module.exports = function(customOptions) {
 			break;
 
 			case 'format':
-				validateFormat(option, options[option]);
+				validateFormat(options[option]);
 				addFormatKeys();
 			break;
 
 			case 'speed':
-				validateSpeed(option, options[option]);
+				validateSpeed(options[option]);
 				addSpeedKeys(options[option]);
 			break;
 
@@ -85,72 +93,3 @@ module.exports = function(customOptions) {
 	return options;
 
 }
-
-/*
-
-Desired format:
-	{
-		hour: ['h', 'hr', ' hour'],
-		hours: ['h', 'hrs', ' hours'],
-		minute: ['m', 'min', ' minute'],
-		minutes: ['m', 'mins', ' minutes'],
-		second: ['s', 'sec', ' second'],
-		seconds: ['s', 'secs', ' seconds'],
-		format: 'mmm',
-		quantity: 1000,
-		measure: 'characters',
-		interval: 'minute'
-	}
-
-
-	Possible inputs:
-
-	{}
-
-	{
-		invalid: 'entry'
-	}
-
-	{
-		format: 'hms'
-	}
-
-	{
-		format: 'ms'
-	}
-
-	{
-		format: 'm'
-	}
-
-	{
-		format: 'hhh mmm sss'
-	}
-
-	{
-		format: '0hhh 2mmm 2sss'
-	}
-
-	{
-		speed: '250 words per minute'
-	}
-
-	{
-		hour: ['h', 'hr', ' hour']
-	}
-
-	{
-		hours: ['h', 'hrs', ' hours']
-	}
-
-	{
-		minute: ['m', 'min', ' minute'],
-		minutes: ['foo', 'bar', 'baz']
-	}
-
-	{
-		second: ['s', 'sec', ' second'],
-		seconds: ['s', 'secs', ' seconds']
-	}
-
-*/
