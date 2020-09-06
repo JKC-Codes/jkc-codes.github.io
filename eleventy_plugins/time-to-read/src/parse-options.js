@@ -49,8 +49,12 @@ module.exports = function(customOptions) {
 
 	}
 
-	function addSpeedKeys() {
-
+	function addSpeedKeys(entryString) {
+		const optionsArray = entryString.split(' ');
+		options.quantity = Number(optionsArray[0]);
+		options.measure = optionsArray[1];
+		options.interval = optionsArray[optionsArray.length - 1];
+		delete options.speed;
 	}
 
 	for(option in options) {
@@ -71,10 +75,10 @@ module.exports = function(customOptions) {
 
 			case 'speed':
 				validateSpeed(option, options[option]);
-				addSpeedKeys();
+				addSpeedKeys(options[option]);
 			break;
 
-			default: throw new Error(`Time-to-read found unrecognised option: ${option}`);
+			default: throw new Error(`Time-to-read encountered an unrecognised option: ${option}`);
 		}
 	}
 
