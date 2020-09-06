@@ -26,25 +26,19 @@ module.exports = function(customOptions) {
 			affix = [affix];
 			return;
 		}
-		else if(
-			Array.isArray(affix) && affix.every(entry => typeof entry === 'string')) {
-			return;
-		}
-		else {
-			throw new Error(`Time-to-read's ${optionKey} option must be a string or array of strings`);
+		else if(!Array.isArray(affix) || !affix.every(entry => typeof entry === 'string')) {
+			throw new Error(`Time-to-read's ${optionKey} option must be a string or array of strings. Received: '${affix}'`);
 		}
 	}
 
 	function validateFormat(options) {
 		const format = options.format;
 		const isString = typeof format === 'string';
-		// Regex = 1 or more of: 0 or more numbers + 'h', 'm' or 's' + optional 1 or more spaces
-		const isOnlyTime = /^([0-9]*[hms] *)+$/i.test(format);
-		// Regex = '{' + 1 or more 'h', 'm' or 's' + '}'
-		const hasExpression = /{(h+|m+|s+)}+/i.test(format);
+		// Regex = '{' + 0 or more numbers + 1 or more 'h', 'm' or 's' + '}'
+		const hasExpression = /{[0-9]*(h+|m+|s+)}/i.test(format);
 
-		if(!(isString && (isOnlyTime || hasExpression))) {
-			throw new Error(`Time-to-read's format option must be a string containing only h, m or s each optionally preceeded by numbers, or any string with them enclosed by {}. Received '${format}'`);
+		if(!isString || !hasExpression) {
+			throw new Error(`Time-to-read's format option must be a string and contain any number of either h, m or s characters enclosed by {}. Received '${format}'`);
 		}
 	}
 
@@ -67,9 +61,6 @@ module.exports = function(customOptions) {
 			custom text
 		*/
 
-		if(/{(h+|m+|s+)}+/i.test(format)) {
-			// has expressions
-		}
 
 		delete options.format;
 	}
