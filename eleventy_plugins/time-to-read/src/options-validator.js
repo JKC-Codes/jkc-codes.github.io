@@ -18,12 +18,6 @@ function validateSpeed(speed) {
 	}
 }
 
-function validateLanguage(language) {
-	if(!new Intl.Locale(language)) {
-		throw new Error(`Time-to-read's language option must be a Unicode locale identifier. Received '${language}'`);
-	}
-}
-
 module.exports = function(options) {
 	for(option in options) {
 		switch(option) {
@@ -42,10 +36,6 @@ module.exports = function(options) {
 
 			case 'speed':
 				validateSpeed(options.speed);
-			break;
-
-			case 'language':
-				validateLanguage(options.language);
 			break;
 
 			default: throw new Error(`Time-to-read encountered an unrecognised option: ${option}`);
