@@ -1,7 +1,7 @@
 const regEx = require('./regular-expressions.js');
 
 module.exports = function(customOptions) {
-	// Create object from customInstanceOptions array
+	// Create object from instance options array
 	const options = {};
 	customOptions.forEach(option => {
 		if(`/${regEx.formatVariable}/i`.test(option)) {
