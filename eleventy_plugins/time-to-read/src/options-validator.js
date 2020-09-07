@@ -1,25 +1,30 @@
 const regEx = require('./regular-expressions.js');
 
+function validateAffixes(optionKey, affix) {
+	if(!Array.isArray(affix) || !affix.every(entry => typeof entry === 'string')) {
+		throw new Error(`Time-to-read's ${optionKey} option must be an array of strings. Received: '${affix}'`);
+	}
+}
+
+function validateFormat(format) {
+	if(typeof format !== 'string' || !new RegExp(regEx.formatVariable,'i').test(format)) {
+		throw new Error(`Time-to-read's format option must be a string and contain any number of either h, m or s characters enclosed by {}. Received '${format}'`);
+	}
+}
+
+function validateSpeed(speed) {
+	if(!new RegExp(regEx.speed,'i').test(speed)) {
+		throw new Error(`Time-to-read's speed option must be a string matching: '(Number) ${regEx.speedMeasure} (optional 'per' or 'a' or 'an') ${regEx.speedInterval}'. Received '${speed}'`);
+	}
+}
+
+function validateLanguage(language) {
+	if(!new Intl.Locale(language)) {
+		throw new Error(`Time-to-read's language option must be a Unicode locale identifier. Received '${language}'`);
+	}
+}
+
 module.exports = function(options) {
-
-	function validateAffixes(optionKey, affix) {
-		if(!Array.isArray(affix) || !affix.every(entry => typeof entry === 'string')) {
-			throw new Error(`Time-to-read's ${optionKey} option must be an array of strings. Received: '${affix}'`);
-		}
-	}
-
-	function validateFormat(format) {
-		if(typeof format !== 'string' || !new RegExp(regEx.formatVariable,'i').test(format)) {
-			throw new Error(`Time-to-read's format option must be a string and contain any number of either h, m or s characters enclosed by {}. Received '${format}'`);
-		}
-	}
-
-	function validateSpeed(speed) {
-		if(!new RegExp(regEx.speed,'i').test(speed)) {
-			throw new Error(`Time-to-read's speed option must be a string matching: '(Number) ${regEx.speedMeasure} (optional 'per' or 'a' or 'an') ${regEx.speedInterval}'. Received '${speed}'`);
-		}
-	}
-
 	for(option in options) {
 		switch(option) {
 			case 'hour':
@@ -37,6 +42,10 @@ module.exports = function(options) {
 
 			case 'speed':
 				validateSpeed(options.speed);
+			break;
+
+			case 'language':
+				validateLanguage(options.language);
 			break;
 
 			default: throw new Error(`Time-to-read encountered an unrecognised option: ${option}`);

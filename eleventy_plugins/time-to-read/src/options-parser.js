@@ -7,6 +7,9 @@ module.exports = function(customOptions) {
 		if(new RegExp(regEx.formatVariable,'i').test(option)) {
 			options.format = option;
 		}
+		if(new Intl.Locale(option)) {
+			options.language = option;
+		}
 		else if(new RegExp(regEx.speed,'i').test(option)) {
 			options.speed = option;
 		}
