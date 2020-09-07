@@ -19,7 +19,7 @@ module.exports = function(input, optionsArgument) {
 	delete options.speed;
 
 	// Remove html and spaces
-	const text = html.replace(new RegExp(`${regEx.html}|\s`, 'gi'), '');
+	const text = html.replace(`/${regEx.html}|\s/gi`, '');
 
 	// The number of characters read per minute tends to be around 1000 for all languages: https://en.wikipedia.org/wiki/Words_per_minute#Reading_and_comprehension
 	const minutes = Math.ceil(text.length / 1000);

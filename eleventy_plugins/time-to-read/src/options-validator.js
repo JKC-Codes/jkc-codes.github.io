@@ -9,13 +9,13 @@ module.exports = function(options) {
 	}
 
 	function validateFormat(format) {
-		if(typeof format !== 'string' || !new RegExp(`${regEx.formatVariable}`,'i').test(format)) {
+		if(typeof format !== 'string' || !`/${regEx.formatVariable}/i`.test(format)) {
 			throw new Error(`Time-to-read's format option must be a string and contain any number of either h, m or s characters enclosed by {}. Received '${format}'`);
 		}
 	}
 
 	function validateSpeed(speed) {
-		if(!new RegExp(`${regEx.speed}`,'i').test(speed)) {
+		if(!`/${regEx.speed}/i`.test(speed)) {
 			throw new Error(`Time-to-read's speed option must be a string matching: '(Number) ${regEx.speedMeasure} (optional 'per' or 'a' or 'an') ${regEx.speedInterval}'. Received '${speed}'`);
 		}
 	}

@@ -4,10 +4,10 @@ module.exports = function(customOptions) {
 	// Create object from customInstanceOptions array
 	const options = {};
 	customOptions.forEach(option => {
-		if(new RegExp(`${regEx.formatVariable}`,'i').test(option)) {
+		if(`/${regEx.formatVariable}/i`.test(option)) {
 			options.format = option;
 		}
-		else if(new RegExp(`${regEx.speed}`,'i').test(option)) {
+		else if(`/${regEx.speed}/i`.test(option)) {
 			options.speed = option;
 		}
 		else {
