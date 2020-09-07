@@ -19,8 +19,8 @@ const htmlTags = String.raw`<\/?[a-z0-9]+\b[^>]*>`;
 //Regex = '<!--' + the minimal amount of 0 or more characters + '-->'
 const htmlComments = String.raw`<!--[^]*?-->`;
 
-// Regex = space character
-const htmlSpaces = String.raw`\s`;
+// Regex = htmlTags or htmlComments
+const html = String.raw`${htmlTags}|${htmlComments}`;
 
 module.exports = {
 	formatVariable: formatVariable,
@@ -30,5 +30,5 @@ module.exports = {
 	speed: speed,
 	htmlTags: htmlTags,
 	htmlComments: htmlComments,
-	htmlSpaces: htmlSpaces
+	html: html
 }
