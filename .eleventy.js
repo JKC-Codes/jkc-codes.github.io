@@ -30,11 +30,7 @@ module.exports = function(eleventyConfig) {
 		initialHeadingLevel: 3
 	});
 
-	eleventyConfig.addPlugin(pluginTimeToRead, {
-		measure: 'words',
-		interval: 'minute',
-		value: 250
-	});
+	eleventyConfig.addPlugin(pluginTimeToRead, {});
 
 	return {
 		dir: {
