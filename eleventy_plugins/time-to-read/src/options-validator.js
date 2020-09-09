@@ -47,9 +47,12 @@ function validateInserts(insert, optionKey) {
 	}
 }
 
-function validatePadding(padding) {
-	if(!Number.isInteger(Number(padding))) {
-		throw new Error(`Time-to-read's padding option must be an integer. Received ${insert}`);
+function validateDigits(digits) {
+	const digitsAsNumber = Number(digits);
+	const isInteger = Number.isInteger(digitsAsNumber);
+	const isWithinRange = digitsAsNumber >= 1 && digitsAsNumber <= 21;
+	if(!isInteger || !isWithinRange) {
+		throw new Error(`Time-to-read's digits option must be an integer from 1 to 21. Received ${insert}`);
 	}
 }
 
@@ -75,8 +78,8 @@ module.exports = function(options) {
 				validateInserts(options[option], option);
 			break;
 
-			case 'padding':
-				validatePadding(options[option]);
+			case 'digits':
+				validateDigits(options[option]);
 			break;
 
 			default: throw new Error(`Time-to-read encountered an unrecognised option: ${option}`);

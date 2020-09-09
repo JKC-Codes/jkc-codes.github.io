@@ -7,5 +7,5 @@ module.exports = {
 	seconds: false,
 	prepend: null,
 	append: null,
-	padding: 0
+	digits: 1
 }
