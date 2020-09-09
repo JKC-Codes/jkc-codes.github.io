@@ -1,41 +1,82 @@
 const regEx = require('./regular-expressions.js');
 
-function validateAffixes(optionKey, affix) {
-	if(!Array.isArray(affix) || !affix.every(entry => typeof entry === 'string')) {
-		throw new Error(`Time-to-read's ${optionKey} option must be an array of strings. Received: '${affix}'`);
-	}
-}
-
-function validateFormat(format) {
-	if(typeof format !== 'string' || !new RegExp(regEx.formatVariable,'i').test(format)) {
-		throw new Error(`Time-to-read's format option must be a string and contain any number of either h, m or s characters enclosed by {}. Received '${format}'`);
-	}
-}
-
 function validateSpeed(speed) {
-	if(!new RegExp(regEx.speed,'i').test(speed)) {
-		throw new Error(`Time-to-read's speed option must be a string matching: '(Number) ${regEx.speedMeasure} (optional 'per' or 'a' or 'an') ${regEx.speedInterval}'. Received '${speed}'`);
+	if(typeof speed !== 'string') {
+		throw new Error(`Time-to-read's speed option must be a string. Received ${language}`);
+	}
+	else if(!new RegExp(regEx.speed,'i').test(speed)) {
+		throw new Error(`Time-to-read's speed option must be a string matching: '(Number) ${regEx.speedUnitMeasure} optional ${regEx.speedUnitPreposition} ${regEx.speedUnitTime}'. Received '${speed}'`);
+	}
+}
+
+function validateLanguage(language) {
+	if(typeof language !== 'string') {
+		throw new Error(`Time-to-read's language option must be a string. Received ${language}`);
+	}
+
+	try {
+		Intl.getCanonicalLocales(language);
+	}
+	catch {
+		throw new Error(`Time-to-read's language option must be a valid locale format. Received ${language}`);
+	}
+
+	if(!Intl.NumberFormat.supportedLocalesOf(language)[0]) {
+		throw new Error(`The locale used in time-to-read's language option (${language}) is not supported. Received ${language}`);
+	}
+}
+
+function validateLabel(label, optionKey) {
+	if(label === false || (optionKey.toUpperCase() === 'SECONDS' && label.toUpperCase() === 'ONLY')) {
+		return;
+	}
+
+	if(typeof label !== 'string') {
+		throw new Error(`Time-to-read's ${optionKey} option must be a string or False. Received ${language}`);
+	}
+
+	const secondsText = optionKey.toUpperCase() === 'SECONDS' ? " 'only', ":" ";
+	if(!new RegExp(regEx.label,'i').test(label)) {
+		throw new Error(`Time-to-read's ${optionKey} option must be a string containing${secondsText}'false' or '${regEx.labels}' with optional 'auto' separated by a space. Received '${label}'`);
+	}
+}
+
+function validateInserts(insert, optionKey) {
+	if(typeof insert !== 'string' && insert !== null) {
+		throw new Error(`Time-to-read's ${optionKey} option must be a string. Received ${insert}`);
+	}
+}
+
+function validatePadding(padding) {
+	if(!Number.isInteger(Number(padding))) {
+		throw new Error(`Time-to-read's padding option must be an integer. Received ${insert}`);
 	}
 }
 
 module.exports = function(options) {
 	for(option in options) {
 		switch(option) {
-			case 'hour':
-			case 'hours':
-			case 'minute':
-			case 'minutes':
-			case 'second':
-			case 'seconds':
-				validateAffixes(option, options[option]);
-			break;
-
-			case 'format':
-				validateFormat(options.format);
-			break;
-
 			case 'speed':
-				validateSpeed(options.speed);
+				validateSpeed(options[option]);
+			break;
+
+			case 'language':
+				validateLanguage(options[option]);
+			break;
+
+			case 'hours':
+			case 'minutes':
+			case 'seconds':
+				validateLabel(options[option], option);
+			break;
+
+			case 'prepend':
+			case 'append':
+				validateInserts(options[option], option);
+			break;
+
+			case 'padding':
+				validatePadding(options[option]);
 			break;
 
 			default: throw new Error(`Time-to-read encountered an unrecognised option: ${option}`);
