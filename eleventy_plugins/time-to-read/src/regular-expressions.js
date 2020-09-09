@@ -8,10 +8,10 @@ const speedUnitMeasure = String.raw`(characters|words)`;
 const speedUnitPreposition = String.raw`(per|a|an)`;
 
 // Regex = 'hour' or 'minute' or 'second'
-const speedUnitTime = String.raw`(hour|minute|second)`;
+const speedUnitInterval = String.raw`(hour|minute|second)`;
 
-// Regex = speedUnitAmount + ' ' + speedUnitMeasure + ' ' + optional speedUnitPreposition + speedUnitTime
-const speed = String.raw`^${speedUnitAmount} ${speedUnitMeasure} (${speedUnitPreposition} )?${speedUnitTime}$`;
+// Regex = speedUnitAmount + ' ' + speedUnitMeasure + ' ' + optional speedUnitPreposition + speedUnitInterval
+const speed = String.raw`^${speedUnitAmount} ${speedUnitMeasure} (${speedUnitPreposition} )?${speedUnitInterval}$`;
 
 // Regex = 'narrow' or 'short' or 'long'
 const labels = String.raw`(narrow|short|long)`;
@@ -32,7 +32,7 @@ module.exports = {
 	speedUnitAmount,
 	speedUnitMeasure,
 	speedUnitPreposition,
-	speedUnitTime,
+	speedUnitInterval,
 	speed,
 	labels,
 	label,

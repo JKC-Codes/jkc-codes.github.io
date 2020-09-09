@@ -5,7 +5,7 @@ function validateSpeed(speed) {
 		throw new Error(`Time-to-read's speed option must be a string. Received ${language}`);
 	}
 	else if(!new RegExp(regEx.speed,'i').test(speed)) {
-		throw new Error(`Time-to-read's speed option must be a string matching: '(Number) ${regEx.speedUnitMeasure} optional ${regEx.speedUnitPreposition} ${regEx.speedUnitTime}'. Received '${speed}'`);
+		throw new Error(`Time-to-read's speed option must be a string matching: '(Number) ${regEx.speedUnitMeasure} optional ${regEx.speedUnitPreposition} ${regEx.speedUnitInterval}'. Received '${speed}'`);
 	}
 }
 
