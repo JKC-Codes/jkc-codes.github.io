@@ -51,6 +51,53 @@ function calculateSeconds(text, { amount, measure, interval } = speedUnit) {
 	return Math.ceil(count);
 }
 
+function getUnitsOfTime(totalSeconds, labels) {
+	let hours;
+	let minutes;
+	let seconds;
+	let remainingSeconds = totalSeconds;
+
+	// Calculate hours
+	if(labels.hours.display) {
+		if(labels.minutes.display || labels.seconds.display) {
+			hours = Math.floor(remainingSeconds / 3600);
+		}
+		else {
+			hours = Math.round(remainingSeconds / 3600);
+			if(hours === 0) {
+				hours = 1;
+			}
+		}
+		remainingSeconds = remainingSeconds % 3600;
+	}
+
+	// Calculate minutes
+	if(labels.minutes.display) {
+		if(labels.seconds.display) {
+			minutes = Math.floor(remainingSeconds / 60);
+		}
+		else {
+			minutes = Math.round(remainingSeconds / 60);
+			if(labels.hours.display && minutes === 60) {
+				minutes = 59;
+			}
+			else if(!labels.hours.display && minutes === 0) {
+				minutes = 1;
+			}
+		}
+		remainingSeconds = remainingSeconds % 60;
+	}
+
+	// Calculate seconds
+	seconds = remainingSeconds;
+
+	return {
+		hours,
+		minutes,
+		seconds
+	}
+}
+
 function createNumberFormat(language, unit, display, digits) {
 	return new Intl.NumberFormat(language,  {
     style: 'unit',
@@ -60,25 +107,18 @@ function createNumberFormat(language, unit, display, digits) {
 	});
 }
 
-function constructTimeToRead(labels, seconds) {
-	if(labels.hours.display) {
-		// foo
+function constructTimeToRead(timeUnits, labels, language, digits) {
+	let times =[]; // Need to be sure of object order
+	for(timeUnit in timeUnits) {
+		const isAutoAndZero = labels[timeUnit].auto && timeUnits[timeUnit] === 0;
+		if(labels[timeUnit].display && !isAutoAndZero) {
+			const unit = new RegExp(regEx.speedUnitInterval,'i').exec(timeUnit)[0].toLowerCase();
+			const style = createNumberFormat(language, unit, labels[timeUnit].display, digits);
+			times.push(style.format(timeUnits[timeUnit]));
+		}
 	}
 
-	if(labels.minutes.display) {
-		//bar
-	}
-
-	if(labels.minutes.display) {
-		//baz
-	}
-
-
-
-	// Add labels according to language and label option
-	// Add minimum digits using minimumIntegerDigits
-	// uses options' language, label, digits
-	return `${Math.ceil(seconds/60)} minutes`;
+	return times[0];
 }
 
 module.exports = function(content, options) {
@@ -90,7 +130,8 @@ module.exports = function(content, options) {
 		seconds: parseLabel(options.seconds)
 	};
 	const seconds = calculateSeconds(text, speedUnits);
-	const timeToRead = constructTimeToRead(labels, seconds);
+	const timeUnits = getUnitsOfTime(seconds, labels);
+	const timeToRead = constructTimeToRead(timeUnits, labels, options.language, options.digits);
 
 	// {seconds: 'only'} option
 	if(options.seconds !== false && options.seconds.toLowerCase() === 'only') {
@@ -105,31 +146,6 @@ module.exports = function(content, options) {
 		sentence = sentence + options.append;
 	}
 
-	console.log(sentence);
+	// console.log(sentence);
 	return sentence;
 }
-
-
-
-/*
-console.log(new Intl.NumberFormat("en-GB",  {
-    style: 'unit',
-    unit: "second",
-  	unitDisplay: "narrow",
-		minimumIntegerDigits: 2
-}).format(50));
-
-console.log(new Intl.NumberFormat("en-GB",  {
-    style: 'unit',
-    unit: "second",
-  	unitDisplay: "short",
-		minimumIntegerDigits: 2
-}).format(50));
-
-console.log(new Intl.NumberFormat("en-GB",  {
-    style: 'unit',
-    unit: "second",
-  	unitDisplay: "long",
-		minimumIntegerDigits: 2
-}).format(50));
-*/
