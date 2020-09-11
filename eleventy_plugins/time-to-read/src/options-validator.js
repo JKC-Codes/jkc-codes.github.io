@@ -19,7 +19,7 @@ function validateLanguage(language) {
 	}
 
 	if(!Intl.NumberFormat.supportedLocalesOf(language)[0]) {
-		throw new Error(`The locale used in time-to-read's language option (${language}) is not supported. Received: ${language}`);
+		throw new Error(`The locale used in time-to-read's language option (${language}) is not supported`);
 	}
 }
 
