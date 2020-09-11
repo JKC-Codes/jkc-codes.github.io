@@ -27,11 +27,10 @@ function validateLanguage(language) {
 }
 
 function validateStyle(style) {
-	if(typeof style !== 'string') {
-		throw new Error(`Time-to-read's style option must be a string. Received: ${style}`);
-	}
-	else if(!new RegExp(regEx.style,'i').test(style)) {
-		throw new Error(`Time-to-read's style option must be a string matching ${regEx.style}. Received: ${style}`);
+	const lowerCase = style.toLowerCase;
+	const isValidString = lowerCase === 'narrow' || lowerCase === 'short' || lowerCase === 'long';
+	if(typeof style !== 'string' || !isValidString) {
+		throw new Error(`Time-to-read's style option must be a string matching 'narrow', 'short' or 'long'. Received: ${style}`);
 	}
 }
 
