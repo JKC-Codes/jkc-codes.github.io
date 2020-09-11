@@ -1,10 +1,7 @@
 const regEx = require('./regular-expressions.js');
 
 function validateSpeed(speed) {
-	if(typeof speed !== 'string') {
-		throw new Error(`Time-to-read's speed option must be a string. Received: ${speed}`);
-	}
-	else if(!new RegExp(regEx.speed,'i').test(speed)) {
+	if(typeof speed !== 'string' || !new RegExp(regEx.speed,'i').test(speed)) {
 		throw new Error(`Time-to-read's speed option must be a string matching: '(Number) ${regEx.speedUnitMeasure} optional ${regEx.speedUnitPreposition} ${regEx.speedUnitInterval}'. Received: ${speed}`);
 	}
 }
@@ -27,22 +24,21 @@ function validateLanguage(language) {
 }
 
 function validateStyle(style) {
-	const lowerCase = style.toLowerCase;
+	const lowerCase = style.toLowerCase();
 	const isValidString = lowerCase === 'narrow' || lowerCase === 'short' || lowerCase === 'long';
-	if(typeof style !== 'string' || !isValidString) {
+	if(!(typeof style === 'string' && isValidString)) {
 		throw new Error(`Time-to-read's style option must be a string matching 'narrow', 'short' or 'long'. Received: ${style}`);
 	}
 }
 
 function validateLabel(label, optionKey) {
-	const secondsText = optionKey === 'seconds' ? " 'only', ":" ";
+	const isBoolean = typeof label === 'boolean';
+	const isAuto = typeof label === 'string' && label.toLowerCase() === 'auto';
+	const isOnlySeconds = typeof label === 'string' && label.toLowerCase() === 'only' && optionKey === 'seconds';
 
-	if(typeof label !== 'boolean' || typeof label !== 'string') {
-		throw new Error(`Time-to-read's ${optionKey} option must be true, false${secondsText}or 'auto'. Received '${label}'`);
-	}
-
-	if(label.toLowerCase() !== 'auto' || !(optionKey === 'seconds' && label.toLowerCase() === 'only')) {
-		throw new Error(`Time-to-read's ${optionKey} option must be true, false${secondsText}or 'auto'. Received '${label}'`);
+	if(!(isBoolean || isAuto || isOnlySeconds)) {
+		const secondsOnly = optionKey === 'seconds' ? " 'only', ":" ";
+		throw new Error(`Time-to-read's ${optionKey} option must be true, false${secondsOnly}or 'auto'. Received '${label}'`);
 	}
 }
 
@@ -94,4 +90,5 @@ module.exports = function(options) {
 			default: throw new Error(`Time-to-read encountered an unrecognised option: ${option}`);
 		}
 	}
+	return options;
 }
