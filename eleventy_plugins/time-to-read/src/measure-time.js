@@ -22,15 +22,9 @@ function parseSpeedOption(speedOption) {
 	};
 }
 
-function parseLabel(label) {
-	const display = new RegExp(`${regEx.labels}`,'i').exec(label);
-	return {
-		display: label === false ? false : display[0].toLowerCase(),
-		auto: new RegExp(/auto/,'i').test(label)
-	};
-}
-
-function calculateSeconds(text, { amount, measure, interval } = speedUnit) {
+function calculateSeconds(content, speed) {
+	const text = convertToPlainText(content);
+	const { amount, measure, interval } = parseSpeedOption(speed);
 	let subject;
 	if(measure === 'words') {
 		// Split words by whitespace and remove any empty values
@@ -51,15 +45,21 @@ function calculateSeconds(text, { amount, measure, interval } = speedUnit) {
 	return Math.ceil(count);
 }
 
-function getUnitsOfTime(totalSeconds, labels) {
+function getUnitsOfTime(content, options) {
+	const {
+		speed,
+		hours: displayHours,
+		minutes: displayMinutes,
+		seconds: displaySeconds
+	} = options;
+	let remainingSeconds = calculateSeconds(content, speed);
 	let hours;
 	let minutes;
 	let seconds;
-	let remainingSeconds = totalSeconds;
 
 	// Calculate hours
-	if(labels.hours.display) {
-		if(labels.minutes.display || labels.seconds.display) {
+	if(displayHours) {
+		if(displayMinutes || displaySeconds) {
 			hours = Math.floor(remainingSeconds / 3600);
 		}
 		else {
@@ -72,16 +72,16 @@ function getUnitsOfTime(totalSeconds, labels) {
 	}
 
 	// Calculate minutes
-	if(labels.minutes.display) {
-		if(labels.seconds.display) {
+	if(displayMinutes) {
+		if(displaySeconds) {
 			minutes = Math.floor(remainingSeconds / 60);
 		}
 		else {
 			minutes = Math.round(remainingSeconds / 60);
-			if(labels.hours.display && minutes === 60) {
+			if(displayHours && minutes === 60) {
 				minutes = 59;
 			}
-			else if(!labels.hours.display && minutes === 0) {
+			else if(!displayHours && minutes === 0) {
 				minutes = 1;
 			}
 		}
@@ -98,53 +98,54 @@ function getUnitsOfTime(totalSeconds, labels) {
 	}
 }
 
-function createNumberFormat(language, unit, display, digits) {
+function createNumberFormat(language, unit, unitDisplay, digits) {
 	return new Intl.NumberFormat(language,  {
     style: 'unit',
     unit: unit,
-		unitDisplay: display,
+		unitDisplay: unitDisplay,
 		minimumIntegerDigits: digits
 	});
 }
 
-function constructTimeToRead(timeUnits, labels, language, digits) {
+function constructTimeToRead(content, options) {
+	const timeUnits = getUnitsOfTime(content, options);
+	const {hours, minutes, seconds, language, style, digits} = options;
 	let times =[];
-	for(timeUnit in timeUnits) {
-		const isAutoAndZero = labels[timeUnit].auto && timeUnits[timeUnit] === 0;
-		if(labels[timeUnit].display && !isAutoAndZero) {
-			const unit = new RegExp(regEx.speedUnitInterval,'i').exec(timeUnit)[0].toLowerCase();
-			const style = createNumberFormat(language, unit, labels[timeUnit].display, digits);
-			 // Ensures times are in the correct order
-			switch(timeUnit) {
-				case 'hours':	times[0] = (style.format(timeUnits.hours));
-				break;
-				case 'minutes':	times[1] = (style.format(timeUnits.minutes));
-				break;
-				case 'seconds':	times[2] = (style.format(timeUnits.seconds));
-				break;
-			}
+
+	function shouldDisplay(unit) {
+		if(typeof unit === 'boolean') {
+			return unit;
+		}
+		else if(unit === 'auto') {
+			return timeUnits[unit] === 0 ? false : true;
+		}
+		else {
+			throw new Error();
 		}
 	}
-	// Remove empty array entries
-	times = times.filter(time => time);
 
-	return new Intl.ListFormat(language, {type: 'unit', style: 'narrow'}).format(times);
+	if(shouldDisplay(hours)) {
+		const template = createNumberFormat(language, 'hour', style, digits);
+		times.push(template.format(timeUnits.hours));
+	}
+
+	if(shouldDisplay(minutes)) {
+		const template = createNumberFormat(language, 'minute', style, digits);
+		times.push(template.format(timeUnits.minutes));
+	}
+
+	if(shouldDisplay(seconds)) {
+		const template = createNumberFormat(language, 'second', style, digits);
+		times.push(template.format(timeUnits.seconds));
+	}
+
+	return new Intl.ListFormat(language, {type: 'unit', style: style}).format(times);
 }
 
 module.exports = function(content, options) {
-	const text = convertToPlainText(content);
-	const speedUnits = parseSpeedOption(options.speed);
-	const labels = {
-		hours: parseLabel(options.hours),
-		minutes: parseLabel(options.minutes),
-		seconds: parseLabel(options.seconds)
-	};
-	const seconds = calculateSeconds(text, speedUnits);
-	const timeUnits = getUnitsOfTime(seconds, labels);
-	const timeToRead = constructTimeToRead(timeUnits, labels, options.language, options.digits);
+	const timeToRead = constructTimeToRead(content, options);
 
-	// {seconds: 'only'} option
-	if(options.seconds !== false && options.seconds.toLowerCase() === 'only') {
+	if(typeof options.seconds === 'string' && options.seconds.toLowerCase() === 'only') {
 		return seconds;
 	}
 

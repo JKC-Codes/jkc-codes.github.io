@@ -2,48 +2,54 @@ const regEx = require('./regular-expressions.js');
 
 function validateSpeed(speed) {
 	if(typeof speed !== 'string') {
-		throw new Error(`Time-to-read's speed option must be a string. Received ${speed}`);
+		throw new Error(`Time-to-read's speed option must be a string. Received: ${speed}`);
 	}
 	else if(!new RegExp(regEx.speed,'i').test(speed)) {
-		throw new Error(`Time-to-read's speed option must be a string matching: '(Number) ${regEx.speedUnitMeasure} optional ${regEx.speedUnitPreposition} ${regEx.speedUnitInterval}'. Received '${speed}'`);
+		throw new Error(`Time-to-read's speed option must be a string matching: '(Number) ${regEx.speedUnitMeasure} optional ${regEx.speedUnitPreposition} ${regEx.speedUnitInterval}'. Received: ${speed}`);
 	}
 }
 
 function validateLanguage(language) {
 	if(typeof language !== 'string') {
-		throw new Error(`Time-to-read's language option must be a string. Received ${language}`);
+		throw new Error(`Time-to-read's language option must be a string. Received: ${language}`);
 	}
 
 	try {
 		Intl.getCanonicalLocales(language);
 	}
 	catch {
-		throw new Error(`Time-to-read's language option must be a valid locale format. Received ${language}`);
+		throw new Error(`Time-to-read's language option must be a valid locale format. Received: ${language}`);
 	}
 
 	if(!Intl.NumberFormat.supportedLocalesOf(language)[0]) {
-		throw new Error(`The locale used in time-to-read's language option (${language}) is not supported. Received ${language}`);
+		throw new Error(`The locale used in time-to-read's language option (${language}) is not supported. Received: ${language}`);
+	}
+}
+
+function validateStyle(style) {
+	if(typeof style !== 'string') {
+		throw new Error(`Time-to-read's style option must be a string. Received: ${style}`);
+	}
+	else if(!new RegExp(regEx.style,'i').test(style)) {
+		throw new Error(`Time-to-read's style option must be a string matching ${regEx.style}. Received: ${style}`);
 	}
 }
 
 function validateLabel(label, optionKey) {
-	if(label === false || (optionKey === 'seconds' && label.toLowerCase() === 'only')) {
-		return;
-	}
-
-	if(typeof label !== 'string') {
-		throw new Error(`Time-to-read's ${optionKey} option must be a string or False. Received ${label}`);
-	}
-
 	const secondsText = optionKey === 'seconds' ? " 'only', ":" ";
-	if(!new RegExp(regEx.label,'i').test(label)) {
-		throw new Error(`Time-to-read's ${optionKey} option must be a string containing${secondsText}'false' or '${regEx.labels}' with optional 'auto' separated by a space. Received '${label}'`);
+
+	if(typeof label !== 'boolean' || typeof label !== 'string') {
+		throw new Error(`Time-to-read's ${optionKey} option must be true, false${secondsText}or 'auto'. Received '${label}'`);
+	}
+
+	if(label.toLowerCase() !== 'auto' || !(optionKey === 'seconds' && label.toLowerCase() === 'only')) {
+		throw new Error(`Time-to-read's ${optionKey} option must be true, false${secondsText}or 'auto'. Received '${label}'`);
 	}
 }
 
 function validateInserts(insert, optionKey) {
 	if(typeof insert !== 'string' && insert !== null) {
-		throw new Error(`Time-to-read's ${optionKey} option must be a string. Received ${insert}`);
+		throw new Error(`Time-to-read's ${optionKey} option must be a string. Received: ${insert}`);
 	}
 }
 
@@ -52,7 +58,7 @@ function validateDigits(digits) {
 	const isInteger = Number.isInteger(digitsAsNumber);
 	const isWithinRange = digitsAsNumber >= 1 && digitsAsNumber <= 21;
 	if(!isInteger || !isWithinRange) {
-		throw new Error(`Time-to-read's digits option must be an integer from 1 to 21. Received ${digit}`);
+		throw new Error(`Time-to-read's digits option must be an integer from 1 to 21. Received: ${digit}`);
 	}
 }
 
@@ -65,6 +71,10 @@ module.exports = function(options) {
 
 			case 'language':
 				validateLanguage(options[option]);
+			break;
+
+			case 'style':
+				validateStyle(options[option]);
 			break;
 
 			case 'hours':

@@ -14,10 +14,7 @@ const speedUnitInterval = String.raw`(hour|minute|second)`;
 const speed = String.raw`^${speedUnitAmount} ${speedUnitMeasure} (${speedUnitPreposition} )?${speedUnitInterval}$`;
 
 // Regex = 'narrow' or 'short' or 'long'
-const labels = String.raw`(narrow|short|long)`;
-
-// Regex = 'false' or optional 'auto ' + labels or labels + optional ' auto'
-const label = String.raw`^false$|^(auto )?${labels}$|^${labels}( auto)?$`;
+const style = String.raw`(narrow|short|long)`;
 
 // Regex = '<' + optional '/' + 1 or more alphanumeric characters + a non-word character + 0 or more non-'>' characters + '>'
 const htmlTags = String.raw`<\/?[a-z0-9]+\b[^>]*>`;
@@ -34,8 +31,7 @@ module.exports = {
 	speedUnitPreposition,
 	speedUnitInterval,
 	speed,
-	labels,
-	label,
+	style,
 	htmlTags,
 	htmlComments,
 	html
