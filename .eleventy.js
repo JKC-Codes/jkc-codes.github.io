@@ -30,7 +30,10 @@ module.exports = function(eleventyConfig) {
 		initialHeadingLevel: 3
 	});
 
-	eleventyConfig.addPlugin(pluginTimeToRead, {});
+	eleventyConfig.addPlugin(pluginTimeToRead, {
+		prepend: 'About ',
+		append: ' to read'
+	});
 
 	return {
 		dir: {
