@@ -143,7 +143,7 @@ module.exports = function(content, options) {
 	const timeToRead = constructTimeToRead(content, options);
 
 	if(typeof options.seconds === 'string' && options.seconds.toLowerCase() === 'only') {
-		return seconds;
+		return calculateSeconds(content, options.speed);
 	}
 
 	let sentence = timeToRead;
