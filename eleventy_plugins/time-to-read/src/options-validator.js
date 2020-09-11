@@ -24,9 +24,11 @@ function validateLanguage(language) {
 }
 
 function validateStyle(style) {
-	const lowerCase = style.toLowerCase();
+	const isString = typeof style === 'string';
+	const lowerCase = isString && style.toLowerCase();
 	const isValidString = lowerCase === 'narrow' || lowerCase === 'short' || lowerCase === 'long';
-	if(!(typeof style === 'string' && isValidString)) {
+
+	if(!(isString && isValidString)) {
 		throw new Error(`Time-to-read's style option must be a string matching 'narrow', 'short' or 'long'. Received: ${style}`);
 	}
 }
