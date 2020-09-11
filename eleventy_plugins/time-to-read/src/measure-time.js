@@ -108,17 +108,27 @@ function createNumberFormat(language, unit, display, digits) {
 }
 
 function constructTimeToRead(timeUnits, labels, language, digits) {
-	let times =[]; // Need to be sure of object order
+	let times =[];
 	for(timeUnit in timeUnits) {
 		const isAutoAndZero = labels[timeUnit].auto && timeUnits[timeUnit] === 0;
 		if(labels[timeUnit].display && !isAutoAndZero) {
 			const unit = new RegExp(regEx.speedUnitInterval,'i').exec(timeUnit)[0].toLowerCase();
 			const style = createNumberFormat(language, unit, labels[timeUnit].display, digits);
-			times.push(style.format(timeUnits[timeUnit]));
+			 // Ensures times are in the correct order
+			switch(timeUnit) {
+				case 'hours':	times[0] = (style.format(timeUnits.hours));
+				break;
+				case 'minutes':	times[1] = (style.format(timeUnits.minutes));
+				break;
+				case 'seconds':	times[2] = (style.format(timeUnits.seconds));
+				break;
+			}
 		}
 	}
+	// Remove empty array entries
+	times = times.filter(time => time);
 
-	return times[0];
+	return new Intl.ListFormat(language, {type: 'unit', style: 'narrow'}).format(times);
 }
 
 module.exports = function(content, options) {
@@ -146,6 +156,5 @@ module.exports = function(content, options) {
 		sentence = sentence + options.append;
 	}
 
-	// console.log(sentence);
 	return sentence;
 }
