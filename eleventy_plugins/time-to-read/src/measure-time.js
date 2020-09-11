@@ -112,26 +112,26 @@ function constructTimeToRead(content, options) {
 	const {hours, minutes, seconds, language, style, digits} = options;
 	let times =[];
 
-	function shouldDisplay(unit) {
-		if(typeof unit === 'boolean') {
-			return unit;
+	function shouldDisplay(labelDisplay, label) {
+		if(typeof labelDisplay === 'boolean') {
+			return labelDisplay;
 		}
-		else if(unit.toLowerCase() === 'auto') {
-			return timeUnits[unit] === 0 ? false : true;
+		else if(labelDisplay.toLowerCase() === 'auto') {
+			return timeUnits[label] === 0 ? false : true;
 		}
 	}
 
-	if(shouldDisplay(hours)) {
+	if(shouldDisplay(hours, 'hours')) {
 		const template = createNumberFormat(language, 'hour', style, digits);
 		times.push(template.format(timeUnits.hours));
 	}
 
-	if(shouldDisplay(minutes)) {
+	if(shouldDisplay(minutes, 'minutes')) {
 		const template = createNumberFormat(language, 'minute', style, digits);
 		times.push(template.format(timeUnits.minutes));
 	}
 
-	if(shouldDisplay(seconds)) {
+	if(shouldDisplay(seconds, 'seconds')) {
 		const template = createNumberFormat(language, 'second', style, digits);
 		times.push(template.format(timeUnits.seconds));
 	}
