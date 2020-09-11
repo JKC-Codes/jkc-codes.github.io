@@ -1,4 +1,5 @@
 const regEx = require('./regular-expressions.js');
+const validateOptions = require('./options-validator.js');
 
 function isSpeed(option) {
 	return new RegExp(regEx.speed,'i').test(option);
@@ -29,5 +30,6 @@ module.exports = function(customOptions) {
 			throw new Error(`Time-to-read encountered an unrecognised option: ${option}`);
 		}
 	})
+	validateOptions(options);
 	return options;
 }

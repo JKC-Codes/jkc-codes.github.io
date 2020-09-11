@@ -116,11 +116,8 @@ function constructTimeToRead(content, options) {
 		if(typeof unit === 'boolean') {
 			return unit;
 		}
-		else if(unit === 'auto') {
+		else if(unit.toLowerCase() === 'auto') {
 			return timeUnits[unit] === 0 ? false : true;
-		}
-		else {
-			throw new Error();
 		}
 	}
 
