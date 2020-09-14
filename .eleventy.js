@@ -1,5 +1,5 @@
-const pluginExtract = require('./eleventy_plugins/extract.js');
-const pluginTimeToRead = require('./eleventy_plugins/time-to-read/.eleventy.js');
+const pluginExtract = require('./extract-plugin.js');
+const pluginTimeToRead = require('eleventy-plugin-time-to-read');
 
 module.exports = function(eleventyConfig) {
 	eleventyConfig.setBrowserSyncConfig({
