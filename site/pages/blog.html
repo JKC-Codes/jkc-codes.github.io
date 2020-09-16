@@ -20,7 +20,7 @@ title: Blog
 		<li>
 			<article aria-label="{{ post.data.title }}">
 				<h2><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
-				<p class="reading-time">{{ post.templateContent | time-to-read }}</p>
+				<p class="reading-time">{{ post.templateContent | timeToRead }}</p>
 				<div class="introduction">{% extract post.templateContent %}</div>
 				<a href="{{ post.url }}">Continue reading {{ post.data.title }}</a>
 			</article>

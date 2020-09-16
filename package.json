@@ -6,7 +6,7 @@
 	"dependencies": {
 		"@11ty/eleventy": "*",
 		"del-cli": "*",
-		"eleventy-plugin-time-to-read": "git+https://github.com/JKC-Codes/eleventy-plugin-time-to-read.git",
+		"eleventy-plugin-time-to-read": "*",
 		"gulp": "*",
 		"gulp-html-minimizer": "*",
 		"gulp-imagemin": "*",
