@@ -267,7 +267,7 @@ background: $colour-brand;
 	}
 }
 
-@media (min-width: $mq-header-wide) and (min-height: 25rem) {
+@media (min-width: $mq-header-wide) and (min-height: 25em) {
 	.menu-button[aria-expanded] ~ .navigation-links {
 		position: sticky;
 	}
