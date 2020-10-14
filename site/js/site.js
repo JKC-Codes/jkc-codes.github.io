@@ -1,3 +1,25 @@
+document.addEventListener('DOMContentLoaded', function() {
+	// Create nav menu
+	var menuButton = document.querySelector('#site-nav-menu-button');
+	var menuButtonText = menuButton.querySelector('#site-nav-menu-button-text');
+	var menuContent = document.querySelector('#site-nav-content');
+	var siteNavMenu = Object.create(MENU);
+
+	siteNavMenu.init(menuButton, menuButtonText, menuContent, '55em');
+
+}, {once: true});
+
+
+if('serviceWorker' in navigator) {
+	// Start service worker
+	navigator.serviceWorker.register('/serviceworker.js');
+
+	// Cache files downloaded before service worker activated
+	if(!navigator.serviceWorker.controller) {
+		navigator.serviceWorker.addEventListener('controllerchange', fillServiceWorkerCache, {once: true})
+	}
+}
+
 function fillServiceWorkerCache() {
 	// Using a set prevents duplicates
 	var initialCache = new Set();
@@ -181,26 +203,3 @@ if (!Element.prototype.closest) {
 		return null;
 	};
 }
-
-
-if('serviceWorker' in navigator) {
-	// Start service worker
-	navigator.serviceWorker.register('/serviceworker.js');
-
-	// Cache files downloaded before service worker activated
-	if(!navigator.serviceWorker.controller) {
-		navigator.serviceWorker.addEventListener('controllerchange', fillServiceWorkerCache, {once: true})
-	}
-}
-
-
-document.addEventListener('DOMContentLoaded', function() {
-	// Create nav menu
-	var menuButton = document.querySelector('#site-nav-menu-button');
-	var menuButtonText = menuButton.querySelector('#site-nav-menu-button-text');
-	var menuContent = document.querySelector('#site-nav-content');
-	var siteNavMenu = Object.create(MENU);
-
-	siteNavMenu.init(menuButton, menuButtonText, menuContent, '48rem');
-
-}, {once: true});
