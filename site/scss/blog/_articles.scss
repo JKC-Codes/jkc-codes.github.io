@@ -1,6 +1,22 @@
 #articles {
 	@extend %no-bullets;
 
+	.article-heading {
+		margin-bottom: 0;
+	}
+
+	.reading-time {
+		font-size: 80%;
+		color: $colour-minimal;
+
+		.clock {
+			width: 0.65rem;
+			height: 0.65rem;
+			vertical-align: baseline;
+			margin-right: 0.75ch;
+		}
+	}
+
 	.introduction {
 		max-width: 65ch;
 	}
