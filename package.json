@@ -6,6 +6,7 @@
 	"dependencies": {
 		"@11ty/eleventy": "*",
 		"del-cli": "*",
+		"eleventy-plugin-safe-external-links": "*",
 		"eleventy-plugin-time-to-read": "*",
 		"gulp": "*",
 		"gulp-html-minimizer": "*",

@@ -1,5 +1,6 @@
 const pluginExtract = require('./extract-plugin.js');
 const pluginTimeToRead = require('eleventy-plugin-time-to-read');
+const pluginSafeExternalLinks = require('eleventy-plugin-safe-external-links');
 
 module.exports = function(eleventyConfig) {
 	eleventyConfig.setBrowserSyncConfig({
@@ -34,6 +35,8 @@ module.exports = function(eleventyConfig) {
 		prepend: 'About ',
 		append: ' to read'
 	});
+
+	eleventyConfig.addPlugin(pluginSafeExternalLinks);
 
 	return {
 		dir: {
