@@ -16,11 +16,13 @@
 		"sass": "*"
 	},
 	"scripts": {
-		"clean": "del-cli site/html site/css",
+		"preeleventy": "del-cli site/html",
 		"eleventy": "npx @11ty/eleventy --serve",
+		"presass": "del-cli site/css",
 		"sass": "sass site/scss:site/css --watch --source-map-urls=absolute",
 		"browser": "start firefox.exe -private-window http://localhost:8080",
-		"start": "npm-run-all clean --parallel sass eleventy browser",
+		"start": "npm-run-all --parallel eleventy sass browser",
+		"stage": "gulp",
 		"build": "gulp publish"
 	},
 	"repository": {
