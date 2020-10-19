@@ -52,10 +52,7 @@ function js() {
 
 		gulp.src(['./site/js/**/serviceworker.js'])
 			.pipe(minifyJS())
-			.pipe(gulp.dest(destination)),
-
-		gulp.src(['./site/js/**', '!./site/js/**/*.js'])
-			.pipe(gulp.dest(destination + 'js/'))
+			.pipe(gulp.dest(destination))
 	]);
 }
 
