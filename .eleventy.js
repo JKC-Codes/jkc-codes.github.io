@@ -1,4 +1,5 @@
 const pluginExtract = require('./extract-plugin.js');
+const pluginRSS = require("@11ty/eleventy-plugin-rss");
 const pluginTimeToRead = require('eleventy-plugin-time-to-read');
 const pluginSafeExternalLinks = require('eleventy-plugin-safe-external-links');
 
@@ -30,6 +31,7 @@ module.exports = function(eleventyConfig) {
 		wordLimit: 50,
 		initialHeadingLevel: 3
 	});
+	eleventyConfig.addPlugin(pluginRSS);
 	eleventyConfig.addPlugin(pluginTimeToRead);
 	eleventyConfig.addPlugin(pluginSafeExternalLinks);
 

@@ -5,6 +5,7 @@
 	"main": "",
 	"dependencies": {
 		"@11ty/eleventy": "*",
+		"@11ty/eleventy-plugin-rss": "*",
 		"del-cli": "*",
 		"eleventy-plugin-safe-external-links": "*",
 		"eleventy-plugin-time-to-read": "*",
