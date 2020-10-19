@@ -30,12 +30,7 @@ module.exports = function(eleventyConfig) {
 		wordLimit: 50,
 		initialHeadingLevel: 3
 	});
-
-	eleventyConfig.addPlugin(pluginTimeToRead, {
-		prepend: 'About ',
-		append: ' to read'
-	});
-
+	eleventyConfig.addPlugin(pluginTimeToRead);
 	eleventyConfig.addPlugin(pluginSafeExternalLinks);
 
 	return {
