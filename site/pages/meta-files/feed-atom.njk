@@ -3,12 +3,12 @@
 ---
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>John Kemp-Cruz's Website</title>
+  <title>{{ siteMeta.title }}</title>
   <subtitle>{{ siteMeta.description }}</subtitle>
   <link href="{{ siteMeta.url }}/feed.xml" rel="self"/>
   <link href="{{ siteMeta.url }}/"/>
   <updated>{{ collections.posts | rssLastUpdatedDate }}</updated>
-  <id>{{ siteMeta.url }}</id>
+  <id>{{ siteMeta.url }}/</id>
   <author>
     <name>{{ siteMeta.author }}</name>
   </author>

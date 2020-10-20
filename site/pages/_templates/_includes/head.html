@@ -16,7 +16,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>{{ title }} — {{ siteMeta.name }}</title>
+	<title>{{ title }} — {{ siteMeta.title }}</title>
 
 	<link rel="stylesheet" href="/css/site.css">
 	{% if css %}<link rel="stylesheet" href="/css/{{ css }}.css">{% endif %}
@@ -55,7 +55,7 @@
 	<meta property="og:url" content="{{ siteMeta.url }}{{ page.url }}">
 	<meta property="og:description" content="{{ description }}">
 	<meta property="og:locale" content="en-GB">
-	<meta property="og:site_name" content="{{ siteMeta.name }}"/>
+	<meta property="og:site_name" content="{{ siteMeta.title }}"/>
 
 	<meta name="twitter:site" content="@jkc_codes">
 	<meta name="twitter:creator" content="@jkc_codes">
