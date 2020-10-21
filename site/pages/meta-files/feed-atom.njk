@@ -3,23 +3,30 @@
 ---
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
+	<id>{{ siteMeta.url }}/</id>
 	<title>{{ siteMeta.title }}</title>
 	<subtitle>{{ siteMeta.description }}</subtitle>
-	<link href="{{ siteMeta.url }}/feed.atom" rel="self"/>
-	<link href="{{ siteMeta.url }}/"/>
 	<updated>{{ collections.posts | rssLastUpdatedDate }}</updated>
-	<id>{{ siteMeta.url }}/</id>
+	<icon>{{ siteMeta.url }}/img/site/icon-site-128x128.png</icon>
+	<link href="{{ siteMeta.url }}/" rel="alternate"/>
+	<link href="{{ siteMeta.url }}/feed.atom" rel="self"/>
 	<author>
 		<name>{{ siteMeta.author }}</name>
+		<uri>{{ siteMeta.url }}</uri>
 	</author>
 	{%- for post in collections.posts %}
 	{% set absolutePostUrl %}{{ post.url | url | absoluteUrl(siteMeta.url) }}{% endset %}
 	<entry>
-		<title>{{ post.data.title }}</title>
-		<link href="{{ absolutePostUrl }}"/>
-		<updated>{{ post.date | rssDate }}</updated>
 		<id>{{ absolutePostUrl }}</id>
+		<title>{{ post.data.title }}</title>
+		<updated>{{ post.date | rssDate }}</updated>
+		<author>
+			<name>{{ siteMeta.author }}</name>
+			<uri>{{ siteMeta.url }}</uri>
+		</author>
 		<content type="html">{{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</content>
+		<link href="{{ absolutePostUrl }}" rel="alternate"/>
+		<published>{{ post.date | rssDate }}</published>
 	</entry>
 	{%- endfor %}
 </feed>
