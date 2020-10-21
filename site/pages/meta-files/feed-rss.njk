@@ -1,0 +1,32 @@
+---
+"permalink": "/feed.rss"
+---
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<channel>
+		<title>{{ siteMeta.title }}</title>
+		<link>{{ siteMeta.url }}/</link>
+		<description>{{ siteMeta.description }}</description>
+		<language>en-GB</language>
+		<pubDate>{{ collections.posts | rssLastUpdatedDate }}</pubDate>
+		<lastBuildDate>{{ collections.posts | rssLastUpdatedDate }}</lastBuildDate>
+		<image>
+			<url>{{ siteMeta.url }}/img/site/icon-site-128x128.png</url>
+			<title>{{ siteMeta.title }}</title>
+			<link>{{ siteMeta.url }}/</link>
+			<width>128</width>
+			<height>128</height>
+		</image>
+		<atom:link href="{{ siteMeta.url }}/feed.rss" rel="self" type="application/rss+xml"/>
+		{%- for post in collections.posts %}
+		{%- set absolutePostUrl %}{{ post.url | url | absoluteUrl(siteMeta.url) }}{% endset %}
+		<item>
+			<title>{{ post.data.title }}</title>
+			<link>{{ absolutePostUrl }}</link>
+			<description>{{ post.templateContent }}</description>
+			<guid>{{ absolutePostUrl }}</guid>
+			<pubDate>{{ post.date | rssDate }}</pubDate>
+			<dc:creator>{{ siteMeta.author }}</dc:creator>
+		</item>
+		{%- endfor %}
+	</channel>
+</rss>
