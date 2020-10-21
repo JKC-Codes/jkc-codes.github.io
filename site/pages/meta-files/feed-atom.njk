@@ -1,18 +1,18 @@
 ---
-"permalink": "feed.xml"
+"permalink": "/feed.atom"
 ---
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>{{ siteMeta.title }}</title>
-  <subtitle>{{ siteMeta.description }}</subtitle>
-  <link href="{{ siteMeta.url }}/feed.xml" rel="self"/>
-  <link href="{{ siteMeta.url }}/"/>
-  <updated>{{ collections.posts | rssLastUpdatedDate }}</updated>
-  <id>{{ siteMeta.url }}/</id>
-  <author>
-    <name>{{ siteMeta.author }}</name>
-  </author>
-  {%- for post in collections.posts | reverse -%}
+	<title>{{ siteMeta.title }}</title>
+	<subtitle>{{ siteMeta.description }}</subtitle>
+	<link href="{{ siteMeta.url }}/feed.atom" rel="self"/>
+	<link href="{{ siteMeta.url }}/"/>
+	<updated>{{ collections.posts | rssLastUpdatedDate }}</updated>
+	<id>{{ siteMeta.url }}/</id>
+	<author>
+		<name>{{ siteMeta.author }}</name>
+	</author>
+	{%- for post in collections.posts %}
 	{% set absolutePostUrl %}{{ post.url | url | absoluteUrl(siteMeta.url) }}{% endset %}
 	<entry>
 		<title>{{ post.data.title }}</title>
@@ -21,5 +21,5 @@
 		<id>{{ absolutePostUrl }}</id>
 		<content type="html">{{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</content>
 	</entry>
-  {%- endfor -%}
+	{%- endfor %}
 </feed>
