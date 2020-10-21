@@ -2,15 +2,20 @@
 "permalink": "/feed.json"
 ---
 {
-	"version": "https://jsonfeed.org/version/1",
+	"version": "https://jsonfeed.org/version/1.1",
 	"title": "{{ siteMeta.title }}",
 	"home_page_url": "{{ siteMeta.url }}/",
 	"feed_url": "{{ siteMeta.url }}/feed.json",
 	"description": "{{ siteMeta.description }}",
-	"author": {
-		"name": "{{ siteMeta.author }}",
-		"url": "{{ siteMeta.url }}/"
-	},
+	"icon": "{{ siteMeta.url }}/img/site/icon-site-512x512.png",
+	"favicon": "{{ siteMeta.url }}/img/site/icon-site-32x32.png",
+	"authors": [
+		{
+			"name": "{{ siteMeta.author }}",
+			"url": "{{ siteMeta.url }}/"
+		}
+	],
+	"language": "en-GB",
 	"items": [
 		{%- for post in collections.posts %}
 		{% set absolutePostUrl %}{{ post.url | url | absoluteUrl(siteMeta.url) }}{% endset %}
@@ -19,7 +24,14 @@
 			"url": "{{ absolutePostUrl }}",
 			"title": "{{ post.data.title }}",
 			"content_html": {%- if post.templateContent %}{{ post.templateContent | dump | safe }}{% else %}""{%- endif %},
-			"date_published": "{{ post.date | rssDate }}"
+			"date_published": "{{ post.date | rssDate }}",
+			"date_modified": "{{ post.date | rssDate }}",
+			"authors": [
+				{
+					"name": "{{ siteMeta.author }}",
+					"url": "{{ siteMeta.url }}/"
+				}
+			]
 		}
 		{%- if not loop.last %},{%- endif %}
 		{%- endfor %}
