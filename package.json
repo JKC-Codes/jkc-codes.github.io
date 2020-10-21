@@ -20,7 +20,7 @@
 		"preeleventy": "del-cli site/html",
 		"eleventy": "npx @11ty/eleventy --serve",
 		"presass": "del-cli site/css",
-		"sass": "sass site/scss:site/css --watch --source-map-urls=absolute",
+		"sass": "sass site/styles:site/css --watch --source-map-urls=absolute",
 		"browser": "start firefox.exe -private-window http://localhost:8080",
 		"start": "npm-run-all --parallel eleventy sass browser",
 		"stage": "gulp",

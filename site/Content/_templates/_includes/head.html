@@ -1,6 +1,6 @@
 {% unless description -%}
 	{% capture description -%}
-		{% if page.inputPath contains "./site/pages/posts/" -%}
+		{% if page.inputPath contains "./site/Content/posts/" -%}
 			{% for post in collections.posts -%}
 				{% if post.inputPath == page.inputPath -%}
 					{{ post.templateContent | strip_html | strip | truncate: 150, "…" }}
@@ -42,7 +42,7 @@
 	<meta name="description" content="{{ description }}">
 
 	<meta property="og:title" content="{{ title }}">
-	{% if page.inputPath contains "./site/pages/posts/" -%}
+	{% if page.inputPath contains "./site/Content/posts/" -%}
 		<meta property="og:type" content="article">
 		<meta property="og:article:author" content="{{ siteMeta.author }}">
 		{% if tags -%}
