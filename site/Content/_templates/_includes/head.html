@@ -25,9 +25,7 @@
 	{% if js %}<script src="/js/{{ js }}.js" defer></script>{% endif %}
 
 	<link rel="canonical" href="{{ siteMeta.url }}{{ page.url }}"/>
-
-	<link rel="alternate" href="/feed.json" type="application/feed+json" title="JSON feed for {{ siteMeta.author }}'s blog"/>
-	<link rel="alternate" href="/feed.atom" type="application/atom+xml" title="Atom feed for {{ siteMeta.author }}'s blog"/>
+	<link rel="alternate" href="{{ siteMeta.url }}/feed.atom" type="application/atom+xml" title="Atom feed for {{ siteMeta.author }}'s blog"/>
 
 	<link rel="icon" href="/img/site/icon-site-16x16.png" type="image/png" sizes="16x16">
 	<link rel="icon" href="/img/site/icon-site-32x32.png" type="image/png" sizes="32x32">
