@@ -6,7 +6,7 @@ module.exports = {
 				return data.permalink;
 			}
 			else {
-				return data.page.filePathStem.replace(/^\/pages/, '') + '/index.html';
+				return data.page.filePathStem.replace(/^\/pages/, '') + '/';
 			}
 		}
 	}
