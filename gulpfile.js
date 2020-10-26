@@ -41,23 +41,23 @@ function html() {
 }
 
 function css() {
-	return shell(`npx sass site/styles:${destination}css --style=compressed --no-source-map`);
+	return shell(`npx sass site/Styles:${destination}css --style=compressed --no-source-map`);
 }
 
 function js() {
 	return Promise.all([
-		gulp.src(['./site/javascript/**/*.js', '!./site/javascript/**/serviceworker.js'])
+		gulp.src(['./site/Scripts/**/*.js', '!./site/Scripts/**/serviceworker.js'])
 			.pipe(minifyJS())
 			.pipe(gulp.dest(destination + 'js/')),
 
-		gulp.src(['./site/javascript/**/serviceworker.js'])
+		gulp.src(['./site/Scripts/**/serviceworker.js'])
 			.pipe(minifyJS())
 			.pipe(gulp.dest(destination))
 	]);
 }
 
 function img() {
-	return gulp.src('./site/images/**')
+	return gulp.src('./site/Images/**')
 	.pipe(minifyIMG([
 		minifyIMG.gifsicle(),
 		minifyIMG.mozjpeg(),

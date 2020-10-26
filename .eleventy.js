@@ -14,16 +14,16 @@ module.exports = function(eleventyConfig) {
 			baseDir: './site/html',
 			routes: {
 				'/css': './site/css',
-				'/img': './site/images',
-				'/js': './site/javascript',
-				'/serviceworker.js': './site/javascript/serviceworker.js'
+				'/img': './site/Images',
+				'/js': './site/Scripts',
+				'/serviceworker.js': './site/Scripts/serviceworker.js'
 			}
 		}
 	});
 
 	// Group all blog posts together
 	eleventyConfig.addCollection('posts', function(collectionAPI) {
-		return collectionAPI.getFilteredByGlob('./site/content/posts/**').reverse();
+		return collectionAPI.getFilteredByGlob('./site/Markup/posts/**').reverse();
 	});
 
 	// Add plugins
@@ -37,7 +37,7 @@ module.exports = function(eleventyConfig) {
 
 	return {
 		dir: {
-			input: './site/content/',
+			input: './site/Markup/',
 			output: './site/html/',
 			includes: './_templates/_includes',
 			layouts: './_templates/_layouts'
