@@ -1,8 +1,4 @@
 {
-	"name": "portfolio",
-	"version": "1.0.0",
-	"description": "",
-	"main": "",
 	"dependencies": {
 		"@11ty/eleventy": "*",
 		"@11ty/eleventy-plugin-rss": "*",
@@ -13,16 +9,15 @@
 		"gulp-html-minimizer": "*",
 		"gulp-imagemin": "*",
 		"gulp-terser": "*",
-		"npm-run-all": "*",
 		"sass": "*"
 	},
 	"scripts": {
 		"preeleventy": "del-cli site/html",
-		"eleventy": "npx @11ty/eleventy --serve",
+		"eleventy": "npx @11ty/eleventy",
+		"watch:eleventy": "npm run eleventy -- --serve",
 		"presass": "del-cli site/css",
-		"sass": "sass site/styles:site/css --watch --source-map-urls=absolute",
-		"browser": "start firefox.exe -private-window http://localhost:8080",
-		"start": "npm-run-all --parallel eleventy sass browser",
+		"sass": "sass site/Styles:site/css --source-map-urls=absolute",
+		"watch:sass": "npm run sass -- --watch",
 		"stage": "gulp",
 		"build": "gulp publish"
 	},
