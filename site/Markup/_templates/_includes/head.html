@@ -1,15 +1,14 @@
 {% unless description -%}
-	{% capture description -%}
-		{% if page.inputPath contains "./site/Markup/posts/" -%}
-			{% for post in collections.posts -%}
-				{% if post.inputPath == page.inputPath -%}
-					{{ post.templateContent | strip_html | strip | truncate: 150, "…" }}
-				{%- endif %}
-			{%- endfor %}
-		{%- else -%}
-			{{ siteMeta.description }}
-		{%- endif %}
-	{%- endcapture %}
+	{% if page.inputPath contains "./site/Markup/posts/" -%}
+		{% for post in collections.posts -%}
+			{% if post.inputPath == page.inputPath -%}
+				{% assign description = {{ post.templateContent | strip_html | strip | truncate: 150, "…" }} %}
+				{% break %}
+			{%- endif %}
+		{%- endfor %}
+	{%- else -%}
+		{% assign description = {{ siteMeta.description }} %}
+	{%- endif %}
 {%- endunless %}
 
 <head>
