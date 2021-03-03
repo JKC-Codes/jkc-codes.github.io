@@ -3,23 +3,25 @@
 		"@11ty/eleventy": "*",
 		"@11ty/eleventy-plugin-rss": "*",
 		"del-cli": "*",
-		"eleventy-plugin-safe-external-links": "*",
+		"eleventy-plugin-automatic-noopener": "*",
+		"eleventy-plugin-code-style-hooks": "*",
 		"eleventy-plugin-time-to-read": "*",
 		"gulp": "*",
 		"gulp-html-minimizer": "*",
 		"gulp-imagemin": "*",
 		"gulp-terser": "*",
+		"posthtml": "*",
 		"sass": "*"
 	},
 	"scripts": {
-		"preeleventy": "del-cli site/html",
+		"preeleventy": "del-cli site/html/**",
 		"eleventy": "npx @11ty/eleventy",
 		"watch:eleventy": "npm run eleventy -- --serve",
-		"presass": "del-cli site/css",
-		"sass": "sass site/Styles:site/css --source-map-urls=absolute",
+		"presass": "del-cli site/css/**",
+		"sass": "npx sass site/Styles:site/css --source-map-urls=absolute",
 		"watch:sass": "npm run sass -- --watch",
-		"stage": "gulp",
-		"build": "gulp publish"
+		"stage": "npx gulp",
+		"build": "npx gulp publish"
 	},
 	"repository": {
 		"type": "git",
