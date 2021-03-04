@@ -6,8 +6,8 @@
 	<id>{{ siteMeta.url }}/</id>
 	<title>{{ siteMeta.title }}</title>
 	<subtitle>{{ siteMeta.description }}</subtitle>
-	<updated>{{ collections.posts | rssLastUpdatedDate }}</updated>
-	<icon>{{ siteMeta.url }}/img/site/icon-site-192x192.png</icon>
+	<updated>{{ collections.posts | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
+	<icon>{{ siteMeta.url }}/img/site/icon-site-128x128.png</icon>
 	<link href="{{ siteMeta.url }}/" rel="alternate"/>
 	<link href="{{ siteMeta.url }}/feed.atom" rel="self"/>
 	<author>
@@ -19,14 +19,14 @@
 	<entry>
 		<id>{{ absolutePostUrl }}</id>
 		<title>{{ post.data.title }}</title>
-		<updated>{{ post.date | rssDate }}</updated>
+		<updated>{{ post.date | dateToRfc3339 }}</updated>
 		<author>
 			<name>{{ siteMeta.author }}</name>
 			<uri>{{ siteMeta.url }}</uri>
 		</author>
 		<content type="html">{{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</content>
 		<link href="{{ absolutePostUrl }}" rel="alternate"/>
-		<published>{{ post.date | rssDate }}</published>
+		<published>{{ post.date | dateToRfc3339 }}</published>
 	</entry>
 	{%- endfor %}
 </feed>
