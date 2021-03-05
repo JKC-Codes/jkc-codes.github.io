@@ -1,0 +1,145 @@
+@import './site/helpers';
+
+pre {
+	&.line-numbers,
+	&[class*="language-"] {
+		border: 1px solid $colour-decorate;
+		border-left: 0.25rem solid $colour-brand;
+		padding: 0.5rem 2.5rem 0.5rem 1rem;
+		background-image: linear-gradient(hsl(225, 15%, 97.5%) 50%, transparent 50%);
+		background-size: auto 2rem * $font-line-height;
+		background-origin: content-box;
+		background-attachment: local;
+	}
+
+	&.line-numbers {
+		$gutter-width: 3.75ch;
+		$padding-width: 1.2rem;
+		$border-width: 1px;
+
+		counter-reset: line-count 0;
+		padding-left: calc(#{$gutter-width} + #{$padding-width} + #{$border-width});
+
+		.token.line-number {
+			display: inline-block;
+			min-width: calc(#{$gutter-width} + #{$padding-width} + #{$border-width});
+			margin-left: calc(-#{$gutter-width} - #{$padding-width} - #{$border-width});
+			text-align: right;
+			font-variant-numeric: tabular-nums;
+			color: hsl(225, 15%, 35%);
+			font-size: 1rem;
+
+			&::before {
+				counter-increment: line-count;
+				content: counter(line-count);
+				display: inline-block;
+				user-select: none;
+				padding-right: $padding-width / 2;
+				margin-right: $padding-width / 2;
+				border-right: $border-width solid $colour-decorate;
+			}
+		}
+	}
+}
+
+code {
+	background: hsl(225, 15%, 97.5%);
+	border: 1px solid $colour-decorate;
+	padding: 0.05rem 0.2rem;
+	font-size: 0.9rem;
+
+	pre & {
+		background: none;
+		border: none;
+		padding: 0;
+	}
+
+	.token {
+		&.block-comment,
+		&.cdata,
+		&.comment,
+		&.doctype,
+		&.prolog,
+		&.punctuation,
+		&.regex-delimiter {
+			color: hsl(225, 15%, 35%);
+		}
+
+		&.builtin,
+		&.char,
+		&.constant,
+		&.keyword,
+		&.property,
+		&.symbol,
+		&.tag,
+		&.variable {
+			color: hsl(260, 100%, 35%);
+		}
+
+		&.attr-name,
+		&.boolean,
+		&.entity,
+		&.inserted,
+		&.number,
+		&.regex-flags,
+		&.selector {
+			color: hsl(120, 100%, 19%);
+		}
+
+		&.atrule,
+		&.attr-value,
+		&.color,
+		&.operator,
+		&.parameter,
+		&.regex,
+		&.string,
+		&.unit,
+		&.url {
+			color: hsl(40, 100%, 22%);
+		}
+
+		&.class-name,
+		&.control-flow,
+		&.deleted,
+		&.function,
+		&.important,
+		&.rule {
+			color: hsl(0, 100%, 32.5%);
+		}
+
+		&.bold {
+			font-weight: bold;
+		}
+
+		&.italic {
+			font-weight: italic;
+		}
+
+		&.entity {
+			cursor: help;
+		}
+	}
+
+	&.language-js .token.function,
+	&.language-javascript .token.function {
+		color: inherit;
+	}
+
+	@supports(--custom: properties) {
+		.color-preview {
+			display: inline-block;
+			box-sizing: content-box;
+			width: 0.5rem;
+			height: 0.5rem;
+			margin-right: 0.25ch;
+			border: 1px solid $colour-decorate;
+			outline: 1px solid white;
+			outline-offset: -2px;
+			background-color: white;
+			background-image: linear-gradient(var(--color-value), var(--color-value)), linear-gradient(grey, grey), linear-gradient(grey, grey);
+			background-position: top left, top right, bottom left;
+			background-repeat: no-repeat;
+			background-size: 100% 100%, 50% 50%, 50% 50%;
+		}
+	}
+}

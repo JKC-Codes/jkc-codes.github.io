@@ -97,3 +97,23 @@ button {
 		background-color: $colour-decorate;
 	}
 }
+
+pre,
+code {
+	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace, monospace;
+	-moz-tab-size: 2;
+	tab-size: 2;
+	white-space: pre-wrap;
+	white-space: break-spaces;
+	overflow-wrap: anywhere;
+	word-break: break-word; // overflow-wrap fallback
+
+	@supports(overflow-wrap: anywhere) {
+		word-break: normal;
+	}
+}
+
+pre {
+	width: 100%;
+	max-width: max-content;
+}
