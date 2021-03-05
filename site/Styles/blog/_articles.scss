@@ -1,5 +1,6 @@
 #articles {
 	@extend %no-bullets;
+	max-width: 65ch;
 
 	.article-heading {
 		margin-bottom: 0;
@@ -15,9 +16,5 @@
 			vertical-align: baseline;
 			margin-right: 0.75ch;
 		}
-	}
-
-	.introduction {
-		max-width: 65ch;
 	}
 }

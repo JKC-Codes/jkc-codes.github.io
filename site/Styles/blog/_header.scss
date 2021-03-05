@@ -8,12 +8,50 @@
 		margin-bottom: 0;
 	}
 
-	.feed {
+	.feeds {
 		font-size: 80%;
 
-		svg {
-			margin-right: 0.25rem;
-			color: hsl(30, 90%, 45%);
+		&-button {
+			cursor: pointer;
+			list-style-type: none;
+			color: $colour-brand;
+
+			&::-webkit-details-marker {
+				display: none;
+			}
+
+			&:hover {
+				color: $colour-complement;
+
+				svg {
+					transform: rotate(30deg);
+				}
+			}
+
+			svg {
+				margin-right: 0.2rem;
+				width: 0.8rem;
+				color: hsl(30, 90%, 45%);
+				transform-origin: bottom left;
+				transition: transform 100ms ease-in-out;
+			}
+		}
+
+		&[open] .feeds-button svg {
+			transform: rotate(90deg);
+		}
+
+		&[open] .feeds-button:hover svg {
+			transform: rotate(45deg);
+		}
+
+		ul.feeds-list {
+			position: absolute;
+			padding-left: 1rem;
+
+			a {
+				margin-top: 0.6rem;
+			}
 		}
 	}
 
