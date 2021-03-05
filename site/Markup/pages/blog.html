@@ -6,13 +6,20 @@ title: Blog
 
 <header id="page-header">
 	<h1 id="page-heading">{{ title }}</h1>
-	<a href="/feed.atom" rel="alternate" type="application/atom+xml" class="feed">
-		<svg width="16" height="16" viewBox="0 0 60 60" aria-hidden="true" >
-			<circle cx="10" cy="50" r="10" fill="currentColor"/>
-			<path d="M0,5 C55,5 55,55 55,60" stroke-width="10" stroke="currentColor" fill="none"/>
-			<path d="M0,25 C35,25 35,55 35,60" stroke-width="10" stroke="currentColor" fill="none"/>
-		</svg>Feed
-	</a>
+	<details class="feeds">
+		<summary class="feeds-button">
+			<svg width="16" height="16" viewBox="0 0 60 60" aria-hidden="true" >
+				<circle cx="10" cy="50" r="10" fill="currentColor"/>
+				<path d="M0,5 C55,5 55,55 55,60" stroke-width="10" stroke="currentColor" fill="none"/>
+				<path d="M0,25 C35,25 35,55 35,60" stroke-width="10" stroke="currentColor" fill="none"/>
+			</svg>Subscribe
+		</summary>
+		<ul class="feeds-list">
+			<li><a href="/feed.atom" rel="alternate" type="application/atom+xml">Atom feed</a></li>
+			<li><a href="/feed.json" rel="alternate" type="application/feed+json">JSON feed</a></li>
+			<li><a href="/feed.rss" rel="alternate" type="application/rss+xml">RSS feed</a></li>
+		</ul>
+	</details>
 </header>
 
 <ul id="articles">
@@ -21,7 +28,7 @@ title: Blog
 			<article aria-labelledby="{{ post.data.page.fileSlug | slug }}">
 				<h2 id="{{ post.data.page.fileSlug | slug }}" class="article-heading"><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
 				<p class="reading-time"><img class="clock" src="/img/blog/clock.svg" alt="" width="20" height="20">About {{ post.templateContent | timeToRead }} to read</p>
-				<div class="introduction">{% extract post.templateContent %}</div>
+				{% extract post.templateContent %}
 				<a href="{{ post.url }}">Continue reading {{ post.data.title }}</a>
 			</article>
 		</li>
