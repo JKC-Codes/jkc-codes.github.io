@@ -7,8 +7,8 @@
 		<link>{{ siteMeta.url }}/</link>
 		<description>{{ siteMeta.description }}</description>
 		<language>en-GB</language>
-		<pubDate>{{ collections.posts | getNewestCollectionItemDate | dateToRfc3339 }}</pubDate>
-		<lastBuildDate>{{ collections.posts | getNewestCollectionItemDate | dateToRfc3339 }}</lastBuildDate>
+		<pubDate>{{ collections.posts | getNewestCollectionItemDate | dateToRfc2822 }}</pubDate>
+		<lastBuildDate>{{ collections.posts | getNewestCollectionItemDate | dateToRfc2822 }}</lastBuildDate>
 		<image>
 			<url>{{ siteMeta.url }}/img/site/icon-site-128x128.png</url>
 			<title>{{ siteMeta.title }}</title>
@@ -24,7 +24,7 @@
 			<link>{{ absolutePostUrl }}</link>
 			<description>{{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</description>
 			<guid>{{ absolutePostUrl }}</guid>
-			<pubDate>{{ post.date | dateToRfc3339 }}</pubDate>
+			<pubDate>{{ post.date | dateToRfc2822 }}</pubDate>
 			<dc:creator>{{ siteMeta.author }}</dc:creator>
 		</item>
 		{%- endfor %}
