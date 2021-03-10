@@ -1,5 +1,6 @@
 #page-header {
 
+	position: relative;
 	@extend %row;
 	justify-content: space-between;
 	align-items: baseline;
@@ -9,6 +10,10 @@
 	}
 
 	.feeds {
+		position: absolute;
+		top: 5.25rem;
+		right: 0;
+		min-width: 5.5rem;
 		font-size: 80%;
 
 		&-button {
@@ -16,7 +21,8 @@
 			list-style-type: none;
 			color: $colour-brand;
 
-			&::-webkit-details-marker {
+			&::-webkit-details-marker,
+			&::marker {
 				display: none;
 			}
 
@@ -46,11 +52,17 @@
 		}
 
 		ul.feeds-list {
-			position: absolute;
-			padding-left: 1rem;
+			color: white;
+			background: transparentize($colour-brand, 0.05);
+			padding: 0.4rem 0.4rem 0.2rem 1.2rem;
+			border-radius: $border-rounded;
 
 			a {
 				margin-top: 0.6rem;
+
+				&:link {
+					color: white;
+				}
 			}
 		}
 	}

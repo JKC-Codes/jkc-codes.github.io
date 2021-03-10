@@ -63,7 +63,7 @@ background: $colour-brand;
 	@extend %transition;
 	transition-property: color;
 	position: absolute;
-	z-index: 1;
+	z-index: 2;
 	top: 0;
 	right: 0;
 	height: 3.5rem;
@@ -161,6 +161,7 @@ background: $colour-brand;
 
 .navigation-links {
 	@extend %transition;
+	z-index: 1;
 	transition-property: transform, background-color;
 	list-style-type: none;
 	top: 0;
