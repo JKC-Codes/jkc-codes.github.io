@@ -4,8 +4,9 @@ css: post
 ---
 
 <header id="header">
-	<h1 id="page-heading">{{ title }}</h1>
+	<h1 id="page-heading" class="p-name">{{ title }}</h1>
 	<p class="reading-time"><img class="clock" src="/img/blog/clock.svg" alt="" width="20" height="20">About {{ content | timeToRead }} to read</p>
 </header>
-
-{{ content }}
+<div class="e-content">
+	{{ content }}
+</div>
