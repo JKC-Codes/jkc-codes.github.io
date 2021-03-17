@@ -7,12 +7,16 @@
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/blog.css">
 <script src="/js/site.js" defer></script>
+<link rel="canonical" href="https://jkc.codes/blog/">
+<link rel="alternate" href="https://jkc.codes/feed.atom" type="application/atom+xml" title="Atom feed for John Kemp-Cruz's blog">
+<link rel="alternate" href="https://jkc.codes/feed.json" type="application/feed+json" title="JSON feed for John Kemp-Cruz's blog">
+<link rel="alternate" href="https://jkc.codes/feed.rss" type="application/rss+xml" title="RSS feed for John Kemp-Cruz's blog">
 <link rel="icon" href="/img/site/icon-site-16x16.png" type="image/png" sizes="16x16">
 <link rel="icon" href="/img/site/icon-site-32x32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="/img/site/icon-site-192x192.png" sizes="192x192">
 <link rel="mask-icon" href="/img/site/icon-site-apple-mask.svg" color="#203060">
 <link rel="icon" href="/img/site/icon-site.svg" type="image/svg+xml" sizes="any">
-<link rel="manifest" href="/js/manifest.webmanifest">
+<link rel="manifest" href="/manifest.webmanifest">
 <meta name="theme-color" content="#203060">
 <meta name="author" content="John Kemp-Cruz">
 <meta name="description" content="Website for John Kemp-Cruz, a front-end web developer based in London, UK">
@@ -28,7 +32,7 @@
 <meta property="og:url" content="https://jkc.codes/blog/">
 <meta property="og:description" content="Website for John Kemp-Cruz, a front-end web developer based in London, UK">
 <meta property="og:locale" content="en-GB">
-<meta property="og:site_name" content="John Kemp-Cruz's Website">
+<meta property="og:site_name" content="John Kemp-Cruz">
 <meta name="twitter:site" content="@jkc_codes">
 <meta name="twitter:creator" content="@jkc_codes">
 <script type="application/ld+json">
@@ -53,42 +57,59 @@
 <nav id="site-nav-menu" class="navigation">
 <button type="button" aria-controls="site-nav-content" id="site-nav-menu-button" class="menu-button" hidden>
 <svg class="menu-button-icon" width="48" height="48" viewBox="0 0 100 100" aria-hidden="true">
-<rect class="line-top-left" x="0" y="0" width="60" height="20"/>
-<rect class="line-top-right" x="40" y="0" width="60" height="20"/>
-<rect class="line-mid-left" x="0" y="40" width="60" height="20"/>
-<rect class="line-mid-right" x="40" y="40" width="60" height="20"/>
-<rect class="line-bottom-left" x="0" y="80" width="60" height="20"/>
-<rect class="line-bottom-right" x="40" y="80" width="60" height="20"/>
+<rect class="line-top-left" x="0" y="0" width="60" height="20"></rect>
+<rect class="line-top-right" x="40" y="0" width="60" height="20"></rect>
+<rect class="line-mid-left" x="0" y="40" width="60" height="20"></rect>
+<rect class="line-mid-right" x="40" y="40" width="60" height="20"></rect>
+<rect class="line-bottom-left" x="0" y="80" width="60" height="20"></rect>
+<rect class="line-bottom-right" x="40" y="80" width="60" height="20"></rect>
 </svg>
 <span id="site-nav-menu-button-text">Open</span><br>menu
 </button>
 <ul id="site-nav-content" class="navigation-links">
 <li><a href="/" class="navigation-name">John Kemp-Cruz</a></li>
-<li><a href="/#skills"><img src="/img/site/icon-skills.svg" alt="" width="128" height="128">Skills</a></li>
+<li><a href="/blog/"><img src="/img/site/icon-blog.svg" alt="" width="128" height="128">Blog</a></li>
 <li><a href="/#projects"><img src="/img/site/icon-projects.svg" alt="" width="128" height="128">Projects</a></li>
-<li><a href="https://github.com/JKC-Codes/" rel="noopener"><img src="/img/site/icon-github.svg" alt="" width="128" height="128">GitHub</a></li>
-<li><a href="https://www.linkedin.com/in/johnkempcruz/" rel="noopener"><img src="/img/site/icon-linkedin.svg" alt="" width="128" height="128">LinkedIn</a></li>
+<li><a href="https://github.com/JKC-Codes/"><img src="/img/site/icon-github.svg" alt="" width="128" height="128">GitHub</a></li>
+<li><a href="https://twitter.com/jkc_codes/"><img src="/img/site/icon-twitter.svg" alt="" width="128" height="128">Twitter</a></li>
+<li><a href="https://www.linkedin.com/in/johnkempcruz/"><img src="/img/site/icon-linkedin.svg" alt="" width="128" height="128">LinkedIn</a></li>
 </ul>
 </nav>
 </header>
 <main id="site-main">
 <header id="page-header">
 <h1 id="page-heading">Blog</h1>
-<a href="/blog/feed.xml" class="rss">
+<details class="feeds">
+<summary class="feeds-button">
 <svg width="16" height="16" viewBox="0 0 60 60" aria-hidden="true">
-<circle cx="10" cy="50" r="10" fill="currentColor"/>
-<path d="M0,5 C55,5 55,55 55,60" stroke-width="10" stroke="currentColor" fill="none"/>
-<path d="M0,25 C35,25 35,55 35,60" stroke-width="10" stroke="currentColor" fill="none"/>
-</svg>RSS Feed
-</a>
+<circle cx="10" cy="50" r="10" fill="currentColor"></circle>
+<path d="M0,5 C55,5 55,55 55,60" stroke-width="10" stroke="currentColor" fill="none"></path>
+<path d="M0,25 C35,25 35,55 35,60" stroke-width="10" stroke="currentColor" fill="none"></path>
+</svg>Subscribe
+</summary>
+<ul class="feeds-list">
+<li><a href="/feed.atom" rel="alternate" type="application/atom+xml">Atom feed</a></li>
+<li><a href="/feed.json" rel="alternate" type="application/feed+json">JSON feed</a></li>
+<li><a href="/feed.rss" rel="alternate" type="application/rss+xml">RSS feed</a></li>
+</ul>
+</details>
 </header>
 <ul id="articles">
+<li>
+<article aria-labelledby="using-sass-with-eleventy" class="h-card">
+<h2 id="using-sass-with-eleventy" class="article-heading"><a href="/blog/using-sass-with-eleventy/" class="p-name u-url">Using SASS With Eleventy</a></h2>
+<p class="reading-time"><img class="clock" src="/img/blog/clock.svg" alt="" width="20" height="20">About 5 minutes to read</p>
+<div class="p-summary"><p><a href="https://www.11ty.dev/">Eleventy (11ty)</a> is a super customisable static site generator that at its core transforms template language into HTML. However, template languages like Liquid and Nunjucks are designed to output HTML rather than CSS so how does Eleventy handle styling?</p>
+<p>Let me show you how I compile SASS automatically and display&hellip;</p></div>
+<a href="/blog/using-sass-with-eleventy/">Continue reading Using SASS With Eleventy</a>
+</article>
+</li>
 </ul>
 </main>
 <footer id="site-footer">
-<p><small>Site built using <a href="https://www.11ty.dev/" rel="noopener">Eleventy</a> and knowledge from <a href="/credits/">several wonderful people</a>.</small></p>
-<p><small>Source code available at <a href="https://github.com/JKC-Codes/jkc-codes.github.io" rel="noopener">GitHub</a>.</small></p>
-<p><small>&copy; John Kemp-Cruz <time datetime="2018">2018</time><span class="date-divider-text"> to </span><span aria-hidden="true">&ndash;</span><time datetime="2020">2020</time></small></p>
+<p><small>Site built using <a href="https://www.11ty.dev/">Eleventy</a> and knowledge from <a href="/credits/">several wonderful people</a>.</small></p>
+<p><small>Source code available at <a href="https://github.com/JKC-Codes/jkc-codes.github.io">GitHub</a>.</small></p>
+<p><small>&copy; John Kemp-Cruz <time datetime="2018">2018</time>&ndash;<time datetime="2021">2021</time></small></p>
 </footer>
 </div>
 </body>

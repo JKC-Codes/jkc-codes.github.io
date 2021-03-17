@@ -1,6 +1,6 @@
 {
 	"lang": "en-GB",
-	"name": "John Kemp-Cruz's Website",
+	"name": "John Kemp-Cruz",
 	"short_name": "John's Site",
 	"description": "Website for John Kemp-Cruz, a front-end web developer based in London, UK",
 	"scope": "../",
@@ -18,6 +18,11 @@
 		{
 			"src": "/img/site/icon-site-32x32.png",
 			"sizes": "32x32",
+			"type": "image/png"
+		},
+		{
+			"src": "/img/site/icon-site-128x128.png",
+			"sizes": "128x128",
 			"type": "image/png"
 		},
 		{

@@ -1,1 +1,1 @@
-#site-main>*:not(pre):not(code):not(blockquote):not(img){max-width:65ch}
+#site-main{max-width:calc(65ch + 4rem)}#header .reading-time{font-size:80%;color:#51586e}#header .reading-time .clock{width:.65rem;height:.65rem;vertical-align:baseline;margin-right:.75ch}

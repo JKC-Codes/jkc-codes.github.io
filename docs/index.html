@@ -7,12 +7,16 @@
 <link rel="stylesheet" href="/css/site.css">
 <link rel="stylesheet" href="/css/home.css">
 <script src="/js/site.js" defer></script>
+<link rel="canonical" href="https://jkc.codes/">
+<link rel="alternate" href="https://jkc.codes/feed.atom" type="application/atom+xml" title="Atom feed for John Kemp-Cruz's blog">
+<link rel="alternate" href="https://jkc.codes/feed.json" type="application/feed+json" title="JSON feed for John Kemp-Cruz's blog">
+<link rel="alternate" href="https://jkc.codes/feed.rss" type="application/rss+xml" title="RSS feed for John Kemp-Cruz's blog">
 <link rel="icon" href="/img/site/icon-site-16x16.png" type="image/png" sizes="16x16">
 <link rel="icon" href="/img/site/icon-site-32x32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="/img/site/icon-site-192x192.png" sizes="192x192">
 <link rel="mask-icon" href="/img/site/icon-site-apple-mask.svg" color="#203060">
 <link rel="icon" href="/img/site/icon-site.svg" type="image/svg+xml" sizes="any">
-<link rel="manifest" href="/js/manifest.webmanifest">
+<link rel="manifest" href="/manifest.webmanifest">
 <meta name="theme-color" content="#203060">
 <meta name="author" content="John Kemp-Cruz">
 <meta name="description" content="Website for John Kemp-Cruz, a front-end web developer based in London, UK">
@@ -28,7 +32,7 @@
 <meta property="og:url" content="https://jkc.codes/">
 <meta property="og:description" content="Website for John Kemp-Cruz, a front-end web developer based in London, UK">
 <meta property="og:locale" content="en-GB">
-<meta property="og:site_name" content="John Kemp-Cruz's Website">
+<meta property="og:site_name" content="John Kemp-Cruz">
 <meta name="twitter:site" content="@jkc_codes">
 <meta name="twitter:creator" content="@jkc_codes">
 <script type="application/ld+json">
@@ -53,31 +57,32 @@
 <nav id="site-nav-menu" class="navigation">
 <button type="button" aria-controls="site-nav-content" id="site-nav-menu-button" class="menu-button" hidden>
 <svg class="menu-button-icon" width="48" height="48" viewBox="0 0 100 100" aria-hidden="true">
-<rect class="line-top-left" x="0" y="0" width="60" height="20"/>
-<rect class="line-top-right" x="40" y="0" width="60" height="20"/>
-<rect class="line-mid-left" x="0" y="40" width="60" height="20"/>
-<rect class="line-mid-right" x="40" y="40" width="60" height="20"/>
-<rect class="line-bottom-left" x="0" y="80" width="60" height="20"/>
-<rect class="line-bottom-right" x="40" y="80" width="60" height="20"/>
+<rect class="line-top-left" x="0" y="0" width="60" height="20"></rect>
+<rect class="line-top-right" x="40" y="0" width="60" height="20"></rect>
+<rect class="line-mid-left" x="0" y="40" width="60" height="20"></rect>
+<rect class="line-mid-right" x="40" y="40" width="60" height="20"></rect>
+<rect class="line-bottom-left" x="0" y="80" width="60" height="20"></rect>
+<rect class="line-bottom-right" x="40" y="80" width="60" height="20"></rect>
 </svg>
 <span id="site-nav-menu-button-text">Open</span><br>menu
 </button>
 <ul id="site-nav-content" class="navigation-links">
 <li><a href="/" class="navigation-name">John Kemp-Cruz</a></li>
-<li><a href="/#skills"><img src="/img/site/icon-skills.svg" alt="" width="128" height="128">Skills</a></li>
+<li><a href="/blog/"><img src="/img/site/icon-blog.svg" alt="" width="128" height="128">Blog</a></li>
 <li><a href="/#projects"><img src="/img/site/icon-projects.svg" alt="" width="128" height="128">Projects</a></li>
-<li><a href="https://github.com/JKC-Codes/" rel="noopener"><img src="/img/site/icon-github.svg" alt="" width="128" height="128">GitHub</a></li>
-<li><a href="https://www.linkedin.com/in/johnkempcruz/" rel="noopener"><img src="/img/site/icon-linkedin.svg" alt="" width="128" height="128">LinkedIn</a></li>
+<li><a href="https://github.com/JKC-Codes/"><img src="/img/site/icon-github.svg" alt="" width="128" height="128">GitHub</a></li>
+<li><a href="https://twitter.com/jkc_codes/"><img src="/img/site/icon-twitter.svg" alt="" width="128" height="128">Twitter</a></li>
+<li><a href="https://www.linkedin.com/in/johnkempcruz/"><img src="/img/site/icon-linkedin.svg" alt="" width="128" height="128">LinkedIn</a></li>
 </ul>
 </nav>
 </header>
 <main id="site-main">
 <h1 id="page-heading">Home</h1>
-<section id="hero" aria-labelledby="hero-heading">
+<section id="hero" aria-labelledby="hero-heading" class="h-card">
 <h2 class="heading" id="hero-heading">Overview</h2>
-<p class="name">John Kemp-Cruz</p>
-<p class="job-title">Front-end web developer</p>
-<p class="location">London, UK</p>
+<p class="name p-name">John Kemp-Cruz</p>
+<p class="job-title p-job-title">Front-end web developer</p>
+<p class="location p-region">London, UK</p>
 </section>
 <section id="skills" aria-labelledby="skills-heading">
 <h2 id="skills-heading">Skills</h2>
@@ -137,8 +142,8 @@
 </ul>
 <h4 class="project-explore-heading">Explore</h4>
 <div class="project-explore-links">
-<p class="project-visit-site"><a class="project-visit-site-link" href="/ping/" rel="noopener">Visit site</a></p>
-<p class="project-view-code"><a class="project-view-code-link" href="https://github.com/JKC-Codes/ping" rel="noopener"><span aria-hidden="true">&lt; </span><span class="project-view-code-text">View code</span><span aria-hidden="true"> /&gt;</span></a></p>
+<p class="project-visit-site"><a class="project-visit-site-link" href="/ping/">Visit site</a></p>
+<p class="project-view-code"><a class="project-view-code-link" href="https://github.com/JKC-Codes/ping"><span aria-hidden="true">&lt; </span><span class="project-view-code-text">View code</span><span aria-hidden="true"> /&gt;</span></a></p>
 </div>
 </div>
 </article>
@@ -161,7 +166,7 @@
 </picture>
 <div class="project-details">
 <h4>Objective</h4>
-<p>Using a <a href="https://github.com/kevin-powell/brewery-start/blob/master/Brewery%20Homepage%20-%20desktop.png" rel="noopener">reference image</a> build a "pixel perfect" landing page for a brewery.</p>
+<p>Using a <a href="https://github.com/kevin-powell/brewery-start/blob/master/Brewery%20Homepage%20-%20desktop.png">reference image</a> build a "pixel perfect" landing page for a brewery.</p>
 <h4>Highlights</h4>
 <ul>
 <li>SVG</li>
@@ -170,8 +175,8 @@
 </ul>
 <h4 class="project-explore-heading">Explore</h4>
 <div class="project-explore-links">
-<p class="project-visit-site"><a class="project-visit-site-link" href="/brewery-website/" rel="noopener">Visit site</a></p>
-<p class="project-view-code"><a class="project-view-code-link" href="https://github.com/JKC-Codes/brewery-website" rel="noopener"><span aria-hidden="true">&lt; </span><span class="project-view-code-text">View code</span><span aria-hidden="true"> /&gt;</span></a></p>
+<p class="project-visit-site"><a class="project-visit-site-link" href="/brewery-website/">Visit site</a></p>
+<p class="project-view-code"><a class="project-view-code-link" href="https://github.com/JKC-Codes/brewery-website"><span aria-hidden="true">&lt; </span><span class="project-view-code-text">View code</span><span aria-hidden="true"> /&gt;</span></a></p>
 </div>
 </div>
 </article>
@@ -203,21 +208,21 @@
 </ul>
 <h4 class="project-explore-heading">Explore</h4>
 <div class="project-explore-links">
-<p class="project-visit-site"><a class="project-visit-site-link" href="/labdrakes-help/" rel="noopener">Visit site</a></p>
-<p class="project-view-code"><a class="project-view-code-link" href="https://github.com/JKC-Codes/labdrakes-help" rel="noopener"><span aria-hidden="true">&lt; </span><span class="project-view-code-text">View code</span><span aria-hidden="true"> /&gt;</span></a></p>
+<p class="project-visit-site"><a class="project-visit-site-link" href="/labdrakes-help/">Visit site</a></p>
+<p class="project-view-code"><a class="project-view-code-link" href="https://github.com/JKC-Codes/labdrakes-help"><span aria-hidden="true">&lt; </span><span class="project-view-code-text">View code</span><span aria-hidden="true"> /&gt;</span></a></p>
 </div>
 </div>
 </article>
 </section>
 <section id="contact" aria-labelledby="contact-heading">
 <h2 id="contact-heading">Contact</h2>
-<p class="text">Get in touch via <a class="link" href="https://www.linkedin.com/in/johnkempcruz/" rel="noopener">LinkedIn</a></p>
+<p class="text">Get in touch via <a class="link" href="https://www.linkedin.com/in/johnkempcruz/">LinkedIn</a></p>
 </section>
 </main>
 <footer id="site-footer">
-<p><small>Site built using <a href="https://www.11ty.dev/" rel="noopener">Eleventy</a> and knowledge from <a href="/credits/">several wonderful people</a>.</small></p>
-<p><small>Source code available at <a href="https://github.com/JKC-Codes/jkc-codes.github.io" rel="noopener">GitHub</a>.</small></p>
-<p><small>&copy; John Kemp-Cruz <time datetime="2018">2018</time><span class="date-divider-text"> to </span><span aria-hidden="true">&ndash;</span><time datetime="2020">2020</time></small></p>
+<p><small>Site built using <a href="https://www.11ty.dev/">Eleventy</a> and knowledge from <a href="/credits/">several wonderful people</a>.</small></p>
+<p><small>Source code available at <a href="https://github.com/JKC-Codes/jkc-codes.github.io">GitHub</a>.</small></p>
+<p><small>&copy; John Kemp-Cruz <time datetime="2018">2018</time>&ndash;<time datetime="2021">2021</time></small></p>
 </footer>
 </div>
 </body>

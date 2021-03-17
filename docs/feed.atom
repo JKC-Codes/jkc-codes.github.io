@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<id>https://jkc.codes/</id>
+	<title>John Kemp-Cruz</title>
+	<subtitle>Website for John Kemp-Cruz, a front-end web developer based in London, UK</subtitle>
+	<updated>2021-03-17T15:08:19Z</updated>
+	<icon>https://jkc.codes/img/site/icon-site-128x128.png</icon>
+	<link href="https://jkc.codes/" rel="alternate"/>
+	<link href="https://jkc.codes/feed.atom" rel="self"/>
+	<author>
+		<name>John Kemp-Cruz</name>
+		<uri>https://jkc.codes</uri>
+	</author>
+	
+	<entry>
+		<id>https://jkc.codes/blog/using-sass-with-eleventy/</id>
+		<title>Using SASS With Eleventy</title>
+		<updated>2021-03-17T15:08:19Z</updated>
+		<author>
+			<name>John Kemp-Cruz</name>
+			<uri>https://jkc.codes</uri>
+		</author>
+		<content type="html">&lt;p&gt;&lt;a href=&quot;https://www.11ty.dev/&quot;&gt;Eleventy (11ty)&lt;/a&gt; is a super customisable static site generator that at its core transforms template language into HTML. However, template languages like Liquid and Nunjucks are designed to output HTML rather than CSS so how does Eleventy handle styling?&lt;/p&gt;
+&lt;p&gt;Let me show you how I compile SASS automatically and display the output on a local server without triggering a build from Eleventy or refreshing the browser.&lt;/p&gt;
+&lt;p&gt;If you haven&#39;t already, you&#39;ll need to install &lt;a href=&quot;https://nodejs.org/&quot;&gt;Node&lt;/a&gt;, create a package.json file by typing &lt;code&gt;npm init&lt;/code&gt; in the command line and then run &lt;code&gt;npm i @11ty/eleventy&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;Transform SCSS Files&lt;/h2&gt;
+&lt;p&gt;I use the terminal and &lt;a href=&quot;https://sass-lang.com/documentation/cli/dart-sass&quot;&gt;SASS&#39; CLI commands&lt;/a&gt; to compile CSS but you can use any build system and skip this section if you want. The only Eleventy specific thing is placing the CSS in Eleventy&#39;s output folder — by default this is &amp;quot;_site&amp;quot;.&lt;/p&gt;
+&lt;p&gt;First, install the &lt;a href=&quot;https://www.npmjs.com/package/sass&quot;&gt;SASS package&lt;/a&gt;: &lt;code&gt;npm i sass&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Then, tell SASS where the SCSS files are and where to output the CSS. I do this through NPM so I don&#39;t need to type out the command every time.&lt;/p&gt;
+&lt;p&gt;Assuming your file structure looks like this:&lt;/p&gt;
+&lt;pre&gt;
+_site
+	|- index.html
+	|- css
+		|- styles.css
+sass
+	|- styles.scss
+index.html
+&lt;/pre&gt;
+&lt;p&gt;You would use the following in &lt;code&gt;package.json&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-json&quot;&gt;&amp;quot;scripts&amp;quot;: {
+	&amp;quot;watch:sass&amp;quot;: &amp;quot;npx sass sass:_site/css --watch&amp;quot;
+},
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This allows you to enter &lt;code&gt;npm run watch:sass&lt;/code&gt; in the command line to take any .scss files in the &amp;quot;sass&amp;quot; directory and put them in the &amp;quot;_site/css&amp;quot; directory as .css files any time a change is made.&lt;/p&gt;
+&lt;p&gt;You can rename the script from &amp;quot;watch:sass&amp;quot; to anything you like. Similarly, you can customise the input and output paths; the sass input goes before the : and the css output goes after it. There are also a number of flags you can customise other than the &lt;code&gt;--watch&lt;/code&gt; flag, full details are in the &lt;a href=&quot;https://sass-lang.com/documentation/cli/dart-sass&quot;&gt;SASS documentation&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Refresh The Browser&lt;/h2&gt;
+&lt;p&gt;In order to show the newly converted CSS live in the browser I use Eleventy&#39;s &lt;code&gt;--serve&lt;/code&gt; command.&lt;/p&gt;
+&lt;h3&gt;What Is &lt;code&gt;eleventy --serve&lt;/code&gt;?&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;eleventy --serve&lt;/code&gt; is a command line instruction that can be broken down into 3 steps: build, watch and serve.&lt;/p&gt;
+&lt;h4&gt;Build&lt;/h4&gt;
+&lt;p&gt;The build step will tell Eleventy to take template files like Markdown, Nunjucks or Liquid and create HTML files from them. It is equivalent to running &lt;code&gt;eleventy&lt;/code&gt; in the command line.&lt;/p&gt;
+&lt;h4&gt;Watch&lt;/h4&gt;
+&lt;p&gt;The watch step will run the above build step every time a change is made to any of the template files. It is equivalent to running &lt;code&gt;eleventy --watch&lt;/code&gt; in the command line.&lt;/p&gt;
+&lt;h4&gt;Serve&lt;/h4&gt;
+&lt;p&gt;The serve step will start a local server to display your website and update it automatically whenever files are changed through the above watch step. It is similar to running &lt;code&gt;eleventy --watch &amp;amp; browser-sync start&lt;/code&gt; in the command line.&lt;/p&gt;
+&lt;p&gt;Eleventy uses Browsersync under the hood to handle its live server. Notably this means that any options are detailed in the &lt;a href=&quot;https://www.browsersync.io/docs/&quot;&gt;Browsersync docs&lt;/a&gt; and not the &lt;a href=&quot;https://www.11ty.dev/docs/&quot;&gt;Eleventy docs&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;Configuring BrowserSync&lt;/h3&gt;
+&lt;p&gt;BrowserSync is automatically run when using &lt;code&gt;eleventy --serve&lt;/code&gt; and its options are set via &lt;a href=&quot;https://www.11ty.dev/docs/watch-serve/#override-browsersync-server-options&quot;&gt;EleventyConfig&#39;s &lt;code&gt;setBrowserSyncConfig&lt;/code&gt; method&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;In my &lt;a href=&quot;https://www.11ty.dev/docs/config/&quot;&gt;Eleventy config file&lt;/a&gt; (.eleventy.js by default) I add this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;module.exports = function(eleventyConfig) {
+	eleventyConfig.setBrowserSyncConfig({
+		files: &#39;./_site/css/**/*.css&#39;
+	});
+};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I&#39;m using BrowserSync&#39;s &lt;a href=&quot;https://www.browsersync.io/docs/options#option-files&quot;&gt;files option&lt;/a&gt; to watch any file in the &lt;code&gt;_site/css/&lt;/code&gt; folder with a &lt;code&gt;.css&lt;/code&gt; extension and add that CSS to the page whenever those files update. It doesn&#39;t use Eleventy&#39;s build command and therefore doesn&#39;t trigger a rebuild of the HTML.&lt;/p&gt;
+&lt;h3&gt;What about addPassthroughCopy?&lt;/h3&gt;
+&lt;p&gt;You may have seen other sites build their CSS files in the same folder as their SASS and then use Eleventy config&#39;s &lt;a href=&quot;https://www.11ty.dev/docs/copy/&quot;&gt;addPassthroughCopy&lt;/a&gt; method to copy the CSS to Eleventy&#39;s output folder. The file structure looks something like this:&lt;/p&gt;
+&lt;pre&gt;
+_site
+	|- index.html
+	|- css
+  	|- styles.css
+sass
+	|- styles.scss
+css
+	|- styles.css
+index.html
+&lt;/pre&gt;
+&lt;p&gt;This works, but there are two reasons why I don&#39;t like it.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The CSS folder is duplicated which makes unnecessary writes to my hard drive and uses additional space.&lt;/li&gt;
+&lt;li&gt;It increases build times because the SCSS file and the CSS file both trigger an Eleventy build. In the terminal you see a message like this: &lt;samp&gt;You saved while Eleventy was running, let’s run again. (1 remain)&lt;/samp&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;What about addWatchTarget?&lt;/h3&gt;
+&lt;p&gt;Eleventy config&#39;s &lt;a href=&quot;https://www.11ty.dev/docs/watch-serve/&quot;&gt;addWatchTarget&lt;/a&gt; method allows you to specify a file or folder which will trigger an Eleventy build whenever it&#39;s updated.&lt;/p&gt;
+&lt;p&gt;In theory this means that we could watch our SASS folder but in practice it creates a race condition which hopes that SASS will create a CSS file faster than Eleventy can start its build. You could watch the CSS folder instead but this creates the same problems as addPassthroughCopy.&lt;/p&gt;
+&lt;h2&gt;Wrapping up&lt;/h2&gt;
+&lt;p&gt;With the configuration set up, the last step is to run Eleventy and SASS together. I use VS Code&#39;s Tasks to do this but you can update your &lt;code&gt;package.json&lt;/code&gt; with this instead:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-json&quot;&gt;&amp;quot;scripts&amp;quot;: {
+	&amp;quot;watch:eleventy&amp;quot;: &amp;quot;npx @11ty/eleventy --serve&amp;quot;,
+	&amp;quot;watch:sass&amp;quot;: &amp;quot;npx sass sass:_site/css --watch&amp;quot;,
+	&amp;quot;start&amp;quot;: &amp;quot;npm run watch:eleventy &amp;amp;&amp;amp; watch:sass&amp;quot;
+},
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And then run &lt;code&gt;npm start&lt;/code&gt; in your terminal whenever you open your project.&lt;/p&gt;
+&lt;p&gt;If you&#39;re using Windows and/or Powershell, the start script&#39;s &lt;code&gt;&amp;amp;&amp;amp;&lt;/code&gt; syntax may not work so I recommend using &lt;a href=&quot;https://www.npmjs.com/package/npm-run-all&quot;&gt;npm-run-all&lt;/a&gt; or &lt;a href=&quot;https://www.npmjs.com/package/concurrently&quot;&gt;concurrently&lt;/a&gt; to run the two scripts at the same time instead.&lt;/p&gt;
+&lt;h3&gt;Advantages&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Zero build time when CSS is updated&lt;/li&gt;
+&lt;li&gt;No duplicated CSS files&lt;/li&gt;
+&lt;li&gt;No additional dependencies&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Disadvantages&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Doesn&#39;t work with inline styles&lt;/li&gt;
+&lt;li&gt;Some configuration is outside of Eleventy&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;TL;DR&lt;/h3&gt;
+&lt;pre&gt;
+package.json
+&lt;code class=&quot;lang-json&quot;&gt;&quot;scripts&quot;: {
+	&quot;watch:eleventy&quot;: &quot;npx @11ty/eleventy --serve&quot;,
+	&quot;watch:sass&quot;: &quot;npx sass sass:_site/css --watch&quot;,
+	&quot;start&quot;: &quot;npm run watch:eleventy &amp;&amp; watch:sass&quot;
+},&lt;/code&gt;
+&lt;/pre&gt;
+&lt;pre&gt;
+.eleventy.js
+&lt;code class=&quot;lang-js&quot;&gt;module.exports = function(eleventyConfig) {
+	eleventyConfig.setBrowserSyncConfig({
+		files: &#39;./_site/css/**/*.css&#39;
+	});
+};&lt;/code&gt;
+&lt;/pre&gt;
+&lt;pre&gt;
+command line
+&lt;code class=&quot;lang-shell&quot;&gt;npm start&lt;/code&gt;
+&lt;/pre&gt;
+&lt;h3&gt;Further Reading&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/watch-serve/&quot;&gt;11ty setBrowserSyncConfig documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.browsersync.io/docs/options#option-files&quot;&gt;BrowserSync files option documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://sass-lang.com/documentation/cli/dart-sass&quot;&gt;SASS CLI documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/quicktips/inline-css/&quot;&gt;How to inline minified CSS&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+		<link href="https://jkc.codes/blog/using-sass-with-eleventy/" rel="alternate"/>
+		<published>2021-03-17T15:08:19Z</published>
+	</entry>
+</feed>
