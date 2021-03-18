@@ -104,8 +104,7 @@ index.html
 <p>You would use the following in <code>package.json</code>:</p>
 <pre class="language-json line-numbers"><code class="language-json line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"watch:sass"</span><span class="token operator">:</span> <span class="token string">"npx sass sass:_site/css --watch"</span>
-<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">,</span>
-<span class="token line-number" aria-hidden="true"></span></code></pre>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
 <p>This allows you to enter <code>npm run watch:sass</code> in the command line to take any .scss files in the &quot;sass&quot; directory and put them in the &quot;_site/css&quot; directory as .css files any time a change is made.</p>
 <p>You can rename the script from &quot;watch:sass&quot; to anything you like. Similarly, you can customise the input and output paths; the sass input goes before the : and the css output goes after it. There are also a number of flags you can customise other than the <code>--watch</code> flag, full details are in the <a href="https://sass-lang.com/documentation/cli/dart-sass">SASS documentation</a>.</p>
 <h2>Refresh The Browser</h2>
@@ -126,8 +125,7 @@ index.html
 <span class="token line-number" aria-hidden="true"></span>	eleventyConfig<span class="token punctuation">.</span><span class="token method function property-access">setBrowserSyncConfig</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
 <span class="token line-number" aria-hidden="true"></span>		files<span class="token operator">:</span> <span class="token string">'./_site/css/**/*.css'</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">;</span>
-<span class="token line-number" aria-hidden="true"></span></code></pre>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
 <p>I'm using BrowserSync's <a href="https://www.browsersync.io/docs/options#option-files">files option</a> to watch any file in the <code>_site/css/</code> folder with a <code>.css</code> extension and add that CSS to the page whenever those files update. It doesn't use Eleventy's build command and therefore doesn't trigger a rebuild of the HTML.</p>
 <h3>What about addPassthroughCopy?</h3>
 <p>You may have seen other sites build their CSS files in the same folder as their SASS and then use Eleventy config's <a href="https://www.11ty.dev/docs/copy/">addPassthroughCopy</a> method to copy the CSS to Eleventy's output folder. The file structure looks something like this:</p>
@@ -156,8 +154,7 @@ index.html
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"watch:eleventy"</span><span class="token operator">:</span> <span class="token string">"npx @11ty/eleventy --serve"</span><span class="token punctuation">,</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"watch:sass"</span><span class="token operator">:</span> <span class="token string">"npx sass sass:_site/css --watch"</span><span class="token punctuation">,</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"start"</span><span class="token operator">:</span> <span class="token string">"npm run watch:eleventy &amp;&amp; watch:sass"</span>
-<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">,</span>
-<span class="token line-number" aria-hidden="true"></span></code></pre>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
 <p>And then run <code>npm start</code> in your terminal whenever you open your project.</p>
 <p>If you're using Windows and/or Powershell, the start script's <code>&amp;&amp;</code> syntax may not work so I recommend using <a href="https://www.npmjs.com/package/npm-run-all">npm-run-all</a> or <a href="https://www.npmjs.com/package/concurrently">concurrently</a> to run the two scripts at the same time instead.</p>
 <h3>Advantages</h3>

@@ -3,7 +3,7 @@
 	<id>https://jkc.codes/</id>
 	<title>John Kemp-Cruz</title>
 	<subtitle>Website for John Kemp-Cruz, a front-end web developer based in London, UK</subtitle>
-	<updated>2021-03-17T15:08:19Z</updated>
+	<updated>2021-03-18T15:55:19Z</updated>
 	<icon>https://jkc.codes/img/site/icon-site-128x128.png</icon>
 	<link href="https://jkc.codes/" rel="alternate"/>
 	<link href="https://jkc.codes/feed.atom" rel="self"/>
@@ -15,7 +15,7 @@
 	<entry>
 		<id>https://jkc.codes/blog/using-sass-with-eleventy/</id>
 		<title>Using SASS With Eleventy</title>
-		<updated>2021-03-17T15:08:19Z</updated>
+		<updated>2021-03-18T15:55:19Z</updated>
 		<author>
 			<name>John Kemp-Cruz</name>
 			<uri>https://jkc.codes</uri>
@@ -38,10 +38,9 @@ sass
 index.html
 &lt;/pre&gt;
 &lt;p&gt;You would use the following in &lt;code&gt;package.json&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-json&quot;&gt;&amp;quot;scripts&amp;quot;: {
-	&amp;quot;watch:sass&amp;quot;: &amp;quot;npx sass sass:_site/css --watch&amp;quot;
-},
-&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;language-json&quot;&gt;&quot;scripts&quot;: {
+	&quot;watch:sass&quot;: &quot;npx sass sass:_site/css --watch&quot;
+},&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;This allows you to enter &lt;code&gt;npm run watch:sass&lt;/code&gt; in the command line to take any .scss files in the &amp;quot;sass&amp;quot; directory and put them in the &amp;quot;_site/css&amp;quot; directory as .css files any time a change is made.&lt;/p&gt;
 &lt;p&gt;You can rename the script from &amp;quot;watch:sass&amp;quot; to anything you like. Similarly, you can customise the input and output paths; the sass input goes before the : and the css output goes after it. There are also a number of flags you can customise other than the &lt;code&gt;--watch&lt;/code&gt; flag, full details are in the &lt;a href=&quot;https://sass-lang.com/documentation/cli/dart-sass&quot;&gt;SASS documentation&lt;/a&gt;.&lt;/p&gt;
 &lt;h2&gt;Refresh The Browser&lt;/h2&gt;
@@ -62,8 +61,7 @@ index.html
 	eleventyConfig.setBrowserSyncConfig({
 		files: &#39;./_site/css/**/*.css&#39;
 	});
-};
-&lt;/code&gt;&lt;/pre&gt;
+};&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;I&#39;m using BrowserSync&#39;s &lt;a href=&quot;https://www.browsersync.io/docs/options#option-files&quot;&gt;files option&lt;/a&gt; to watch any file in the &lt;code&gt;_site/css/&lt;/code&gt; folder with a &lt;code&gt;.css&lt;/code&gt; extension and add that CSS to the page whenever those files update. It doesn&#39;t use Eleventy&#39;s build command and therefore doesn&#39;t trigger a rebuild of the HTML.&lt;/p&gt;
 &lt;h3&gt;What about addPassthroughCopy?&lt;/h3&gt;
 &lt;p&gt;You may have seen other sites build their CSS files in the same folder as their SASS and then use Eleventy config&#39;s &lt;a href=&quot;https://www.11ty.dev/docs/copy/&quot;&gt;addPassthroughCopy&lt;/a&gt; method to copy the CSS to Eleventy&#39;s output folder. The file structure looks something like this:&lt;/p&gt;
@@ -88,12 +86,11 @@ index.html
 &lt;p&gt;In theory this means that we could watch our SASS folder but in practice it creates a race condition which hopes that SASS will create a CSS file faster than Eleventy can start its build. You could watch the CSS folder instead but this creates the same problems as addPassthroughCopy.&lt;/p&gt;
 &lt;h2&gt;Wrapping up&lt;/h2&gt;
 &lt;p&gt;With the configuration set up, the last step is to run Eleventy and SASS together. I use VS Code&#39;s Tasks to do this but you can update your &lt;code&gt;package.json&lt;/code&gt; with this instead:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-json&quot;&gt;&amp;quot;scripts&amp;quot;: {
-	&amp;quot;watch:eleventy&amp;quot;: &amp;quot;npx @11ty/eleventy --serve&amp;quot;,
-	&amp;quot;watch:sass&amp;quot;: &amp;quot;npx sass sass:_site/css --watch&amp;quot;,
-	&amp;quot;start&amp;quot;: &amp;quot;npm run watch:eleventy &amp;amp;&amp;amp; watch:sass&amp;quot;
-},
-&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;language-json&quot;&gt;&quot;scripts&quot;: {
+	&quot;watch:eleventy&quot;: &quot;npx @11ty/eleventy --serve&quot;,
+	&quot;watch:sass&quot;: &quot;npx sass sass:_site/css --watch&quot;,
+	&quot;start&quot;: &quot;npm run watch:eleventy &amp;&amp; watch:sass&quot;
+},&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;And then run &lt;code&gt;npm start&lt;/code&gt; in your terminal whenever you open your project.&lt;/p&gt;
 &lt;p&gt;If you&#39;re using Windows and/or Powershell, the start script&#39;s &lt;code&gt;&amp;amp;&amp;amp;&lt;/code&gt; syntax may not work so I recommend using &lt;a href=&quot;https://www.npmjs.com/package/npm-run-all&quot;&gt;npm-run-all&lt;/a&gt; or &lt;a href=&quot;https://www.npmjs.com/package/concurrently&quot;&gt;concurrently&lt;/a&gt; to run the two scripts at the same time instead.&lt;/p&gt;
 &lt;h3&gt;Advantages&lt;/h3&gt;
@@ -137,6 +134,6 @@ command line
 &lt;/ul&gt;
 </content>
 		<link href="https://jkc.codes/blog/using-sass-with-eleventy/" rel="alternate"/>
-		<published>2021-03-17T15:08:19Z</published>
+		<published>2021-03-18T15:55:19Z</published>
 	</entry>
 </feed>
