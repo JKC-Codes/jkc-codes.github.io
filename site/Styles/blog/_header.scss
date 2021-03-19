@@ -18,10 +18,13 @@
 
 		&-button {
 			cursor: pointer;
-			list-style-type: none;
+			list-style: none;
 			color: $colour-brand;
 
-			&::-webkit-details-marker,
+			&::-webkit-details-marker {
+				display: none;
+			}
+
 			&::marker {
 				display: none;
 			}
