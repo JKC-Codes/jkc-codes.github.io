@@ -4,8 +4,8 @@
 		<link>https://jkc.codes/</link>
 		<description>Website for John Kemp-Cruz, a front-end web developer based in London, UK</description>
 		<language>en-GB</language>
-		<pubDate>Thu, 18 Mar 2021 15:55:19 +0000</pubDate>
-		<lastBuildDate>Thu, 18 Mar 2021 15:55:19 +0000</lastBuildDate>
+		<pubDate>Wed, 17 Mar 2021 15:08:01 +0000</pubDate>
+		<lastBuildDate>Wed, 17 Mar 2021 15:08:01 +0000</lastBuildDate>
 		<image>
 			<url>https://jkc.codes/img/site/icon-site-128x128.png</url>
 			<title>John Kemp-Cruz</title>
@@ -131,7 +131,7 @@ command line
 &lt;/ul&gt;
 </description>
 			<guid>https://jkc.codes/blog/using-sass-with-eleventy/</guid>
-			<pubDate>Thu, 18 Mar 2021 15:55:19 +0000</pubDate>
+			<pubDate>Wed, 17 Mar 2021 15:08:01 +0000</pubDate>
 			<dc:creator>John Kemp-Cruz</dc:creator>
 		</item>
 	</channel>
