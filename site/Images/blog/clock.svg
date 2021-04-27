@@ -1,1 +1,29 @@
-<svg version="1.1" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="m10 0c-5.5225 0-10 4.4775-10 10s4.4775 10 10 10 10-4.4775 10-10-4.4775-10-10-10zm0 18.75c-4.8242 0-8.75-3.9258-8.75-8.75s3.9258-8.75 8.75-8.75c4.8242 0 8.75 3.9258 8.75 8.75s-3.9258 8.75-8.75 8.75z" fill="#51586e" stroke-width=".15625"/><path d="m14.419 12.651-3.1689-3.1689v-3.2325c0-.69094-.55906-1.25-1.25-1.25-.69094 0-1.25.55906-1.25 1.25v4.2677l3.9014 3.9014c.48828.48953 1.2794.48953 1.7677 0 .48938-.48843.48938-1.2797-.000156-1.7676z" fill="#51586e" stroke-width=".15625"/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xml:space="preserve"
+   width="100"
+   viewBox="0 0 100 100"
+   version="1.1"
+   id="Layer_1"
+   height="100"
+   enable-background="new 0 0 128 128"><metadata
+     id="metadata15"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
+     id="defs13" /><g
+     transform="matrix(5,0,0,5,0,-540)"
+     id="g6"><g
+       transform="matrix(0.15625,0,0,0.15625,0,108)"
+       style="fill:#51586e;fill-opacity:1"
+       id="g4"><path
+         style="fill:#51586e;fill-opacity:1"
+         id="path2"
+         d="M 64,0 C 28.656,0 0,28.656 0,64 0,99.344 28.656,128 64,128 99.344,128 128,99.344 128,64 128,28.656 99.344,0 64,0 Z m 0,120 C 33.125,120 8,94.875 8,64 8,33.125 33.125,8 64,8 c 30.875,0 56,25.125 56,56 0,30.875 -25.125,56 -56,56 z" /></g></g><path
+     style="fill:#51586e;fill-opacity:1;stroke-width:0.78125"
+     id="path8"
+     d="M 72.09453,63.25705 56.25,47.4125 V 31.25 C 56.25,27.7953 53.45469,25 50,25 c -3.454688,0 -6.25,2.7953 -6.25,6.25 v 21.3383 l 19.50703,19.507 c 2.441405,2.44765 6.396875,2.44765 8.83828,0 2.44688,-2.44215 2.44688,-6.3984 -7.8e-4,-8.83825 z" /></svg>
