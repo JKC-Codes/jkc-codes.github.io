@@ -13,70 +13,63 @@ background: $colour-brand;
 }
 
 .skip-to-content {
-	display: none;
+	position: absolute;
+	top: -200%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: max-content;
+	color: white;
+	background: $colour-brand;
+	outline: $outline-light;
+	outline-offset: -0.25rem;
+	padding: 0.5rem 1rem;
 
-	@media (min-width: $mq-header-narrow) {
-		display: inline-block;
-		position: absolute;
-		top: auto;
-		left: -100vw;
-		width: 1px;
-		height: 1px;
-		margin: 0;
-		border: 0;
-		padding: 0;
-		overflow: hidden;
-		clip-path: inset(50%);
-		white-space: nowrap;
-
-		&:focus {
-			position: static;
-			width: auto;
-			height: auto;
-			clip-path: none;
-			margin-left: 50%;
-			transform: translateX(-50%);
-			color: white;
-			background: $colour-brand;
-			outline: 1px dashed white;
-			outline-offset: -0.25rem;
-			padding: 0.5rem 1rem;
-		}
-	}
-
-	@media (min-width: $mq-header-wide) {
-		&:focus {
-			position: absolute;
-			left: 50%;
-			margin: 0;
-			transform: translateX(-50%);
-			margin-top: 0.5rem;
-		}
+	&:focus {
+		top: $spacing / 2;
 	}
 }
 
 .navigation {
-	height: 100%;
+	height: 100%; // For position sticky
+}
+
+.menu-checkbox {
+	position: absolute;
+	top: 0.6rem;
+	right: 0.8rem;
+	z-index: -1;
+	transform: scale(0.1);
+
+	@media (min-width: $mq-header-narrow) {
+		display: none;
+	}
 }
 
 .menu-button {
+	@extend button;
 	@extend %transition;
 	transition-property: color;
 	position: absolute;
-	z-index: 2;
 	top: 0;
 	right: 0;
+	z-index: 2;
 	height: 3.5rem;
 	margin: 0.5rem;
 	padding: 0.25rem;
 	border: none;
-	border-radius: 0.5rem;
 	background: none;
 	color: $colour-text;
 	font-size: 0.7rem;
+	line-height: 1.15;
 
-	&[aria-expanded="true"] {
-		color: white;
+	.menu-button:focus,
+	.menu-checkbox:focus ~ .menu-button {
+		outline: $outline-dark;
+	}
+
+	.menu-button:focus:not(:focus-visible),
+	.menu-checkbox:focus:not(:focus-visible) ~ .menu-button {
+		outline: none;
 	}
 
 	&:hover {
@@ -126,7 +119,17 @@ background: $colour-brand;
 		}
 	}
 
-	&[aria-expanded="true"] .menu-button-icon {
+	&-text {
+		@extend %transition;
+		transition-property: color;
+		color: $colour-text;
+		white-space: pre-line;
+	}
+}
+
+.menu-button[aria-expanded="true"],
+.menu-checkbox:checked ~ .menu-button {
+	.menu-button-icon {
 		.line-top-left,
 		.line-top-right,
 		.line-mid-left,
@@ -157,21 +160,32 @@ background: $colour-brand;
 			transform: translate(-5px, 5px) rotate(45deg) scaleX(1.1);
 		}
 	}
+
+	.menu-button-text {
+		color: white;
+	}
 }
 
 .navigation-links {
 	@extend %transition;
-	z-index: 1;
-	transition-property: transform, background-color;
-	list-style-type: none;
+	position: absolute;
 	top: 0;
 	left: 0;
+	z-index: 1;
+	transform: translateY(-100%);
+	opacity: 0;
+	transition-property: transform, opacity;
+	background: transparentize($colour-brand,0.05);
+	list-style-type: none;
 	width: 100%;
 	padding: 1.25rem 2.5rem 2.5rem;
 	margin: 0;
 
 	@media (min-width: $mq-header-narrow) {
+		position: static;
+		transform: none;
 		transition: none;
+		opacity: 1;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
@@ -187,6 +201,10 @@ background: $colour-brand;
 			grid-row-gap: 1.25rem;
 			padding: 2rem 1rem;
 		}
+	}
+
+	@media (min-width: $mq-header-wide) and (min-height: 25em) {
+		position: sticky;
 	}
 
 	li {
@@ -241,60 +259,34 @@ background: $colour-brand;
 			margin-right: 0.25rem;
 		}
 	}
-}
 
-// Only overlay when JavaScript has added ARIA attribute
-.menu-button[aria-expanded] ~ .navigation-links {
-	position: absolute;
-}
+	.navigation-name {
+		line-height: 1rem;
+		font-size: 1.25rem;
+		font-weight: 700;
+		text-decoration: none;
 
-.menu-button[aria-expanded="false"] ~ .navigation-links {
-	transform: translateY(-100%);
-	background: transparent;
-}
+		@media (min-width: $mq-header-narrow) {
+			font-size: 100%;
+		}
 
-.menu-button[aria-expanded="true"] ~ .navigation-links {
-	transform: translateY(0%);
-	background: transparentize($colour-brand,0.05);
-}
+		@media (min-width: $mq-header-wide) {
+			@supports (grid-area: auto) {
+				writing-mode: sideways-lr;
 
-@media (min-width: $mq-header-narrow) {
-	.menu-button[aria-expanded] ~ .navigation-links {
-		position: static;
-	}
-
-	.menu-button[aria-expanded="false"] ~ .navigation-links {
-		transform: translateY(0%);
-	}
-}
-
-@media (min-width: $mq-header-wide) and (min-height: 25em) {
-	.menu-button[aria-expanded] ~ .navigation-links {
-		position: sticky;
-	}
-}
-
-.navigation-name {
-	line-height: 1rem;
-	font-size: 1.25rem;
-	font-weight: 700;
-	text-decoration: none;
-
-	@media (min-width: $mq-header-narrow) {
-		font-size: 100%;
-	}
-
-	@media (min-width: $mq-header-wide) {
-		@supports (grid-area: auto) {
-			writing-mode: sideways-lr;
-
-			@supports (not (writing-mode: sideways-lr)) {
-				writing-mode: vertical-lr;
-				transform: rotate(-180deg);
+				@supports (not (writing-mode: sideways-lr)) {
+					writing-mode: vertical-lr;
+					transform: rotate(-180deg);
+				}
 			}
 		}
 	}
 }
 
+.menu-button[aria-expanded="true"] .navigation-links,
+.menu-checkbox:checked ~ .navigation-links {
+	transform: translateY(0);
+	opacity: 1;
+}
 
 }
