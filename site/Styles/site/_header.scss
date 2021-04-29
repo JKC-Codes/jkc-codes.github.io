@@ -1,7 +1,8 @@
 #site-header {
 
+$transition-duration: 0.25s;
 %transition {
-	transition: 0.25s ease-in-out;
+	transition: $transition-duration ease-in-out;
 }
 
 background: $colour-brand;
@@ -63,14 +64,8 @@ background: $colour-brand;
 	font-size: 0.7rem;
 	line-height: 1.15;
 
-	.menu-button:focus,
-	.menu-checkbox:focus ~ .menu-button {
-		outline: $outline-dark;
-	}
-
-	.menu-button:focus:not(:focus-visible),
-	.menu-checkbox:focus:not(:focus-visible) ~ .menu-button {
-		outline: none;
+	&:focus {
+		background: none;
 	}
 
 	&:hover {
@@ -128,6 +123,21 @@ background: $colour-brand;
 	}
 }
 
+.menu-button:focus,
+.menu-checkbox:focus ~ .menu-button {
+	outline: $outline-dark;
+}
+
+.menu-button[aria-expanded="true"]:focus,
+.menu-checkbox:checked:focus ~ .menu-button {
+	outline: $outline-light;
+}
+
+.menu-button:focus:not(:focus-visible),
+.menu-checkbox:focus:not(:focus-visible) ~ .menu-button {
+	outline: none;
+}
+
 .menu-button[aria-expanded="true"],
 .menu-checkbox:checked ~ .menu-button {
 	.menu-button-icon {
@@ -173,9 +183,6 @@ background: $colour-brand;
 	top: 0;
 	left: 0;
 	z-index: 1;
-	transform: translateY(-100%);
-	opacity: 0;
-	transition-property: transform, opacity;
 	background: transparentize($colour-brand,0.05);
 	list-style-type: none;
 	width: 100%;
@@ -184,9 +191,6 @@ background: $colour-brand;
 
 	@media (min-width: $mq-header-narrow) {
 		position: static;
-		transform: none;
-		transition: none;
-		opacity: 1;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
@@ -284,10 +288,32 @@ background: $colour-brand;
 	}
 }
 
-.menu-button[aria-expanded="true"] .navigation-links,
+.menu-button[aria-expanded="false"] ~ .navigation-links,
+.menu-checkbox ~ .navigation-links {
+	transition-delay: 0ms, 0ms, $transition-duration;
+	transform: translateY(-100%);
+	opacity: 0;
+	visibility: hidden;
+}
+
+.menu-button[aria-expanded="true"] ~ .navigation-links,
 .menu-checkbox:checked ~ .navigation-links {
+	transition-delay: 0ms;
 	transform: translateY(0);
 	opacity: 1;
+	visibility: visible;
+}
+
+.menu-button[aria-expanded] ~ .navigation-links,
+.menu-checkbox ~ .navigation-links {
+	transition-property: transform, opacity, visibility;
+
+	@media (min-width: $mq-header-narrow) {
+		transition: none;
+		transform: translateY(0);
+		opacity: 1;
+		visibility: visible;
+	}
 }
 
 }
