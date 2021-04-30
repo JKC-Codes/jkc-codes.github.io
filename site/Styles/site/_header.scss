@@ -119,7 +119,9 @@ background: $colour-brand;
 		@extend %transition;
 		transition-property: color;
 		color: $colour-text;
-		white-space: pre-line;
+		display: inline-block;
+		width: 5ch;
+		width: min-content;
 	}
 }
 
