@@ -316,6 +316,10 @@ background: $colour-brand;
 		opacity: 1;
 		visibility: visible;
 	}
+
+	&.js-prevent-transition {
+		transition: none;
+	}
 }
 
 }
