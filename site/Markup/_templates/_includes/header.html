@@ -1,19 +1,18 @@
 <header id="site-header">
 	<a href="#site-main" class="skip-to-content">Skip to main content</a>
 	<nav class="navigation">
-		<input class="menu-checkbox" type="checkbox" id="site-nav-menu-checkbox">
-		<label class="menu-button" for="site-nav-menu-checkbox">
-			<svg class="menu-button-icon" width="48" height="48" viewBox="0 0 100 100" aria-hidden="true">
+		<input class="menu-checkbox js-site-nav-input" type="checkbox" id="site-nav-menu-checkbox">
+		<label class="menu-button js-site-nav-button" for="site-nav-menu-checkbox">
+			<svg class="menu-button-icon" width="48" height="48" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
 				<rect class="line-top-left" x="0" y="0" width="60" height="20"/>
 				<rect class="line-top-right" x="40" y="0" width="60" height="20"/>
 				<rect class="line-mid-left" x="0" y="40" width="60" height="20"/>
 				<rect class="line-mid-right" x="40" y="40" width="60" height="20"/>
 				<rect class="line-bottom-left" x="0" y="80" width="60" height="20"/>
 				<rect class="line-bottom-right" x="40" y="80" width="60" height="20"/>
-			</svg><span class="menu-button-text">Open
-				menu</span>
+			</svg><span class="menu-button-text js-site-nav-button-text">Open menu</span>
 		</label>
-		<ul class="navigation-links">
+		<ul class="navigation-links js-site-nav-menu" id="site-nav-menu">
 			<li><a class="navigation-name" href="/">John Kemp-Cruz</a></li>
 			<li><a href="/blog/"><img src="/img/site/icon-blog.svg" alt="" width="40" height="40">Blog</a></li>
 			<li><a href="/#projects"><img src="/img/site/icon-projects.svg" alt="" width="40" height="40">Projects</a></li>
