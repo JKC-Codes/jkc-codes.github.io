@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>https://jkc.codes/</id>
 	<title>John Kemp-Cruz</title>
-	<subtitle>Website for John Kemp-Cruz, a front-end web developer based in London, UK</subtitle>
+	<subtitle>Where John writes about web development</subtitle>
 	<updated>2021-03-17T15:08:01Z</updated>
 	<icon>https://jkc.codes/img/site/icon-site-128x128.png</icon>
 	<link href="https://jkc.codes/" rel="alternate"/>

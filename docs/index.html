@@ -13,19 +13,18 @@
 <link rel="alternate" href="https://jkc.codes/feed.rss" type="application/rss+xml" title="RSS feed for John Kemp-Cruz's blog">
 <link rel="icon" href="/img/site/icon-site-16x16.png" type="image/png" sizes="16x16">
 <link rel="icon" href="/img/site/icon-site-32x32.png" type="image/png" sizes="32x32">
-<link rel="apple-touch-icon" href="/img/site/icon-site-192x192.png" sizes="192x192">
-<link rel="mask-icon" href="/img/site/icon-site-apple-mask.svg" color="#203060">
 <link rel="icon" href="/img/site/icon-site.svg" type="image/svg+xml" sizes="any">
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="theme-color" content="#203060">
 <meta name="author" content="John Kemp-Cruz">
 <meta name="description" content="Personal website of John Kemp-Cruz, a front-end web developer based in London, UK">
-<meta property="og:title" content="Home"><meta property="og:type" content="website">
+<meta property="og:title" content="Home">
+<meta property="og:type" content="website">
 <meta property="og:image" content="/img/site/icon-site-512x512.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="512">
 <meta property="og:image:height" content="512">
-<meta property="og:image:alt" content="JKC on midnight blue background">
+<meta property="og:image:alt" content="JKC on space cadet blue background">
 <meta property="og:url" content="https://jkc.codes/">
 <meta property="og:description" content="Personal website of John Kemp-Cruz, a front-end web developer based in London, UK">
 <meta property="og:locale" content="en-GB">
@@ -33,7 +32,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@jkc_codes">
 <meta name="twitter:creator" content="@jkc_codes">
-<meta name="twitter:image:alt" content="JKC on midnight blue background">
+<meta name="twitter:image:alt" content="JKC on space cadet blue background">
 <script type="application/ld+json">
 {
 			"@context": "http://schema.org",
@@ -53,25 +52,25 @@
 <div id="site-container">
 <header id="site-header">
 <a href="#site-main" class="skip-to-content">Skip to main content</a>
-<nav id="site-nav-menu" class="navigation">
-<button type="button" aria-controls="site-nav-content" id="site-nav-menu-button" class="menu-button" hidden>
-<svg class="menu-button-icon" width="48" height="48" viewBox="0 0 100 100" aria-hidden="true">
+<nav class="navigation">
+<input class="menu-checkbox js-site-nav-input" type="checkbox" id="site-nav-menu-checkbox">
+<label class="menu-button js-site-nav-button" for="site-nav-menu-checkbox">
+<svg class="menu-button-icon" width="48" height="48" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
 <rect class="line-top-left" x="0" y="0" width="60" height="20"></rect>
 <rect class="line-top-right" x="40" y="0" width="60" height="20"></rect>
 <rect class="line-mid-left" x="0" y="40" width="60" height="20"></rect>
 <rect class="line-mid-right" x="40" y="40" width="60" height="20"></rect>
 <rect class="line-bottom-left" x="0" y="80" width="60" height="20"></rect>
 <rect class="line-bottom-right" x="40" y="80" width="60" height="20"></rect>
-</svg>
-<span id="site-nav-menu-button-text">Open</span><br>menu
-</button>
-<ul id="site-nav-content" class="navigation-links">
-<li><a href="/" class="navigation-name">John Kemp-Cruz</a></li>
-<li><a href="/blog/"><img src="/img/site/icon-blog.svg" alt="" width="128" height="128">Blog</a></li>
-<li><a href="/#projects"><img src="/img/site/icon-projects.svg" alt="" width="128" height="128">Projects</a></li>
-<li><a href="https://github.com/JKC-Codes/" rel="me"><img src="/img/site/icon-github.svg" alt="" width="128" height="128">GitHub</a></li>
-<li><a href="https://twitter.com/jkc_codes/" rel="me"><img src="/img/site/icon-twitter.svg" alt="" width="128" height="128">Twitter</a></li>
-<li><a href="https://www.linkedin.com/in/johnkempcruz/" rel="me"><img src="/img/site/icon-linkedin.svg" alt="" width="128" height="128">LinkedIn</a></li>
+</svg><span class="menu-button-text js-site-nav-button-text">Open menu</span>
+</label>
+<ul class="navigation-links js-site-nav-menu" id="site-nav-menu">
+<li><a class="navigation-name" href="/">John Kemp-Cruz</a></li>
+<li><a href="/blog/"><img src="/img/site/icon-blog.svg" alt="" width="40" height="40">Blog</a></li>
+<li><a href="/#projects"><img src="/img/site/icon-projects.svg" alt="" width="40" height="40">Projects</a></li>
+<li><a href="https://github.com/JKC-Codes/" rel="me"><img src="/img/site/icon-github.svg" alt="" width="40" height="40">GitHub</a></li>
+<li><a href="https://twitter.com/jkc_codes/" rel="me"><img src="/img/site/icon-twitter.svg" alt="" width="40" height="40">Twitter</a></li>
+<li><a href="https://www.linkedin.com/in/johnkempcruz/" rel="me"><img src="/img/site/icon-linkedin.svg" alt="" width="40" height="40">LinkedIn</a></li>
 </ul>
 </nav>
 </header>
@@ -129,7 +128,7 @@
 <p class="introduction">All projects are fully responsive down to 320px width. Tested in IE11, Chrome, Firefox and Edge; sorry Safari users, I don't own an Apple device.</p>
 <article class="project">
 <h3 class="project-heading">Ping Pong Game</h3>
-<img class="project-screenshot" src="/img/home/ping.png" alt="Screenshot of Ping Pong game project" width="1400" height="716">
+<img class="project-screenshot" src="/img/home/ping.png" alt="Screenshot of Ping Pong game project" width="480" height="245">
 <div class="project-details">
 <h4>Objective</h4>
 <p>Recreate the Atari classic, Pong, in a browser.</p>
@@ -161,7 +160,7 @@
 					(min-width: 50rem) calc((100vw - 7.5rem) / 2),
 					calc(100vw - 2.5rem)
 				" srcset="/img/home/screenshot-brewery-website-480w.jpg 480w, /img/home/screenshot-brewery-website-600w.jpg 600w, /img/home/screenshot-brewery-website-740w.jpg 740w, /img/home/screenshot-brewery-website-880w.jpg 880w, /img/home/screenshot-brewery-website-980w.jpg 980w, /img/home/screenshot-brewery-website-1120w.jpg 1120w, /img/home/screenshot-brewery-website-1220w.jpg 1220w, /img/home/screenshot-brewery-website-1340w.jpg 1340w, /img/home/screenshot-brewery-website-1440w.jpg 1440w, /img/home/screenshot-brewery-website-1520w.jpg 1520w">
-<img class="project-screenshot" src="/img/home/screenshot-brewery-website-740w.jpg" alt="Screenshot of Brewery Website project" width="740" height="1222">
+<img class="project-screenshot" src="/img/home/screenshot-brewery-website-740w.jpg" alt="Screenshot of Brewery Website project" width="480" height="792">
 </picture>
 <div class="project-details">
 <h4>Objective</h4>
@@ -194,7 +193,7 @@
 					(min-width: 50rem) calc((100vw - 7.5rem) / 2),
 					calc(100vw - 2.5rem)
 				" srcset="/img/home/screenshot-labdrakes-help-480w.jpg 480w, /img/home/screenshot-labdrakes-help-640w.jpg 640w, /img/home/screenshot-labdrakes-help-800w.jpg 800w, /img/home/screenshot-labdrakes-help-860w.jpg 860w, /img/home/screenshot-labdrakes-help-960w.jpg 960w, /img/home/screenshot-labdrakes-help-1040w.jpg 1040w, /img/home/screenshot-labdrakes-help-1200w.jpg 1200w, /img/home/screenshot-labdrakes-help-1220w.jpg 1220w, /img/home/screenshot-labdrakes-help-1280w.jpg 1280w, /img/home/screenshot-labdrakes-help-1360w.jpg 1360w, /img/home/screenshot-labdrakes-help-1440w.jpg 1440w, /img/home/screenshot-labdrakes-help-1520w.jpg 1520w">
-<img class="project-screenshot" src="/img/home/screenshot-labdrakes-help-800w.jpg" alt="Screenshot of Labdrakes Help project" width="884" height="1039">
+<img class="project-screenshot" src="/img/home/screenshot-labdrakes-help-800w.jpg" alt="Screenshot of Labdrakes Help project" width="480" height="564">
 </picture>
 <div class="project-details">
 <h4>Objective</h4>
