@@ -17,10 +17,10 @@ The desire to always have the navigation menu accessible to users is the reason 
 ## Requirements
 
 <ul>
-	<li><strong>Useable without JavaScript</strong> &mdash; As already stated, this website has always been built with progressive enhancement and graceful degradation in mind. My entire site is useable if the CSS and/or JavaScript fail.</li>
+	<li><strong>Useable without JavaScript</strong> &mdash; As already stated, this website has always been built with progressive enhancement and graceful degradation in mind. My entire site must be useable if the CSS and/or JavaScript fail.</li>
 	<li><strong>Narrow pages aren't dominated by the navigation</strong> &mdash; The reason for using a collapsing menu in the first place is because I felt that my navigation links took up too much space at the smallest screen I support (320px by 480px). The navigation should always feel secondary to any other content.</li>
 	<li><strong>Navigation items are fully visible on wide screens</strong> &mdash; Since I'm only using a collapsing menu because of smaller screens, I should ditch it on larger screens which can comfortably accomodate all the navigation links.</li>
-	<li><strong>Accessible to assistive technology at all times</strong> &mdash; I aim to meet WAI-ARIA AAA standards. Not supporting assistive technologies would be a huge step backward.</li>
+	<li><strong>Accessible to assistive technology at all times</strong> &mdash; I aim to meet WAI-ARIA AAA standards unless I have a very good reason not to. Not supporting assistive technologies would be a huge step backward.</li>
 </ul>
 
 
@@ -29,10 +29,25 @@ The desire to always have the navigation menu accessible to users is the reason 
 Here are the solutions I considered. If you have your own solution that I didn't think of [let me know on Twitter](https://twitter.com/intent/tweet?screen_name=jkc_codes).
 
 ### Do Nothing
+It may feel bad to leave a known bug in my code but I have a website that gets perfect scores on lighthouse metrics including a cumulative layout shift score of 0 and the problem is only noticeable on super slow connections. If a solution would cause side effects that outweigh this minor inconvenience then doing nothing would be the better option.
+
 ### Closed By Default
-### <code>noscript</code> Element
-### <code>details</code> And <code>summary</code> Elements
+If the problem was the menu being open when it should be closed, having it closed by default would solve the problem, right? Unfortunately, the menu would be permanently closed if JavaScript failed to load and therefore navigating my site would be almost impossible.
+
+### `<noscript>` Element
+The `<noscript>` element allows you to insert HTML if JavaScript can't function. So I could close the menu by default but open it using `<noscript>` if JavaScript failed. This sounded like the perfect solution&hellip; until I read the [description on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript) more carefully: <q cite="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript">The HTML `<noscript>` element defines a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser</q>.
+
+The description only specifies JavaScript being unsupported or turned off. **`<noscript>` doesn't work if JavaScript fails to load due to a connection error**. Being realistic, barely anyone is going to turn off JavaScript these days ([excluding Heydon Pickering](https://heydonworks.com/)) but plenty of people are going to have errors from a dodgy mobile connection.
+
+### Different HTML For Different Screen Widths
+
+
+### `<details>` And `<summary>` Elements
+
+
 ### Checkbox Input
+
+
 ### No Collapsible Menu
 
 
