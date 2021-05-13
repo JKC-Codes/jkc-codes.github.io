@@ -19,30 +19,6 @@ html {
 	}
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-	font-weight: 700;
-	color: $colour-brand;
-	margin-top: 2em;
-	margin-bottom: 1em;
-}
-
-h2 {
-	font-size: 1.6em;
-}
-
-h3 {
-	font-size: 1.2em;
-}
-
-h4 {
-	font-size: 1em;
-}
-
 a:link {
 	color: $colour-brand;
 }
@@ -59,20 +35,22 @@ a:hover {
 a:active {
 	border-radius: $border-rounded;
 	background-color: transparentize($colour-contrast, 0.75);
+}a:link {
+	color: $colour-brand;
 }
 
-img {
-	max-width: 100%;
-	height: auto;
+a:visited {
+	color: $colour-complement;
 }
 
-ul,
-ol {
-	padding-left: 1em;
+a:hover {
+	color: $colour-complement;
+	text-decoration-style: dashed;
 }
 
-li {
-	margin-bottom: 0.5em;
+a:active {
+	border-radius: $border-rounded;
+	background-color: transparentize($colour-contrast, 0.75);
 }
 
 button {
@@ -98,6 +76,44 @@ button {
 	}
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 700;
+	color: $colour-brand;
+	margin-top: 2em;
+	margin-bottom: 1em;
+}
+
+h2 {
+	font-size: 1.6em;
+}
+
+h3 {
+	font-size: 1.2em;
+}
+
+h4 {
+	font-size: 1em;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+ol,
+ul {
+	padding-left: 1em;
+}
+
+li {
+	margin-bottom: 0.5em;
+}
+
 pre,
 code {
 	font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace, monospace;
@@ -116,4 +132,24 @@ code {
 pre {
 	width: 100%;
 	max-width: max-content;
+}
+
+q {
+	font-style: italic;
+
+	&::before,
+	&::after {
+		display: inline-block;
+		transform: scale(150%);
+	}
+
+	&::before {
+		content: open-quote;
+		padding-right: 0.25ch;
+	}
+
+	&::after {
+		content: close-quote;
+		padding-left: 0.25ch;
+	}
 }
