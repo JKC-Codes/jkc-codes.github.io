@@ -41,6 +41,7 @@ function activateSiteNavMenu() {
 		button.setAttribute('type', 'button');
 		button.setAttribute('aria-controls', 'site-nav-menu');
 		button.setAttribute('aria-expanded', menuIsOpen.toString());
+		button.setAttribute('hidden', '');
 		while(children.length > 0) {
 			button.appendChild(children[0]);
 		}
