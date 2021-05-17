@@ -74,10 +74,10 @@ function activateSiteNavMenu() {
 		}
 		else {
 			// Prevent transition when header becomes menu
-			menu.classList.add('js-prevent-transition');
+			menu.classList.add('prevent-transition');
 			// Force a repaint while transitions disabled
 			window.getComputedStyle(menu).getPropertyValue('transition-duration');
-			menu.classList.remove('js-prevent-transition');
+			menu.classList.remove('prevent-transition');
 		}
 	}
 

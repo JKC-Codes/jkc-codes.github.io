@@ -181,7 +181,6 @@ background: $colour-brand;
 }
 
 .navigation-links {
-	@extend %transition;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -309,6 +308,7 @@ background: $colour-brand;
 
 .menu-button[aria-expanded] ~ .navigation-links,
 .menu-checkbox ~ .navigation-links {
+	@extend %transition;
 	transition-property: transform, opacity, visibility;
 
 	@media (min-width: $mq-header-narrow) {
@@ -318,7 +318,7 @@ background: $colour-brand;
 		visibility: visible;
 	}
 
-	&.js-prevent-transition {
+	&.prevent-transition {
 		transition: none;
 	}
 }
