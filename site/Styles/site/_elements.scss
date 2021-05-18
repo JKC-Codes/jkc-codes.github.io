@@ -76,32 +76,11 @@ li {
 }
 
 button {
-	display: inline-flex;
-	display: inline flex;
-	align-items: center;
-	min-height: 44px;
-	min-width: 44px;
-	padding: 0.5em 0.75em;
-	border: 1px solid $colour-brand;
-	border-radius: $border-rounded;
-	text-align: center;
-	background: $colour-brand;
-	color: white;
-	cursor: pointer;
-
-	&:hover,
-	&:focus {
-		background-color: $colour-contrast;
-		color: $colour-brand;
-	}
-
-	&:active {
-		background-color: $colour-decorate;
-	}
+	@extend %button;
 }
 
 summary {
-	@extend button;
+	@extend %button;
 }
 
 pre,
