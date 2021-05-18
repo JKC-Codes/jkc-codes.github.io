@@ -11,13 +11,13 @@
 
 	.feeds {
 		position: absolute;
-		top: 5.25rem;
+		top: 4.5rem;
 		right: 0;
-		min-width: 5.5rem;
 		font-size: 80%;
 
 		&-button {
-			cursor: pointer;
+			background: none;
+			border-color: $colour-minimal;
 			list-style: none;
 			color: $colour-brand;
 
@@ -33,7 +33,7 @@
 				color: $colour-complement;
 
 				svg {
-					transform: rotate(30deg);
+					transform: rotate(45deg);
 				}
 			}
 
@@ -42,24 +42,30 @@
 				margin-right: 0.2rem;
 				width: 0.8rem;
 				color: hsl(30, 90%, 45%);
-				transform-origin: bottom left;
 				transition: transform 100ms ease-in-out;
 			}
 		}
 
-		&[open] .feeds-button svg {
-			transform: rotate(90deg);
-		}
+		&[open] .feeds-button {
+			border-bottom-color: transparent;
+			border-bottom-left-radius: 0;
+			border-bottom-right-radius: 0;
 
-		&[open] .feeds-button:hover svg {
-			transform: rotate(45deg);
+			svg {
+				transform: rotate(90deg);
+			}
+
+			&:hover svg {
+				transform: rotate(45deg);
+			}
 		}
 
 		ul.feeds-list {
 			color: white;
 			background: transparentize($colour-brand, 0.05);
+			margin: 0;
 			padding: 0.4rem 0.4rem 0.2rem 1.2rem;
-			border-radius: $border-rounded;
+			border-radius: 0 0 $border-rounded $border-rounded;
 
 			a {
 				margin-top: 0.6rem;
