@@ -35,22 +35,35 @@ It may feel bad to leave a known bug in my code but I have a website that gets p
 If the problem was the menu being open when it should be closed, having it closed by default would solve the problem, right? Unfortunately, the menu would be permanently closed if JavaScript failed to load and therefore navigating my site would be almost impossible.
 
 ### `<noscript>` Element
-The `<noscript>` element allows you to insert HTML if JavaScript can't function. So I could close the menu by default but open it using `<noscript>` if JavaScript failed. This sounded like the perfect solution&hellip; until I read the [description on MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript) more carefully: <q cite="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript">The HTML `<noscript>` element defines a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser</q>.
+The [`<noscript>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript) allows you to insert HTML if JavaScript can't function. So I could close the menu by default but open it using `<noscript>` if JavaScript was unavailable. This sounded like the perfect solution&hellip; until I read the description on MDN more carefully: <q cite="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript">The HTML `<noscript>` element defines a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser</q>.
 
 The description only specifies JavaScript being unsupported or turned off. **`<noscript>` doesn't work if JavaScript fails to load due to a connection error**. Being realistic, barely anyone is going to turn off JavaScript these days ([excluding Heydon Pickering](https://heydonworks.com/)) but plenty of people are going to have errors from a dodgy mobile connection.
-
-### Different HTML For Different Screen Widths
-
-
-### `<details>` And `<summary>` Elements
-
 
 ### Checkbox Input
 
 
+### `<details>` And `<summary>` Elements
+The [`<details>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) and [`<summary>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary) elements provide an HTML native menu that can be toggled open and closed without any JavaScript. The ease of creating a navigation menu is why so many sites are now &mdash; <i>checks notes</i> &mdash; <em>not</em> using it?
+
+Historically, poor availability has led to low usage numbers. `<details>` and `<summary>` were first supported in 2011 but didn't receive full adoption from all the major browser engines until 2020 when Edge switched to Chromium. However, [current support for `<details>` and `<summary>`](https://caniuse.com/details) is excellent and it is only Internet Explorer that doesn't and will never recognise them.
+
+Two other reasons why there isn't more widespread use is because the reveal of `details`' contents is not animatable and it can't be toggled using CSS &mdash; but there is a way around both of these. Usually, everything within a closed `details` element except `summary` is removed from the DOM and therefore doesn't give any time for a closing animation to end before it is removed. You can get around this by moving the content outside of the `details` element:
+```html
+<nav>
+	<details>
+		<summary aria-controls="nav-menu-content">Menu Button</summary>
+	</details>
+	<ul id="nav-menu-content" hidden>
+		<li>Nav item 1</li>
+		<li>Nav item 2</li>
+		<li>Nav item 3</li>
+	</ul>
+</nav>
+```
+
+You can now use the checkbox solution from above by watching for an `open` attribute on the details element.
+
 ### No Collapsible Menu
-
-
 
 
 
