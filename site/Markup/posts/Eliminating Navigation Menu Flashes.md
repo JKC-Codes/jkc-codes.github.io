@@ -37,23 +37,20 @@ If the problem was the menu being open when it should be closed, having it close
 ### `<noscript>` Element
 The [`<noscript>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript) allows you to insert HTML if JavaScript can't function. So I could close the menu by default but open it using `<noscript>` if JavaScript was unavailable. This sounded like the perfect solution&hellip; until I read the description on MDN more carefully: <q cite="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript">The HTML `<noscript>` element defines a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser</q>.
 
-The description only specifies JavaScript being unsupported or turned off. **`<noscript>` doesn't work if JavaScript fails to load due to a connection error**. Being realistic, barely anyone is going to turn off JavaScript these days ([excluding Heydon Pickering](https://heydonworks.com/)) but plenty of people are going to have errors from a dodgy mobile connection.
+The description only specifies JavaScript being unsupported or turned off. **`<noscript>` doesn't work if JavaScript fails to load due to a connection error**. Being realistic, barely anyone is going to turn off JavaScript these days ([excluding Heydon Pickering](https://heydonworks.com/)) but plenty of people are going to have errors from a bad mobile connection.
+
+### Inline The JavaScript
+Placing a `script` element inline with my HTML would ensure that JavaScript can't fail to load due to a connection error. Combined with a `noscript` element and closing the menu by default it would meet all four of my requirements. The only problem with this approach is that the JavaScript file can no longer be cached by the browser.
+
+As someone who was on a pay as you go mobile plan for most of my life (and probably should still be on one) I have an unhealthy aversion to unnecessary downloads.
 
 ### Checkbox Input
-
-
-### `<details>` And `<summary>` Elements
-The [`<details>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) and [`<summary>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary) elements provide an HTML native menu that can be toggled open and closed without any JavaScript. The ease of creating a navigation menu is why so many sites are now &mdash; <i>checks notes</i> &mdash; <em>not</em> using it?
-
-Historically, poor availability has led to low usage numbers. `<details>` and `<summary>` were first supported in 2011 but didn't receive full adoption from all the major browser engines until 2020 when Edge switched to Chromium. However, [current support for `<details>` and `<summary>`](https://caniuse.com/details) is excellent and it is only Internet Explorer that doesn't and will never recognise them.
-
-Two other reasons why there isn't more widespread use is because the reveal of `details`' contents is not animatable and it can't be toggled using CSS &mdash; but there is a way around both of these. Usually, everything within a closed `details` element except `summary` is removed from the DOM and therefore doesn't give any time for a closing animation to end before it is removed. You can get around this by moving the content outside of the `details` element:
+Using an [`input` element with a `type="checkbox"` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox) gives us access to the `checked` attribute whenever it's selected. Unlike a `button` element this means that we can determine whether the menu is open without any JavaScript. The code would go something like this:
 ```html
 <nav>
-	<details>
-		<summary aria-controls="nav-menu-content">Menu Button</summary>
-	</details>
-	<ul id="nav-menu-content" hidden>
+	<label for="nav-menu-checkbox" hidden>Open menu</label>
+	<input type="checkbox" id="nav-menu-checkbox" aria-controls="nav-menu-content" hidden>
+	<ul id="nav-menu-content">
 		<li>Nav item 1</li>
 		<li>Nav item 2</li>
 		<li>Nav item 3</li>
@@ -61,17 +58,62 @@ Two other reasons why there isn't more widespread use is because the reveal of `
 </nav>
 ```
 
-You can now use the checkbox solution from above by watching for an `open` attribute on the details element.
+```css
+label[for="nav-menu-checkbox"],
+input[type="checkbox"] {
+	display: inline-block;
+}
+
+button[aria-expanded="false"] + ul,
+input + ul {
+	transition-delay: 0ms, 0.25s;
+	transform: translateY(-100%);
+	visibility: hidden;
+}
+
+button[aria-expanded="true"] + ul,
+input:checked + ul {
+	transition-delay: 0ms;
+	transform: translateY(0);
+	visibility: visible;
+}
+
+button[aria-expanded] + ul,
+input + ul {
+	transition: 0.25s ease-out;
+	transition-property: transform, visibility;
+}
+```
+
+The interesting parts of this code are:
+- The `label` and `input` elements have a `hidden` attribute which is overriden by `display: inline-block` in the CSS. This ensures that if the CSS isn't loaded there won't be a redundant checkbox that doesn't work. If you're wondering when this would be applicable, read [Sara Soueidan's article on optimising content for reader modes and reading apps](https://www.sarasoueidan.com/blog/tips-for-reader-modes/).
+- There is an `aria-controls` attribute on the input linked to the nav menu list. This tells assistive technology that supports it that the two are linked so enhanced functionality can be provided.
+- The `:checked` pseudo class is combined with an [`adjacent sibling combinator`](https://developer.mozilla.org/en-US/docs/Web/CSS/Adjacent_sibling_combinator) to toggle the menu. You could also use the [`general sibling combinator`](https://developer.mozilla.org/en-US/docs/Web/CSS/General_sibling_combinator) if elements are farther apart.
+- `visibility: hidden` is used instead of `display: none` or `opacity: 0` to keep transitions while still removing the menu from the DOM when closed. `display: none` would hide the menu before the transition could finish and `opacity: 0` would hide the menu after the transition but only visually, causing issues with assistive technology.
+- `transition-delay: 0ms, 0.25s` is used when closing the menu to allow the transform to finish before `visibility` is set to `hidden`. `visibility` doesn't fade like `opacity` but it is still an [animatable property](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animated_properties) unlike `display`.
+- There are selectors targeting a `button` with an `aria-expanded` attribute because <strong>the `input` and `label` must be replaced with JavaScript as soon as possible</strong> to avoid accessibility issues. `input` doesn't have the same functionality as `button` such as being triggered by the enter key or being listed in shortcut menus.
+
+That last point needs repeating. <strong>Using a checkbox to control a menu should only be used as a temporary measure until JavaScript replaces it with a button</strong>.
+
+### `<details>` And `<summary>` Elements
+The [`<details>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details) and [`<summary>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary) elements provide an HTML native menu that can be toggled open and closed without any JavaScript. The ease of creating a navigation menu is why so many sites are now &mdash; <i>checks notes</i> &mdash; <em>not</em> using it?
+
+Poor historic support has led to low usage numbers. `<details>` and `<summary>` were first supported in 2011 but didn't receive full adoption from all the major browser engines until 2020 when Edge switched to Chromium. However, [current support for `<details>` and `<summary>`](https://caniuse.com/details) is excellent and it is only Internet Explorer that doesn't and will never recognise them, treating them as `div`s instead.
+
+Two other reasons why there isn't more widespread use is because the reveal of `details`' contents is not animatable and it can't be toggled using CSS &mdash; but there is a way around both of these. Usually, everything within a closed `details` element except `summary` is removed from the DOM and therefore doesn't give any time for a closing animation to end before it is removed. You can get around this by moving the content outside of the `details` element:
+```html
+<nav>
+	<details>
+		<summary aria-controls="nav-menu-content" hidden>Open menu</summary>
+	</details>
+	<ul id="nav-menu-content">
+		<li>Nav item 1</li>
+		<li>Nav item 2</li>
+		<li>Nav item 3</li>
+	</ul>
+</nav>
+```
+
+You can then use the checkbox solution from above to toggle the content by watching for an `open` attribute on the details element.
 
 ### No Collapsible Menu
-
-
-
-
-
-
-<!--
-TL;DR
-Advantages/Disadvantages
-Back in March I submitted my website to the [Speedlify leaderboards](https://www.11ty.dev/speedlify/) and managed to get into the top 8; however, in the next run I dropped 21 places to 29<sup>th</sup>.
--->
