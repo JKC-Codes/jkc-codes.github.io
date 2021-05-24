@@ -72,12 +72,16 @@ function activateSiteNavMenu() {
 		if(mediaQuery.matches) {
 			closeNavMenu();
 		}
+		// Prevent transition when header becomes menu
 		else {
-			// Prevent transition when header becomes menu
-			menu.classList.add('prevent-transition');
 			// Force a repaint while transitions disabled
-			window.getComputedStyle(menu).getPropertyValue('transition-duration');
-			menu.classList.remove('prevent-transition');
+			window.requestAnimationFrame(function() {
+				menu.classList.add('prevent-transition');
+				// Add transition back after paint
+				window.requestAnimationFrame(function() {
+					menu.classList.remove('prevent-transition');
+				});
+			});
 		}
 	}
 
