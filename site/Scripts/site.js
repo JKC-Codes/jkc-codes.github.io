@@ -19,7 +19,8 @@ function activateSiteNavMenu() {
 
 	button.addEventListener('click', toggleNavMenu, {passive: true});
 
-	mediaQuery.addEventListener('change', handleViewportChange);
+	// Internet Explorer doesn't support mediaQuery.addEventListener('change', handleViewportChange);
+	mediaQuery.addListener(handleViewportChange);
 	handleViewportChange();
 
 	// If checkbox was checked before it was replaced, add listeners
