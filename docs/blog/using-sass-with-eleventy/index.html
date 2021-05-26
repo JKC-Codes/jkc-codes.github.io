@@ -54,8 +54,8 @@
 <header id="site-header">
 <a href="#site-main" class="skip-to-content">Skip to main content</a>
 <nav class="navigation">
-<input class="menu-checkbox js-site-nav-input" type="checkbox" id="site-nav-menu-checkbox">
-<label class="menu-button js-site-nav-button" for="site-nav-menu-checkbox">
+<input class="menu-checkbox js-site-nav-input" type="checkbox" id="site-nav-menu-checkbox" hidden>
+<label class="menu-button js-site-nav-button" for="site-nav-menu-checkbox" hidden>
 <svg class="menu-button-icon" width="48" height="48" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
 <rect class="line-top-left" x="0" y="0" width="60" height="20"></rect>
 <rect class="line-top-right" x="40" y="0" width="60" height="20"></rect>
@@ -65,7 +65,7 @@
 <rect class="line-bottom-right" x="40" y="80" width="60" height="20"></rect>
 </svg><span class="menu-button-text js-site-nav-button-text">Open menu</span>
 </label>
-<ul class="navigation-links js-site-nav-menu" id="site-nav-menu">
+<ul class="navigation-links prevent-transition js-site-nav-menu" id="site-nav-menu">
 <li><a class="navigation-name" href="/">John Kemp-Cruz</a></li>
 <li><a href="/blog/"><img src="/img/site/icon-blog.svg" alt="" width="40" height="40">Blog</a></li>
 <li><a href="/#projects"><img src="/img/site/icon-projects.svg" alt="" width="40" height="40">Projects</a></li>
@@ -78,7 +78,7 @@
 <main id="site-main" class="h-entry">
 <header id="header">
 <h1 id="page-heading" class="p-name">Using SASS With Eleventy</h1>
-<p class="reading-time"><img class="clock" src="/img/blog/clock.svg" alt="" width="20" height="20">About 5 minutes to read</p>
+<p class="reading-time"><img class="clock" src="/img/blog/clock.svg" alt="" width="13" height="13" hidden>About 5 minutes to read</p>
 </header>
 <div class="e-content">
 <p><a href="https://www.11ty.dev/">Eleventy (11ty)</a> is a super customisable static site generator that at its core transforms template language into HTML. However, template languages like Liquid and Nunjucks are designed to output HTML rather than CSS so how does Eleventy handle styling?</p>
