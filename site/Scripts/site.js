@@ -58,14 +58,16 @@ function activateSiteNavMenu() {
 		button.setAttribute('aria-expanded', 'true');
 		buttonText.textContent = 'Close menu';
 		document.addEventListener('keydown', handleKeyDown, {passive: true});
-		document.addEventListener('click', handlePageClick, {passive: true});
+		document.addEventListener('click', handleFocusLoss, {passive: true});
+		document.addEventListener('focusin', handleFocusLoss);
 	}
 
 	function closeNavMenu() {
 		button.setAttribute('aria-expanded', 'false');
 		buttonText.textContent = 'Open menu';
 		document.removeEventListener('keydown', handleKeyDown, {passive: true});
-		document.removeEventListener('click', handlePageClick, {passive: true});
+		document.removeEventListener('click', handleFocusLoss, {passive: true});
+		document.removeEventListener('focusin', handleFocusLoss);
 	}
 
 	function handleViewportChange() {
@@ -92,7 +94,7 @@ function activateSiteNavMenu() {
 		}
 	}
 
-	function handlePageClick(event) {
+	function handleFocusLoss(event) {
 		var isButton = event.target.closest('.js-site-nav-button');
 		var isMenu = event.target.closest('.js-site-nav-menu');
 
