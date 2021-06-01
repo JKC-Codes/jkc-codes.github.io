@@ -29,12 +29,20 @@
 				display: none;
 			}
 
-			&:hover {
+			@mixin focus-styles {
 				color: $colour-complement;
 
 				svg {
 					transform: rotate(45deg);
 				}
+			}
+
+			&:hover {
+				@include focus-styles;
+			}
+
+			&:focus-visible {
+				@include focus-styles;
 			}
 
 			svg {
