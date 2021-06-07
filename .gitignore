@@ -1,4 +1,5 @@
 .netlify
+.env
 docs
 node_modules
 site/.vscode

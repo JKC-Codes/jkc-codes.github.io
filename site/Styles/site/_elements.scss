@@ -19,6 +19,48 @@ html {
 	}
 }
 
+a:link {
+	color: $colour-brand;
+}
+
+a:visited {
+	color: $colour-complement;
+}
+
+a:hover {
+	color: $colour-complement;
+	text-decoration-style: dashed;
+}
+
+a:active {
+	border-radius: $border-rounded;
+	background-color: transparentize($colour-contrast, 0.75);
+}a:link {
+	color: $colour-brand;
+}
+
+a:visited {
+	color: $colour-complement;
+}
+
+a:hover {
+	color: $colour-complement;
+	text-decoration-style: dashed;
+}
+
+a:active {
+	border-radius: $border-rounded;
+	background-color: transparentize($colour-contrast, 0.75);
+}
+
+button {
+	@extend %button;
+}
+
+summary {
+	@extend %button;
+}
+
 h1,
 h2,
 h3,
@@ -43,44 +85,18 @@ h4 {
 	font-size: 1em;
 }
 
-a:link {
-	color: $colour-brand;
-}
-
-a:visited {
-	color: $colour-complement;
-}
-
-a:hover {
-	color: $colour-complement;
-	text-decoration-style: dashed;
-}
-
-a:active {
-	border-radius: $border-rounded;
-	background-color: transparentize($colour-contrast, 0.75);
-}
-
 img {
 	max-width: 100%;
 	height: auto;
 }
 
-ul,
-ol {
+ol,
+ul {
 	padding-left: 1em;
 }
 
 li {
 	margin-bottom: 0.5em;
-}
-
-button {
-	@extend %button;
-}
-
-summary {
-	@extend %button;
 }
 
 pre,
@@ -101,4 +117,24 @@ code {
 pre {
 	width: 100%;
 	max-width: max-content;
+}
+
+q {
+	font-style: italic;
+
+	&::before,
+	&::after {
+		display: inline-block;
+		transform: scale(150%);
+	}
+
+	&::before {
+		content: open-quote;
+		padding-right: 0.25ch;
+	}
+
+	&::after {
+		content: close-quote;
+		padding-left: 0.25ch;
+	}
 }
