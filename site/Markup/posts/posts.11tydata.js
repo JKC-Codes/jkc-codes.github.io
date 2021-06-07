@@ -1,9 +1,20 @@
+require('dotenv').config();
+
+const isDevEnvironment = process.env.ELEVENTY_ENV === 'development';
+
 module.exports = () => {
 	return {
-		layout: "post",
-		permalink: "/blog/{{ page.fileSlug | slug }}/",
+		layout: 'post',
 		eleventyComputed: {
-			title: data => data.title ? data.title : data.page.fileSlug
+			title: data => data.title ? data.title : data.page.fileSlug,
+			eleventyExcludeFromCollections: data => {
+				const isDraft = 'draft' in data && data.draft !== false;
+				return (!isDraft || isDevEnvironment) ? false : true;
+			},
+			permalink: data => {
+				const isDraft = 'draft' in data && data.draft !== false;
+				return (!isDraft || isDevEnvironment) ? '/blog/{{ page.fileSlug | slug }}/' : false;
+			}
 		}
 	}
 }

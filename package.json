@@ -3,6 +3,7 @@
 		"@11ty/eleventy": "*",
 		"@11ty/eleventy-plugin-rss": "*",
 		"del-cli": "*",
+		"dotenv": "*",
 		"eleventy-plugin-automatic-noopener": "*",
 		"eleventy-plugin-code-style-hooks": "*",
 		"eleventy-plugin-time-to-read": "*",
