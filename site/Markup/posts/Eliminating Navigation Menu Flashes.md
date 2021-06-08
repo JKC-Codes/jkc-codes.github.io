@@ -1,3 +1,6 @@
+---
+draft: true
+---
 When first building this website I deliberately left my mobile navigation menu open until JavaScript kicked in but this had the unfortunate side effect of the menu always being briefly visible at each page load before being hidden.
 
 I finally got around to fixing this recently and I want to document my thought process behind the solution here in case anyone finds themselves in the same position. Note that I'll mainly focus on the decisions I made and the reasons behind them rather than the code used to implement them.
