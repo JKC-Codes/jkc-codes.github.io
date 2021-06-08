@@ -9,11 +9,11 @@ module.exports = () => {
 			title: data => data.title ? data.title : data.page.fileSlug,
 			eleventyExcludeFromCollections: data => {
 				const isDraft = 'draft' in data && data.draft !== false;
-				return (!isDraft || isDevEnvironment) ? false : true;
+				return (isDraft && !isDevEnvironment) ? true : data.eleventyExcludeFromCollections;
 			},
 			permalink: data => {
 				const isDraft = 'draft' in data && data.draft !== false;
-				return (!isDraft || isDevEnvironment) ? '/blog/{{ page.fileSlug | slug }}/' : false;
+				return (isDraft && !isDevEnvironment) ? false : (data.permalink || '/blog/{{ page.fileSlug | slug }}/');
 			}
 		}
 	}
