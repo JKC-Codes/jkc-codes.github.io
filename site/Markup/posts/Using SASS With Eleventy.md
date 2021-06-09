@@ -86,7 +86,7 @@ You may have seen other sites build their CSS files in the same folder as their 
 _site
 	|- index.html
 	|- css
-  	|- styles.css
+	|- styles.css
 sass
 	|- styles.scss
 css

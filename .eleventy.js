@@ -4,7 +4,7 @@ const pluginRSS = require("@11ty/eleventy-plugin-rss");
 const pluginTimeToRead = require('eleventy-plugin-time-to-read');
 const posthtml = require('posthtml');
 const { posthtml: pluginAutomaticNoopener, parser: parserAutomaticNoopener } = require('eleventy-plugin-automatic-noopener');
-const { posthtml: pluginCodeStyleHooks, parser: parserCodeStyleHooks,  markdownTrimTrailingNewline} = require('eleventy-plugin-code-style-hooks');
+const { posthtml: pluginCodeStyleHooks, parser: parserCodeStyleHooks, markdownTrimTrailingNewline} = require('eleventy-plugin-code-style-hooks');
 
 
 module.exports = function(eleventyConfig) {
