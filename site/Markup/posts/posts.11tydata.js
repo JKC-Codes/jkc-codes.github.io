@@ -13,7 +13,16 @@ module.exports = () => {
 			},
 			permalink: data => {
 				const isDraft = 'draft' in data && data.draft !== false;
-				return (isDraft && !isDevEnvironment) ? false : (data.permalink || '/blog/{{ page.fileSlug | slug }}/');
+
+				if(isDraft && !isDevEnvironment) {
+					return false;
+				}
+				else if(data.permalink === '') {
+					return '/blog/{{ page.fileSlug | slug }}/';
+				}
+				else {
+					return data.permalink;
+				}
 			}
 		}
 	}
