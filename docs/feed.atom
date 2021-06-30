@@ -69,7 +69,7 @@ index.html
 _site
 	|- index.html
 	|- css
-  	|- styles.css
+	|- styles.css
 sass
 	|- styles.scss
 css
