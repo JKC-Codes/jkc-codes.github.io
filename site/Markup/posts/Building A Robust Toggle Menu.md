@@ -1,11 +1,11 @@
 ---
 draft: true
 ---
-There are several things to consider when trying to create a robust collapsible menu that doesn't cause layout shift, increase your speed index or become unusable without CSS/JavaScript &mdash; and that's all before you've even begun to consider the code that toggles the menu!
+There are several things to consider when creating a robust collapsible menu that doesn't cause layout shift, increase your speed index or become unusable without CSS/JavaScript &mdash; and that's all before you've even begun to consider the code that toggles the menu!
 
 When first building my website I deliberately left my mobile navigation menu open until JavaScript kicked in but this had the unfortunate side effect of the menu always being briefly visible at each page load.
 
-I finally got around to fixing this and want to document my thought process behind the solution here in case anyone finds themselves in the same position. I'll mainly focus on the decisions I made and the reasons behind them rather than the code used.
+I finally got around to fixing this and want to document my thought process behind the solution here in case anyone finds themselves in the same position.
 
 
 
@@ -18,15 +18,6 @@ Progressive enhancement uses a "bottom up" approach where you build a minimum vi
 Graceful degradation uses a "top down" approach which starts with fully enhanced code and then asks what would happen if each piece failed and implements fallbacks to handle those errors. This way, instead of your site outright failing, it gracefully degrades to a less enhanced version instead.
 
 The desire to always have the navigation menu accessible to users was the reason for my menu flash problem. I chose to keep the menu open until JavaScript downloaded and executed because if the menu is initially closed and JavaScript fails to work the open menu button would do nothing and users would be unable to navigate my site. Unfortunately, the slower the connection the longer it took for the menu to close and this affected layout shift, speed index and visitors' experiences.
-
-
-<!--
-## Requirements
-
-- <b>Useable without JavaScript</b> &mdash; This website has always been built with progressive enhancement and graceful degradation in mind. My entire site must be useable if the CSS and/or JavaScript fail.
-- <b>Narrow pages aren't dominated by the navigation</b> &mdash; The reason for using a collapsing menu in the first place is because the navigation links took up too much space on small screens. The navigation should always feel secondary to any other content.
-- <b>Navigation items are fully visible on wide screens</b> &mdash; Since I'm only using a collapsing menu because of smaller screens, I should ditch it on larger screens which can comfortably accommodate all the navigation links.
-- <b>Accessible to assistive technology at all times</b> &mdash; I aim to meet WAI-ARIA AAA standards unless I have a very good reason not to. Not supporting assistive technologies would be a huge step backward. -->
 
 
 
@@ -46,7 +37,7 @@ If the problem was the menu being open when it should be closed, having it close
 ### `<noscript>` Element
 The [`<noscript>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript) allows you to insert HTML if JavaScript can't function. So I could close the menu by default but open it using `<noscript>` if JavaScript was unavailable. This sounded like the perfect solution&hellip; until I read the description on MDN more carefully: <q cite="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript">The HTML `<noscript>` element defines a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser</q>.
 
-The description only specifies JavaScript being unsupported or turned off; <strong>`<noscript>` doesn't work if JavaScript fails to load due to a connection error</strong>. Being realistic, barely anyone is going to turn off JavaScript these days ([excluding Heydon Pickering](https://heydonworks.com/)) but plenty of people are going to have errors from a bad mobile connection.
+The description only specifies JavaScript being unsupported or turned off; <strong>`<noscript>` doesn't work if JavaScript fails to load due to a connection error</strong>. Being realistic, hardly anyone is going to turn off JavaScript these days ([excluding Heydon Pickering](https://heydonworks.com/)) but plenty of people are going to have errors from a bad mobile connection.
 
 
 ### Inline The JavaScript
@@ -99,15 +90,15 @@ input + ul {
 }
 ```
 
-The interesting parts of this code are:
+Here's a brief explanation of the not so obvious bits:
 - The `<label>` and `<input>` elements have a `hidden` attribute which is overridden by `display: inline-block` in the CSS. This ensures that if the CSS isn't loaded there won't be a redundant checkbox that doesn't work. If you're wondering when this would be applicable, read [Sara Soueidan's article on optimising content for reader modes and reading apps](https://www.sarasoueidan.com/blog/tips-for-reader-modes/).
-- There is an `aria-controls` attribute on the input linked to the nav menu list. This tells assistive technology that supports it that the two are linked so enhanced functionality can be provided.
+- There's an `aria-controls` attribute on the `<input>` linked to the nav menu list. This tells assistive technology that supports it that the two are linked so enhanced functionality can be provided.
 - The `:checked` pseudo class is combined with an [`adjacent sibling combinator`](https://developer.mozilla.org/en-US/docs/Web/CSS/Adjacent_sibling_combinator) to toggle the menu. You could also use the [`general sibling combinator`](https://developer.mozilla.org/en-US/docs/Web/CSS/General_sibling_combinator) if elements are farther apart.
 - `visibility: hidden` is used instead of `display: none` or `opacity: 0` to keep transitions while still removing the menu from the DOM when closed. `display: none` would hide the menu before the transition could finish and `opacity: 0` would hide the menu after the transition but only visually, causing issues with assistive technology.
 - `transition-delay: 0ms, 0.25s` is used when closing the menu to allow the transform to finish before `visibility` is set to `hidden`. `visibility` doesn't fade like `opacity` but it is still an [animatable property](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animated_properties).
 - There are selectors targeting a `<button>` with an `aria-expanded` attribute because <strong>the `<input>` and `<label>` must be replaced with JavaScript as soon as possible</strong> to avoid accessibility issues. `<input>` doesn't have the same functionality as `<button>` such as being triggered by the enter key or being listed in shortcut menus.
 
-That last point needs repeating: <strong>using a checkbox to control a menu should only be used as a temporary measure until JavaScript replaces it with a button</strong>.
+To be clear: <strong>using a checkbox to control a menu should only be used as a temporary measure until JavaScript replaces it with a button</strong>.
 
 
 ### `<details>` And `<summary>` Elements
@@ -145,8 +136,6 @@ After eliminating doing nothing, closing the menu by default and using a `<noscr
 1. No collapsible menu would have been the ideal choice but I don't have the design skills to do this quickly and make it look good.
 2. Using `<details>` and `<summary>` elements was my next favourite but supporting Internet Explorer meant this wasn't possible.
 3. I decided against inline JavaScript simply because I hate making users download data they don't have to.
-4. In the end I went with a checkbox input but I will be using another more accessible method when I drop support for Internet Explorer.
+4. In the end I went with a temporary checkbox input that's replaced by a proper button later.
 
-I didn't choose the best method on paper because there were other constraints limiting me. The choice came down to the least worse out of downloading extra JavaScript for all users or the menu being less accessible (but still accessible) to specific users until JavaScript loaded.
-
-My [HTML](https://github.com/JKC-Codes/jkc-codes.github.io/blob/76f9b0ba3cec59a5d86b5256e494c9548c284ca0/site/Markup/_templates/_includes/header.html), [CSS/SASS](https://github.com/JKC-Codes/jkc-codes.github.io/blob/76f9b0ba3cec59a5d86b5256e494c9548c284ca0/site/Styles/site/_header.scss) and [JavaScript](https://github.com/JKC-Codes/jkc-codes.github.io/blob/76f9b0ba3cec59a5d86b5256e494c9548c284ca0/site/Scripts/site.js) files are available at [GitHub](https://github.com/JKC-Codes/jkc-codes.github.io/tree/76f9b0ba3cec59a5d86b5256e494c9548c284ca0) if you're interested but when implementing your own solution please think through your own options and make your own decisions that are best for you and your users.
+My [HTML](https://github.com/JKC-Codes/jkc-codes.github.io/blob/76f9b0ba3cec59a5d86b5256e494c9548c284ca0/site/Markup/_templates/_includes/header.html), [CSS/SASS](https://github.com/JKC-Codes/jkc-codes.github.io/blob/76f9b0ba3cec59a5d86b5256e494c9548c284ca0/site/Styles/site/_header.scss) and [JavaScript](https://github.com/JKC-Codes/jkc-codes.github.io/blob/76f9b0ba3cec59a5d86b5256e494c9548c284ca0/site/Scripts/site.js) files are available on [GitHub](https://github.com/JKC-Codes/jkc-codes.github.io/tree/76f9b0ba3cec59a5d86b5256e494c9548c284ca0) if you're interested but remember that I didn't choose the best method on paper because there were other constraints limiting me. The choice came down to the least worse out of downloading extra JavaScript for all users or the menu being less accessible (but still accessible) to specific users until JavaScript loaded.
