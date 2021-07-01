@@ -113,13 +113,13 @@ With the configuration set up, the last step is to run Eleventy and SASS togethe
 "scripts": {
 	"watch:eleventy": "npx @11ty/eleventy --serve",
 	"watch:sass": "npx sass sass:_site/css --watch",
-	"start": "npm run watch:eleventy && watch:sass"
+	"start": "npm run watch:eleventy & npm run watch:sass"
 },
 ```
 
 And then run `npm start` in your terminal whenever you open your project.
 
-If you're using Windows and/or Powershell, the start script's `&&` syntax may not work so I recommend using [npm-run-all](https://www.npmjs.com/package/npm-run-all) or [concurrently](https://www.npmjs.com/package/concurrently) to run the two scripts at the same time instead.
+If you're using Windows and/or Powershell, the start script's `&` syntax won't work so I recommend using [npm-run-all](https://www.npmjs.com/package/npm-run-all) or [concurrently](https://www.npmjs.com/package/concurrently) to run the two scripts at the same time instead.
 
 
 ### Advantages
@@ -141,7 +141,7 @@ package.json
 <code class="lang-json">"scripts": {
 	"watch:eleventy": "npx @11ty/eleventy --serve",
 	"watch:sass": "npx sass sass:_site/css --watch",
-	"start": "npm run watch:eleventy && watch:sass"
+	"start": "npm run watch:eleventy & npm run watch:sass"
 },</code>
 </pre>
 
