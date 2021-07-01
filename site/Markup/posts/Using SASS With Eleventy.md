@@ -59,7 +59,7 @@ The watch step will run the above build step every time a change is made to any 
 #### Serve
 The serve step will start a local server to display your website and update it automatically whenever files are changed through the above watch step. It is similar to running `eleventy --watch & browser-sync start` in the command line.
 
-Eleventy uses Browsersync under the hood to handle its live server. Notably this means that any options are detailed in the [Browsersync docs](https://www.browsersync.io/docs/) and not the [Eleventy docs](https://www.11ty.dev/docs/).
+Eleventy uses Browsersync under the hood to handle its live server. Notably this means that any options are detailed in the [Browsersync docs](https://browsersync.io/docs/) and not the [Eleventy docs](https://www.11ty.dev/docs/).
 
 
 ### Configuring BrowserSync
@@ -76,7 +76,7 @@ module.exports = function(eleventyConfig) {
 };
 ```
 
-I'm using BrowserSync's [files option](https://www.browsersync.io/docs/options#option-files) to watch any file in the `_site/css/` folder with a `.css` extension and add that CSS to the page whenever those files update. It doesn't use Eleventy's build command and therefore doesn't trigger a rebuild of the HTML.
+I'm using BrowserSync's [files option](https://browsersync.io/docs/options#option-files) to watch any file in the `_site/css/` folder with a `.css` extension and add that CSS to the page whenever those files update. It doesn't use Eleventy's build command and therefore doesn't trigger a rebuild of the HTML.
 
 
 ### What about addPassthroughCopy?
@@ -163,6 +163,6 @@ command line
 ### Further Reading
 
 - [11ty setBrowserSyncConfig documentation](https://www.11ty.dev/docs/watch-serve/)
-- [BrowserSync files option documentation](https://www.browsersync.io/docs/options#option-files)
+- [BrowserSync files option documentation](https://browsersync.io/docs/options#option-files)
 - [SASS CLI documentation](https://sass-lang.com/documentation/cli/dart-sass)
 - [How to inline minified CSS](https://www.11ty.dev/docs/quicktips/inline-css/)
