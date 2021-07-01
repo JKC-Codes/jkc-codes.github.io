@@ -1,3 +1,6 @@
+---
+date: 2021-07-01 18:30:47
+---
 I recently noticed that my site's speed index had shot up dramatically on the [Eleventy leaderboards](https://www.11ty.dev/speedlify/) and managed to track the issue down to my mobile navigation menu. I was deliberately leaving the menu open until JavaScript kicked in to keep it accessible but this had the unfortunate side effect of it always being briefly visible at each page load.
 
 Here's the thought process I went through when fixing it so that it doesn't affect my site's speed index or layout shift but still remains usable even if CSS and/or JavaScript fail.
