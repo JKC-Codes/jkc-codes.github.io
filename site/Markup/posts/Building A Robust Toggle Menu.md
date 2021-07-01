@@ -1,11 +1,6 @@
----
-draft: true
----
-There are several things to consider when creating a robust collapsible menu that doesn't cause layout shift, increase your speed index or become unusable without CSS/JavaScript &mdash; and that's all before you've even begun to consider the code that toggles the menu!
+I recently noticed that my site's speed index had shot up dramatically on the [Eleventy leaderboards](https://www.11ty.dev/speedlify/) and managed to track the issue down to my mobile navigation menu. I was deliberately leaving the menu open until JavaScript kicked in to keep it accessible but this had the unfortunate side effect of it always being briefly visible at each page load.
 
-When first building my website I deliberately left my mobile navigation menu open until JavaScript kicked in but this had the unfortunate side effect of the menu always being briefly visible at each page load.
-
-I finally got around to fixing this and want to document my thought process behind the solution here in case anyone finds themselves in the same position.
+Here's the thought process I went through when fixing it so that it doesn't affect my site's speed index or layout shift but still remains usable even if CSS and/or JavaScript fail.
 
 
 
@@ -15,15 +10,15 @@ My website has always been built with progressive enhancement and graceful degra
 
 Progressive enhancement uses a "bottom up" approach where you build a minimum viable experience and build enhancements on top of that, progressively adding more and more on top. If any of those enhancements fail you know there's a base experience to fall back to.
 
-Graceful degradation uses a "top down" approach which starts with fully enhanced code and then asks what would happen if each piece failed and implements fallbacks to handle those errors. This way, instead of your site outright failing, it gracefully degrades to a less enhanced version instead.
+Graceful degradation uses a "top down" approach which starts with fully enhanced code and then asks what would happen if each piece failed and implements fall backs to handle those errors. This way, instead of your site outright failing, it gracefully degrades to a less enhanced version instead.
 
-The desire to always have the navigation menu accessible to users was the reason for my menu flash problem. I chose to keep the menu open until JavaScript downloaded and executed because if the menu is initially closed and JavaScript fails to work the open menu button would do nothing and users would be unable to navigate my site. Unfortunately, the slower the connection the longer it took for the menu to close and this affected layout shift, speed index and visitors' experiences.
+I had chosen to keep my mobile navigation menu open until JavaScript downloaded and executed to ensure it was always available. Otherwise, if the menu was initially closed and JavaScript failed to work then the open menu button would do nothing and users wouldn't be able to navigate my site. Unfortunately, the slower the connection the longer it took to close and this sometimes led to a brief flash of the menu on page load.
 
 
 
-## Solutions
+## Possible Solutions
 
-Here are the solutions I considered. If you have your own solution that I didn't think of [let me know on Twitter](https://twitter.com/intent/tweet?screen_name=jkc_codes).
+Here are the solutions I considered when trying to fix the problem. If you have your own that I didn't think of [let me know on Twitter](https://twitter.com/intent/tweet?screen_name=jkc_codes).
 
 
 ### Do Nothing
@@ -31,17 +26,17 @@ It may feel bad to leave a known bug in my code but if a solution causes side ef
 
 
 ### Closed By Default
-If the problem was the menu being open when it should be closed, having it closed by default would solve the problem, right? Unfortunately, the menu would be permanently closed if JavaScript failed to load and therefore navigating my site would be almost impossible.
+If the problem was the menu being open when it should be closed, having it closed by default would solve the problem, right? Unfortunately, that would make my site almost impossible to navigate if JavaScript failed to load because the menu would be permanently closed.
 
 
 ### `<noscript>` Element
-The [`<noscript>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript) allows you to insert HTML if JavaScript can't function. So I could close the menu by default but open it using `<noscript>` if JavaScript was unavailable. This sounded like the perfect solution&hellip; until I read the description on MDN more carefully: <q cite="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript">The HTML `<noscript>` element defines a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser</q>.
+The [`<noscript>` element](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript) allows you to insert HTML if JavaScript can't function. So I could close the menu by default but open it using `<noscript>` if JavaScript was unavailable. This sounded like the perfect solution until I read the description on MDN more carefully: <q cite="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript">The HTML `<noscript>` element defines a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser</q>.
 
-The description only specifies JavaScript being unsupported or turned off; <strong>`<noscript>` doesn't work if JavaScript fails to load due to a connection error</strong>. Being realistic, hardly anyone is going to turn off JavaScript these days ([excluding Heydon Pickering](https://heydonworks.com/)) but plenty of people are going to have errors from a bad mobile connection.
+The description only specifies JavaScript being unsupported or turned off; <strong>`<noscript>` doesn't work if JavaScript fails to load due to a connection error</strong>. Being realistic, hardly anyone is going to turn off JavaScript these days but plenty of people are going to have errors from a bad mobile connection.
 
 
 ### Inline The JavaScript
-Placing a `<script>` element inline with my HTML would ensure that JavaScript can't fail to load due to a connection error. I could combine it with closing the menu by default and a `<noscript>` element to apply open menu styles if JavaScript is unsupported. However, there are three issues with this approach:
+Placing a `<script>` element inline with my HTML would ensure that JavaScript can't fail to load due to a connection error. I could combine it with closing the menu by default and a `<noscript>` element to apply open menu styles if JavaScript is unsupported. However, there are three trade offs with this approach:
 1. The JavaScript needs to be duplicated for each page, increasing build complexity.
 2. Running the script delays page rendering.
 3. The browser can no longer cache the script, increasing load times.
@@ -50,7 +45,7 @@ The first issue is quite easily solved by [Eleventy](https://www.11ty.dev/), my 
 
 
 ### Checkbox Input
-Using an [`<input>` element with a `type="checkbox"` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox) gives us access to the `checked` attribute whenever it's selected. Unlike a `<button>` element, this means that we can determine whether the menu is open without any JavaScript. The code would go something like this:
+Using an [`<input>` element with a `type="checkbox"` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox) gives us access to the `checked` attribute whenever it's selected. Unlike a `<button>` element, this means that I could determine whether the menu is open without any JavaScript. The code would go something like this:
 ```html
 <nav>
 	<label for="nav-menu-checkbox" hidden>Open menu</label>
@@ -90,7 +85,7 @@ input + ul {
 }
 ```
 
-Here's a brief explanation of the not so obvious bits:
+Here's a brief explanation of the less obvious bits:
 - The `<label>` and `<input>` elements have a `hidden` attribute which is overridden by `display: inline-block` in the CSS. This ensures that if the CSS isn't loaded there won't be a redundant checkbox that doesn't work. If you're wondering when this would be applicable, read [Sara Soueidan's article on optimising content for reader modes and reading apps](https://www.sarasoueidan.com/blog/tips-for-reader-modes/).
 - There's an `aria-controls` attribute on the `<input>` linked to the nav menu list. This tells assistive technology that supports it that the two are linked so enhanced functionality can be provided.
 - The `:checked` pseudo class is combined with an [`adjacent sibling combinator`](https://developer.mozilla.org/en-US/docs/Web/CSS/Adjacent_sibling_combinator) to toggle the menu. You could also use the [`general sibling combinator`](https://developer.mozilla.org/en-US/docs/Web/CSS/General_sibling_combinator) if elements are farther apart.
@@ -124,9 +119,7 @@ You can then use the checkbox solution from above to toggle the content by watch
 
 
 ### No Collapsible Menu
-The rest of these solutions assume that a collapsible navigation menu is unavoidable but it's possible to not have a menu and eliminate the problem altogether. The only reason I have one in the first place is because the existing design wraps the text 2&ndash;3 lines deep.
-
-There's no reason I couldn't change the menu style to accommodate all of the links. The icons could be removed and the text made smaller and/or I could be more selective of what links were in the header and move the leftover links into the footer.
+The rest of these solutions assume that a collapsible navigation menu is unavoidable but it's possible to not have a menu and eliminate the problem altogether. The only reason I have one in the first place is because the existing design wraps the text 2&ndash;3 lines deep. There's no reason I couldn't change the menu style to accommodate all of the links.
 
 
 
@@ -139,3 +132,5 @@ After eliminating doing nothing, closing the menu by default and using a `<noscr
 4. In the end I went with a temporary checkbox input that's replaced by a proper button later.
 
 My [HTML](https://github.com/JKC-Codes/jkc-codes.github.io/blob/76f9b0ba3cec59a5d86b5256e494c9548c284ca0/site/Markup/_templates/_includes/header.html), [CSS/SASS](https://github.com/JKC-Codes/jkc-codes.github.io/blob/76f9b0ba3cec59a5d86b5256e494c9548c284ca0/site/Styles/site/_header.scss) and [JavaScript](https://github.com/JKC-Codes/jkc-codes.github.io/blob/76f9b0ba3cec59a5d86b5256e494c9548c284ca0/site/Scripts/site.js) files are available on [GitHub](https://github.com/JKC-Codes/jkc-codes.github.io/tree/76f9b0ba3cec59a5d86b5256e494c9548c284ca0) if you're interested but remember that I didn't choose the best method on paper because there were other constraints limiting me. The choice came down to the least worse out of downloading extra JavaScript for all users or the menu being less accessible (but still accessible) to specific users until JavaScript loaded.
+
+With this change I managed to knock more than a second off my speed index, from 2.18 seconds to 1.16 and move from 29<sup>th</sup> place to 13<sup>th</sup> on the [Eleventy leaderboards](https://www.11ty.dev/speedlify/#site-7702f769)!
