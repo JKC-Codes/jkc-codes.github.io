@@ -3,7 +3,7 @@
 	<id>https://jkc.codes/</id>
 	<title>John Kemp-Cruz</title>
 	<subtitle>Where John writes about web development</subtitle>
-	<updated>2021-03-17T15:08:01Z</updated>
+	<updated>2021-07-01T18:30:47Z</updated>
 	<icon>https://jkc.codes/img/site/icon-site-128x128.png</icon>
 	<link href="https://jkc.codes/" rel="alternate"/>
 	<link href="https://jkc.codes/feed.atom" rel="self"/>
@@ -11,6 +11,115 @@
 		<name>John Kemp-Cruz</name>
 		<uri>https://jkc.codes</uri>
 	</author>
+	
+	<entry>
+		<id>https://jkc.codes/blog/building-a-robust-toggle-menu/</id>
+		<title>Building A Robust Toggle Menu</title>
+		<updated>2021-07-01T18:30:47Z</updated>
+		<author>
+			<name>John Kemp-Cruz</name>
+			<uri>https://jkc.codes</uri>
+		</author>
+		<content type="html">&lt;p&gt;I recently noticed that my site&#39;s speed index had shot up dramatically on the &lt;a href=&quot;https://www.11ty.dev/speedlify/&quot;&gt;Eleventy leaderboards&lt;/a&gt; and managed to track the issue down to my mobile navigation menu. I was deliberately leaving the menu open until JavaScript kicked in to keep it accessible but this had the unfortunate side effect of it always being briefly visible at each page load.&lt;/p&gt;
+&lt;p&gt;Here&#39;s the thought process I went through when fixing it so that it doesn&#39;t affect my site&#39;s speed index or layout shift but still remains usable even if CSS and/or JavaScript fail.&lt;/p&gt;
+&lt;h2&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;My website has always been built with progressive enhancement and graceful degradation in mind. The goal of these two concepts is to ensure that your content is always available no matter the device or connection viewers use.&lt;/p&gt;
+&lt;p&gt;Progressive enhancement uses a &amp;quot;bottom up&amp;quot; approach where you build a minimum viable experience and build enhancements on top of that, progressively adding more and more on top. If any of those enhancements fail you know there&#39;s a base experience to fall back to.&lt;/p&gt;
+&lt;p&gt;Graceful degradation uses a &amp;quot;top down&amp;quot; approach which starts with fully enhanced code and then asks what would happen if each piece failed and implements fall backs to handle those errors. This way, instead of your site outright failing, it gracefully degrades to a less enhanced version instead.&lt;/p&gt;
+&lt;p&gt;I had chosen to keep my mobile navigation menu open until JavaScript downloaded and executed to ensure it was always available. Otherwise, if the menu was initially closed and JavaScript failed to work then the open menu button would do nothing and users wouldn&#39;t be able to navigate my site. Unfortunately, the slower the connection the longer it took to close and this sometimes led to a brief flash of the menu on page load.&lt;/p&gt;
+&lt;h2&gt;Possible Solutions&lt;/h2&gt;
+&lt;p&gt;Here are the solutions I considered when trying to fix the problem. If you have your own that I didn&#39;t think of &lt;a href=&quot;https://twitter.com/intent/tweet?screen_name=jkc_codes&quot;&gt;let me know on Twitter&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;Do Nothing&lt;/h3&gt;
+&lt;p&gt;It may feel bad to leave a known bug in my code but if a solution causes side effects that outweigh this minor inconvenience then doing nothing is the better option.&lt;/p&gt;
+&lt;h3&gt;Closed By Default&lt;/h3&gt;
+&lt;p&gt;If the problem was the menu being open when it should be closed, having it closed by default would solve the problem, right? Unfortunately, that would make my site almost impossible to navigate if JavaScript failed to load because the menu would be permanently closed.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;&amp;lt;noscript&amp;gt;&lt;/code&gt; Element&lt;/h3&gt;
+&lt;p&gt;The &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript&quot;&gt;&lt;code&gt;&amp;lt;noscript&amp;gt;&lt;/code&gt; element&lt;/a&gt; allows you to insert HTML if JavaScript can&#39;t function. So I could close the menu by default but open it using &lt;code&gt;&amp;lt;noscript&amp;gt;&lt;/code&gt; if JavaScript was unavailable. This sounded like the perfect solution until I read the description on MDN more carefully: &lt;q cite=&quot;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript&quot;&gt;The HTML &lt;code&gt;&amp;lt;noscript&amp;gt;&lt;/code&gt; element defines a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser&lt;/q&gt;.&lt;/p&gt;
+&lt;p&gt;The description only specifies JavaScript being unsupported or turned off; &lt;strong&gt;&lt;code&gt;&amp;lt;noscript&amp;gt;&lt;/code&gt; doesn&#39;t work if JavaScript fails to load due to a connection error&lt;/strong&gt;. Being realistic, hardly anyone is going to turn off JavaScript these days but plenty of people are going to have errors from a bad mobile connection.&lt;/p&gt;
+&lt;h3&gt;Inline The JavaScript&lt;/h3&gt;
+&lt;p&gt;Placing a &lt;code&gt;&amp;lt;script&amp;gt;&lt;/code&gt; element inline with my HTML would ensure that JavaScript can&#39;t fail to load due to a connection error. I could combine it with closing the menu by default and a &lt;code&gt;&amp;lt;noscript&amp;gt;&lt;/code&gt; element to apply open menu styles if JavaScript is unsupported. However, there are three trade offs with this approach:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The JavaScript needs to be duplicated for each page, increasing build complexity.&lt;/li&gt;
+&lt;li&gt;Running the script delays page rendering.&lt;/li&gt;
+&lt;li&gt;The browser can no longer cache the script, increasing load times.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The first issue is quite easily solved by &lt;a href=&quot;https://www.11ty.dev/&quot;&gt;Eleventy&lt;/a&gt;, my static site generator, and the remaining issues are negligible. The JavaScript for my navigation menu is only around 2.5kb and not being able to cache 2.5kb of code is better than seeing an open menu on each page load.&lt;/p&gt;
+&lt;h3&gt;Checkbox Input&lt;/h3&gt;
+&lt;p&gt;Using an &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox&quot;&gt;&lt;code&gt;&amp;lt;input&amp;gt;&lt;/code&gt; element with a &lt;code&gt;type=&amp;quot;checkbox&amp;quot;&lt;/code&gt; attribute&lt;/a&gt; gives us access to the &lt;code&gt;checked&lt;/code&gt; attribute whenever it&#39;s selected. Unlike a &lt;code&gt;&amp;lt;button&amp;gt;&lt;/code&gt; element, this means that I could determine whether the menu is open without any JavaScript. The code would go something like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;nav&gt;
+	&amp;lt;label for=&quot;nav-menu-checkbox&quot; hidden&gt;Open menu&amp;lt;/label&gt;
+	&amp;lt;input type=&quot;checkbox&quot; id=&quot;nav-menu-checkbox&quot; aria-controls=&quot;nav-menu-content&quot; hidden&gt;
+	&amp;lt;ul id=&quot;nav-menu-content&quot;&gt;
+		&amp;lt;li&gt;Nav item 1&amp;lt;/li&gt;
+		&amp;lt;li&gt;Nav item 2&amp;lt;/li&gt;
+		&amp;lt;li&gt;Nav item 3&amp;lt;/li&gt;
+	&amp;lt;/ul&gt;
+&amp;lt;/nav&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;language-css&quot;&gt;label[for=&quot;nav-menu-checkbox&quot;],
+input[type=&quot;checkbox&quot;] {
+	display: inline-block;
+}
+
+button[aria-expanded=&quot;false&quot;] + ul,
+input + ul {
+	transition-delay: 0ms, 0.25s;
+	transform: translateY(-100%);
+	visibility: hidden;
+}
+
+button[aria-expanded=&quot;true&quot;] + ul,
+input:checked + ul {
+	transition-delay: 0ms;
+	transform: translateY(0);
+	visibility: visible;
+}
+
+button[aria-expanded] + ul,
+input + ul {
+	transition: 0.25s ease-out;
+	transition-property: transform, visibility;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Here&#39;s a brief explanation of the less obvious bits:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The &lt;code&gt;&amp;lt;label&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;input&amp;gt;&lt;/code&gt; elements have a &lt;code&gt;hidden&lt;/code&gt; attribute which is overridden by &lt;code&gt;display: inline-block&lt;/code&gt; in the CSS. This ensures that if the CSS isn&#39;t loaded there won&#39;t be a redundant checkbox that doesn&#39;t work. If you&#39;re wondering when this would be applicable, read &lt;a href=&quot;https://www.sarasoueidan.com/blog/tips-for-reader-modes/&quot;&gt;Sara Soueidan&#39;s article on optimising content for reader modes and reading apps&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;There&#39;s an &lt;code&gt;aria-controls&lt;/code&gt; attribute on the &lt;code&gt;&amp;lt;input&amp;gt;&lt;/code&gt; linked to the nav menu list. This tells assistive technology that supports it that the two are linked so enhanced functionality can be provided.&lt;/li&gt;
+&lt;li&gt;The &lt;code&gt;:checked&lt;/code&gt; pseudo class is combined with an &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/CSS/Adjacent_sibling_combinator&quot;&gt;&lt;code&gt;adjacent sibling combinator&lt;/code&gt;&lt;/a&gt; to toggle the menu. You could also use the &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/CSS/General_sibling_combinator&quot;&gt;&lt;code&gt;general sibling combinator&lt;/code&gt;&lt;/a&gt; if elements are farther apart.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;visibility: hidden&lt;/code&gt; is used instead of &lt;code&gt;display: none&lt;/code&gt; or &lt;code&gt;opacity: 0&lt;/code&gt; to keep transitions while still removing the menu from the DOM when closed. &lt;code&gt;display: none&lt;/code&gt; would hide the menu before the transition could finish and &lt;code&gt;opacity: 0&lt;/code&gt; would hide the menu after the transition but only visually, causing issues with assistive technology.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;transition-delay: 0ms, 0.25s&lt;/code&gt; is used when closing the menu to allow the transform to finish before &lt;code&gt;visibility&lt;/code&gt; is set to &lt;code&gt;hidden&lt;/code&gt;. &lt;code&gt;visibility&lt;/code&gt; doesn&#39;t fade like &lt;code&gt;opacity&lt;/code&gt; but it is still an &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animated_properties&quot;&gt;animatable property&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;There are selectors targeting a &lt;code&gt;&amp;lt;button&amp;gt;&lt;/code&gt; with an &lt;code&gt;aria-expanded&lt;/code&gt; attribute because &lt;strong&gt;the &lt;code&gt;&amp;lt;input&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;label&amp;gt;&lt;/code&gt; must be replaced with JavaScript as soon as possible&lt;/strong&gt; to avoid accessibility issues. &lt;code&gt;&amp;lt;input&amp;gt;&lt;/code&gt; doesn&#39;t have the same functionality as &lt;code&gt;&amp;lt;button&amp;gt;&lt;/code&gt; such as being triggered by the enter key or being listed in shortcut menus.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To be clear: &lt;strong&gt;using a checkbox to control a menu should only be used as a temporary measure until JavaScript replaces it with a button&lt;/strong&gt;.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;&amp;lt;details&amp;gt;&lt;/code&gt; And &lt;code&gt;&amp;lt;summary&amp;gt;&lt;/code&gt; Elements&lt;/h3&gt;
+&lt;p&gt;The &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details&quot;&gt;&lt;code&gt;&amp;lt;details&amp;gt;&lt;/code&gt;&lt;/a&gt; and &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary&quot;&gt;&lt;code&gt;&amp;lt;summary&amp;gt;&lt;/code&gt;&lt;/a&gt; elements provide an HTML native menu that can be toggled open and closed without any JavaScript. The ease of creating a navigation menu is why so many sites are now — &lt;i&gt;checks notes&lt;/i&gt; — &lt;em&gt;not&lt;/em&gt; using it?&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;&amp;lt;details&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;summary&amp;gt;&lt;/code&gt; were first supported in 2011 but didn&#39;t receive full adoption from all the major browser engines until 2020 when Edge switched to Chromium. However, &lt;a href=&quot;https://caniuse.com/details&quot;&gt;current support for &lt;code&gt;&amp;lt;details&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;summary&amp;gt;&lt;/code&gt;&lt;/a&gt; is excellent and it&#39;s only Internet Explorer that doesn&#39;t and will never recognise them, treating them each as a &lt;code&gt;&amp;lt;div&amp;gt;&lt;/code&gt; instead.&lt;/p&gt;
+&lt;p&gt;Another reason why there isn&#39;t more widespread use is because the reveal of content within &lt;code&gt;&amp;lt;details&amp;gt;&lt;/code&gt; isn&#39;t animatable — but there is a way around this. Usually, everything within a closed &lt;code&gt;&amp;lt;details&amp;gt;&lt;/code&gt; element except &lt;code&gt;&amp;lt;summary&amp;gt;&lt;/code&gt; is removed from the DOM which doesn&#39;t give any time for a closing animation to end before it&#39;s removed. This can be avoided by moving the content outside of the &lt;code&gt;&amp;lt;details&amp;gt;&lt;/code&gt; element:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;nav&gt;
+	&amp;lt;details&gt;
+		&amp;lt;summary aria-controls=&quot;nav-menu-content&quot; hidden&gt;Open menu&amp;lt;/summary&gt;
+	&amp;lt;/details&gt;
+	&amp;lt;ul id=&quot;nav-menu-content&quot;&gt;
+		&amp;lt;li&gt;Nav item 1&amp;lt;/li&gt;
+		&amp;lt;li&gt;Nav item 2&amp;lt;/li&gt;
+		&amp;lt;li&gt;Nav item 3&amp;lt;/li&gt;
+	&amp;lt;/ul&gt;
+&amp;lt;/nav&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can then use the checkbox solution from above to toggle the content by watching for an &lt;code&gt;open&lt;/code&gt; attribute on &lt;code&gt;&amp;lt;details&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;No Collapsible Menu&lt;/h3&gt;
+&lt;p&gt;The rest of these solutions assume that a collapsible navigation menu is unavoidable but it&#39;s possible to not have a menu and eliminate the problem altogether. The only reason I have one in the first place is because the existing design wraps the text 2–3 lines deep. There&#39;s no reason I couldn&#39;t change the menu style to accommodate all of the links.&lt;/p&gt;
+&lt;h2&gt;My Decision&lt;/h2&gt;
+&lt;p&gt;After eliminating doing nothing, closing the menu by default and using a &lt;code&gt;&amp;lt;noscript&amp;gt;&lt;/code&gt; element because there were better alternatives, I was left with 4 options:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;No collapsible menu would have been the ideal choice but I don&#39;t have the design skills to do this quickly and make it look good.&lt;/li&gt;
+&lt;li&gt;Using &lt;code&gt;&amp;lt;details&amp;gt;&lt;/code&gt; and &lt;code&gt;&amp;lt;summary&amp;gt;&lt;/code&gt; elements was my next favourite but supporting Internet Explorer meant this wasn&#39;t possible.&lt;/li&gt;
+&lt;li&gt;I decided against inline JavaScript simply because I hate making users download data they don&#39;t have to.&lt;/li&gt;
+&lt;li&gt;In the end I went with a temporary checkbox input that&#39;s replaced by a proper button later.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;My &lt;a href=&quot;https://github.com/JKC-Codes/jkc-codes.github.io/blob/76f9b0ba3cec59a5d86b5256e494c9548c284ca0/site/Markup/_templates/_includes/header.html&quot;&gt;HTML&lt;/a&gt;, &lt;a href=&quot;https://github.com/JKC-Codes/jkc-codes.github.io/blob/76f9b0ba3cec59a5d86b5256e494c9548c284ca0/site/Styles/site/_header.scss&quot;&gt;CSS/SASS&lt;/a&gt; and &lt;a href=&quot;https://github.com/JKC-Codes/jkc-codes.github.io/blob/76f9b0ba3cec59a5d86b5256e494c9548c284ca0/site/Scripts/site.js&quot;&gt;JavaScript&lt;/a&gt; files are available on &lt;a href=&quot;https://github.com/JKC-Codes/jkc-codes.github.io/tree/76f9b0ba3cec59a5d86b5256e494c9548c284ca0&quot;&gt;GitHub&lt;/a&gt; if you&#39;re interested but remember that I didn&#39;t choose the best method on paper because there were other constraints limiting me. The choice came down to the least worse out of downloading extra JavaScript for all users or the menu being less accessible (but still accessible) to specific users until JavaScript loaded.&lt;/p&gt;
+&lt;p&gt;With this change I managed to knock more than a second off my speed index, from 2.18 seconds to 1.16 and move from 29&lt;sup&gt;th&lt;/sup&gt; place to 13&lt;sup&gt;th&lt;/sup&gt; on the &lt;a href=&quot;https://www.11ty.dev/speedlify/#site-7702f769&quot;&gt;Eleventy leaderboards&lt;/a&gt;!&lt;/p&gt;
+</content>
+		<link href="https://jkc.codes/blog/building-a-robust-toggle-menu/" rel="alternate"/>
+		<published>2021-07-01T18:30:47Z</published>
+	</entry>
 	
 	<entry>
 		<id>https://jkc.codes/blog/using-sass-with-eleventy/</id>
@@ -53,7 +162,7 @@ index.html
 &lt;p&gt;The watch step will run the above build step every time a change is made to any of the template files. It is equivalent to running &lt;code&gt;eleventy --watch&lt;/code&gt; in the command line.&lt;/p&gt;
 &lt;h4&gt;Serve&lt;/h4&gt;
 &lt;p&gt;The serve step will start a local server to display your website and update it automatically whenever files are changed through the above watch step. It is similar to running &lt;code&gt;eleventy --watch &amp;amp; browser-sync start&lt;/code&gt; in the command line.&lt;/p&gt;
-&lt;p&gt;Eleventy uses Browsersync under the hood to handle its live server. Notably this means that any options are detailed in the &lt;a href=&quot;https://www.browsersync.io/docs/&quot;&gt;Browsersync docs&lt;/a&gt; and not the &lt;a href=&quot;https://www.11ty.dev/docs/&quot;&gt;Eleventy docs&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Eleventy uses Browsersync under the hood to handle its live server. Notably this means that any options are detailed in the &lt;a href=&quot;https://browsersync.io/docs/&quot;&gt;Browsersync docs&lt;/a&gt; and not the &lt;a href=&quot;https://www.11ty.dev/docs/&quot;&gt;Eleventy docs&lt;/a&gt;.&lt;/p&gt;
 &lt;h3&gt;Configuring BrowserSync&lt;/h3&gt;
 &lt;p&gt;BrowserSync is automatically run when using &lt;code&gt;eleventy --serve&lt;/code&gt; and its options are set via &lt;a href=&quot;https://www.11ty.dev/docs/watch-serve/#override-browsersync-server-options&quot;&gt;EleventyConfig&#39;s &lt;code&gt;setBrowserSyncConfig&lt;/code&gt; method&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;In my &lt;a href=&quot;https://www.11ty.dev/docs/config/&quot;&gt;Eleventy config file&lt;/a&gt; (.eleventy.js by default) I add this:&lt;/p&gt;
@@ -62,7 +171,7 @@ index.html
 		files: &#39;./_site/css/**/*.css&#39;
 	});
 };&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;I&#39;m using BrowserSync&#39;s &lt;a href=&quot;https://www.browsersync.io/docs/options#option-files&quot;&gt;files option&lt;/a&gt; to watch any file in the &lt;code&gt;_site/css/&lt;/code&gt; folder with a &lt;code&gt;.css&lt;/code&gt; extension and add that CSS to the page whenever those files update. It doesn&#39;t use Eleventy&#39;s build command and therefore doesn&#39;t trigger a rebuild of the HTML.&lt;/p&gt;
+&lt;p&gt;I&#39;m using BrowserSync&#39;s &lt;a href=&quot;https://browsersync.io/docs/options#option-files&quot;&gt;files option&lt;/a&gt; to watch any file in the &lt;code&gt;_site/css/&lt;/code&gt; folder with a &lt;code&gt;.css&lt;/code&gt; extension and add that CSS to the page whenever those files update. It doesn&#39;t use Eleventy&#39;s build command and therefore doesn&#39;t trigger a rebuild of the HTML.&lt;/p&gt;
 &lt;h3&gt;What about addPassthroughCopy?&lt;/h3&gt;
 &lt;p&gt;You may have seen other sites build their CSS files in the same folder as their SASS and then use Eleventy config&#39;s &lt;a href=&quot;https://www.11ty.dev/docs/copy/&quot;&gt;addPassthroughCopy&lt;/a&gt; method to copy the CSS to Eleventy&#39;s output folder. The file structure looks something like this:&lt;/p&gt;
 &lt;pre&gt;
@@ -128,7 +237,7 @@ command line
 &lt;h3&gt;Further Reading&lt;/h3&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/watch-serve/&quot;&gt;11ty setBrowserSyncConfig documentation&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&quot;https://www.browsersync.io/docs/options#option-files&quot;&gt;BrowserSync files option documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://browsersync.io/docs/options#option-files&quot;&gt;BrowserSync files option documentation&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://sass-lang.com/documentation/cli/dart-sass&quot;&gt;SASS CLI documentation&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/quicktips/inline-css/&quot;&gt;How to inline minified CSS&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;

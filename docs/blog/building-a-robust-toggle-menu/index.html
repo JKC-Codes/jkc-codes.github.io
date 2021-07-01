@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Building A Robust Toggle Menu — John Kemp-Cruz</title>
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/post.css">
+<script src="/js/site.js" defer></script>
+<link rel="canonical" href="https://jkc.codes/blog/building-a-robust-toggle-menu/">
+<link rel="alternate" href="https://jkc.codes/feed.atom" type="application/atom+xml" title="Atom feed for John Kemp-Cruz's blog">
+<link rel="alternate" href="https://jkc.codes/feed.json" type="application/feed+json" title="JSON feed for John Kemp-Cruz's blog">
+<link rel="alternate" href="https://jkc.codes/feed.rss" type="application/rss+xml" title="RSS feed for John Kemp-Cruz's blog">
+<link rel="icon" href="/img/site/icon-site-16x16.png" type="image/png" sizes="16x16">
+<link rel="icon" href="/img/site/icon-site-32x32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="/img/site/icon-site.svg" type="image/svg+xml" sizes="any">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#203060">
+<meta name="author" content="John Kemp-Cruz">
+<meta name="description" content="I recently noticed that my site's speed index had shot up dramatically on the Eleventy leaderboards and managed to track the issue down to my mobile …">
+<meta property="og:title" content="Building A Robust Toggle Menu">
+<meta property="og:type" content="article">
+<meta property="og:article:author" content="John Kemp-Cruz">
+<meta property="og:image" content="/img/site/icon-site-512x512.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta property="og:image:alt" content="JKC on space cadet blue background">
+<meta property="og:url" content="https://jkc.codes/blog/building-a-robust-toggle-menu/">
+<meta property="og:description" content="I recently noticed that my site's speed index had shot up dramatically on the Eleventy leaderboards and managed to track the issue down to my mobile …">
+<meta property="og:locale" content="en-GB">
+<meta property="og:site_name" content="John Kemp-Cruz">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@jkc_codes">
+<meta name="twitter:creator" content="@jkc_codes">
+<meta name="twitter:image:alt" content="JKC on space cadet blue background">
+<script type="application/ld+json">
+{
+			"@context": "http://schema.org",
+			"@type": "Person",
+			"address": {
+				"@type": "PostalAddress",
+				"addressCountry": "GB",
+				"addressLocality": "London"
+			},
+			"jobTitle": "Front-end web developer",
+			"name": "John Kemp-Cruz",
+			"url": "https://jkc.codes/"
+		}
+</script>
+<link rel="stylesheet" href="/css/syntax.css"></head>
+<body>
+<div id="site-container">
+<header id="site-header">
+<a href="#site-main" class="skip-to-content">Skip to main content</a>
+<nav class="navigation">
+<input class="menu-checkbox js-site-nav-input" type="checkbox" id="site-nav-menu-checkbox" hidden>
+<label class="menu-button js-site-nav-button" for="site-nav-menu-checkbox" hidden>
+<svg class="menu-button-icon" width="48" height="48" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+<rect class="line-top-left" x="0" y="0" width="60" height="20"></rect>
+<rect class="line-top-right" x="40" y="0" width="60" height="20"></rect>
+<rect class="line-mid-left" x="0" y="40" width="60" height="20"></rect>
+<rect class="line-mid-right" x="40" y="40" width="60" height="20"></rect>
+<rect class="line-bottom-left" x="0" y="80" width="60" height="20"></rect>
+<rect class="line-bottom-right" x="40" y="80" width="60" height="20"></rect>
+</svg><span class="menu-button-text js-site-nav-button-text">Open menu</span>
+</label>
+<ul class="navigation-links prevent-transition js-site-nav-menu" id="site-nav-menu" tabindex="-1">
+<li><a class="navigation-name" href="/">John Kemp-Cruz</a></li>
+<li><a href="/blog/"><img src="/img/site/icon-blog.svg" alt="" width="40" height="40">Blog</a></li>
+<li><a href="/#projects"><img src="/img/site/icon-projects.svg" alt="" width="40" height="40">Projects</a></li>
+<li><a href="https://github.com/JKC-Codes" rel="me"><img src="/img/site/icon-github.svg" alt="" width="40" height="40">GitHub</a></li>
+<li><a href="https://twitter.com/jkc_codes" rel="me"><img src="/img/site/icon-twitter.svg" alt="" width="40" height="40">Twitter</a></li>
+<li><a href="https://www.linkedin.com/in/johnkempcruz" rel="me"><img src="/img/site/icon-linkedin.svg" alt="" width="40" height="40">LinkedIn</a></li>
+</ul>
+</nav>
+</header>
+<main id="site-main" class="h-entry">
+<header id="header">
+<h1 id="page-heading" class="p-name">Building A Robust Toggle Menu</h1>
+<p class="reading-time"><img class="clock" src="/img/blog/clock.svg" alt="" width="13" height="13" hidden>About 8 minutes to read</p>
+</header>
+<div class="e-content">
+<p>I recently noticed that my site's speed index had shot up dramatically on the <a href="https://www.11ty.dev/speedlify/">Eleventy leaderboards</a> and managed to track the issue down to my mobile navigation menu. I was deliberately leaving the menu open until JavaScript kicked in to keep it accessible but this had the unfortunate side effect of it always being briefly visible at each page load.</p>
+<p>Here's the thought process I went through when fixing it so that it doesn't affect my site's speed index or layout shift but still remains usable even if CSS and/or JavaScript fail.</p>
+<h2>The Problem</h2>
+<p>My website has always been built with progressive enhancement and graceful degradation in mind. The goal of these two concepts is to ensure that your content is always available no matter the device or connection viewers use.</p>
+<p>Progressive enhancement uses a &quot;bottom up&quot; approach where you build a minimum viable experience and build enhancements on top of that, progressively adding more and more on top. If any of those enhancements fail you know there's a base experience to fall back to.</p>
+<p>Graceful degradation uses a &quot;top down&quot; approach which starts with fully enhanced code and then asks what would happen if each piece failed and implements fall backs to handle those errors. This way, instead of your site outright failing, it gracefully degrades to a less enhanced version instead.</p>
+<p>I had chosen to keep my mobile navigation menu open until JavaScript downloaded and executed to ensure it was always available. Otherwise, if the menu was initially closed and JavaScript failed to work then the open menu button would do nothing and users wouldn't be able to navigate my site. Unfortunately, the slower the connection the longer it took to close and this sometimes led to a brief flash of the menu on page load.</p>
+<h2>Possible Solutions</h2>
+<p>Here are the solutions I considered when trying to fix the problem. If you have your own that I didn't think of <a href="https://twitter.com/intent/tweet?screen_name=jkc_codes">let me know on Twitter</a>.</p>
+<h3>Do Nothing</h3>
+<p>It may feel bad to leave a known bug in my code but if a solution causes side effects that outweigh this minor inconvenience then doing nothing is the better option.</p>
+<h3>Closed By Default</h3>
+<p>If the problem was the menu being open when it should be closed, having it closed by default would solve the problem, right? Unfortunately, that would make my site almost impossible to navigate if JavaScript failed to load because the menu would be permanently closed.</p>
+<h3><code>&lt;noscript&gt;</code> Element</h3>
+<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript"><code>&lt;noscript&gt;</code> element</a> allows you to insert HTML if JavaScript can't function. So I could close the menu by default but open it using <code>&lt;noscript&gt;</code> if JavaScript was unavailable. This sounded like the perfect solution until I read the description on MDN more carefully: <q cite="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/noscript">The HTML <code>&lt;noscript&gt;</code> element defines a section of HTML to be inserted if a script type on the page is unsupported or if scripting is currently turned off in the browser</q>.</p>
+<p>The description only specifies JavaScript being unsupported or turned off; <strong><code>&lt;noscript&gt;</code> doesn't work if JavaScript fails to load due to a connection error</strong>. Being realistic, hardly anyone is going to turn off JavaScript these days but plenty of people are going to have errors from a bad mobile connection.</p>
+<h3>Inline The JavaScript</h3>
+<p>Placing a <code>&lt;script&gt;</code> element inline with my HTML would ensure that JavaScript can't fail to load due to a connection error. I could combine it with closing the menu by default and a <code>&lt;noscript&gt;</code> element to apply open menu styles if JavaScript is unsupported. However, there are three trade offs with this approach:</p>
+<ol>
+<li>The JavaScript needs to be duplicated for each page, increasing build complexity.</li>
+<li>Running the script delays page rendering.</li>
+<li>The browser can no longer cache the script, increasing load times.</li>
+</ol>
+<p>The first issue is quite easily solved by <a href="https://www.11ty.dev/">Eleventy</a>, my static site generator, and the remaining issues are negligible. The JavaScript for my navigation menu is only around 2.5kb and not being able to cache 2.5kb of code is better than seeing an open menu on each page load.</p>
+<h3>Checkbox Input</h3>
+<p>Using an <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox"><code>&lt;input&gt;</code> element with a <code>type=&quot;checkbox&quot;</code> attribute</a> gives us access to the <code>checked</code> attribute whenever it's selected. Unlike a <code>&lt;button&gt;</code> element, this means that I could determine whether the menu is open without any JavaScript. The code would go something like this:</p>
+<pre class="language-html line-numbers"><code class="language-html line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>nav</span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>label</span> <span class="token attr-name">for</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>nav-menu-checkbox<span class="token punctuation">"</span></span> <span class="token attr-name">hidden</span><span class="token punctuation">></span></span>Open menu<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>label</span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>input</span> <span class="token attr-name">type</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>checkbox<span class="token punctuation">"</span></span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>nav-menu-checkbox<span class="token punctuation">"</span></span> <span class="token attr-name">aria-controls</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>nav-menu-content<span class="token punctuation">"</span></span> <span class="token attr-name">hidden</span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>nav-menu-content<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span>Nav item 1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span>Nav item 2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span>Nav item 3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>nav</span><span class="token punctuation">></span></span></code></pre>
+<pre class="language-css line-numbers"><code class="language-css line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token selector">label[for="nav-menu-checkbox"],
+<span class="token line-number" aria-hidden="true"></span>input[type="checkbox"]</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token property">display</span><span class="token punctuation">:</span> inline-block<span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>
+<span class="token line-number" aria-hidden="true"></span><span class="token selector">button[aria-expanded="false"] + ul,
+<span class="token line-number" aria-hidden="true"></span>input + ul</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token property">transition-delay</span><span class="token punctuation">:</span> 0ms<span class="token punctuation">,</span> 0.25s<span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>-100%<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token property">visibility</span><span class="token punctuation">:</span> hidden<span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>
+<span class="token line-number" aria-hidden="true"></span><span class="token selector">button[aria-expanded="true"] + ul,
+<span class="token line-number" aria-hidden="true"></span>input:checked + ul</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token property">transition-delay</span><span class="token punctuation">:</span> 0ms<span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token property">transform</span><span class="token punctuation">:</span> <span class="token function">translateY</span><span class="token punctuation">(</span>0<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token property">visibility</span><span class="token punctuation">:</span> visible<span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>
+<span class="token line-number" aria-hidden="true"></span><span class="token selector">button[aria-expanded] + ul,
+<span class="token line-number" aria-hidden="true"></span>input + ul</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token property">transition</span><span class="token punctuation">:</span> 0.25s ease-out<span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token property">transition-property</span><span class="token punctuation">:</span> transform<span class="token punctuation">,</span> visibility<span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span></code></pre>
+<p>Here's a brief explanation of the less obvious bits:</p>
+<ul>
+<li>The <code>&lt;label&gt;</code> and <code>&lt;input&gt;</code> elements have a <code>hidden</code> attribute which is overridden by <code>display: inline-block</code> in the CSS. This ensures that if the CSS isn't loaded there won't be a redundant checkbox that doesn't work. If you're wondering when this would be applicable, read <a href="https://www.sarasoueidan.com/blog/tips-for-reader-modes/">Sara Soueidan's article on optimising content for reader modes and reading apps</a>.</li>
+<li>There's an <code>aria-controls</code> attribute on the <code>&lt;input&gt;</code> linked to the nav menu list. This tells assistive technology that supports it that the two are linked so enhanced functionality can be provided.</li>
+<li>The <code>:checked</code> pseudo class is combined with an <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Adjacent_sibling_combinator"><code>adjacent sibling combinator</code></a> to toggle the menu. You could also use the <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/General_sibling_combinator"><code>general sibling combinator</code></a> if elements are farther apart.</li>
+<li><code>visibility: hidden</code> is used instead of <code>display: none</code> or <code>opacity: 0</code> to keep transitions while still removing the menu from the DOM when closed. <code>display: none</code> would hide the menu before the transition could finish and <code>opacity: 0</code> would hide the menu after the transition but only visually, causing issues with assistive technology.</li>
+<li><code>transition-delay: 0ms, 0.25s</code> is used when closing the menu to allow the transform to finish before <code>visibility</code> is set to <code>hidden</code>. <code>visibility</code> doesn't fade like <code>opacity</code> but it is still an <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_animated_properties">animatable property</a>.</li>
+<li>There are selectors targeting a <code>&lt;button&gt;</code> with an <code>aria-expanded</code> attribute because <strong>the <code>&lt;input&gt;</code> and <code>&lt;label&gt;</code> must be replaced with JavaScript as soon as possible</strong> to avoid accessibility issues. <code>&lt;input&gt;</code> doesn't have the same functionality as <code>&lt;button&gt;</code> such as being triggered by the enter key or being listed in shortcut menus.</li>
+</ul>
+<p>To be clear: <strong>using a checkbox to control a menu should only be used as a temporary measure until JavaScript replaces it with a button</strong>.</p>
+<h3><code>&lt;details&gt;</code> And <code>&lt;summary&gt;</code> Elements</h3>
+<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details"><code>&lt;details&gt;</code></a> and <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/summary"><code>&lt;summary&gt;</code></a> elements provide an HTML native menu that can be toggled open and closed without any JavaScript. The ease of creating a navigation menu is why so many sites are now — <i>checks notes</i> — <em>not</em> using it?</p>
+<p><code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> were first supported in 2011 but didn't receive full adoption from all the major browser engines until 2020 when Edge switched to Chromium. However, <a href="https://caniuse.com/details">current support for <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code></a> is excellent and it's only Internet Explorer that doesn't and will never recognise them, treating them each as a <code>&lt;div&gt;</code> instead.</p>
+<p>Another reason why there isn't more widespread use is because the reveal of content within <code>&lt;details&gt;</code> isn't animatable — but there is a way around this. Usually, everything within a closed <code>&lt;details&gt;</code> element except <code>&lt;summary&gt;</code> is removed from the DOM which doesn't give any time for a closing animation to end before it's removed. This can be avoided by moving the content outside of the <code>&lt;details&gt;</code> element:</p>
+<pre class="language-html line-numbers"><code class="language-html line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>nav</span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>details</span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>summary</span> <span class="token attr-name">aria-controls</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>nav-menu-content<span class="token punctuation">"</span></span> <span class="token attr-name">hidden</span><span class="token punctuation">></span></span>Open menu<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>summary</span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>details</span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>nav-menu-content<span class="token punctuation">"</span></span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span>Nav item 1<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span>Nav item 2<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span>		<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span>Nav item 3<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span>
+<span class="token line-number" aria-hidden="true"></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>nav</span><span class="token punctuation">></span></span></code></pre>
+<p>You can then use the checkbox solution from above to toggle the content by watching for an <code>open</code> attribute on <code>&lt;details&gt;</code>.</p>
+<h3>No Collapsible Menu</h3>
+<p>The rest of these solutions assume that a collapsible navigation menu is unavoidable but it's possible to not have a menu and eliminate the problem altogether. The only reason I have one in the first place is because the existing design wraps the text 2–3 lines deep. There's no reason I couldn't change the menu style to accommodate all of the links.</p>
+<h2>My Decision</h2>
+<p>After eliminating doing nothing, closing the menu by default and using a <code>&lt;noscript&gt;</code> element because there were better alternatives, I was left with 4 options:</p>
+<ol>
+<li>No collapsible menu would have been the ideal choice but I don't have the design skills to do this quickly and make it look good.</li>
+<li>Using <code>&lt;details&gt;</code> and <code>&lt;summary&gt;</code> elements was my next favourite but supporting Internet Explorer meant this wasn't possible.</li>
+<li>I decided against inline JavaScript simply because I hate making users download data they don't have to.</li>
+<li>In the end I went with a temporary checkbox input that's replaced by a proper button later.</li>
+</ol>
+<p>My <a href="https://github.com/JKC-Codes/jkc-codes.github.io/blob/76f9b0ba3cec59a5d86b5256e494c9548c284ca0/site/Markup/_templates/_includes/header.html">HTML</a>, <a href="https://github.com/JKC-Codes/jkc-codes.github.io/blob/76f9b0ba3cec59a5d86b5256e494c9548c284ca0/site/Styles/site/_header.scss">CSS/SASS</a> and <a href="https://github.com/JKC-Codes/jkc-codes.github.io/blob/76f9b0ba3cec59a5d86b5256e494c9548c284ca0/site/Scripts/site.js">JavaScript</a> files are available on <a href="https://github.com/JKC-Codes/jkc-codes.github.io/tree/76f9b0ba3cec59a5d86b5256e494c9548c284ca0">GitHub</a> if you're interested but remember that I didn't choose the best method on paper because there were other constraints limiting me. The choice came down to the least worse out of downloading extra JavaScript for all users or the menu being less accessible (but still accessible) to specific users until JavaScript loaded.</p>
+<p>With this change I managed to knock more than a second off my speed index, from 2.18 seconds to 1.16 and move from 29<sup>th</sup> place to 13<sup>th</sup> on the <a href="https://www.11ty.dev/speedlify/#site-7702f769">Eleventy leaderboards</a>!</p>
+</div>
+</main>
+<footer id="site-footer">
+<p><small>Site built using <a href="https://www.11ty.dev/">Eleventy</a> and knowledge from <a href="/credits/">several wonderful people</a>.</small></p>
+<p><small>Source code available at <a href="https://github.com/JKC-Codes/jkc-codes.github.io">GitHub</a>.</small></p>
+<p><small>&copy; John Kemp-Cruz <time datetime="2018">2018</time>&ndash;<time datetime="2021">2021</time></small></p>
+</footer>
+</div>
+</body>
+</html>
