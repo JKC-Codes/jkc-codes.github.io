@@ -150,10 +150,10 @@ index.html
 <pre class="language-json line-numbers"><code class="language-json line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"watch:eleventy"</span><span class="token operator">:</span> <span class="token string">"npx @11ty/eleventy --serve"</span><span class="token punctuation">,</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"watch:sass"</span><span class="token operator">:</span> <span class="token string">"npx sass sass:_site/css --watch"</span><span class="token punctuation">,</span>
-<span class="token line-number" aria-hidden="true"></span>	<span class="token property">"start"</span><span class="token operator">:</span> <span class="token string">"npm run watch:eleventy &amp;&amp; watch:sass"</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token property">"start"</span><span class="token operator">:</span> <span class="token string">"npm run watch:eleventy &amp; npm run watch:sass"</span>
 <span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
 <p>And then run <code>npm start</code> in your terminal whenever you open your project.</p>
-<p>If you're using Windows and/or Powershell, the start script's <code>&amp;&amp;</code> syntax may not work so I recommend using <a href="https://www.npmjs.com/package/npm-run-all">npm-run-all</a> or <a href="https://www.npmjs.com/package/concurrently">concurrently</a> to run the two scripts at the same time instead.</p>
+<p>If you're using Windows and/or Powershell, the start script's <code>&amp;</code> syntax won't work so I recommend using <a href="https://www.npmjs.com/package/npm-run-all">npm-run-all</a> or <a href="https://www.npmjs.com/package/concurrently">concurrently</a> to run the two scripts at the same time instead.</p>
 <h3>Advantages</h3>
 <ol>
 <li>Zero build time when CSS is updated</li>
@@ -171,7 +171,7 @@ package.json
 <code class="language-json line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"watch:eleventy"</span><span class="token operator">:</span> <span class="token string">"npx @11ty/eleventy --serve"</span><span class="token punctuation">,</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"watch:sass"</span><span class="token operator">:</span> <span class="token string">"npx sass sass:_site/css --watch"</span><span class="token punctuation">,</span>
-<span class="token line-number" aria-hidden="true"></span>	<span class="token property">"start"</span><span class="token operator">:</span> <span class="token string">"npm run watch:eleventy &amp;&amp; watch:sass"</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token property">"start"</span><span class="token operator">:</span> <span class="token string">"npm run watch:eleventy &amp; npm run watch:sass"</span>
 <span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">,</span></code>
 </pre>
 <pre class="language-js line-numbers">

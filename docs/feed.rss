@@ -190,10 +190,10 @@ index.html
 &lt;pre&gt;&lt;code class=&quot;language-json&quot;&gt;&quot;scripts&quot;: {
 	&quot;watch:eleventy&quot;: &quot;npx @11ty/eleventy --serve&quot;,
 	&quot;watch:sass&quot;: &quot;npx sass sass:_site/css --watch&quot;,
-	&quot;start&quot;: &quot;npm run watch:eleventy &amp;&amp; watch:sass&quot;
+	&quot;start&quot;: &quot;npm run watch:eleventy &amp; npm run watch:sass&quot;
 },&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;And then run &lt;code&gt;npm start&lt;/code&gt; in your terminal whenever you open your project.&lt;/p&gt;
-&lt;p&gt;If you&#39;re using Windows and/or Powershell, the start script&#39;s &lt;code&gt;&amp;amp;&amp;amp;&lt;/code&gt; syntax may not work so I recommend using &lt;a href=&quot;https://www.npmjs.com/package/npm-run-all&quot;&gt;npm-run-all&lt;/a&gt; or &lt;a href=&quot;https://www.npmjs.com/package/concurrently&quot;&gt;concurrently&lt;/a&gt; to run the two scripts at the same time instead.&lt;/p&gt;
+&lt;p&gt;If you&#39;re using Windows and/or Powershell, the start script&#39;s &lt;code&gt;&amp;amp;&lt;/code&gt; syntax won&#39;t work so I recommend using &lt;a href=&quot;https://www.npmjs.com/package/npm-run-all&quot;&gt;npm-run-all&lt;/a&gt; or &lt;a href=&quot;https://www.npmjs.com/package/concurrently&quot;&gt;concurrently&lt;/a&gt; to run the two scripts at the same time instead.&lt;/p&gt;
 &lt;h3&gt;Advantages&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;Zero build time when CSS is updated&lt;/li&gt;
@@ -211,7 +211,7 @@ package.json
 &lt;code class=&quot;lang-json&quot;&gt;&quot;scripts&quot;: {
 	&quot;watch:eleventy&quot;: &quot;npx @11ty/eleventy --serve&quot;,
 	&quot;watch:sass&quot;: &quot;npx sass sass:_site/css --watch&quot;,
-	&quot;start&quot;: &quot;npm run watch:eleventy &amp;&amp; watch:sass&quot;
+	&quot;start&quot;: &quot;npm run watch:eleventy &amp; npm run watch:sass&quot;
 },&lt;/code&gt;
 &lt;/pre&gt;
 &lt;pre&gt;
