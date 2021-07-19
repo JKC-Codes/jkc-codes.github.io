@@ -4,7 +4,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>{{ siteMeta.url }}/</id>
-	<title>{{ siteMeta.title }}</title>
+	<title>Atom feed for {{ siteMeta.title }}</title>
 	<subtitle>Where John writes about web development</subtitle>
 	<updated>{{ collections.posts | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
 	<icon>{{ siteMeta.url }}/img/site/icon-site-128x128.png</icon>
