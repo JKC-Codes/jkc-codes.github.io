@@ -43,11 +43,6 @@ pre {
 }
 
 code {
-	background: hsl(225, 15%, 97.5%);
-	border: 1px solid $colour-decorate;
-	padding: 0.05rem 0.2rem;
-	font-size: 0.9rem;
-
 	pre & {
 		background: none;
 		border: none;

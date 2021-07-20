@@ -103,6 +103,17 @@ pre {
 	max-width: max-content;
 }
 
+code {
+	background: hsl(225, 15%, 97.5%);
+	border: 1px solid $colour-decorate;
+	padding: 0.05em 0.2em;
+	font-size: 0.9em;
+}
+
+code code {
+	font-size: 1em;
+}
+
 q {
 	font-style: italic;
 
