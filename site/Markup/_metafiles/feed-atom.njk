@@ -24,7 +24,8 @@
 			<name>{{ siteMeta.author }}</name>
 			<uri>{{ siteMeta.url }}</uri>
 		</author>
-		<content type="html">{{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</content>
+		<content type="html">&lt;p&gt;&lt;small&gt;(About {{ post.templateContent | timeToRead }} to read)&lt;/small&gt;&lt;/p&gt;
+{{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</content>
 		<link href="{{ absolutePostUrl }}" rel="alternate"/>
 		<published>{{ post.date | dateToRfc3339 }}</published>
 	</entry>

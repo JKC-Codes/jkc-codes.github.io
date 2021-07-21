@@ -22,7 +22,8 @@
 		<item>
 			<title>{{ post.data.title }}</title>
 			<link>{{ absolutePostUrl }}</link>
-			<description>{{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</description>
+			<description>&lt;p&gt;&lt;small&gt;(About {{ post.templateContent | timeToRead }} to read)&lt;/small&gt;&lt;/p&gt;
+{{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</description>
 			<guid>{{ absolutePostUrl }}</guid>
 			<pubDate>{{ post.date | dateToRfc2822 }}</pubDate>
 			<dc:creator>{{ siteMeta.author }}</dc:creator>
