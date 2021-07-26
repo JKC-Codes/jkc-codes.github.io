@@ -34,22 +34,17 @@ We will be using the [dotenv NPM package](https://www.npmjs.com/package/dotenv) 
 
 
 ## How To Create Drafts
-There are two popular ways to handle drafts which I'll cover:
+There are three popular ways to handle drafts which I'll cover:
 - Using a draft key in front matter
 - Using a draft folder
+- Setting a future date
 
 The code is almost identical so it's really up to you which one works best for your set up.
 
 I'll be focusing on blog posts here but these methods can be used on any type of page as long as there's front matter somewhere in the [data cascade](https://www.11ty.dev/docs/data-cascade/).
 
 ### Set Up Your Environment
-The following steps assume that you're building your site on a server using a service like Netlify. If you're building your site for production locally and then uploading the output folder you'll want to pass in the environment variable in your dev script and exclude it in your build script. Something like this:
-```shell
-ELEVENTY_ENV=development eleventy // dev
-eleventy // production
-```
-
-Otherwise, we need to ensure that environment variables are available.
+The following steps assume that you're building your site on a server using a service like Netlify.
 
 First, install dotenv using `npm i dotenv` in the command line.
 
@@ -58,7 +53,7 @@ Next, create a `.env` file in your root directory (the same folder as `package.j
 ELEVENTY_ENV=development
 ```
 
-This is giving us a global variable "ELEVENTY_ENV" with the value "development" we can import into files later.
+This is gives us a global variable "ELEVENTY_ENV" with the value "development" we can import into files later.
 
 Finally, we need to prevent sending the `.env` file to the server so that it doesn't think it's in a development environment. Do this by adding your `.env` file to your `.gitignore` file (create one in your root folder if it doesn't exist):
 ```text
@@ -66,10 +61,57 @@ Finally, we need to prevent sending the `.env` file to the server so that it doe
 node_modules
 ```
 
-Now that environment variables are set up we can start implementing one of our ways to handle drafts.
+With environment variables set up we can start implementing them into the computed data.
 
 
-### Draft Keys In Front Matter
+### Add Computed Data
+All three methods share the following code in a [directory specific data file](https://www.11ty.dev/docs/data-template-dir/) which allows us to add the same front matter to all files that share the folder:
+```js
+require('dotenv').config();
+
+const isDevEnv = process.env.ELEVENTY_ENV === 'development';
+
+function showDraft(data) {
+	// This changes depending on the draft method
+}
+
+module.exports = function() {
+	return {
+		eleventyComputed: {
+			eleventyExcludeFromCollections: function(data) {
+				if(showDraft(data)) {
+					return data.eleventyExcludeFromCollections;
+				}
+				else {
+					return true;
+				}
+			},
+			permalink: function(data) {
+				if(showDraft(data)) {
+					return data.permalink
+				}
+				else {
+					return false;
+				}
+			}
+		}
+	}
+}
+```
+
+On <b>line 1</b> we're importing dotenv so we can use environment variables.
+
+On <b>line 3</b> we're reading the `ELEVENTY_ENV` environment variable with `process.env` and using it to assign a boolean value to an `isDevEnv` variable to be used in the `showDraft` function.
+
+<b>Lines 5&ndash;7</b> contain the function which will return a boolean determining whether to show the draft page or not. The conditions will be different depending on the draft method you choose so I'll go over those in their own sections.
+
+<b>Lines 9&ndash;11</b> are exporting the data file as a function which returns an object for Eleventy to use in its data cascade. The `eleventyComputed` key is the only key I'm including here but you can add other front matter keys such as `tags` if you need to.
+
+<b>Lines 12&ndash;19 and 20&ndash;27</b> are where we're determining the `eleventyExcludeFromCollections` and `permalink` values based on the result of a function which is passed [data supplied by Eleventy](https://www.11ty.dev/docs/data-eleventy-supplied/). If the `showDraft` function returns true, we are using the existing values but if it returns false we are overriding those values to true and false to exclude the page from collections and prevent the page being built respectively.
+
+The decision on whether to show or hide the page happens within the `showDraft` function and is different for each draft method.
+
+#### Draft Keys In Front Matter
 The goal here is to be able to set a draft key to true or false in the front matter of a page's content like so:
 ```yaml
 ---
@@ -79,7 +121,7 @@ draft: true
 // Page content
 ```
 
-To do so we'll need to add a [directory specific data file](https://www.11ty.dev/docs/data-template-dir/) in the folder that contains the draft pages. This allows us to add the same front matter to all the files within that folder:
+To do so we'll need to add the directory specific data file from above into the folder that contains the draft pages:
 <pre>
 blog
 	|- blog.11tydata.js
@@ -88,28 +130,23 @@ blog
 	|- third-post.md
 </pre>
 
-I've used `blog.11tydata.js` here as it's in the blog folder. If you're using a different folder name replace "blog" in the file name to the folder's name.
+I've used `blog.11tydata.js` here as it's in the blog folder. If you're using a different folder name replace "blog" in the file name for the folder's name.
 
-Inside of the 11tydata.js file paste the following code:
+Inside of the 11tydata.js file we'll complete the `showDraft` function:
 ```js
 require('dotenv').config();
 
-const isDevEnvironment = process.env.ELEVENTY_ENV === 'development';
+const isDevEnv = process.env.ELEVENTY_ENV === 'development';
 
-module.exports = () => {
-	return {
-		eleventyComputed: {
-			eleventyExcludeFromCollections: data => {
-				const isDraft = 'draft' in data && data.draft !== false;
-				return (isDraft && !isDevEnvironment) ? true : data.eleventyExcludeFromCollections;
-			},
-			permalink: data => {
-				const isDraft = 'draft' in data && data.draft !== false;
-				return (isDraft && !isDevEnvironment) ? false : data.permalink;
-			}
-		}
-	}
+function showDraft(data) {
+	const isDraft = 'draft' in data && data.draft !== false;
+	return isDraft && !isDevEnvironment;
 }
+
+module.exports = function() {
+// See above for the rest of the code
 ```
 
-On line 1 we're importing
+On <b>line 6</b> we're checking if a `draft` key has been set to `true` in the page's front matter. Note that using <code class="lang-js">const isDraft = data.draft === true;</code> would also work but because of type coercion any typos would assume that the page is not a draft. By explicitly checking for a draft key and that it isn't set to false we can be sure it's meant to be public.
+
+On <b>line 7</b> we're using the `isDraft` result from line 6 and the `isDevEnv` variable from line 3 to return a boolean result checking that the page has a draft value of true and that we're not in a development environment.
