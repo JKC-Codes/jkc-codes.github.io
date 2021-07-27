@@ -27,7 +27,7 @@ Pages can be hidden on demand by combining `permalink` and `eleventyExcludeFromC
 [Computed data](https://www.11ty.dev/docs/data-computed/) allows us to modify front matter values dynamically based on passed in data from the page, front matter or elsewhere. Front matter is usually static but with computed data we can check whether the `permalink` and `eleventyExcludeFromCollections` keys need to be toggled based on whether we are working locally or building our site for production.
 
 
-## What Are Environment Variables
+## What Are Environment Variables?
 Environment variables aren't an Eleventy specific feature so I won't be covering them in any detail but in short they provide a global variable which we can toggle depending on the environment your code is running in.
 
 We will be using the [dotenv NPM package](https://www.npmjs.com/package/dotenv) because it provides a consistent and easy set up across operating systems.
@@ -35,7 +35,7 @@ We will be using the [dotenv NPM package](https://www.npmjs.com/package/dotenv) 
 
 ## How To Create Drafts
 There are three popular ways to handle drafts which I'll cover:
-- Using a draft key in front matter
+- Using draft keys in front matter
 - Using a draft folder
 - Setting a future date
 
@@ -101,7 +101,7 @@ module.exports = function() {
 
 On <b>line 1</b> we're importing dotenv so we can use environment variables.
 
-On <b>line 3</b> we're reading the `ELEVENTY_ENV` environment variable with `process.env` and using it to assign a boolean value to an `isDevEnv` variable to be used in the `showDraft` function.
+On <b>line 3</b> we're reading the `ELEVENTY_ENV` environment variable from the `process.env` object and using it to assign a boolean value to an `isDevEnv` variable to be used in the `showDraft` function.
 
 <b>Lines 5&ndash;7</b> contain the function which will return a boolean determining whether to show the draft page or not. The conditions will be different depending on the draft method you choose so I'll go over those in their own sections.
 
@@ -111,8 +111,8 @@ On <b>line 3</b> we're reading the `ELEVENTY_ENV` environment variable with `pro
 
 The decision on whether to show or hide the page happens within the `showDraft` function and is different for each draft method.
 
-#### Draft Keys In Front Matter
-The goal here is to be able to set a draft key to true or false in the front matter of a page's content like so:
+#### Using Draft Keys In Front Matter
+The goal here is to be able to set a `draft` key to `true` or `false` in the front matter of a page to determine whether it's hidden or not:
 ```yaml
 ---
 draft: true
@@ -121,7 +121,7 @@ draft: true
 // Page content
 ```
 
-To do so we'll need to add the directory specific data file from above into the folder that contains the draft pages:
+To do so we'll need to add the directory specific data file containing the computed data into the folder that contains the draft pages:
 <pre>
 blog
 	|- blog.11tydata.js
@@ -140,7 +140,7 @@ const isDevEnv = process.env.ELEVENTY_ENV === 'development';
 
 function showDraft(data) {
 	const isDraft = 'draft' in data && data.draft !== false;
-	return isDraft && !isDevEnvironment;
+	return !isDraft || isDevEnv;
 }
 
 module.exports = function() {
@@ -149,4 +149,97 @@ module.exports = function() {
 
 On <b>line 6</b> we're checking if a `draft` key has been set to `true` in the page's front matter. Note that using <code class="lang-js">const isDraft = data.draft === true;</code> would also work but because of type coercion any typos would assume that the page is not a draft. By explicitly checking for a draft key and that it isn't set to false we can be sure it's meant to be public.
 
-On <b>line 7</b> we're using the `isDraft` result from line 6 and the `isDevEnv` variable from line 3 to return a boolean result checking that the page has a draft value of true and that we're not in a development environment.
+On <b>line 7</b> we're using the `isDraft` result from line 6 and the `isDevEnv` variable from line 3 to return a boolean result checking that either the page is not marked as a draft or it is but we're in a development environment.
+
+
+#### Using A Draft Folder
+The goal here is to be able to move files in and out of a drafts folder to hide or show them. To do so we'll need to add the directory specific data file containing the computed data into the folder that contains the draft pages:
+<pre>
+blog
+	|- first-post.md
+	|- second-post.md
+	|- drafts
+		|- drafts.11tydata.js
+		|- third-post.md
+</pre>
+
+I've used `drafts.11tydata.js` here as it's in the drafts folder. If you're using a different folder name replace "drafts" in the file name for the folder's name.
+
+Inside of the 11tydata.js file we'll complete the `showDraft` function as well as amend the permalink function:
+```js
+require('dotenv').config();
+
+const isDevEnv = process.env.ELEVENTY_ENV === 'development';
+
+function showDraft(data) {
+	return isDevEnv;
+}
+
+module.exports = function() {
+	return {
+		eleventyComputed: {
+			// See above for the missing code
+			permalink: function(data) {
+				if(showDraft(data)) {
+					if(data.permalink !== '') {
+						return data.permalink;
+					}
+					else {
+						return data.page.filePathStem.replace('/drafts/', '/') + '/';
+					}
+				}
+				else {
+					return false;
+				}
+			}
+		}
+	}
+}
+```
+
+On <b>line 6</b> we're returning the `isDevEnv` variable from line 3 as a boolean. We don't need to make any other checks.
+
+On lines <b>15&ndash;17</b> we're checking if a permalink has been explicitly set in the front matter and returning it if so.
+
+On lines <b>18&ndash;20</b> we're overriding the page's default permalink so that the "drafts" part of the path is removed. Instead of "/blog/drafts/third-post/" we'll output "/blog/third-post/" as per our file structure. Note that [adding the trailing slash on the end is important](https://www.11ty.dev/docs/permalinks/#remapping-output-(permalink)).
+
+
+#### Using Future Dates
+The goal here is to be able to set a [`date` key](https://www.11ty.dev/docs/dates/) in the front matter of a page to a future date and only show that page if a build is triggered on or after that date:
+```yaml
+---
+date: 2150-12-31
+// Other front matter
+---
+// Page content
+```
+
+To do so we'll need to add the directory specific data file containing the computed data into the folder that contains the draft pages:
+<pre>
+blog
+	|- blog.11tydata.js
+	|- first-post.md
+	|- second-post.md
+	|- third-post.md
+</pre>
+
+I've used `blog.11tydata.js` here as it's in the blog folder. If you're using a different folder name replace "blog" in the file name for the folder's name.
+
+Inside of the 11tydata.js file we'll complete the `showDraft` function:
+```js
+require('dotenv').config();
+
+const isDevEnv = process.env.ELEVENTY_ENV === 'development';
+
+function showDraft(data) {
+	const isFutureDate = data.page.date > new Date();
+	return !isFutureDate || isDevEnv;
+}
+
+module.exports = function() {
+// See above for the rest of the code
+```
+
+On <b>line 6</b> we're checking whether the time set in the front matter is in the future.
+
+On <b>line 7</b> we're using the `isFutureDate` result from line 6 and the `isDevEnv` variable from line 3 to return a boolean result checking that either the page has reached its publish date or it hasn't but we're in a development environment.
