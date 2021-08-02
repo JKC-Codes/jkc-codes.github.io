@@ -178,7 +178,7 @@ function showDraft(data) {
 module.exports = function() {
 	return {
 		eleventyComputed: {
-			// See above for the missing code
+			// See above for the eleventyExcludeFromCollections code
 			permalink: function(data) {
 				if(showDraft(data)) {
 					if(data.permalink !== '') {
