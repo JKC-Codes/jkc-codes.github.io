@@ -1,5 +1,4 @@
 ---
-date: 2021-07-19 14:40:00
 draft: true
 ---
 Several static site generators and content management systems have built in functionality to mark posts as drafts. Eleventy (11ty) isn't one of these but fortunately it is possible to implement.
@@ -14,7 +13,7 @@ The core concept is to use two [front matter](https://www.11ty.dev/docs/data-fro
 ### The `permalink` key
 The `permalink` front matter key controls where a file is built to. More practically, it dictates what the URL will be for the page.
 
-When we don't want to create files for drafts or give them a URL, `permalink` should be set to `false`. To quote the [Eleventy docs](https://www.11ty.dev/docs/permalinks/#permalink-false): <q cite="https://www.11ty.dev/docs/permalinks/#permalink-false">If you set the `permalink` value to be `false`, this will disable writing the file to disk in your output folder. The file will still be processed normally (and present in collections, with its [url and outputPath properties](https://www.11ty.dev/docs/data-eleventy-supplied/) set to `false`) but will not be available in your output directory as a standalone template.</q>
+When we don't want to create files for drafts or give them a URL, `permalink` should be set to `false`. To quote the [Eleventy permalink docs](https://www.11ty.dev/docs/permalinks/#permalink-false): <q cite="https://www.11ty.dev/docs/permalinks/#permalink-false">If you set the `permalink` value to be `false`, this will disable writing the file to disk in your output folder. The file will still be processed normally (and present in collections, with its [url and outputPath properties](https://www.11ty.dev/docs/data-eleventy-supplied/) set to `false`) but will not be available in your output directory as a standalone template.</q>
 
 We don't want the file to still be present in collections though, that's where `eleventyExcludeFromCollections` comes in.
 
@@ -22,7 +21,7 @@ We don't want the file to still be present in collections though, that's where `
 ### The `eleventyExcludeFromCollections` key
 The `eleventyExcludeFromCollections` front matter key does what it says &mdash; it excludes pages from [collections](https://www.11ty.dev/docs/collections/). Collections are sets of data from related content that can be used to create dynamic pages such as RSS feeds, site maps or blog post lists.
 
-`eleventyExcludeFromCollections` should be set to `true` when we don't want drafts to show in lists created from collections. To quote the [Eleventy docs](https://www.11ty.dev/docs/collections/#option-exclude-content-from-collections): <q cite="https://www.11ty.dev/docs/collections/#option-exclude-content-from-collections">In front matter (or further upstream in the data cascade), set the `eleventyExcludeFromCollections` option to `true` to opt out of specific pieces of content added to all collections (including `collections.all`, collections set using tags, or collections added from the Configuration API in your config file). Useful for your RSS feed, `sitemap.xml`, custom templated `.htaccess` files, et cetera.</q>
+`eleventyExcludeFromCollections` should be set to `true` to hide drafts from lists created from collections. To quote the [Eleventy collection docs](https://www.11ty.dev/docs/collections/#option-exclude-content-from-collections): <q cite="https://www.11ty.dev/docs/collections/#option-exclude-content-from-collections">In front matter (or further upstream in the data cascade), set the `eleventyExcludeFromCollections` option to `true` to opt out of specific pieces of content added to all collections (including `collections.all`, collections set using tags, or collections added from the Configuration API in your config file). Useful for your RSS feed, `sitemap.xml`, custom templated `.htaccess` files, et cetera.</q>
 
 Pages can be hidden on demand by combining `permalink` and `eleventyExcludeFromCollections` but what we really want is for them to only be hidden in live production sites so we can continue to test locally. Computed data lets us do that.
 
@@ -46,8 +45,6 @@ There are three ways popularised by Jekyll to handle drafts which I'll cover:
 
 I'll be focusing on blog posts here but these methods can be used on any type of page as long as there's front matter somewhere in the [data cascade](https://www.11ty.dev/docs/data-cascade/).
 
-All three methods require your environment to be set up to work.
-
 
 ### Set Up Your Environment
 The following steps assume that you're building your site on a server using a service like Netlify.
@@ -67,7 +64,7 @@ Finally, we need to prevent sending the `.env` file to the server so that it doe
 node_modules
 ```
 
-With environment variables set up we can start implementing them into the computed data.
+With environment variables set up we can start using them in computed data.
 
 
 ### Using Draft Keys Or A Future Date In Front Matter
@@ -130,7 +127,7 @@ module.exports = function() {
 }
 ```
 
-On <b>line 1</b> we're importing dotenv so we can use the environment variables set in our .env file.
+On <b>line 1</b> we're importing dotenv so we can read the environment variables set in our `.env` file from a `process.env` object.
 
 On <b>line 3</b> we're reading the `ELEVENTY_ENV` environment variable from the `process.env` object and using it to assign a boolean value to an `isDevEnv` variable.
 
@@ -146,7 +143,7 @@ On <b>line 9</b> we're using the `isDevEnv` variable from line 3, the `isDraft` 
 
 <b>Lines 12&ndash;33</b> are exporting our front matter data for Eleventy to use in its data cascade. The `eleventyComputed` key is the only key I'm including here but you can add other front matter keys such as `tags` in the return object if you need to.
 
-<b>Lines 15&ndash;22 and 23&ndash;30</b> are where we're determining the `eleventyExcludeFromCollections` and `permalink` values based on the result of a function which is passed [data supplied by Eleventy](https://www.11ty.dev/docs/data-eleventy-supplied/). If the `showDraft` function from line 6 returns true, we're using the existing values but if it returns false we're overriding those values to true and false to exclude the page from collections and prevent the page being built respectively.
+<b>Lines 15&ndash;22 and 23&ndash;30</b> are where we're determining the `eleventyExcludeFromCollections` and `permalink` values based on the result of the `showDraft` function being passed [data supplied by Eleventy](https://www.11ty.dev/docs/data-eleventy-supplied/). If the `showDraft` function from line 6 returns true, we're using the existing values but if it returns false we're overriding the existing values to true and false to exclude the page from collections and prevent the page being built respectively.
 
 
 ### Using A Draft Folder
@@ -195,7 +192,7 @@ module.exports = function() {
 }
 ```
 
-On <b>line 1</b> we're importing dotenv so we can use the environment variables set in our .env file.
+On <b>line 1</b> we're importing dotenv so we can read the environment variables set in our `.env` file from a `process.env` object.
 
 On <b>line 3</b> we're reading the `ELEVENTY_ENV` environment variable from the `process.env` object and using it to assign a boolean value to an `isDevEnv` variable.
 
@@ -203,23 +200,97 @@ On <b>line 3</b> we're reading the `ELEVENTY_ENV` environment variable from the 
 
 <b>Lines 8&ndash;15 and 16&ndash;26</b> are where we're determining the `eleventyExcludeFromCollections` and `permalink` values based on `isDevEnv` from line 3.
 
-On lines <b>9&ndash;14</b> we're returning the existing `eleventyExcludeFromCollections` value if we're in a development environment or true if we're not.
+On <b>lines 9&ndash;14</b> we're returning the existing `eleventyExcludeFromCollections` value if we're in a development environment or true if we're not.
 
-On lines <b>17&ndash;19</b> we're checking if we're in a development environment and setting the `permalink` key to `false` if we're not.
+On <b>lines 17&ndash;19</b> we're checking if we're in a development environment and setting the `permalink` key to `false` if we're not.
 
-On lines <b>20&ndash;22</b> we're checking if a permalink has been explicitly set in the front matter and using it if so.
+On <b>lines 20&ndash;22</b> we're checking if a permalink has been explicitly set in the front matter and using it if so.
 
-On lines <b>23&ndash;25</b> we're modifying the page's default permalink so that the "drafts" part of the path is replaced by "blog". Instead of "/drafts/third-post/" we'll output "/blog/third-post/". Note that [adding the trailing slash on the end is important](https://www.11ty.dev/docs/permalinks/#remapping-output-(permalink)).
+On <b>lines 23&ndash;25</b> we're modifying the page's default permalink so that the "drafts" part of the path is replaced by "blog". Instead of "/drafts/third-post/" we'll output "/blog/third-post/". Note that [adding the trailing slash on the end is important](https://www.11ty.dev/docs/permalinks/#remapping-output-(permalink)).
 
 
 
 ## Summary
+The `permalink` and `eleventyExcludeFromCollections` front matter keys allow us to create drafts in Eleventy:
+```yaml
+---
+permalink: false
+eleventyExcludeFromCollections: true
+---
+```
+
+By leveraging computed data and environment variables we can replicate Jekyll's draft behaviour:
+
+<pre>
+Command line
+<code class="lang-shell">npm i dotenv</code>
+</pre>
+
+<pre>
+.env
+<code class="lang-text">ELEVENTY_ENV=development</code>
+</pre>
+
+<pre>
+.gitignore
+<code class="lang-text">.env
+node_modules</code>
+</pre>
+
+<pre>
+blog.11tydata.js
+<code class="lang-js">require('dotenv').config();
+
+const isDevEnv = process.env.ELEVENTY_ENV === 'development';
+const todaysDate = new Date();
+
+function showDraft(data) {
+	const isDraft = 'draft' in data && data.draft !== false;
+	const isFutureDate = data.page.date > todaysDate;
+	return isDevEnv || (!isDraft && !isFutureDate);
+}
+
+module.exports = ()=> {
+	return {
+		eleventyComputed: {
+			eleventyExcludeFromCollections: data => showDraft(data) ? data.eleventyExcludeFromCollections : true,
+			permalink: data => showDraft(data) ? data.permalink : false,
+		}
+	}
+}</code>
+</pre>
+
+<pre>
+drafts.11tydata.js
+<code class="lang-js">require('dotenv').config();
+
+const isDevEnv = process.env.ELEVENTY_ENV === 'development';
+
+module.exports = ()=> {
+	return {
+		eleventyComputed: {
+			eleventyExcludeFromCollections: data => isDevEnv ? data.eleventyExcludeFromCollections : true,
+			permalink: data => {
+				if(!isDevEnv) { return false; }
+				return data.permalink !== '' ? data.permalink : data.page.filePathStem.replace('/drafts/', '/blog/') + '/';
+			}
+		}
+	}
+}</code>
+</pre>
+
+<pre>
+post.md
+<code class="lang-yaml">---
+draft: true
+---</code>
+</pre>
 
 
 
-
-### TL;DR
-
-
-
-### Further Reading
+## Further Reading
+- [Permalinks documentation](https://www.11ty.dev/docs/permalinks/)
+- [Collections documentation](https://www.11ty.dev/docs/collections/)
+- [Computed data documentation](https://www.11ty.dev/docs/data-computed/)
+- [Data cascade documentation](https://www.11ty.dev/docs/data-cascade/)
+- [Directory specific data files documentation](https://www.11ty.dev/docs/data-template-dir/)
