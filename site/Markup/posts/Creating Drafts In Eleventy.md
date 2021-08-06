@@ -1,5 +1,5 @@
 ---
-
+date: 2021-08-06 13:39:37
 ---
 Several static site generators and content management systems have built in functionality to mark posts as drafts. Eleventy (11ty) isn't one of these but fortunately it is possible to implement.
 
