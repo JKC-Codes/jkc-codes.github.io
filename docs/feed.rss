@@ -1,11 +1,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
 	<channel>
-		<title>John Kemp-Cruz</title>
+		<title>RSS feed for John Kemp-Cruz</title>
 		<link>https://jkc.codes/</link>
 		<description>Where John writes about web development</description>
 		<language>en-GB</language>
-		<pubDate>Thu, 01 Jul 2021 18:30:47 +0000</pubDate>
-		<lastBuildDate>Thu, 01 Jul 2021 18:30:47 +0000</lastBuildDate>
+		<pubDate>Fri, 06 Aug 2021 13:39:37 +0000</pubDate>
+		<lastBuildDate>Fri, 06 Aug 2021 13:39:37 +0000</lastBuildDate>
 		<image>
 			<url>https://jkc.codes/img/site/icon-site-128x128.png</url>
 			<title>John Kemp-Cruz</title>
@@ -15,9 +15,228 @@
 		</image>
 		<atom:link href="https://jkc.codes/feed.rss" rel="self" type="application/rss+xml"/>
 		<item>
+			<title>Creating Drafts In Eleventy</title>
+			<link>https://jkc.codes/blog/creating-drafts-in-eleventy/</link>
+			<description>&lt;p&gt;&lt;small&gt;(About &lt;time datetime="PT568S"&gt;9 minutes&lt;/time&gt; to read)&lt;/small&gt;&lt;/p&gt;
+&lt;p&gt;Several static site generators and content management systems have built in functionality to mark posts as drafts. Eleventy (11ty) isn&#39;t one of these but fortunately it is possible to implement.&lt;/p&gt;
+&lt;p&gt;The core concept is to use two &lt;a href=&quot;https://www.11ty.dev/docs/data-frontmatter/&quot;&gt;front matter&lt;/a&gt; &lt;a href=&quot;https://www.11ty.dev/docs/data-configuration/&quot;&gt;keys&lt;/a&gt; — &lt;a href=&quot;https://www.11ty.dev/docs/permalinks/&quot;&gt;&lt;code&gt;permalink&lt;/code&gt;&lt;/a&gt; and &lt;a href=&quot;https://www.11ty.dev/docs/collections/#option-exclude-content-from-collections&quot;&gt;&lt;code&gt;eleventyExcludeFromCollections&lt;/code&gt;&lt;/a&gt; — to hide pages from users and then &lt;a href=&quot;https://www.11ty.dev/docs/data-computed/&quot;&gt;computed data&lt;/a&gt; with environment variables to automatically toggle visibility depending on the environment.&lt;/p&gt;
+&lt;h2&gt;What Functionality Is Needed?&lt;/h2&gt;
+&lt;h3&gt;The &lt;code&gt;permalink&lt;/code&gt; key&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;permalink&lt;/code&gt; front matter key controls where a file is built to. More practically, it dictates what the URL will be for the page.&lt;/p&gt;
+&lt;p&gt;When we don&#39;t want to create files for drafts or give them a URL, &lt;code&gt;permalink&lt;/code&gt; should be set to &lt;code&gt;false&lt;/code&gt;. To quote the &lt;a href=&quot;https://www.11ty.dev/docs/permalinks/#permalink-false&quot;&gt;Eleventy permalink docs&lt;/a&gt;: &lt;q cite=&quot;https://www.11ty.dev/docs/permalinks/#permalink-false&quot;&gt;If you set the &lt;code&gt;permalink&lt;/code&gt; value to be &lt;code&gt;false&lt;/code&gt;, this will disable writing the file to disk in your output folder. The file will still be processed normally (and present in collections, with its &lt;a href=&quot;https://www.11ty.dev/docs/data-eleventy-supplied/&quot;&gt;url and outputPath properties&lt;/a&gt; set to &lt;code&gt;false&lt;/code&gt;) but will not be available in your output directory as a standalone template.&lt;/q&gt;&lt;/p&gt;
+&lt;p&gt;We don&#39;t want the file to still be present in collections though, that&#39;s where &lt;code&gt;eleventyExcludeFromCollections&lt;/code&gt; comes in.&lt;/p&gt;
+&lt;h3&gt;The &lt;code&gt;eleventyExcludeFromCollections&lt;/code&gt; key&lt;/h3&gt;
+&lt;p&gt;The &lt;code&gt;eleventyExcludeFromCollections&lt;/code&gt; front matter key does what it says — it excludes pages from &lt;a href=&quot;https://www.11ty.dev/docs/collections/&quot;&gt;collections&lt;/a&gt;. Collections are sets of data from related content that can be used to create dynamic pages such as RSS feeds, site maps or blog post lists.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;eleventyExcludeFromCollections&lt;/code&gt; should be set to &lt;code&gt;true&lt;/code&gt; to hide drafts from lists created from collections. To quote the &lt;a href=&quot;https://www.11ty.dev/docs/collections/#option-exclude-content-from-collections&quot;&gt;Eleventy collection docs&lt;/a&gt;: &lt;q cite=&quot;https://www.11ty.dev/docs/collections/#option-exclude-content-from-collections&quot;&gt;In front matter (or further upstream in the data cascade), set the &lt;code&gt;eleventyExcludeFromCollections&lt;/code&gt; option to &lt;code&gt;true&lt;/code&gt; to opt out of specific pieces of content added to all collections (including &lt;code&gt;collections.all&lt;/code&gt;, collections set using tags, or collections added from the Configuration API in your config file). Useful for your RSS feed, &lt;code&gt;sitemap.xml&lt;/code&gt;, custom templated &lt;code&gt;.htaccess&lt;/code&gt; files, et cetera.&lt;/q&gt;&lt;/p&gt;
+&lt;p&gt;Pages can be hidden on demand by combining &lt;code&gt;permalink&lt;/code&gt; and &lt;code&gt;eleventyExcludeFromCollections&lt;/code&gt; but what we really want is for them to only be hidden in live production sites so we can continue to test locally. Computed data lets us do that.&lt;/p&gt;
+&lt;h3&gt;Computed Data&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.11ty.dev/docs/data-computed/&quot;&gt;Computed data&lt;/a&gt; allows modification of front matter values dynamically based on passed in data from the page, front matter or elsewhere. Front matter is usually static but with computed data we can check whether the &lt;code&gt;permalink&lt;/code&gt; and &lt;code&gt;eleventyExcludeFromCollections&lt;/code&gt; keys need to be toggled based on whether we&#39;re working locally or building our site for production.&lt;/p&gt;
+&lt;h3&gt;Environment Variables&lt;/h3&gt;
+&lt;p&gt;Environment variables aren&#39;t an Eleventy specific feature so I won&#39;t be covering them in any detail but in short they provide a global variable which we can toggle depending on where your code is running.&lt;/p&gt;
+&lt;p&gt;We will be using the &lt;a href=&quot;https://www.npmjs.com/package/dotenv&quot;&gt;dotenv NPM package&lt;/a&gt; because it provides a consistent and easy set up across operating systems.&lt;/p&gt;
+&lt;h2&gt;How To Create Drafts&lt;/h2&gt;
+&lt;p&gt;There are three ways popularised by Jekyll to handle drafts which I&#39;ll cover:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Using draft keys in front matter&lt;/li&gt;
+&lt;li&gt;Setting a future date&lt;/li&gt;
+&lt;li&gt;Using a draft folder&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I&#39;ll be focusing on blog posts here but these methods can be used on any type of page as long as there&#39;s front matter somewhere in the &lt;a href=&quot;https://www.11ty.dev/docs/data-cascade/&quot;&gt;data cascade&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;Set Up Your Environment&lt;/h3&gt;
+&lt;p&gt;The following steps assume that you&#39;re building your site on a server using a service like Netlify.&lt;/p&gt;
+&lt;p&gt;First, install dotenv using &lt;code&gt;npm i dotenv&lt;/code&gt; in the command line.&lt;/p&gt;
+&lt;p&gt;Next, create a &lt;code&gt;.env&lt;/code&gt; file in your root directory (the same folder as &lt;code&gt;package.json&lt;/code&gt;) and add the following inside the file:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;ELEVENTY_ENV=development&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This is gives us a global variable &amp;quot;ELEVENTY_ENV&amp;quot; with the value &amp;quot;development&amp;quot; we can import into files later.&lt;/p&gt;
+&lt;p&gt;Finally, we need to prevent sending the &lt;code&gt;.env&lt;/code&gt; file to the server so that it doesn&#39;t think it&#39;s in a development environment. Do this by adding your &lt;code&gt;.env&lt;/code&gt; file to your &lt;code&gt;.gitignore&lt;/code&gt; file (create one in your root folder if it doesn&#39;t exist):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;.env
+node_modules&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With environment variables set up we can start using them in computed data.&lt;/p&gt;
+&lt;h3&gt;Using Draft Keys Or A Future Date In Front Matter&lt;/h3&gt;
+&lt;p&gt;The goal here is to either:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Set a &lt;code&gt;draft&lt;/code&gt; key to &lt;code&gt;true&lt;/code&gt; or &lt;code&gt;false&lt;/code&gt; in the front matter of a page to determine whether it&#39;s hidden or not; or&lt;/li&gt;
+&lt;li&gt;Set a &lt;a href=&quot;https://www.11ty.dev/docs/dates/&quot;&gt;&lt;code&gt;date&lt;/code&gt; key&lt;/a&gt; in the front matter of a page to a future date and only show that page if a build is triggered on or after that date&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&quot;language-yaml&quot;&gt;---
+date: 2150-12-31
+draft: true
+// Other front matter
+---
+// Page content&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To do so we&#39;ll need to add a &lt;a href=&quot;https://www.11ty.dev/docs/data-template-dir/&quot;&gt;directory specific data file&lt;/a&gt; which allows us to add the same front matter to all files in a folder:&lt;/p&gt;
+&lt;pre&gt;
+blog
+	|- blog.11tydata.js
+	|- first-post.md
+	|- second-post.md
+	|- third-post.md
+&lt;/pre&gt;
+&lt;p&gt;I&#39;ve used &lt;code&gt;blog.11tydata.js&lt;/code&gt; here as it&#39;s in the blog folder. If you&#39;re using a different folder name replace &amp;quot;blog&amp;quot; in the file name for the folder&#39;s name.&lt;/p&gt;
+&lt;p&gt;Inside of the 11tydata.js file we&#39;ll export our front matter data:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;require(&#39;dotenv&#39;).config();
+
+const isDevEnv = process.env.ELEVENTY_ENV === &#39;development&#39;;
+const todaysDate = new Date();
+
+function showDraft(data) {
+	const isDraft = &#39;draft&#39; in data &amp;&amp; data.draft !== false;
+	const isFutureDate = data.page.date &gt; todaysDate;
+	return isDevEnv || (!isDraft &amp;&amp; !isFutureDate);
+}
+
+module.exports = function() {
+	return {
+		eleventyComputed: {
+			eleventyExcludeFromCollections: function(data) {
+				if(showDraft(data)) {
+					return data.eleventyExcludeFromCollections;
+				}
+				else {
+					return true;
+				}
+			},
+			permalink: function(data) {
+				if(showDraft(data)) {
+					return data.permalink
+				}
+				else {
+					return false;
+				}
+			}
+		}
+	}
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On &lt;b&gt;line 1&lt;/b&gt; we&#39;re importing dotenv so we can read the environment variables set in our &lt;code&gt;.env&lt;/code&gt; file from a &lt;code&gt;process.env&lt;/code&gt; object.&lt;/p&gt;
+&lt;p&gt;On &lt;b&gt;line 3&lt;/b&gt; we&#39;re reading the &lt;code&gt;ELEVENTY_ENV&lt;/code&gt; environment variable from the &lt;code&gt;process.env&lt;/code&gt; object and using it to assign a boolean value to an &lt;code&gt;isDevEnv&lt;/code&gt; variable.&lt;/p&gt;
+&lt;p&gt;On &lt;b&gt;line 4&lt;/b&gt; we&#39;re creating a new date object containing today&#39;s date.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Lines 6–10&lt;/b&gt; contain the function which will return a boolean determining whether to show the draft page or not.&lt;/p&gt;
+&lt;p&gt;On &lt;b&gt;line 7&lt;/b&gt; we&#39;re checking if a &lt;code&gt;draft&lt;/code&gt; key has been set to &lt;code&gt;true&lt;/code&gt; in the page&#39;s front matter. Note that using &lt;code class=&quot;lang-js&quot;&gt;const isDraft = data.draft === true;&lt;/code&gt; would also work but because of type coercion any typos would assume that the page is not a draft. By explicitly checking for a draft key and that it isn&#39;t set to false we can be sure it&#39;s meant to be public.&lt;/p&gt;
+&lt;p&gt;On &lt;b&gt;line 8&lt;/b&gt; we&#39;re checking the front matter date against today&#39;s date from line 4 to see if it&#39;s greater than today&#39;s date.&lt;/p&gt;
+&lt;p&gt;On &lt;b&gt;line 9&lt;/b&gt; we&#39;re using the &lt;code&gt;isDevEnv&lt;/code&gt; variable from line 3, the &lt;code&gt;isDraft&lt;/code&gt; result from line 7 and the &lt;code&gt;isFutureDate&lt;/code&gt; variable from line 8 to return a boolean result confirming whether the page should be shown or not.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Lines 12–33&lt;/b&gt; are exporting our front matter data for Eleventy to use in its data cascade. The &lt;code&gt;eleventyComputed&lt;/code&gt; key is the only key I&#39;m including here but you can add other front matter keys such as &lt;code&gt;tags&lt;/code&gt; in the return object if you need to.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Lines 15–22 and 23–30&lt;/b&gt; are where we&#39;re determining the &lt;code&gt;eleventyExcludeFromCollections&lt;/code&gt; and &lt;code&gt;permalink&lt;/code&gt; values based on the result of the &lt;code&gt;showDraft&lt;/code&gt; function being passed &lt;a href=&quot;https://www.11ty.dev/docs/data-eleventy-supplied/&quot;&gt;data supplied by Eleventy&lt;/a&gt;. If the &lt;code&gt;showDraft&lt;/code&gt; function from line 6 returns true, we&#39;re using the existing values but if it returns false we&#39;re overriding the existing values to true and false to exclude the page from collections and prevent the page being built respectively.&lt;/p&gt;
+&lt;h3&gt;Using A Draft Folder&lt;/h3&gt;
+&lt;p&gt;The goal here is to be able to move files in and out of a drafts folder to hide or show them. To do so we&#39;ll need to add a &lt;a href=&quot;https://www.11ty.dev/docs/data-template-dir/&quot;&gt;directory specific data file&lt;/a&gt; to the drafts folder so the same front matter is added to all files in that folder:&lt;/p&gt;
+&lt;pre&gt;
+blog
+	|- first-post.md
+	|- second-post.md
+drafts
+	|- drafts.11tydata.js
+	|- third-post.md
+&lt;/pre&gt;
+&lt;p&gt;I&#39;ve used &lt;code&gt;drafts.11tydata.js&lt;/code&gt; here as it&#39;s in the drafts folder. If you&#39;re using a different folder name replace &amp;quot;drafts&amp;quot; in the file name for the folder&#39;s name.&lt;/p&gt;
+&lt;p&gt;Inside of the 11tydata.js file we&#39;ll export our front matter data:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-js&quot;&gt;require(&#39;dotenv&#39;).config();
+
+const isDevEnv = process.env.ELEVENTY_ENV === &#39;development&#39;;
+
+module.exports = function() {
+	return {
+		eleventyComputed: {
+			eleventyExcludeFromCollections: function(data) {
+				if(isDevEnv) {
+					return data.eleventyExcludeFromCollections;
+				}
+				else {
+					return true;
+				}
+			},
+			permalink: function(data) {
+				if(!isDevEnv) {
+					return false;
+				}
+				else if(data.permalink !== &#39;&#39;) {
+					return data.permalink;
+				}
+				else {
+					return data.page.filePathStem.replace(&#39;/drafts/&#39;, &#39;/blog/&#39;) + &#39;/&#39;;
+				}
+			}
+		}
+	}
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On &lt;b&gt;line 1&lt;/b&gt; we&#39;re importing dotenv so we can read the environment variables set in our &lt;code&gt;.env&lt;/code&gt; file from a &lt;code&gt;process.env&lt;/code&gt; object.&lt;/p&gt;
+&lt;p&gt;On &lt;b&gt;line 3&lt;/b&gt; we&#39;re reading the &lt;code&gt;ELEVENTY_ENV&lt;/code&gt; environment variable from the &lt;code&gt;process.env&lt;/code&gt; object and using it to assign a boolean value to an &lt;code&gt;isDevEnv&lt;/code&gt; variable.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Lines 5–29&lt;/b&gt; are exporting our front matter data for Eleventy to use in its data cascade. The &lt;code&gt;eleventyComputed&lt;/code&gt; key is the only key I&#39;m including here but you can add other front matter keys such as &lt;code&gt;tags&lt;/code&gt; in the return object if you need to.&lt;/p&gt;
+&lt;p&gt;&lt;b&gt;Lines 8–15 and 16–26&lt;/b&gt; are where we&#39;re determining the &lt;code&gt;eleventyExcludeFromCollections&lt;/code&gt; and &lt;code&gt;permalink&lt;/code&gt; values based on &lt;code&gt;isDevEnv&lt;/code&gt; from line 3.&lt;/p&gt;
+&lt;p&gt;On &lt;b&gt;lines 9–14&lt;/b&gt; we&#39;re returning the existing &lt;code&gt;eleventyExcludeFromCollections&lt;/code&gt; value if we&#39;re in a development environment or true if we&#39;re not.&lt;/p&gt;
+&lt;p&gt;On &lt;b&gt;lines 17–19&lt;/b&gt; we&#39;re checking if we&#39;re in a development environment and setting the &lt;code&gt;permalink&lt;/code&gt; key to &lt;code&gt;false&lt;/code&gt; if we&#39;re not.&lt;/p&gt;
+&lt;p&gt;On &lt;b&gt;lines 20–22&lt;/b&gt; we&#39;re checking if a permalink has been explicitly set in the front matter and using it if so.&lt;/p&gt;
+&lt;p&gt;On &lt;b&gt;lines 23–25&lt;/b&gt; we&#39;re modifying the page&#39;s default permalink so that the &amp;quot;drafts&amp;quot; part of the path is replaced by &amp;quot;blog&amp;quot;. Instead of &amp;quot;/drafts/third-post/&amp;quot; we&#39;ll output &amp;quot;/blog/third-post/&amp;quot;. Note that &lt;a href=&quot;https://www.11ty.dev/docs/permalinks/#remapping-output-(permalink)&quot;&gt;adding the trailing slash on the end is important&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;p&gt;The &lt;code&gt;permalink&lt;/code&gt; and &lt;code&gt;eleventyExcludeFromCollections&lt;/code&gt; front matter keys allow us to create drafts in Eleventy:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-yaml&quot;&gt;---
+permalink: false
+eleventyExcludeFromCollections: true
+---&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;By leveraging computed data and environment variables we can replicate Jekyll&#39;s draft behaviour:&lt;/p&gt;
+&lt;pre&gt;Command line
+&lt;code class=&quot;lang-shell&quot;&gt;npm i dotenv&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;.env
+&lt;code class=&quot;lang-text&quot;&gt;ELEVENTY_ENV=development&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;.gitignore
+&lt;code class=&quot;lang-text&quot;&gt;.env
+node_modules&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;blog.11tydata.js
+&lt;code class=&quot;lang-js&quot;&gt;require(&#39;dotenv&#39;).config();
+
+const isDevEnv = process.env.ELEVENTY_ENV === &#39;development&#39;;
+const todaysDate = new Date();
+
+function showDraft(data) {
+	const isDraft = &#39;draft&#39; in data &amp;&amp; data.draft !== false;
+	const isFutureDate = data.page.date &gt; todaysDate;
+	return isDevEnv || (!isDraft &amp;&amp; !isFutureDate);
+}
+
+module.exports = ()=&gt; {
+	return {
+		eleventyComputed: {
+			eleventyExcludeFromCollections: data =&gt; showDraft(data) ? data.eleventyExcludeFromCollections : true,
+			permalink: data =&gt; showDraft(data) ? data.permalink : false,
+		}
+	}
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;drafts.11tydata.js
+&lt;code class=&quot;lang-js&quot;&gt;require(&#39;dotenv&#39;).config();
+
+const isDevEnv = process.env.ELEVENTY_ENV === &#39;development&#39;;
+
+module.exports = ()=&gt; {
+	return {
+		eleventyComputed: {
+			eleventyExcludeFromCollections: data =&gt; isDevEnv ? data.eleventyExcludeFromCollections : true,
+			permalink: data =&gt; {
+				if(!isDevEnv) { return false; }
+				return data.permalink !== &#39;&#39; ? data.permalink : data.page.filePathStem.replace(&#39;/drafts/&#39;, &#39;/blog/&#39;) + &#39;/&#39;;
+			}
+		}
+	}
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;post.md
+&lt;code class=&quot;lang-yaml&quot;&gt;---
+draft: true
+---&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Further Reading&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/permalinks/&quot;&gt;Permalinks documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/collections/&quot;&gt;Collections documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/data-computed/&quot;&gt;Computed data documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/data-cascade/&quot;&gt;Data cascade documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/data-template-dir/&quot;&gt;Directory specific data files documentation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+			<guid>https://jkc.codes/blog/creating-drafts-in-eleventy/</guid>
+			<pubDate>Fri, 06 Aug 2021 13:39:37 +0000</pubDate>
+			<dc:creator>John Kemp-Cruz</dc:creator>
+		</item>
+		<item>
 			<title>Building A Robust Toggle Menu</title>
 			<link>https://jkc.codes/blog/building-a-robust-toggle-menu/</link>
-			<description>&lt;p&gt;I recently noticed that my site&#39;s speed index had shot up dramatically on the &lt;a href=&quot;https://www.11ty.dev/speedlify/&quot;&gt;Eleventy leaderboards&lt;/a&gt; and managed to track the issue down to my mobile navigation menu. I was deliberately leaving the menu open until JavaScript kicked in to keep it accessible but this had the unfortunate side effect of it always being briefly visible at each page load.&lt;/p&gt;
+			<description>&lt;p&gt;&lt;small&gt;(About &lt;time datetime="PT500S"&gt;8 minutes&lt;/time&gt; to read)&lt;/small&gt;&lt;/p&gt;
+&lt;p&gt;I recently noticed that my site&#39;s speed index had shot up dramatically on the &lt;a href=&quot;https://www.11ty.dev/speedlify/&quot;&gt;Eleventy leaderboards&lt;/a&gt; and managed to track the issue down to my mobile navigation menu. I was deliberately leaving the menu open until JavaScript kicked in to keep it accessible but this had the unfortunate side effect of it always being briefly visible at each page load.&lt;/p&gt;
 &lt;p&gt;Here&#39;s the thought process I went through when fixing it so that it doesn&#39;t affect my site&#39;s speed index or layout shift but still remains usable even if CSS and/or JavaScript fail.&lt;/p&gt;
 &lt;h2&gt;The Problem&lt;/h2&gt;
 &lt;p&gt;My website has always been built with progressive enhancement and graceful degradation in mind. The goal of these two concepts is to ensure that your content is always available no matter the device or connection viewers use.&lt;/p&gt;
@@ -121,7 +340,8 @@ input + ul {
 		<item>
 			<title>Using SASS With Eleventy</title>
 			<link>https://jkc.codes/blog/using-sass-with-eleventy/</link>
-			<description>&lt;p&gt;&lt;a href=&quot;https://www.11ty.dev/&quot;&gt;Eleventy (11ty)&lt;/a&gt; is a super customisable static site generator that at its core transforms template language into HTML. However, template languages like Liquid and Nunjucks are designed to output HTML rather than CSS so how does Eleventy handle styling?&lt;/p&gt;
+			<description>&lt;p&gt;&lt;small&gt;(About &lt;time datetime="PT296S"&gt;5 minutes&lt;/time&gt; to read)&lt;/small&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.11ty.dev/&quot;&gt;Eleventy (11ty)&lt;/a&gt; is a super customisable static site generator that at its core transforms template language into HTML. However, template languages like Liquid and Nunjucks are designed to output HTML rather than CSS so how does Eleventy handle styling?&lt;/p&gt;
 &lt;p&gt;Let me show you how I compile SASS automatically and display the output on a local server without triggering a build from Eleventy or refreshing the browser.&lt;/p&gt;
 &lt;p&gt;If you haven&#39;t already, you&#39;ll need to install &lt;a href=&quot;https://nodejs.org/&quot;&gt;Node&lt;/a&gt;, create a package.json file by typing &lt;code&gt;npm init&lt;/code&gt; in the command line and then run &lt;code&gt;npm i @11ty/eleventy&lt;/code&gt;.&lt;/p&gt;
 &lt;h2&gt;Transform SCSS Files&lt;/h2&gt;

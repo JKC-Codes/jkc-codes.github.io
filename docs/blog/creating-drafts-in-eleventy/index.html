@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Creating Drafts In Eleventy — John Kemp-Cruz</title>
+<link rel="stylesheet" href="/css/site.css">
+<link rel="stylesheet" href="/css/post.css">
+<script src="/js/site.js" defer></script>
+<link rel="canonical" href="https://jkc.codes/blog/creating-drafts-in-eleventy/">
+<link rel="alternate" href="https://jkc.codes/feed.atom" type="application/atom+xml" title="Atom feed for John Kemp-Cruz's blog">
+<link rel="alternate" href="https://jkc.codes/feed.json" type="application/feed+json" title="JSON feed for John Kemp-Cruz's blog">
+<link rel="alternate" href="https://jkc.codes/feed.rss" type="application/rss+xml" title="RSS feed for John Kemp-Cruz's blog">
+<link rel="icon" href="/img/site/icon-site-16x16.png" type="image/png" sizes="16x16">
+<link rel="icon" href="/img/site/icon-site-32x32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="/img/site/icon-site.svg" type="image/svg+xml" sizes="any">
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#203060">
+<meta name="author" content="John Kemp-Cruz">
+<meta name="description" content="Several static site generators and content management systems have built in functionality to mark posts as drafts. Eleventy (11ty) isn't one of these…">
+<meta property="og:title" content="Creating Drafts In Eleventy">
+<meta property="og:type" content="article">
+<meta property="og:article:author" content="John Kemp-Cruz">
+<meta property="og:image" content="/img/site/icon-site-512x512.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="512">
+<meta property="og:image:height" content="512">
+<meta property="og:image:alt" content="JKC on space cadet blue background">
+<meta property="og:url" content="https://jkc.codes/blog/creating-drafts-in-eleventy/">
+<meta property="og:description" content="Several static site generators and content management systems have built in functionality to mark posts as drafts. Eleventy (11ty) isn't one of these…">
+<meta property="og:locale" content="en-GB">
+<meta property="og:site_name" content="John Kemp-Cruz">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@jkc_codes">
+<meta name="twitter:creator" content="@jkc_codes">
+<meta name="twitter:image:alt" content="JKC on space cadet blue background">
+<script type="application/ld+json">
+{
+			"@context": "http://schema.org",
+			"@type": "Person",
+			"address": {
+				"@type": "PostalAddress",
+				"addressCountry": "GB",
+				"addressLocality": "London"
+			},
+			"jobTitle": "Front-end web developer",
+			"name": "John Kemp-Cruz",
+			"url": "https://jkc.codes/"
+		}
+</script>
+<link rel="stylesheet" href="/css/syntax.css"></head>
+<body>
+<div id="site-container">
+<header id="site-header">
+<a href="#site-main" class="skip-to-content">Skip to main content</a>
+<nav class="navigation">
+<input class="menu-checkbox js-site-nav-input" type="checkbox" id="site-nav-menu-checkbox" hidden>
+<label class="menu-button js-site-nav-button" for="site-nav-menu-checkbox" hidden>
+<svg class="menu-button-icon" width="48" height="48" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+<rect class="line-top-left" x="0" y="0" width="60" height="20"></rect>
+<rect class="line-top-right" x="40" y="0" width="60" height="20"></rect>
+<rect class="line-mid-left" x="0" y="40" width="60" height="20"></rect>
+<rect class="line-mid-right" x="40" y="40" width="60" height="20"></rect>
+<rect class="line-bottom-left" x="0" y="80" width="60" height="20"></rect>
+<rect class="line-bottom-right" x="40" y="80" width="60" height="20"></rect>
+</svg><span class="menu-button-text js-site-nav-button-text">Open menu</span>
+</label>
+<ul class="navigation-links prevent-transition js-site-nav-menu" id="site-nav-menu" tabindex="-1">
+<li><a class="navigation-name" href="/">John Kemp-Cruz</a></li>
+<li><a href="/blog/"><img src="/img/site/icon-blog.svg" alt="" width="40" height="40">Blog</a></li>
+<li><a href="/#projects"><img src="/img/site/icon-projects.svg" alt="" width="40" height="40">Projects</a></li>
+<li><a href="https://github.com/JKC-Codes" rel="me"><img src="/img/site/icon-github.svg" alt="" width="40" height="40">GitHub</a></li>
+<li><a href="https://twitter.com/jkc_codes" rel="me"><img src="/img/site/icon-twitter.svg" alt="" width="40" height="40">Twitter</a></li>
+<li><a href="https://www.linkedin.com/in/johnkempcruz" rel="me"><img src="/img/site/icon-linkedin.svg" alt="" width="40" height="40">LinkedIn</a></li>
+</ul>
+</nav>
+</header>
+<main id="site-main" class="h-entry">
+<header id="header">
+<h1 id="page-heading" class="p-name">Creating Drafts In Eleventy</h1>
+<p class="reading-time"><img class="clock" src="/img/blog/clock.svg" alt="" width="13" height="13" hidden>About <time datetime="PT568S">9 minutes</time> to read</p>
+</header>
+<div class="e-content">
+<p>Several static site generators and content management systems have built in functionality to mark posts as drafts. Eleventy (11ty) isn't one of these but fortunately it is possible to implement.</p>
+<p>The core concept is to use two <a href="https://www.11ty.dev/docs/data-frontmatter/">front matter</a> <a href="https://www.11ty.dev/docs/data-configuration/">keys</a> — <a href="https://www.11ty.dev/docs/permalinks/"><code>permalink</code></a> and <a href="https://www.11ty.dev/docs/collections/#option-exclude-content-from-collections"><code>eleventyExcludeFromCollections</code></a> — to hide pages from users and then <a href="https://www.11ty.dev/docs/data-computed/">computed data</a> with environment variables to automatically toggle visibility depending on the environment.</p>
+<h2>What Functionality Is Needed?</h2>
+<h3>The <code>permalink</code> key</h3>
+<p>The <code>permalink</code> front matter key controls where a file is built to. More practically, it dictates what the URL will be for the page.</p>
+<p>When we don't want to create files for drafts or give them a URL, <code>permalink</code> should be set to <code>false</code>. To quote the <a href="https://www.11ty.dev/docs/permalinks/#permalink-false">Eleventy permalink docs</a>: <q cite="https://www.11ty.dev/docs/permalinks/#permalink-false">If you set the <code>permalink</code> value to be <code>false</code>, this will disable writing the file to disk in your output folder. The file will still be processed normally (and present in collections, with its <a href="https://www.11ty.dev/docs/data-eleventy-supplied/">url and outputPath properties</a> set to <code>false</code>) but will not be available in your output directory as a standalone template.</q></p>
+<p>We don't want the file to still be present in collections though, that's where <code>eleventyExcludeFromCollections</code> comes in.</p>
+<h3>The <code>eleventyExcludeFromCollections</code> key</h3>
+<p>The <code>eleventyExcludeFromCollections</code> front matter key does what it says — it excludes pages from <a href="https://www.11ty.dev/docs/collections/">collections</a>. Collections are sets of data from related content that can be used to create dynamic pages such as RSS feeds, site maps or blog post lists.</p>
+<p><code>eleventyExcludeFromCollections</code> should be set to <code>true</code> to hide drafts from lists created from collections. To quote the <a href="https://www.11ty.dev/docs/collections/#option-exclude-content-from-collections">Eleventy collection docs</a>: <q cite="https://www.11ty.dev/docs/collections/#option-exclude-content-from-collections">In front matter (or further upstream in the data cascade), set the <code>eleventyExcludeFromCollections</code> option to <code>true</code> to opt out of specific pieces of content added to all collections (including <code>collections.all</code>, collections set using tags, or collections added from the Configuration API in your config file). Useful for your RSS feed, <code>sitemap.xml</code>, custom templated <code>.htaccess</code> files, et cetera.</q></p>
+<p>Pages can be hidden on demand by combining <code>permalink</code> and <code>eleventyExcludeFromCollections</code> but what we really want is for them to only be hidden in live production sites so we can continue to test locally. Computed data lets us do that.</p>
+<h3>Computed Data</h3>
+<p><a href="https://www.11ty.dev/docs/data-computed/">Computed data</a> allows modification of front matter values dynamically based on passed in data from the page, front matter or elsewhere. Front matter is usually static but with computed data we can check whether the <code>permalink</code> and <code>eleventyExcludeFromCollections</code> keys need to be toggled based on whether we're working locally or building our site for production.</p>
+<h3>Environment Variables</h3>
+<p>Environment variables aren't an Eleventy specific feature so I won't be covering them in any detail but in short they provide a global variable which we can toggle depending on where your code is running.</p>
+<p>We will be using the <a href="https://www.npmjs.com/package/dotenv">dotenv NPM package</a> because it provides a consistent and easy set up across operating systems.</p>
+<h2>How To Create Drafts</h2>
+<p>There are three ways popularised by Jekyll to handle drafts which I'll cover:</p>
+<ul>
+<li>Using draft keys in front matter</li>
+<li>Setting a future date</li>
+<li>Using a draft folder</li>
+</ul>
+<p>I'll be focusing on blog posts here but these methods can be used on any type of page as long as there's front matter somewhere in the <a href="https://www.11ty.dev/docs/data-cascade/">data cascade</a>.</p>
+<h3>Set Up Your Environment</h3>
+<p>The following steps assume that you're building your site on a server using a service like Netlify.</p>
+<p>First, install dotenv using <code>npm i dotenv</code> in the command line.</p>
+<p>Next, create a <code>.env</code> file in your root directory (the same folder as <code>package.json</code>) and add the following inside the file:</p>
+<pre class="language-text line-numbers"><code class="language-text line-numbers"><span class="token line-number" aria-hidden="true"></span>ELEVENTY_ENV=development</code></pre>
+<p>This is gives us a global variable &quot;ELEVENTY_ENV&quot; with the value &quot;development&quot; we can import into files later.</p>
+<p>Finally, we need to prevent sending the <code>.env</code> file to the server so that it doesn't think it's in a development environment. Do this by adding your <code>.env</code> file to your <code>.gitignore</code> file (create one in your root folder if it doesn't exist):</p>
+<pre class="language-text line-numbers"><code class="language-text line-numbers"><span class="token line-number" aria-hidden="true"></span>.env
+<span class="token line-number" aria-hidden="true"></span>node_modules</code></pre>
+<p>With environment variables set up we can start using them in computed data.</p>
+<h3>Using Draft Keys Or A Future Date In Front Matter</h3>
+<p>The goal here is to either:</p>
+<ul>
+<li>Set a <code>draft</code> key to <code>true</code> or <code>false</code> in the front matter of a page to determine whether it's hidden or not; or</li>
+<li>Set a <a href="https://www.11ty.dev/docs/dates/"><code>date</code> key</a> in the front matter of a page to a future date and only show that page if a build is triggered on or after that date</li>
+</ul>
+<pre class="language-yaml line-numbers"><code class="language-yaml line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token punctuation">---</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token key atrule">date</span><span class="token punctuation">:</span> <span class="token datetime number">2150-12-31</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token key atrule">draft</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+<span class="token line-number" aria-hidden="true"></span>// Other front matter
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">---</span>
+<span class="token line-number" aria-hidden="true"></span>// Page content</code></pre>
+<p>To do so we'll need to add a <a href="https://www.11ty.dev/docs/data-template-dir/">directory specific data file</a> which allows us to add the same front matter to all files in a folder:</p>
+<pre>
+blog
+	|- blog.11tydata.js
+	|- first-post.md
+	|- second-post.md
+	|- third-post.md
+</pre>
+<p>I've used <code>blog.11tydata.js</code> here as it's in the blog folder. If you're using a different folder name replace &quot;blog&quot; in the file name for the folder's name.</p>
+<p>Inside of the 11tydata.js file we'll export our front matter data:</p>
+<pre class="language-js line-numbers"><code class="language-js line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'dotenv'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>
+<span class="token line-number" aria-hidden="true"></span><span class="token keyword">const</span> isDevEnv <span class="token operator">=</span> process<span class="token punctuation">.</span><span class="token property-access">env</span><span class="token punctuation">.</span><span class="token constant">ELEVENTY_ENV</span> <span class="token operator">===</span> <span class="token string">'development'</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token keyword">const</span> todaysDate <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>
+<span class="token line-number" aria-hidden="true"></span><span class="token keyword">function</span> <span class="token function">showDraft</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token keyword">const</span> isDraft <span class="token operator">=</span> <span class="token string">'draft'</span> <span class="token keyword">in</span> data <span class="token operator">&amp;&amp;</span> data<span class="token punctuation">.</span><span class="token property-access">draft</span> <span class="token operator">!==</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token keyword">const</span> isFutureDate <span class="token operator">=</span> data<span class="token punctuation">.</span><span class="token property-access">page</span><span class="token punctuation">.</span><span class="token property-access">date</span> <span class="token operator">></span> todaysDate<span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token keyword control-flow">return</span> isDevEnv <span class="token operator">||</span> <span class="token punctuation">(</span><span class="token operator">!</span>isDraft <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>isFutureDate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>
+<span class="token line-number" aria-hidden="true"></span>module<span class="token punctuation">.</span><span class="token method-variable function-variable method function property-access">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>		eleventyComputed<span class="token operator">:</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>			<span class="token function-variable function">eleventyExcludeFromCollections</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token keyword control-flow">if</span><span class="token punctuation">(</span><span class="token function">showDraft</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>					<span class="token keyword control-flow">return</span> data<span class="token punctuation">.</span><span class="token property-access">eleventyExcludeFromCollections</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token keyword control-flow">else</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>					<span class="token keyword control-flow">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>			<span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token line-number" aria-hidden="true"></span>			<span class="token function-variable function">permalink</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token keyword control-flow">if</span><span class="token punctuation">(</span><span class="token function">showDraft</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>					<span class="token keyword control-flow">return</span> data<span class="token punctuation">.</span><span class="token property-access">permalink</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token keyword control-flow">else</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>					<span class="token keyword control-flow">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>			<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>		<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span></code></pre>
+<p>On <b>line 1</b> we're importing dotenv so we can read the environment variables set in our <code>.env</code> file from a <code>process.env</code> object.</p>
+<p>On <b>line 3</b> we're reading the <code>ELEVENTY_ENV</code> environment variable from the <code>process.env</code> object and using it to assign a boolean value to an <code>isDevEnv</code> variable.</p>
+<p>On <b>line 4</b> we're creating a new date object containing today's date.</p>
+<p><b>Lines 6–10</b> contain the function which will return a boolean determining whether to show the draft page or not.</p>
+<p>On <b>line 7</b> we're checking if a <code>draft</code> key has been set to <code>true</code> in the page's front matter. Note that using <code class="language-js"><span class="token keyword">const</span> isDraft <span class="token operator">=</span> data<span class="token punctuation">.</span><span class="token property-access">draft</span> <span class="token operator">===</span> <span class="token boolean">true</span><span class="token punctuation">;</span></code> would also work but because of type coercion any typos would assume that the page is not a draft. By explicitly checking for a draft key and that it isn't set to false we can be sure it's meant to be public.</p>
+<p>On <b>line 8</b> we're checking the front matter date against today's date from line 4 to see if it's greater than today's date.</p>
+<p>On <b>line 9</b> we're using the <code>isDevEnv</code> variable from line 3, the <code>isDraft</code> result from line 7 and the <code>isFutureDate</code> variable from line 8 to return a boolean result confirming whether the page should be shown or not.</p>
+<p><b>Lines 12–33</b> are exporting our front matter data for Eleventy to use in its data cascade. The <code>eleventyComputed</code> key is the only key I'm including here but you can add other front matter keys such as <code>tags</code> in the return object if you need to.</p>
+<p><b>Lines 15–22 and 23–30</b> are where we're determining the <code>eleventyExcludeFromCollections</code> and <code>permalink</code> values based on the result of the <code>showDraft</code> function being passed <a href="https://www.11ty.dev/docs/data-eleventy-supplied/">data supplied by Eleventy</a>. If the <code>showDraft</code> function from line 6 returns true, we're using the existing values but if it returns false we're overriding the existing values to true and false to exclude the page from collections and prevent the page being built respectively.</p>
+<h3>Using A Draft Folder</h3>
+<p>The goal here is to be able to move files in and out of a drafts folder to hide or show them. To do so we'll need to add a <a href="https://www.11ty.dev/docs/data-template-dir/">directory specific data file</a> to the drafts folder so the same front matter is added to all files in that folder:</p>
+<pre>
+blog
+	|- first-post.md
+	|- second-post.md
+drafts
+	|- drafts.11tydata.js
+	|- third-post.md
+</pre>
+<p>I've used <code>drafts.11tydata.js</code> here as it's in the drafts folder. If you're using a different folder name replace &quot;drafts&quot; in the file name for the folder's name.</p>
+<p>Inside of the 11tydata.js file we'll export our front matter data:</p>
+<pre class="language-js line-numbers"><code class="language-js line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'dotenv'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>
+<span class="token line-number" aria-hidden="true"></span><span class="token keyword">const</span> isDevEnv <span class="token operator">=</span> process<span class="token punctuation">.</span><span class="token property-access">env</span><span class="token punctuation">.</span><span class="token constant">ELEVENTY_ENV</span> <span class="token operator">===</span> <span class="token string">'development'</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>
+<span class="token line-number" aria-hidden="true"></span>module<span class="token punctuation">.</span><span class="token method-variable function-variable method function property-access">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>		eleventyComputed<span class="token operator">:</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>			<span class="token function-variable function">eleventyExcludeFromCollections</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token keyword control-flow">if</span><span class="token punctuation">(</span>isDevEnv<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>					<span class="token keyword control-flow">return</span> data<span class="token punctuation">.</span><span class="token property-access">eleventyExcludeFromCollections</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token keyword control-flow">else</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>					<span class="token keyword control-flow">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>			<span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token line-number" aria-hidden="true"></span>			<span class="token function-variable function">permalink</span><span class="token operator">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token keyword control-flow">if</span><span class="token punctuation">(</span><span class="token operator">!</span>isDevEnv<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>					<span class="token keyword control-flow">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token keyword control-flow">else</span> <span class="token keyword control-flow">if</span><span class="token punctuation">(</span>data<span class="token punctuation">.</span><span class="token property-access">permalink</span> <span class="token operator">!==</span> <span class="token string">''</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>					<span class="token keyword control-flow">return</span> data<span class="token punctuation">.</span><span class="token property-access">permalink</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token keyword control-flow">else</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>					<span class="token keyword control-flow">return</span> data<span class="token punctuation">.</span><span class="token property-access">page</span><span class="token punctuation">.</span><span class="token property-access">filePathStem</span><span class="token punctuation">.</span><span class="token method function property-access">replace</span><span class="token punctuation">(</span><span class="token string">'/drafts/'</span><span class="token punctuation">,</span> <span class="token string">'/blog/'</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'/'</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>			<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>		<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span></code></pre>
+<p>On <b>line 1</b> we're importing dotenv so we can read the environment variables set in our <code>.env</code> file from a <code>process.env</code> object.</p>
+<p>On <b>line 3</b> we're reading the <code>ELEVENTY_ENV</code> environment variable from the <code>process.env</code> object and using it to assign a boolean value to an <code>isDevEnv</code> variable.</p>
+<p><b>Lines 5–29</b> are exporting our front matter data for Eleventy to use in its data cascade. The <code>eleventyComputed</code> key is the only key I'm including here but you can add other front matter keys such as <code>tags</code> in the return object if you need to.</p>
+<p><b>Lines 8–15 and 16–26</b> are where we're determining the <code>eleventyExcludeFromCollections</code> and <code>permalink</code> values based on <code>isDevEnv</code> from line 3.</p>
+<p>On <b>lines 9–14</b> we're returning the existing <code>eleventyExcludeFromCollections</code> value if we're in a development environment or true if we're not.</p>
+<p>On <b>lines 17–19</b> we're checking if we're in a development environment and setting the <code>permalink</code> key to <code>false</code> if we're not.</p>
+<p>On <b>lines 20–22</b> we're checking if a permalink has been explicitly set in the front matter and using it if so.</p>
+<p>On <b>lines 23–25</b> we're modifying the page's default permalink so that the &quot;drafts&quot; part of the path is replaced by &quot;blog&quot;. Instead of &quot;/drafts/third-post/&quot; we'll output &quot;/blog/third-post/&quot;. Note that <a href="https://www.11ty.dev/docs/permalinks/#remapping-output-(permalink)">adding the trailing slash on the end is important</a>.</p>
+<h2>Summary</h2>
+<p>The <code>permalink</code> and <code>eleventyExcludeFromCollections</code> front matter keys allow us to create drafts in Eleventy:</p>
+<pre class="language-yaml line-numbers"><code class="language-yaml line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token punctuation">---</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token key atrule">permalink</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token key atrule">eleventyExcludeFromCollections</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">---</span></code></pre>
+<p>By leveraging computed data and environment variables we can replicate Jekyll's draft behaviour:</p>
+<pre class="language-shell line-numbers">Command line
+<code class="language-shell line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token function">npm</span> i dotenv</code></pre>
+<pre class="language-text line-numbers">.env
+<code class="language-text line-numbers"><span class="token line-number" aria-hidden="true"></span>ELEVENTY_ENV=development</code></pre>
+<pre class="language-text line-numbers">.gitignore
+<code class="language-text line-numbers"><span class="token line-number" aria-hidden="true"></span>.env
+<span class="token line-number" aria-hidden="true"></span>node_modules</code></pre>
+<pre class="language-js line-numbers">blog.11tydata.js
+<code class="language-js line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'dotenv'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>
+<span class="token line-number" aria-hidden="true"></span><span class="token keyword">const</span> isDevEnv <span class="token operator">=</span> process<span class="token punctuation">.</span><span class="token property-access">env</span><span class="token punctuation">.</span><span class="token constant">ELEVENTY_ENV</span> <span class="token operator">===</span> <span class="token string">'development'</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token keyword">const</span> todaysDate <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Date</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>
+<span class="token line-number" aria-hidden="true"></span><span class="token keyword">function</span> <span class="token function">showDraft</span><span class="token punctuation">(</span><span class="token parameter">data</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token keyword">const</span> isDraft <span class="token operator">=</span> <span class="token string">'draft'</span> <span class="token keyword">in</span> data <span class="token operator">&amp;&amp;</span> data<span class="token punctuation">.</span><span class="token property-access">draft</span> <span class="token operator">!==</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token keyword">const</span> isFutureDate <span class="token operator">=</span> data<span class="token punctuation">.</span><span class="token property-access">page</span><span class="token punctuation">.</span><span class="token property-access">date</span> <span class="token operator">></span> todaysDate<span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token keyword control-flow">return</span> isDevEnv <span class="token operator">||</span> <span class="token punctuation">(</span><span class="token operator">!</span>isDraft <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>isFutureDate<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>
+<span class="token line-number" aria-hidden="true"></span>module<span class="token punctuation">.</span><span class="token method-variable function-variable method function property-access">exports</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token arrow operator">=></span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>		eleventyComputed<span class="token operator">:</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>			<span class="token function-variable function">eleventyExcludeFromCollections</span><span class="token operator">:</span> <span class="token parameter">data</span> <span class="token arrow operator">=></span> <span class="token function">showDraft</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token operator">?</span> data<span class="token punctuation">.</span><span class="token property-access">eleventyExcludeFromCollections</span> <span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+<span class="token line-number" aria-hidden="true"></span>			<span class="token function-variable function">permalink</span><span class="token operator">:</span> <span class="token parameter">data</span> <span class="token arrow operator">=></span> <span class="token function">showDraft</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span> <span class="token operator">?</span> data<span class="token punctuation">.</span><span class="token property-access">permalink</span> <span class="token operator">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+<span class="token line-number" aria-hidden="true"></span>		<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span></code></pre>
+<pre class="language-js line-numbers">drafts.11tydata.js
+<code class="language-js line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'dotenv'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>
+<span class="token line-number" aria-hidden="true"></span><span class="token keyword">const</span> isDevEnv <span class="token operator">=</span> process<span class="token punctuation">.</span><span class="token property-access">env</span><span class="token punctuation">.</span><span class="token constant">ELEVENTY_ENV</span> <span class="token operator">===</span> <span class="token string">'development'</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>
+<span class="token line-number" aria-hidden="true"></span>module<span class="token punctuation">.</span><span class="token method-variable function-variable method function property-access">exports</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token arrow operator">=></span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token keyword control-flow">return</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>		eleventyComputed<span class="token operator">:</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>			<span class="token function-variable function">eleventyExcludeFromCollections</span><span class="token operator">:</span> <span class="token parameter">data</span> <span class="token arrow operator">=></span> isDevEnv <span class="token operator">?</span> data<span class="token punctuation">.</span><span class="token property-access">eleventyExcludeFromCollections</span> <span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+<span class="token line-number" aria-hidden="true"></span>			<span class="token function-variable function">permalink</span><span class="token operator">:</span> <span class="token parameter">data</span> <span class="token arrow operator">=></span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token keyword control-flow">if</span><span class="token punctuation">(</span><span class="token operator">!</span>isDevEnv<span class="token punctuation">)</span> <span class="token punctuation">{</span> <span class="token keyword control-flow">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>				<span class="token keyword control-flow">return</span> data<span class="token punctuation">.</span><span class="token property-access">permalink</span> <span class="token operator">!==</span> <span class="token string">''</span> <span class="token operator">?</span> data<span class="token punctuation">.</span><span class="token property-access">permalink</span> <span class="token operator">:</span> data<span class="token punctuation">.</span><span class="token property-access">page</span><span class="token punctuation">.</span><span class="token property-access">filePathStem</span><span class="token punctuation">.</span><span class="token method function property-access">replace</span><span class="token punctuation">(</span><span class="token string">'/drafts/'</span><span class="token punctuation">,</span> <span class="token string">'/blog/'</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">'/'</span><span class="token punctuation">;</span>
+<span class="token line-number" aria-hidden="true"></span>			<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>		<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span>	<span class="token punctuation">}</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span></code></pre>
+<pre class="language-yaml line-numbers">post.md
+<code class="language-yaml line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token punctuation">---</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token key atrule">draft</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">---</span></code></pre>
+<h2>Further Reading</h2>
+<ul>
+<li><a href="https://www.11ty.dev/docs/permalinks/">Permalinks documentation</a></li>
+<li><a href="https://www.11ty.dev/docs/collections/">Collections documentation</a></li>
+<li><a href="https://www.11ty.dev/docs/data-computed/">Computed data documentation</a></li>
+<li><a href="https://www.11ty.dev/docs/data-cascade/">Data cascade documentation</a></li>
+<li><a href="https://www.11ty.dev/docs/data-template-dir/">Directory specific data files documentation</a></li>
+</ul>
+</div>
+</main>
+<footer id="site-footer">
+<p><small>Site built using <a href="https://www.11ty.dev/">Eleventy</a> and knowledge from <a href="/credits/">several wonderful people</a>.</small></p>
+<p><small>Source code available at <a href="https://github.com/JKC-Codes/jkc-codes.github.io">GitHub</a>.</small></p>
+<p><small>&copy; John Kemp-Cruz <time datetime="2018">2018</time>&ndash;<time datetime="2021">2021</time></small></p>
+</footer>
+</div>
+</body>
+</html>
