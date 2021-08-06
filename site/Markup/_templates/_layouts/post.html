@@ -5,7 +5,7 @@ css: post
 
 <header id="header">
 	<h1 id="page-heading" class="p-name">{{ title }}</h1>
-	<p class="reading-time"><img class="clock" src="/img/blog/clock.svg" alt="" width="13" height="13" hidden>About {{ content | timeToRead }} to read</p>
+	<p class="reading-time"><img class="clock" src="/img/blog/clock.svg" alt="" width="13" height="13" hidden>About <time datetime="PT{{ content | seconds_timeToRead}}S">{{ content | timeToRead }}</time> to read</p>
 </header>
 <div class="e-content">
 	{{ content }}

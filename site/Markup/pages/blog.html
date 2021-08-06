@@ -28,7 +28,7 @@ description: "Where John writes about web development"
 		<li>
 			<article aria-labelledby="{{ post.data.page.fileSlug | slug }}" class="h-entry">
 				<h2 id="{{ post.data.page.fileSlug | slug }}" class="article-heading"><a href="{{ post.url }}" class="p-name u-url u-uid">{{ post.data.title }}</a></h2>
-				<p class="reading-time"><img class="clock" src="/img/blog/clock.svg" alt="" width="13" height="13" hidden>About {{ post.templateContent | timeToRead }} to read</p>
+				<p class="reading-time"><img class="clock" src="/img/blog/clock.svg" alt="" width="13" height="13" hidden>About <time datetime="PT{{ post.templateContent | seconds_timeToRead}}S">{{ post.templateContent | timeToRead }}</time> to read</p>
 				<div class="p-summary">{% extract post.templateContent %}</div>
 				<a href="{{ post.url }}">Continue reading {{ post.data.title }}</a>
 			</article>

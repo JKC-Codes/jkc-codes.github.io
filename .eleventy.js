@@ -30,7 +30,7 @@ module.exports = function(eleventyConfig) {
 		return collectionAPI.getFilteredByGlob('./site/Markup/posts/**').reverse();
 	});
 
-	// Add plugins
+	// Pre-parse PostHTML plugin options
 	const optionsAutomaticNoopener = parserAutomaticNoopener({
 		ignore: /^https?:\/\/(?:(?:(?:[^/#?]+\.)?jkc\.codes)|(?:jkc-codes\.github\.io))(?:$|\/|#|\?)[^.]*$/i
 	});
@@ -46,12 +46,20 @@ module.exports = function(eleventyConfig) {
 		}
 	});
 
+	// Add plugins
 	eleventyConfig.addPlugin(pluginExtract, {
 		wordLimit: 50,
 		initialHeadingLevel: 3
 	});
 	eleventyConfig.addPlugin(pluginRSS);
 	eleventyConfig.addPlugin(pluginTimeToRead);
+	eleventyConfig.namespace('seconds_', function() {
+		eleventyConfig.addPlugin(pluginTimeToRead, {
+			output: function(data) {
+				return data.totalSeconds;
+			}
+		});
+	});
 	eleventyConfig.addPlugin(markdownTrimTrailingNewline);
 	eleventyConfig.addTransform('posthtml', function(HTMLString, outputPath) {
 		if(outputPath && outputPath.endsWith('.html')) {

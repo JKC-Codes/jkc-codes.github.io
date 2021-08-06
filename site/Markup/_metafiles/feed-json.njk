@@ -23,7 +23,7 @@
 			"id": "{{ absolutePostUrl }}",
 			"url": "{{ absolutePostUrl }}",
 			"title": "{{ post.data.title }}",
-			"content_html": {%- if post.templateContent %}{{ ('<p><small>(About ' + post.templateContent | timeToRead + ' to read)</small></p>\n' + (post.templateContent | htmlToAbsoluteUrls(absolutePostUrl))) | dump | safe }}{% else %}""{%- endif %},
+			"content_html": {%- if post.templateContent %}{{ ('<p><small>(About <time datetime="PT' + post.templateContent | seconds_timeToRead + 'S">' + post.templateContent | timeToRead + '</time> to read)</small></p>\n' + (post.templateContent | htmlToAbsoluteUrls(absolutePostUrl))) | dump | safe }}{% else %}""{%- endif %},
 			"date_published": "{{ post.date | dateToRfc3339 }}",
 			"date_modified": "{{ post.date | dateToRfc3339 }}",
 			"authors": [
