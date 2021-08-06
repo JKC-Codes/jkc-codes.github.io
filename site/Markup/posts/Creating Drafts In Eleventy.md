@@ -1,5 +1,5 @@
 ---
-draft: true
+
 ---
 Several static site generators and content management systems have built in functionality to mark posts as drafts. Eleventy (11ty) isn't one of these but fortunately it is possible to implement.
 
@@ -79,6 +79,7 @@ draft: true
 ---
 // Page content
 ```
+
 To do so we'll need to add a [directory specific data file](https://www.11ty.dev/docs/data-template-dir/) which allows us to add the same front matter to all files in a folder:
 <pre>
 blog
@@ -221,24 +222,17 @@ eleventyExcludeFromCollections: true
 
 By leveraging computed data and environment variables we can replicate Jekyll's draft behaviour:
 
-<pre>
-Command line
-<code class="lang-shell">npm i dotenv</code>
-</pre>
+<pre>Command line
+<code class="lang-shell">npm i dotenv</code></pre>
 
-<pre>
-.env
-<code class="lang-text">ELEVENTY_ENV=development</code>
-</pre>
+<pre>.env
+<code class="lang-text">ELEVENTY_ENV=development</code></pre>
 
-<pre>
-.gitignore
+<pre>.gitignore
 <code class="lang-text">.env
-node_modules</code>
-</pre>
+node_modules</code></pre>
 
-<pre>
-blog.11tydata.js
+<pre>blog.11tydata.js
 <code class="lang-js">require('dotenv').config();
 
 const isDevEnv = process.env.ELEVENTY_ENV === 'development';
@@ -257,11 +251,9 @@ module.exports = ()=> {
 			permalink: data => showDraft(data) ? data.permalink : false,
 		}
 	}
-}</code>
-</pre>
+}</code></pre>
 
-<pre>
-drafts.11tydata.js
+<pre>drafts.11tydata.js
 <code class="lang-js">require('dotenv').config();
 
 const isDevEnv = process.env.ELEVENTY_ENV === 'development';
@@ -276,15 +268,12 @@ module.exports = ()=> {
 			}
 		}
 	}
-}</code>
-</pre>
+}</code></pre>
 
-<pre>
-post.md
+<pre>post.md
 <code class="lang-yaml">---
 draft: true
----</code>
-</pre>
+---</code></pre>
 
 
 
