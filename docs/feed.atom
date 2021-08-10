@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 	<id>https://jkc.codes/</id>
-	<title>Atom feed for John Kemp-Cruz</title>
+	<title>John Kemp-Cruz (Atom feed)</title>
 	<subtitle>Where John writes about web development</subtitle>
 	<updated>2021-08-06T13:39:37Z</updated>
 	<icon>https://jkc.codes/img/site/icon-site-128x128.png</icon>

@@ -1,6 +1,6 @@
 {
 	"version": "https://jsonfeed.org/version/1.1",
-	"title": "JSON feed for John Kemp-Cruz",
+	"title": "John Kemp-Cruz (JSON feed)",
 	"home_page_url": "https://jkc.codes/",
 	"feed_url": "https://jkc.codes/feed.json",
 	"description": "Where John writes about web development",
