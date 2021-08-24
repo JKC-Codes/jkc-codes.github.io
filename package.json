@@ -11,6 +11,8 @@
 		"gulp-html-minimizer": "*",
 		"gulp-imagemin": "*",
 		"gulp-terser": "*",
+		"luxon": "*",
+		"node-fetch": "*",
 		"posthtml": "*",
 		"sass": "*"
 	},

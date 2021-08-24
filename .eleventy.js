@@ -1,6 +1,8 @@
 const { DateTime } = require('luxon');
+const fs = require('fs/promises');
+const fetch = require('node-fetch');
 const pluginExtract = require('./extract-plugin.js');
-const pluginRSS = require("@11ty/eleventy-plugin-rss");
+const pluginRSS = require('@11ty/eleventy-plugin-rss');
 const pluginTimeToRead = require('eleventy-plugin-time-to-read');
 const posthtml = require('posthtml');
 const { posthtml: pluginAutomaticNoopener, parser: parserAutomaticNoopener } = require('eleventy-plugin-automatic-noopener');
@@ -78,6 +80,23 @@ module.exports = function(eleventyConfig) {
 	// Add RSS date filter
 	eleventyConfig.addFilter('dateToRfc2822', date => {
 		return DateTime.fromJSDate(date).toRFC2822();
+	});
+
+	// Keep dates in sync with the server (replace with addGlobalData in 1.0)
+	fetch('https://jkc.codes/feed.json')
+	.then(response => response.json())
+	.then(data => {
+		const posts = {};
+		data.items.forEach(post => {
+			posts[post.url.replace('https://jkc.codes', '')] = {
+				published: post.date_published,
+				modified: post.date_modified
+			};
+		})
+		return posts;
+	})
+	.then(posts => {
+		fs.writeFile('./site/Markup/_data/postDates.json', JSON.stringify(posts, null, '\t'));
 	});
 
 	return {

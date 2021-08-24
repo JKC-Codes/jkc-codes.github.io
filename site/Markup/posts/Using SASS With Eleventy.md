@@ -1,6 +1,3 @@
----
-date: 2021-03-17 15:08:01
----
 [Eleventy (11ty)](https://www.11ty.dev/) is a super customisable static site generator that at its core transforms template language into HTML. However, template languages like Liquid and Nunjucks are designed to output HTML rather than CSS so how does Eleventy handle styling?
 
 Let me show you how I compile SASS automatically and display the output on a local server without triggering a build from Eleventy or refreshing the browser.

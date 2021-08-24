@@ -6,7 +6,8 @@ module.exports = () => {
 	return {
 		layout: 'post',
 		eleventyComputed: {
-			title: data => data.title ? data.title : data.page.fileSlug,
+			title: data => data.title || data.page.fileSlug,
+			date: data => data.page.date || data.postDates[data.page.url].published,
 			eleventyExcludeFromCollections: data => {
 				const isDraft = 'draft' in data && data.draft !== false;
 				return (isDraft && !isDevEnvironment) ? true : data.eleventyExcludeFromCollections;
