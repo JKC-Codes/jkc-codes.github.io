@@ -7,6 +7,7 @@ const pluginTimeToRead = require('eleventy-plugin-time-to-read');
 const posthtml = require('posthtml');
 const { posthtml: pluginAutomaticNoopener, parser: parserAutomaticNoopener } = require('eleventy-plugin-automatic-noopener');
 const { posthtml: pluginCodeStyleHooks, parser: parserCodeStyleHooks, markdownTrimTrailingNewline} = require('eleventy-plugin-code-style-hooks');
+const { posthtml: pluginManageWhitespace, parser: parserManageWhitespace } = require('eleventy-plugin-manage-whitespace');
 
 
 module.exports = function(eleventyConfig) {
@@ -47,6 +48,9 @@ module.exports = function(eleventyConfig) {
 			}
 		}
 	});
+	const optionsManageWhitespace = parserManageWhitespace({
+		tabSize: 2
+	});
 
 	// Add plugins
 	eleventyConfig.addPlugin(pluginExtract, {
@@ -68,6 +72,7 @@ module.exports = function(eleventyConfig) {
 			return posthtml([
 				pluginAutomaticNoopener(optionsAutomaticNoopener),
 				pluginCodeStyleHooks(optionsCodeStyleHooks),
+				pluginManageWhitespace(optionsManageWhitespace),
 			])
 			.process(HTMLString)
 			.then(result => result.html);

@@ -6,6 +6,7 @@
 		"dotenv": "*",
 		"eleventy-plugin-automatic-noopener": "*",
 		"eleventy-plugin-code-style-hooks": "*",
+		"eleventy-plugin-manage-whitespace": "github:JKC-Codes/eleventy-plugin-manage-whitespace",
 		"eleventy-plugin-time-to-read": "*",
 		"gulp": "*",
 		"gulp-html-minimizer": "*",
