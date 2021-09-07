@@ -283,6 +283,8 @@ background: $colour-brand;
 				@supports (not (writing-mode: sideways-lr)) {
 					writing-mode: vertical-lr;
 					transform: rotate(-180deg);
+					height: -moz-max-content; // Fix for TVs supporting Grid but not max-content
+					height: max-content; // Fix TVs using min-content
 				}
 			}
 		}
