@@ -89,15 +89,13 @@
 <p>First, install the <a href="https://www.npmjs.com/package/sass">SASS package</a>: <code>npm i sass</code>.</p>
 <p>Then, tell SASS where the SCSS files are and where to output the CSS. I do this through NPM so I don't need to type out the command every time.</p>
 <p>Assuming your file structure looks like this:</p>
-<pre>
-_site
+<pre>_site
 	|- index.html
 	|- css
 		|- styles.css
 sass
 	|- styles.scss
-index.html
-</pre>
+index.html</pre>
 <p>You would use the following in <code>package.json</code>:</p>
 <pre class="language-json line-numbers"><code class="language-json line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"watch:sass"</span><span class="token operator">:</span> <span class="token string">"npx sass sass:_site/css --watch"</span>
@@ -126,8 +124,7 @@ index.html
 <p>I'm using BrowserSync's <a href="https://browsersync.io/docs/options#option-files">files option</a> to watch any file in the <code>_site/css/</code> folder with a <code>.css</code> extension and add that CSS to the page whenever those files update. It doesn't use Eleventy's build command and therefore doesn't trigger a rebuild of the HTML.</p>
 <h3>What about addPassthroughCopy?</h3>
 <p>You may have seen other sites build their CSS files in the same folder as their SASS and then use Eleventy config's <a href="https://www.11ty.dev/docs/copy/">addPassthroughCopy</a> method to copy the CSS to Eleventy's output folder. The file structure looks something like this:</p>
-<pre>
-_site
+<pre>_site
 	|- index.html
 	|- css
 	|- styles.css
@@ -135,8 +132,7 @@ sass
 	|- styles.scss
 css
 	|- styles.css
-index.html
-</pre>
+index.html</pre>
 <p>This works, but there are two reasons why I don't like it.</p>
 <ol>
 <li>The CSS folder is duplicated which makes unnecessary writes to my hard drive and uses additional space.</li>
@@ -166,26 +162,20 @@ index.html
 <li>Some configuration is outside of Eleventy</li>
 </ol>
 <h3>TL;DR</h3>
-<pre class="language-json line-numbers">
-package.json
+<pre class="language-json line-numbers">package.json
 <code class="language-json line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"watch:eleventy"</span><span class="token operator">:</span> <span class="token string">"npx @11ty/eleventy --serve"</span><span class="token punctuation">,</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"watch:sass"</span><span class="token operator">:</span> <span class="token string">"npx sass sass:_site/css --watch"</span><span class="token punctuation">,</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"start"</span><span class="token operator">:</span> <span class="token string">"npm run watch:eleventy &amp; npm run watch:sass"</span>
-<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">,</span></code>
-</pre>
-<pre class="language-js line-numbers">
-.eleventy.js
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
+<pre class="language-js line-numbers">.eleventy.js
 <code class="language-js line-numbers"><span class="token line-number" aria-hidden="true"></span>module<span class="token punctuation">.</span><span class="token method-variable function-variable method function property-access">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">eleventyConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 <span class="token line-number" aria-hidden="true"></span>	eleventyConfig<span class="token punctuation">.</span><span class="token method function property-access">setBrowserSyncConfig</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
 <span class="token line-number" aria-hidden="true"></span>		files<span class="token operator">:</span> <span class="token string">'./_site/css/**/*.css'</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">;</span></code>
-</pre>
-<pre class="language-shell line-numbers">
-command line
-<code class="language-shell line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token function">npm</span> start</code>
-</pre>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<pre class="language-shell line-numbers">command line
+<code class="language-shell line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token function">npm</span> start</code></pre>
 <h3>Further Reading</h3>
 <ul>
 <li><a href="https://www.11ty.dev/docs/watch-serve/">11ty setBrowserSyncConfig documentation</a></li>

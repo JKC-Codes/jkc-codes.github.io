@@ -128,13 +128,11 @@
 <span class="token line-number" aria-hidden="true"></span><span class="token punctuation">---</span>
 <span class="token line-number" aria-hidden="true"></span>// Page content</code></pre>
 <p>To do so we'll need to add a <a href="https://www.11ty.dev/docs/data-template-dir/">directory specific data file</a> which allows us to add the same front matter to all files in a folder:</p>
-<pre>
-blog
+<pre>blog
 	|- blog.11tydata.js
 	|- first-post.md
 	|- second-post.md
-	|- third-post.md
-</pre>
+	|- third-post.md</pre>
 <p>I've used <code>blog.11tydata.js</code> here as it's in the blog folder. If you're using a different folder name replace &quot;blog&quot; in the file name for the folder's name.</p>
 <p>Inside of the 11tydata.js file we'll export our front matter data:</p>
 <pre class="language-js line-numbers"><code class="language-js line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'dotenv'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
@@ -181,14 +179,12 @@ blog
 <p><b>Lines 15–22 and 23–30</b> are where we're determining the <code>eleventyExcludeFromCollections</code> and <code>permalink</code> values based on the result of the <code>showDraft</code> function being passed <a href="https://www.11ty.dev/docs/data-eleventy-supplied/">data supplied by Eleventy</a>. If the <code>showDraft</code> function from line 6 returns true, we're using the existing values but if it returns false we're overriding the existing values to true and false to exclude the page from collections and prevent the page being built respectively.</p>
 <h3>Using A Draft Folder</h3>
 <p>The goal here is to be able to move files in and out of a drafts folder to hide or show them. To do so we'll need to add a <a href="https://www.11ty.dev/docs/data-template-dir/">directory specific data file</a> to the drafts folder so the same front matter is added to all files in that folder:</p>
-<pre>
-blog
+<pre>blog
 	|- first-post.md
 	|- second-post.md
 drafts
 	|- drafts.11tydata.js
-	|- third-post.md
-</pre>
+	|- third-post.md</pre>
 <p>I've used <code>drafts.11tydata.js</code> here as it's in the drafts folder. If you're using a different folder name replace &quot;drafts&quot; in the file name for the folder's name.</p>
 <p>Inside of the 11tydata.js file we'll export our front matter data:</p>
 <pre class="language-js line-numbers"><code class="language-js line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'dotenv'</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token method function property-access">config</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
