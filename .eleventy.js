@@ -28,9 +28,11 @@ module.exports = function(eleventyConfig) {
 		}
 	});
 
-	// Group all blog posts together
+	// Group all blog posts together, newest first
 	eleventyConfig.addCollection('posts', function(collectionAPI) {
-		return collectionAPI.getFilteredByGlob('./site/Markup/posts/**').reverse();
+		return collectionAPI
+		.getFilteredByGlob('./site/Markup/posts/**')
+		.sort((a, b) => b.data.date - a.data.date);
 	});
 
 	// Pre-parse PostHTML plugin options
@@ -80,6 +82,15 @@ module.exports = function(eleventyConfig) {
 		else {
 			return HTMLString;
 		}
+	});
+
+	// Fix eleventy-plugin-rss using item.date instead of item.data.date
+	eleventyConfig.addFilter('getNewestCollectionItemDate', (collection, emptyFallbackDate) => {
+		if( !collection || !collection.length ) {
+			return emptyFallbackDate || new Date();
+		}
+
+		return new Date(Math.max(...collection.map(item => {return item.data.date})));
 	});
 
 	// Add RSS date filter
