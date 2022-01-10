@@ -22,7 +22,7 @@ module.exports = () => {
 					return false;
 				}
 				else if(data.permalink === '') {
-					return '/blog/{{ page.fileSlug | slug }}/';
+					return '/blog/{{ page.fileSlug | slugify }}/';
 				}
 				else {
 					return data.permalink;

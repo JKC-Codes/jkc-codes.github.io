@@ -2,12 +2,12 @@
 	{% if page.inputPath contains "./site/Markup/posts/" -%}
 		{% for post in collections.posts -%}
 			{% if post.inputPath == page.inputPath -%}
-				{% assign description = {{ post.templateContent | strip_html | newline_to_br | replace: "<br />", " " | strip | truncate: 150, "…" }} %}
+				{% assign description = post.templateContent | strip_html | newline_to_br | replace: "<br />", " " | strip | truncate: 150, "…" %}
 				{% break %}
 			{%- endif %}
 		{%- endfor %}
 	{%- else -%}
-		{% assign description = {{ siteMeta.description }} %}
+		{% assign description = siteMeta.description %}
 	{%- endif %}
 {%- endunless %}
 

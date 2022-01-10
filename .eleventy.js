@@ -1,5 +1,4 @@
 const { DateTime } = require('luxon');
-const fs = require('fs/promises');
 const fetch = require('node-fetch');
 const pluginExtract = require('./extract-plugin.js');
 const pluginRSS = require('@11ty/eleventy-plugin-rss');
@@ -84,7 +83,7 @@ module.exports = function(eleventyConfig) {
 		}
 	});
 
-	// Fix eleventy-plugin-rss using item.date instead of item.data.date
+	// Change eleventy-plugin-rss to use item.data.date instead of item.date
 	eleventyConfig.addFilter('getNewestCollectionItemDate', (collection, emptyFallbackDate) => {
 		if( !collection || !collection.length ) {
 			return emptyFallbackDate || new Date();
@@ -98,21 +97,25 @@ module.exports = function(eleventyConfig) {
 		return DateTime.fromJSDate(date).toRFC2822();
 	});
 
-	// Keep dates in sync with the server (replace with addGlobalData in 1.0)
-	fetch('https://jkc.codes/feed.json')
-	.then(response => response.json())
-	.then(data => {
-		const posts = {};
-		data.items.forEach(post => {
-			posts[post.url.replace('https://jkc.codes', '')] = {
-				published: post.date_published,
-				modified: post.date_modified
-			};
-		})
-		return posts;
-	})
-	.then(posts => {
-		fs.writeFile('./site/Markup/_data/postDates.json', JSON.stringify(posts, null, '\t'));
+	// Keep dates in sync with the server
+	let postDates;
+
+	eleventyConfig.addGlobalData('postDates', async function() {
+		if(postDates === undefined) {
+			const feed = await fetch('https://jkc.codes/feed.json');
+			const feedData = await feed.json();
+
+			postDates = {};
+
+			for(const post of feedData.items) {
+				postDates[post.url.replace('https://jkc.codes', '')] = {
+					published: post.date_published,
+					modified: post.date_modified
+				};
+			}
+		}
+
+		return postDates;
 	});
 
 	return {
