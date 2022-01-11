@@ -137,5 +137,35 @@ code {
 			background-repeat: no-repeat;
 			background-size: 100% 100%, 50% 50%, 50% 50%;
 		}
+
+		@supports not (color: hwb(0 0% 0%)) {
+			.color-preview[style^="--color-value:hwb"] {
+				display: none;
+			}
+		}
+
+		@supports not (color: lab(0% 0 0)) {
+			.color-preview[style^="--color-value:lab"] {
+				display: none;
+			}
+		}
+
+		@supports not (color: oklab(0% 0 0)) {
+			.color-preview[style^="--color-value:oklab"] {
+				display: none;
+			}
+		}
+
+		@supports not (color: lch(0% 0 0)) {
+			.color-preview[style^="--color-value:lch"] {
+				display: none;
+			}
+		}
+
+		@supports not (color: oklch(0% 0 0)) {
+			.color-preview[style^="--color-value:oklch"] {
+				display: none;
+			}
+		}
 	}
 }
