@@ -1,5 +1,4 @@
 const { DateTime } = require('luxon');
-const fetch = require('node-fetch');
 const pluginExtract = require('./extract-plugin.js');
 const pluginRSS = require('@11ty/eleventy-plugin-rss');
 const pluginTimeToRead = require('eleventy-plugin-time-to-read');
@@ -102,6 +101,7 @@ module.exports = function(eleventyConfig) {
 
 	eleventyConfig.addGlobalData('postDates', async function() {
 		if(postDates === undefined) {
+			const {default: fetch} = await import('node-fetch');
 			const feed = await fetch('https://jkc.codes/feed.json');
 			const feedData = await feed.json();
 
