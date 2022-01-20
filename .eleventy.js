@@ -67,8 +67,8 @@ module.exports = function(eleventyConfig) {
 		});
 	});
 	eleventyConfig.addPlugin(markdownTrimTrailingNewline);
-	eleventyConfig.addTransform('posthtml', function(HTMLString, outputPath) {
-		if(outputPath && outputPath.endsWith('.html')) {
+	eleventyConfig.addTransform('posthtml', function(HTMLString) {
+		if(this?.outputPath.endsWith('.html')) {
 			return posthtml([
 				pluginAutomaticNoopener(optionsAutomaticNoopener),
 				pluginCodeStyleHooks(optionsCodeStyleHooks),
