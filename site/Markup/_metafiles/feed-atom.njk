@@ -6,7 +6,7 @@
 	<id>{{ siteMeta.url }}/</id>
 	<title>{{ siteMeta.title }} (Atom feed)</title>
 	<subtitle>Where John writes about web development</subtitle>
-	<updated>{{ collections.posts | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
+	<updated>{{ collections.posts | getNewestCollectionItemDataDate | dateToRfc3339 }}</updated>
 	<icon>{{ siteMeta.url }}/img/site/icon-site-128x128.png</icon>
 	<link href="{{ siteMeta.url }}/" rel="alternate"/>
 	<link href="{{ siteMeta.url }}/feed.atom" rel="self"/>

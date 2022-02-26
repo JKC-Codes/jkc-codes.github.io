@@ -82,9 +82,9 @@ module.exports = function(eleventyConfig) {
 		}
 	});
 
-	// Change eleventy-plugin-rss to use item.data.date instead of item.date
-	eleventyConfig.addFilter('getNewestCollectionItemDate', (collection, emptyFallbackDate) => {
-		if( !collection || !collection.length ) {
+	// Modified eleventy-plugin-rss to use item.data.date instead of item.date
+	eleventyConfig.addFilter('getNewestCollectionItemDataDate', (collection, emptyFallbackDate) => {
+		if(!collection || !collection.length) {
 			return emptyFallbackDate || new Date();
 		}
 

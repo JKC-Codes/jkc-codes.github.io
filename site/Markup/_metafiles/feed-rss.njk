@@ -7,8 +7,8 @@
 		<link>{{ siteMeta.url }}/</link>
 		<description>Where John writes about web development</description>
 		<language>en-GB</language>
-		<pubDate>{{ collections.posts | getNewestCollectionItemDate | dateToRfc2822 }}</pubDate>
-		<lastBuildDate>{{ collections.posts | getNewestCollectionItemDate | dateToRfc2822 }}</lastBuildDate>
+		<pubDate>{{ collections.posts | getNewestCollectionItemDataDate | dateToRfc2822 }}</pubDate>
+		<lastBuildDate>{{ collections.posts | getNewestCollectionItemDataDate | dateToRfc2822 }}</lastBuildDate>
 		<image>
 			<url>{{ siteMeta.url }}/img/site/icon-site-128x128.png</url>
 			<title>{{ siteMeta.title }}</title>
