@@ -18,6 +18,10 @@ html {
 			transition-duration: 0ms !important;
 		}
 	}
+
+	@media (min-width: $mq-site-wide) {
+		scrollbar-gutter: stable;
+	}
 }
 
 a:link {
