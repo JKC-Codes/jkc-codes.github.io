@@ -79,4 +79,48 @@
 			"url": "{{ siteMeta.url }}/"
 		}
 	</script>
+
+	<!-- CSS Naked Day -->
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			const today = new Date();
+
+			if((today.getMonth() === 3) && (today.getDate() === 9)) {
+				disableCSS();
+				displayInfo();
+			}
+		});
+
+		function disableCSS() {
+			const CSS = document.querySelectorAll('link[rel~="stylesheet"]');
+
+			for(stylesheet of CSS) {
+				stylesheet.setAttribute('disabled', '');
+			}
+		}
+
+		function enableCSS() {
+			const CSS = document.querySelectorAll('link[rel~="stylesheet"]');
+			const CSSNakedinfo = document.querySelector('#cssnakedinfo');
+
+			for(stylesheet of CSS) {
+				stylesheet.removeAttribute('disabled');
+			}
+			CSSNakedinfo.remove();
+		}
+
+		function displayInfo() {
+			const info = document.createElement('div');
+			const skipLink = document.querySelector('a.skip-to-content');
+
+			info.setAttribute('id', 'cssnakedinfo');
+			info.innerHTML = `<hr><br><b>It's CSS Naked Day!</b><br><br><a href="https://css-naked-day.github.io/">Find out more about CSS Naked Day</a><br><br><button id="cssnakedbutton">Enable CSS temporarily</button><br><br><hr>`;
+
+			skipLink.after(info);
+
+			const CSSNakedButton = document.querySelector('#cssnakedbutton');
+
+			CSSNakedButton.addEventListener('click', enableCSS);
+		}
+	</script>
 </head>
