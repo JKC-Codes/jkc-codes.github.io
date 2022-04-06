@@ -47,6 +47,7 @@
 			"url": "https://jkc.codes/"
 		}
 </script>
+<script>function disableCSS(){const e=document.querySelectorAll('link[rel~="stylesheet"]');for(stylesheet of e)stylesheet.setAttribute("disabled","")}function enableCSS(){const e=document.querySelectorAll('link[rel~="stylesheet"]'),t=document.querySelector("#cssnakedinfo");for(stylesheet of e)stylesheet.removeAttribute("disabled");t.remove()}function displayInfo(){const e=document.createElement("div"),t=document.querySelector("a.skip-to-content");e.setAttribute("id","cssnakedinfo"),e.innerHTML='<hr><br><b>It\'s CSS Naked Day!</b><br><br><a href="https://css-naked-day.github.io/">Find out more about CSS Naked Day</a><br><br><button id="cssnakedbutton">Enable CSS temporarily</button><br><br><hr>',t.after(e);document.querySelector("#cssnakedbutton").addEventListener("click",enableCSS)}document.addEventListener("DOMContentLoaded",(function(){const e=new Date;3===e.getMonth()&&9===e.getDate()&&(disableCSS(),displayInfo())}))</script>
 <link rel="stylesheet" href="/css/syntax.css"></head>
 <body>
 <div id="site-container">
