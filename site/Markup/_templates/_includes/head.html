@@ -94,8 +94,8 @@
 		function disableCSS() {
 			const CSS = document.querySelectorAll('link[rel~="stylesheet"]');
 
-			for(stylesheet of CSS) {
-				stylesheet.setAttribute('disabled', '');
+			for(let i = 0; i < CSS.length; i++) {
+				CSS[i].setAttribute('disabled', '');
 			}
 		}
 
@@ -103,10 +103,10 @@
 			const CSS = document.querySelectorAll('link[rel~="stylesheet"]');
 			const CSSNakedinfo = document.querySelector('#cssnakedinfo');
 
-			for(stylesheet of CSS) {
-				stylesheet.removeAttribute('disabled');
+			for(let i = 0; i < CSS.length; i++) {
+				CSS[i].removeAttribute('disabled');
 			}
-			CSSNakedinfo.remove();
+			CSSNakedinfo.parentNode.removeChild(CSSNakedinfo);
 		}
 
 		function displayInfo() {
@@ -114,9 +114,9 @@
 			const skipLink = document.querySelector('a.skip-to-content');
 
 			info.setAttribute('id', 'cssnakedinfo');
-			info.innerHTML = `<hr><br><b>It's CSS Naked Day!</b><br><br><a href="https://css-naked-day.github.io/">Find out more about CSS Naked Day</a><br><br><button id="cssnakedbutton">Enable CSS temporarily</button><br><br><hr>`;
+			info.innerHTML = '<hr><br><b>It\'s CSS Naked Day!</b><br><br><a href="https://css-naked-day.github.io/">Find out more about CSS Naked Day</a><br><br><button id="cssnakedbutton">Enable CSS temporarily</button><br><br><hr>';
 
-			skipLink.after(info);
+			skipLink.insertAdjacentElement('afterend', info);
 
 			const CSSNakedButton = document.querySelector('#cssnakedbutton');
 
