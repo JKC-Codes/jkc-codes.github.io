@@ -1,0 +1,44 @@
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		var today = new Date();
+		var CSS;
+
+		if((today.getMonth() === 3) && (today.getDate() === 9)) {
+			CSS = document.querySelectorAll('link[rel~="stylesheet"]');
+			disableCSS();
+			displayInfo();
+		}
+
+		function disableCSS() {
+			for(var i = 0; i < CSS.length; i++) {
+				CSS[i].setAttribute('disabled', '');
+			}
+		}
+
+		function enableCSS() {
+			for(var i = 0; i < CSS.length; i++) {
+				CSS[i].removeAttribute('disabled');
+			}
+		}
+
+		function removeInfo() {
+			var CSSNakedinfo = document.querySelector('#cssnakedinfo');
+			CSSNakedinfo.parentNode.removeChild(CSSNakedinfo);
+		}
+
+		function displayInfo() {
+			var info = document.createElement('div');
+			info.setAttribute('id', 'cssnakedinfo');
+			info.innerHTML = '<hr><br><b>It\'s CSS Naked Day!</b><br><br><a href="https://css-naked-day.github.io/">Find out more about CSS Naked Day</a><br><br><button id="cssnakedbutton">Enable CSS temporarily</button><br><br><hr>';
+
+			var skipLink = document.querySelector('a.skip-to-content');
+			skipLink.insertAdjacentElement('afterend', info);
+
+			var CSSNakedButton = document.querySelector('#cssnakedbutton');
+			CSSNakedButton.addEventListener('click', function() {
+				enableCSS();
+				removeInfo();
+			});
+		}
+	});
+</script>
