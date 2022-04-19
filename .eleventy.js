@@ -97,22 +97,18 @@ module.exports = function(eleventyConfig) {
 	});
 
 	// Keep dates in sync with the server
-	let postDates;
-
 	eleventyConfig.addGlobalData('postDates', async function() {
-		if(postDates === undefined) {
-			const {default: fetch} = await import('node-fetch');
-			const feed = await fetch('https://jkc.codes/feed.json');
-			const feedData = await feed.json();
+		const {default: fetch} = await import('node-fetch');
+		const feed = await fetch('https://jkc.codes/feed.json');
+		const feedData = await feed.json();
 
-			postDates = {};
+		postDates = {};
 
-			for(const post of feedData.items) {
-				postDates[post.url.replace('https://jkc.codes', '')] = {
-					published: post.date_published,
-					modified: post.date_modified
-				};
-			}
+		for(const post of feedData.items) {
+			postDates[post.url.replace('https://jkc.codes', '')] = {
+				published: post.date_published,
+				modified: post.date_modified
+			};
 		}
 
 		return postDates;
