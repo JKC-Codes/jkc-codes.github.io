@@ -6,7 +6,7 @@
 	<id>{{ siteMeta.url }}/</id>
 	<title>{{ siteMeta.title }} (Atom feed)</title>
 	<subtitle>Where John writes about web development</subtitle>
-	<updated>{{ collections.posts | getNewestCollectionItemDataDate | dateToRfc3339 }}</updated>
+	<updated>{{ collections.posts | getLastModifiedDate | dateToRFC3339 }}</updated>
 	<icon>{{ siteMeta.url }}/img/site/icon-site-128x128.png</icon>
 	<link href="{{ siteMeta.url }}/" rel="alternate"/>
 	<link href="{{ siteMeta.url }}/feed.atom" rel="self"/>
@@ -19,7 +19,7 @@
 	<entry>
 		<id>{{ absolutePostUrl }}</id>
 		<title>{{ post.data.title }}</title>
-		<updated>{{ post.data.date | dateToRfc3339 }}</updated>
+		<updated>{{ post.data.modified | dateToRFC3339 }}</updated>
 		<author>
 			<name>{{ siteMeta.author }}</name>
 			<uri>{{ siteMeta.url }}</uri>
@@ -27,7 +27,7 @@
 		<content type="html">&lt;p&gt;&lt;small&gt;(About &lt;time datetime="PT{{ post.templateContent | seconds_timeToRead}}S"&gt;{{ post.templateContent | timeToRead }}&lt;/time&gt; to read)&lt;/small&gt;&lt;/p&gt;
 {{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</content>
 		<link href="{{ absolutePostUrl }}" rel="alternate"/>
-		<published>{{ post.data.date | dateToRfc3339 }}</published>
+		<published>{{ post.data.published | dateToRFC3339 }}</published>
 	</entry>
 	{%- endfor %}
 </feed>

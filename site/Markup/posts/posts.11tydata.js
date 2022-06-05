@@ -7,9 +7,13 @@ module.exports = () => {
 		layout: 'post',
 		eleventyComputed: {
 			title: data => data.title || data.page.fileSlug,
-			date: data => {
+			published: data => {
 				const storedDate = data.postDates[data.page.url]?.published;
-				return data.date || (storedDate && new Date(storedDate)) || data.page.date;
+				return data.date || storedDate || data.page.date;
+			},
+			modified: data => {
+				const storedDate = data.postDates[data.page.url]?.modified;
+				return data.date || storedDate || data.page.date;
 			},
 			eleventyExcludeFromCollections: data => {
 				const isDraft = 'draft' in data && data.draft !== false;
