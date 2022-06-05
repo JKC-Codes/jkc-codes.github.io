@@ -1,4 +1,3 @@
-const { DateTime } = require('luxon');
 const pluginExtract = require('./extract-plugin.js');
 const pluginRSS = require('@11ty/eleventy-plugin-rss');
 const pluginTimeToRead = require('eleventy-plugin-time-to-read');
@@ -96,7 +95,7 @@ module.exports = function(eleventyConfig) {
 
 	// Add RSS date filter
 	eleventyConfig.addFilter('dateToRFC2822', date => {
-		return DateTime.fromJSDate(date).toRFC2822();
+		return date.toUTCString();
 	});
 
 	// Add last published filter

@@ -12,7 +12,6 @@
 		"gulp-html-minimizer": "^2.0.0",
 		"gulp-imagemin": "^7.0.0",
 		"gulp-terser": "^2.0.0",
-		"luxon": "^2.0.0",
 		"node-fetch": "^3.0.0",
 		"posthtml": "^0.16.0",
 		"sass": "^1.0.0"
