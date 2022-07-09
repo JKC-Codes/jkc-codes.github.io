@@ -100,6 +100,9 @@ module.exports = function(eleventyConfig) {
 		return new Date(Math.max(...collection.map(item => {return item.data.modified})));
 	});
 
+	// Add default layout to all pages
+	eleventyConfig.addGlobalData('layout', () => 'default');
+
 	// Keep dates in sync with the server
 	eleventyConfig.addGlobalData('postDates', async function() {
 		const {default: fetch} = await import('node-fetch');
