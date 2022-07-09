@@ -1,7 +1,3 @@
-require('dotenv').config();
-
-const isDevEnvironment = process.env.ELEVENTY_ENV === 'development';
-
 module.exports = () => {
 	return {
 		layout: 'post',
@@ -17,12 +13,12 @@ module.exports = () => {
 			},
 			eleventyExcludeFromCollections: data => {
 				const isDraft = 'draft' in data && data.draft !== false;
-				return (isDraft && !isDevEnvironment) ? true : data.eleventyExcludeFromCollections;
+				return (isDraft && !data.isDevEnvironment) ? true : data.eleventyExcludeFromCollections;
 			},
 			permalink: data => {
 				const isDraft = 'draft' in data && data.draft !== false;
 
-				if(isDraft && !isDevEnvironment) {
+				if(isDraft && !data.isDevEnvironment) {
 					return false;
 				}
 				else if(data.permalink === '') {

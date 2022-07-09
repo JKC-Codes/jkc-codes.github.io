@@ -1,3 +1,5 @@
+require('dotenv').config();
+const isDevEnvironment = process.env.ELEVENTY_ENV === 'development';
 const pluginExtract = require('./extract-plugin.js');
 const pluginRSS = require('@11ty/eleventy-plugin-rss');
 const pluginTimeToRead = require('eleventy-plugin-time-to-read');
@@ -58,7 +60,7 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPlugin(markdownTrimTrailingNewline);
 
 	eleventyConfig.addTransform('posthtml', function(HTMLString) {
-		if(this?.outputPath.endsWith('.html')) {
+		if(typeof this.outputPath == 'string' && this.outputPath.endsWith('.html')) {
 			return posthtml([
 				pluginAutomaticNoopener(optionsAutomaticNoopener),
 				pluginCodeStyleHooks(optionsCodeStyleHooks),
@@ -81,27 +83,22 @@ module.exports = function(eleventyConfig) {
 	});
 
 	// Add Atom date filter
-	eleventyConfig.addFilter('dateToRFC3339', date => {
-		return date.toISOString();
-	});
+	eleventyConfig.addFilter('dateToRFC3339', date => date.toISOString());
 
 	// Add RSS date filter
-	eleventyConfig.addFilter('dateToRFC2822', date => {
-		return date.toUTCString();
-	});
+	eleventyConfig.addFilter('dateToRFC2822', date => date.toUTCString());
 
 	// Add last published filter
-	eleventyConfig.addFilter('getLastPublishedDate', collection => {
-		return new Date(Math.max(...collection.map(item => {return item.data.published})));
-	});
+	eleventyConfig.addFilter('getLastPublishedDate', collection => new Date(Math.max(...collection.map(item => item.data.published))));
 
 	// Add last modified filter
-	eleventyConfig.addFilter('getLastModifiedDate', collection => {
-		return new Date(Math.max(...collection.map(item => {return item.data.modified})));
-	});
+	eleventyConfig.addFilter('getLastModifiedDate', collection => new Date(Math.max(...collection.map(item => item.data.modified))));
 
 	// Add default layout to all pages
 	eleventyConfig.addGlobalData('layout', () => 'default');
+
+	// Make environment available on all pages
+	eleventyConfig.addGlobalData('isDevEnvironment', () => isDevEnvironment);
 
 	// Keep dates in sync with the server
 	eleventyConfig.addGlobalData('postDates', async function() {
