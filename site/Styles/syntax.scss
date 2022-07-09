@@ -34,8 +34,8 @@ pre {
 				content: counter(line-count);
 				display: inline-block;
 				user-select: none;
-				padding-right: $padding-width / 2;
-				margin-right: $padding-width / 2;
+				padding-right: calc($padding-width / 2);
+				margin-right: calc($padding-width / 2);
 				border-right: $border-width solid $colour-decorate;
 			}
 		}

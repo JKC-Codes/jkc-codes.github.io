@@ -27,7 +27,7 @@ background: $colour-brand;
 	padding: 0.5rem 1rem;
 
 	&:focus {
-		top: $spacing / 2;
+		top: calc($spacing / 2);
 	}
 }
 

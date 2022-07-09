@@ -15,7 +15,7 @@ max-width: 65ch; // Grid fallback
 }
 
 .project {
-	$image-column: calc(50% - #{$spacing/2});
+	$image-column: calc(50% - #{calc($spacing/2)});
 
 	position: relative;
 	margin-top: $spacing * 2.5;
