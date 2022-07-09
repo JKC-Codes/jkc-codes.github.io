@@ -1,6 +1,6 @@
 {
 	"dependencies": {
-		"@11ty/eleventy": "^1.0.0",
+		"@11ty/eleventy": "^2.0.0-canary.12",
 		"@11ty/eleventy-plugin-rss": "^1.0.0",
 		"del-cli": "^4.0.0",
 		"dotenv": "^16.0.0",
