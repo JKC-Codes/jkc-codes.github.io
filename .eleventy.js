@@ -8,22 +8,13 @@ const { posthtml: pluginManageWhitespace, parser: parserManageWhitespace } = req
 
 
 module.exports = function(eleventyConfig) {
-	eleventyConfig.setBrowserSyncConfig({
-		// Refresh browser when CSS updates
-		files: './site/css/**/*.css',
-		ignore: './site/css/**/*.map',
-
-		// Redirect live server requests so content isn't duplicated
-		server: {
-			baseDir: './site/html',
-			routes: {
-				'/css': './site/css',
-				'/img': './site/Images',
-				'/js': './site/Scripts',
-				'/serviceworker.js': './site/Scripts/serviceworker.js'
-			}
-		}
-	});
+	// Redirect requests so files aren't duplicated
+	eleventyConfig.addPassthroughCopy({'./site/css/': './css/'});
+	eleventyConfig.addPassthroughCopy({'./site/Images/': './img/'});
+	eleventyConfig.addPassthroughCopy({'./site/Scripts/': './js/'}, {filter: ['*', '!serviceworker.js']});
+	eleventyConfig.addPassthroughCopy({'./site/Scripts/serviceworker.js': '/serviceworker.js'});
+	eleventyConfig.addPassthroughCopy('./CNAME');
+	eleventyConfig.addPassthroughCopy('./.netlify/_redirects');
 
 
 	// Pre-parse PostHTML plugin options
@@ -44,6 +35,7 @@ module.exports = function(eleventyConfig) {
 	const optionsManageWhitespace = parserManageWhitespace({
 		tabSize: 2
 	});
+
 
 	// Add plugins
 	eleventyConfig.addPlugin(pluginExtract, {
@@ -125,6 +117,7 @@ module.exports = function(eleventyConfig) {
 
 		return postDates;
 	});
+
 
 	return {
 		dir: {

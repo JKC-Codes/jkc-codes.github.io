@@ -12,11 +12,6 @@ function reset() {
 	return shell(`npx del-cli ${destination}`);
 }
 
-function cname() {
-	return gulp.src('./CNAME')
-		.pipe(gulp.dest(destination));
-}
-
 function eleventy() {
 	return shell(`npx @11ty/eleventy --output="${destination}"`);
 }
@@ -57,7 +52,7 @@ function js() {
 }
 
 function img() {
-	return gulp.src('./site/Images/**')
+	return gulp.src(destination + 'img/')
 	.pipe(minifyIMG([
 		minifyIMG.gifsicle(),
 		minifyIMG.mozjpeg(),
@@ -65,11 +60,6 @@ function img() {
 		minifyIMG.svgo({plugins: [{removeViewBox: false}]})
 	]))
 	.pipe(gulp.dest(destination + 'img/'));
-}
-
-function redirect() {
-	return gulp.src('./.netlify/_redirects')
-		.pipe(gulp.dest(destination));
 }
 
 function netlify() {
@@ -83,16 +73,12 @@ function browser() {
 
 exports.default = gulp.series(
 	reset,
+	eleventy,
 	gulp.parallel(
-		cname,
-		gulp.series(
-			eleventy,
-			html
-		),
+		html,
 		css,
 		js,
-		img,
-		redirect
+		img
 	),
 	netlify,
 	gulp.parallel(
@@ -103,12 +89,9 @@ exports.default = gulp.series(
 
 exports.publish = gulp.series(
 	reset,
+	eleventy,
 	gulp.parallel(
-		cname,
-		gulp.series(
-			eleventy,
-			html
-		),
+		html,
 		css,
 		js,
 		img
