@@ -52,7 +52,7 @@ function js() {
 }
 
 function img() {
-	return gulp.src(destination + 'img/')
+	return gulp.src(destination + 'img/**')
 	.pipe(minifyIMG([
 		minifyIMG.gifsicle(),
 		minifyIMG.mozjpeg(),
