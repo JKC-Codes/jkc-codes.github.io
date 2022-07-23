@@ -21,7 +21,7 @@
 		"eleventy": "npx @11ty/eleventy",
 		"watch:eleventy": "npm run eleventy -- --serve",
 		"presass": "del-cli site/css/**",
-		"sass": "npx sass site/Styles:site/css --source-map-urls=absolute",
+		"sass": "npx sass site/Styles:site/css --embed-sources",
 		"watch:sass": "npm run sass -- --watch",
 		"stage": "npx gulp",
 		"build": "npx gulp publish"
