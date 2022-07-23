@@ -1,6 +1,4 @@
 require('dotenv').config();
-const isDevEnvironment = process.env.ELEVENTY_ENV === 'development';
-const isStagingEnvironment = process.env.ELEVENTY_ENV === 'staging';
 const pluginExtract = require('./extract-plugin.js');
 const pluginRSS = require('@11ty/eleventy-plugin-rss');
 const pluginTimeToRead = require('eleventy-plugin-time-to-read');
@@ -17,9 +15,6 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy({'./site/Scripts/': './js/'}, {filter: ['*', '!serviceworker.js']});
 	eleventyConfig.addPassthroughCopy({'./site/Scripts/serviceworker.js': '/serviceworker.js'});
 	eleventyConfig.addPassthroughCopy('./CNAME');
-	if(isStagingEnvironment) {
-		eleventyConfig.addPassthroughCopy('./.netlify/_redirects');
-	}
 
 
 	// Pre-parse PostHTML plugin options
@@ -101,7 +96,7 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addGlobalData('layout', () => 'default');
 
 	// Make environment available on all pages
-	eleventyConfig.addGlobalData('isDevEnvironment', () => isDevEnvironment);
+	eleventyConfig.addGlobalData('isDevEnvironment', () => process.env.ELEVENTY_ENV === 'development');
 
 	// Keep dates in sync with the server
 	eleventyConfig.addGlobalData('postDates', async function() {

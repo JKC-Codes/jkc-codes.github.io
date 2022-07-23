@@ -12,6 +12,11 @@ function reset() {
 	return shell(`npx del-cli ${destination}`);
 }
 
+function redirect() {
+	return gulp.src('./.netlify/_redirects')
+		.pipe(gulp.dest(destination));
+}
+
 function eleventy() {
 	return shell(`npx @11ty/eleventy --output="${destination}"`);
 }
@@ -73,7 +78,10 @@ function browser() {
 
 exports.default = gulp.series(
 	reset,
-	eleventy,
+	gulp.parallel(
+		redirect,
+		eleventy
+	),
 	gulp.parallel(
 		html,
 		css,
