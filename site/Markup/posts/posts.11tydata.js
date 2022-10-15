@@ -4,12 +4,22 @@ module.exports = () => {
 		eleventyComputed: {
 			title: data => data.title || data.page.fileSlug,
 			published: data => {
-				const storedDate = data.postDates[data.page.url]?.published;
-				return data.date || storedDate || data.page.date;
+				if(data.published) {
+					return new Date(data.published);
+				}
+				else {
+					const storedDate = data.postDates[data.page.url]?.published;
+					return data.date || storedDate || data.page.date;
+				}
 			},
 			modified: data => {
-				const storedDate = data.postDates[data.page.url]?.modified;
-				return data.date || storedDate || data.page.date;
+				if(data.modified) {
+					return new Date(data.modified);
+				}
+				else {
+					const storedDate = data.postDates[data.page.url]?.modified;
+					return data.date || storedDate || data.page.date;
+				}
 			},
 			eleventyExcludeFromCollections: data => {
 				const isDraft = 'draft' in data && data.draft !== false;
