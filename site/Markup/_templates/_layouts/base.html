@@ -4,7 +4,7 @@
 <body>
 	<div id="site-container">
 		{% include "header.html" %}
-		<main id="site-main"{% if page.inputPath contains "./site/Markup/posts/" -%}class="h-entry"{% endif %}>
+		<main id="site-main" {% if page.inputPath contains "./site/Markup/posts/" -%}class="h-entry"{%- endif %} tabindex="-1">
 			{{ content }}
 		</main>
 		{% include "footer.html" %}
