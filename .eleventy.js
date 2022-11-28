@@ -16,6 +16,9 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPassthroughCopy({'./site/Scripts/serviceworker.js': '/serviceworker.js'});
 	eleventyConfig.addPassthroughCopy('./CNAME');
 
+	// Fix passthrough files being ignored by --serve
+	eleventyConfig.setUseGitIgnore(false);
+
 
 	// Pre-parse PostHTML plugin options
 	const optionsAutomaticNoopener = parserAutomaticNoopener({
