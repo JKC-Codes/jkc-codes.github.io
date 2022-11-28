@@ -3,7 +3,7 @@
 	<id>https://jkc.codes/</id>
 	<title>John Kemp-Cruz (Atom feed)</title>
 	<subtitle>Where John writes about web development</subtitle>
-	<updated>2021-08-06T13:39:37Z</updated>
+	<updated>2021-08-06T13:39:37.000Z</updated>
 	<icon>https://jkc.codes/img/site/icon-site-128x128.png</icon>
 	<link href="https://jkc.codes/" rel="alternate"/>
 	<link href="https://jkc.codes/feed.atom" rel="self"/>
@@ -15,7 +15,7 @@
 	<entry>
 		<id>https://jkc.codes/blog/creating-drafts-in-eleventy/</id>
 		<title>Creating Drafts In Eleventy</title>
-		<updated>2021-08-06T13:39:37Z</updated>
+		<updated>2021-08-06T13:39:37.000Z</updated>
 		<author>
 			<name>John Kemp-Cruz</name>
 			<uri>https://jkc.codes</uri>
@@ -232,13 +232,13 @@ draft: true
 &lt;/ul&gt;
 </content>
 		<link href="https://jkc.codes/blog/creating-drafts-in-eleventy/" rel="alternate"/>
-		<published>2021-08-06T13:39:37Z</published>
+		<published>2021-08-06T13:39:37.000Z</published>
 	</entry>
 	
 	<entry>
 		<id>https://jkc.codes/blog/building-a-robust-toggle-menu/</id>
 		<title>Building A Robust Toggle Menu</title>
-		<updated>2021-07-01T18:30:47Z</updated>
+		<updated>2021-07-01T18:30:47.000Z</updated>
 		<author>
 			<name>John Kemp-Cruz</name>
 			<uri>https://jkc.codes</uri>
@@ -342,13 +342,13 @@ input + ul {
 &lt;p&gt;With this change I managed to knock more than a second off my speed index, from 2.18 seconds to 1.16 and move from 29&lt;sup&gt;th&lt;/sup&gt; place to 13&lt;sup&gt;th&lt;/sup&gt; on the &lt;a href=&quot;https://www.11ty.dev/speedlify/#site-7702f769&quot;&gt;Eleventy leaderboards&lt;/a&gt;!&lt;/p&gt;
 </content>
 		<link href="https://jkc.codes/blog/building-a-robust-toggle-menu/" rel="alternate"/>
-		<published>2021-07-01T18:30:47Z</published>
+		<published>2021-07-01T18:30:47.000Z</published>
 	</entry>
 	
 	<entry>
 		<id>https://jkc.codes/blog/using-sass-with-eleventy/</id>
 		<title>Using SASS With Eleventy</title>
-		<updated>2021-03-17T15:08:01Z</updated>
+		<updated>2021-03-17T15:08:01.000Z</updated>
 		<author>
 			<name>John Kemp-Cruz</name>
 			<uri>https://jkc.codes</uri>
@@ -468,6 +468,6 @@ command line
 &lt;/ul&gt;
 </content>
 		<link href="https://jkc.codes/blog/using-sass-with-eleventy/" rel="alternate"/>
-		<published>2021-03-17T15:08:01Z</published>
+		<published>2021-03-17T15:08:01.000Z</published>
 	</entry>
 </feed>

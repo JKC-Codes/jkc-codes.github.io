@@ -4,8 +4,8 @@
 		<link>https://jkc.codes/</link>
 		<description>Where John writes about web development</description>
 		<language>en-GB</language>
-		<pubDate>Fri, 06 Aug 2021 13:39:37 +0000</pubDate>
-		<lastBuildDate>Fri, 06 Aug 2021 13:39:37 +0000</lastBuildDate>
+		<pubDate>Fri, 06 Aug 2021 13:39:37 GMT</pubDate>
+		<lastBuildDate>Fri, 06 Aug 2021 13:39:37 GMT</lastBuildDate>
 		<image>
 			<url>https://jkc.codes/img/site/icon-site-128x128.png</url>
 			<title>John Kemp-Cruz</title>
@@ -229,7 +229,7 @@ draft: true
 &lt;/ul&gt;
 </description>
 			<guid>https://jkc.codes/blog/creating-drafts-in-eleventy/</guid>
-			<pubDate>Fri, 06 Aug 2021 13:39:37 +0000</pubDate>
+			<pubDate>Fri, 06 Aug 2021 13:39:37 GMT</pubDate>
 			<dc:creator>John Kemp-Cruz</dc:creator>
 		</item>
 		<item>
@@ -334,7 +334,7 @@ input + ul {
 &lt;p&gt;With this change I managed to knock more than a second off my speed index, from 2.18 seconds to 1.16 and move from 29&lt;sup&gt;th&lt;/sup&gt; place to 13&lt;sup&gt;th&lt;/sup&gt; on the &lt;a href=&quot;https://www.11ty.dev/speedlify/#site-7702f769&quot;&gt;Eleventy leaderboards&lt;/a&gt;!&lt;/p&gt;
 </description>
 			<guid>https://jkc.codes/blog/building-a-robust-toggle-menu/</guid>
-			<pubDate>Thu, 01 Jul 2021 18:30:47 +0000</pubDate>
+			<pubDate>Thu, 01 Jul 2021 18:30:47 GMT</pubDate>
 			<dc:creator>John Kemp-Cruz</dc:creator>
 		</item>
 		<item>
@@ -455,7 +455,7 @@ command line
 &lt;/ul&gt;
 </description>
 			<guid>https://jkc.codes/blog/using-sass-with-eleventy/</guid>
-			<pubDate>Wed, 17 Mar 2021 15:08:01 +0000</pubDate>
+			<pubDate>Wed, 17 Mar 2021 15:08:01 GMT</pubDate>
 			<dc:creator>John Kemp-Cruz</dc:creator>
 		</item>
 	</channel>
