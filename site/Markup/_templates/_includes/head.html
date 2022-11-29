@@ -1,4 +1,4 @@
-{% unless description -%}
+{%- unless description -%}
 	{% if page.inputPath contains "./site/Markup/posts/" -%}
 		{% for post in collections.posts -%}
 			{% if post.inputPath == page.inputPath -%}
@@ -9,7 +9,7 @@
 	{%- else -%}
 		{% assign description = siteMeta.description %}
 	{%- endif %}
-{%- endunless %}
+{%- endunless -%}
 
 <head>
 	<meta charset="utf-8">
