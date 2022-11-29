@@ -18,11 +18,12 @@
 		</image>
 		<atom:link href="{{ siteMeta.url }}/feed.rss" rel="self" type="application/rss+xml"/>
 		{%- for post in collections.posts %}
-		{%- set absolutePostUrl %}{{ post.url | url | absoluteUrl(siteMeta.url) }}{% endset %}
+		{%- set absolutePostUrl = post.url | url | absoluteUrl(siteMeta.url) -%}
+		{%- set readingTime = post.templateContent | timeToRead %}
 		<item>
 			<title>{{ post.data.title }}</title>
 			<link>{{ absolutePostUrl }}</link>
-			<description>&lt;p&gt;&lt;small&gt;(About &lt;time datetime="PT{{ post.templateContent | seconds_timeToRead}}S"&gt;{{ post.templateContent | timeToRead }}&lt;/time&gt; to read)&lt;/small&gt;&lt;/p&gt;
+			<description>&lt;p&gt;&lt;small&gt;(About &lt;time datetime="PT{{ readingTime [1] }}S"&gt;{{ readingTime[0] }}&lt;/time&gt; to read)&lt;/small&gt;&lt;/p&gt;
 {{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</description>
 			<guid>{{ absolutePostUrl }}</guid>
 			<pubDate>{{ post.data.published | dateToRFC2822 }}</pubDate>

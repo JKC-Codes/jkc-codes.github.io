@@ -18,12 +18,13 @@
 	"language": "en-GB",
 	"items": [
 		{%- for post in collections.posts %}
-		{% set absolutePostUrl %}{{ post.url | url | absoluteUrl(siteMeta.url) }}{% endset %}
+		{%- set absolutePostUrl = post.url | url | absoluteUrl(siteMeta.url) -%}
+		{%- set readingTime = post.templateContent | timeToRead %}
 		{
 			"id": "{{ absolutePostUrl }}",
 			"url": "{{ absolutePostUrl }}",
 			"title": "{{ post.data.title }}",
-			"content_html": {%- if post.templateContent %}{{ ('<p><small>(About <time datetime="PT' + post.templateContent | seconds_timeToRead + 'S">' + post.templateContent | timeToRead + '</time> to read)</small></p>\n' + (post.templateContent | htmlToAbsoluteUrls(absolutePostUrl))) | dump | safe }}{% else %}""{%- endif %},
+			"content_html": {%- if post.templateContent %}{{ ('<p><small>(About <time datetime="PT' + readingTime[1] + 'S">' + readingTime[0] + '</time> to read)</small></p>\n' + (post.templateContent | htmlToAbsoluteUrls(absolutePostUrl))) | dump | safe }}{% else %}""{%- endif %},
 			"date_published": "{{ post.data.published | dateToRFC3339 }}",
 			"date_modified": "{{ post.data.modified | dateToRFC3339 }}",
 			"authors": [

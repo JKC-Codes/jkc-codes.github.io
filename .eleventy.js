@@ -48,14 +48,10 @@ module.exports = function(eleventyConfig) {
 
 	eleventyConfig.addPlugin(pluginRSS);
 
-	eleventyConfig.addPlugin(pluginTimeToRead);
-
-	eleventyConfig.namespace('seconds_', function() {
-		eleventyConfig.addPlugin(pluginTimeToRead, {
-			output: function(data) {
-				return data.totalSeconds;
-			}
-		});
+	eleventyConfig.addPlugin(pluginTimeToRead, {
+		output: function(data) {
+			return [data.timing, data.totalSeconds, data.totalWords];
+		}
 	});
 
 	eleventyConfig.addPlugin(markdownTrimTrailingNewline);

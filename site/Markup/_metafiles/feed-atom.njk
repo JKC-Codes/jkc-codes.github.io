@@ -14,8 +14,9 @@
 		<name>{{ siteMeta.author }}</name>
 		<uri>{{ siteMeta.url }}</uri>
 	</author>
-	{%- for post in collections.posts %}
-	{% set absolutePostUrl %}{{ post.url | url | absoluteUrl(siteMeta.url) }}{% endset %}
+	{% for post in collections.posts -%}
+	{%- set absolutePostUrl = post.url | url | absoluteUrl(siteMeta.url) -%}
+	{%- set readingTime = post.templateContent | timeToRead %}
 	<entry>
 		<id>{{ absolutePostUrl }}</id>
 		<title>{{ post.data.title }}</title>
@@ -24,7 +25,7 @@
 			<name>{{ siteMeta.author }}</name>
 			<uri>{{ siteMeta.url }}</uri>
 		</author>
-		<content type="html">&lt;p&gt;&lt;small&gt;(About &lt;time datetime="PT{{ post.templateContent | seconds_timeToRead}}S"&gt;{{ post.templateContent | timeToRead }}&lt;/time&gt; to read)&lt;/small&gt;&lt;/p&gt;
+		<content type="html">&lt;p&gt;&lt;small&gt;(About &lt;time datetime="PT{{ readingTime[1] }}S"&gt;{{ readingTime[0] }}&lt;/time&gt; to read)&lt;/small&gt;&lt;/p&gt;
 {{ post.templateContent | htmlToAbsoluteUrls(absolutePostUrl) }}</content>
 		<link href="{{ absolutePostUrl }}" rel="alternate"/>
 		<published>{{ post.data.published | dateToRFC3339 }}</published>
