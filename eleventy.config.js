@@ -1,6 +1,5 @@
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 
-require('dotenv').config();
 const pluginExtract = require('./extract-plugin.js');
 const pluginRSS = require('@11ty/eleventy-plugin-rss');
 const pluginTimeToRead = require('eleventy-plugin-time-to-read');
@@ -97,7 +96,8 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addGlobalData('layout', () => 'default.html');
 
 	// Make environment available on all pages
-	eleventyConfig.addGlobalData('isDevEnvironment', () => process.env.ELEVENTY_ENV === 'development');
+	const runMode = process.env.ELEVENTY_RUN_MODE;
+	eleventyConfig.addGlobalData('isDevEnvironment', runMode === 'serve' || runMode === 'watch');
 
 	// Keep dates in sync with the server
 	eleventyConfig.addGlobalData('postDates', async function() {
