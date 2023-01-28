@@ -1,3 +1,6 @@
+---
+modified: 2023-01-28
+---
 Several static site generators and content management systems have built in functionality to mark posts as drafts. Eleventy (11ty) isn't one of these but fortunately it is possible to implement.
 
 The core concept is to use two [front matter](https://www.11ty.dev/docs/data-frontmatter/) [keys](https://www.11ty.dev/docs/data-configuration/) &mdash; [`permalink`](https://www.11ty.dev/docs/permalinks/) and [`eleventyExcludeFromCollections`](https://www.11ty.dev/docs/collections/#option-exclude-content-from-collections) &mdash; to hide pages from users and then [computed data](https://www.11ty.dev/docs/data-computed/) with environment variables to automatically toggle visibility depending on the environment.
@@ -280,3 +283,4 @@ draft: true
 - [Computed data documentation](https://www.11ty.dev/docs/data-computed/)
 - [Data cascade documentation](https://www.11ty.dev/docs/data-cascade/)
 - [Directory specific data files documentation](https://www.11ty.dev/docs/data-template-dir/)
+- [Draft posts using computed data](https://www.11ty.dev/docs/quicktips/draft-posts/)
