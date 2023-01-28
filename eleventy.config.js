@@ -94,7 +94,7 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addFilter('getLastModifiedDate', collection => new Date(Math.max(...collection.map(item => item.data.modified))));
 
 	// Add default layout to all pages
-	eleventyConfig.addGlobalData('layout', () => 'default');
+	eleventyConfig.addGlobalData('layout', () => 'default.html');
 
 	// Make environment available on all pages
 	eleventyConfig.addGlobalData('isDevEnvironment', () => process.env.ELEVENTY_ENV === 'development');

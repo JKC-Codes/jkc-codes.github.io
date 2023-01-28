@@ -1,6 +1,6 @@
 module.exports = () => {
 	return {
-		layout: 'post',
+		layout: 'post.html',
 		eleventyComputed: {
 			title: data => data.title || data.page.fileSlug,
 			published: data => {
