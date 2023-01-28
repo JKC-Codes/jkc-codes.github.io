@@ -59,7 +59,7 @@ module.exports = function(eleventyConfig) {
 	eleventyConfig.addPlugin(markdownTrimTrailingNewline);
 
 	eleventyConfig.addTransform('posthtml', function(HTMLString) {
-		if(typeof this.outputPath == 'string' && this.outputPath.endsWith('.html')) {
+		if(this.page.outputPath.outputFileExtension === 'html') {
 			return posthtml([
 				pluginAutomaticNoopener(optionsAutomaticNoopener),
 				pluginCodeStyleHooks(optionsCodeStyleHooks),
