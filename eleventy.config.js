@@ -1,3 +1,5 @@
+/** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
+
 require('dotenv').config();
 const pluginExtract = require('./extract-plugin.js');
 const pluginRSS = require('@11ty/eleventy-plugin-rss');
