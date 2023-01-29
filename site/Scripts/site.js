@@ -15,7 +15,7 @@ function activateSiteNavMenu() {
 	var button = document.querySelector('.js-site-nav-button');
 	var buttonText = button.querySelector('.js-site-nav-button-text');
 	var menu = document.querySelector('.js-site-nav-menu');
-	var mediaQuery = window.matchMedia('(min-width: 55em)');
+	var mediaQuery = window.matchMedia('(min-width: 56em)');
 
 	button.addEventListener('click', toggleNavMenu, {passive: true});
 
