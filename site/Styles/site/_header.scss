@@ -9,7 +9,7 @@ background: $colour-brand;
 
 @media (min-width: $mq-header-wide) {
 	@supports (grid-area: auto) {
-		width: 9.5rem;
+		width: auto;
 	}
 }
 
@@ -279,6 +279,7 @@ background: $colour-brand;
 		@media (min-width: $mq-header-wide) {
 			@supports (grid-area: auto) {
 				writing-mode: sideways-lr;
+				width: 1rem;
 
 				@supports (not (writing-mode: sideways-lr)) {
 					writing-mode: vertical-lr;
