@@ -59,7 +59,6 @@ module.exports = function(eleventyConfig) {
 
 	eleventyConfig.addTransform('posthtml', function(HTMLString) {
 		if(this.outputPath && this.outputPath.endsWith('html')) {
-		// if(this.page.outputFileExtension === 'html') {
 			return posthtml([
 				pluginAutomaticNoopener(optionsAutomaticNoopener),
 				pluginCodeStyleHooks(optionsCodeStyleHooks),
