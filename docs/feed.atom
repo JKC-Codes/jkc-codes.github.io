@@ -3,7 +3,7 @@
 	<id>https://jkc.codes/</id>
 	<title>John Kemp-Cruz (Atom feed)</title>
 	<subtitle>Where John writes about web development</subtitle>
-	<updated>2021-08-06T13:39:37.000Z</updated>
+	<updated>2023-02-05T15:00:15.000Z</updated>
 	<icon>https://jkc.codes/img/site/icon-site-128x128.png</icon>
 	<link href="https://jkc.codes/" rel="alternate"/>
 	<link href="https://jkc.codes/feed.atom" rel="self"/>
@@ -15,12 +15,12 @@
 	<entry>
 		<id>https://jkc.codes/blog/creating-drafts-in-eleventy/</id>
 		<title>Creating Drafts In Eleventy</title>
-		<updated>2021-08-06T13:39:37.000Z</updated>
+		<updated>2023-02-05T15:00:15.000Z</updated>
 		<author>
 			<name>John Kemp-Cruz</name>
 			<uri>https://jkc.codes</uri>
 		</author>
-		<content type="html">&lt;p&gt;&lt;small&gt;(About &lt;time datetime="PT568S"&gt;9 minutes&lt;/time&gt; to read)&lt;/small&gt;&lt;/p&gt;
+		<content type="html">&lt;p&gt;&lt;small&gt;(About &lt;time datetime="PT569S"&gt;9 minutes&lt;/time&gt; to read)&lt;/small&gt;&lt;/p&gt;
 &lt;p&gt;Several static site generators and content management systems have built in functionality to mark posts as drafts. Eleventy (11ty) isn&#39;t one of these but fortunately it is possible to implement.&lt;/p&gt;
 &lt;p&gt;The core concept is to use two &lt;a href=&quot;https://www.11ty.dev/docs/data-frontmatter/&quot;&gt;front matter&lt;/a&gt; &lt;a href=&quot;https://www.11ty.dev/docs/data-configuration/&quot;&gt;keys&lt;/a&gt; — &lt;a href=&quot;https://www.11ty.dev/docs/permalinks/&quot;&gt;&lt;code&gt;permalink&lt;/code&gt;&lt;/a&gt; and &lt;a href=&quot;https://www.11ty.dev/docs/collections/#option-exclude-content-from-collections&quot;&gt;&lt;code&gt;eleventyExcludeFromCollections&lt;/code&gt;&lt;/a&gt; — to hide pages from users and then &lt;a href=&quot;https://www.11ty.dev/docs/data-computed/&quot;&gt;computed data&lt;/a&gt; with environment variables to automatically toggle visibility depending on the environment.&lt;/p&gt;
 &lt;h2&gt;What Functionality Is Needed?&lt;/h2&gt;
@@ -229,12 +229,12 @@ draft: true
 &lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/data-computed/&quot;&gt;Computed data documentation&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/data-cascade/&quot;&gt;Data cascade documentation&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/data-template-dir/&quot;&gt;Directory specific data files documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/quicktips/draft-posts/&quot;&gt;Draft posts using computed data&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </content>
 		<link href="https://jkc.codes/blog/creating-drafts-in-eleventy/" rel="alternate"/>
 		<published>2021-08-06T13:39:37.000Z</published>
 	</entry>
-	
 	<entry>
 		<id>https://jkc.codes/blog/building-a-robust-toggle-menu/</id>
 		<title>Building A Robust Toggle Menu</title>
@@ -344,7 +344,6 @@ input + ul {
 		<link href="https://jkc.codes/blog/building-a-robust-toggle-menu/" rel="alternate"/>
 		<published>2021-07-01T18:30:47.000Z</published>
 	</entry>
-	
 	<entry>
 		<id>https://jkc.codes/blog/using-sass-with-eleventy/</id>
 		<title>Using SASS With Eleventy</title>

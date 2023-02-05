@@ -5,7 +5,7 @@
 		<description>Where John writes about web development</description>
 		<language>en-GB</language>
 		<pubDate>Fri, 06 Aug 2021 13:39:37 GMT</pubDate>
-		<lastBuildDate>Fri, 06 Aug 2021 13:39:37 GMT</lastBuildDate>
+		<lastBuildDate>Sun, 05 Feb 2023 15:00:15 GMT</lastBuildDate>
 		<image>
 			<url>https://jkc.codes/img/site/icon-site-128x128.png</url>
 			<title>John Kemp-Cruz</title>
@@ -17,7 +17,7 @@
 		<item>
 			<title>Creating Drafts In Eleventy</title>
 			<link>https://jkc.codes/blog/creating-drafts-in-eleventy/</link>
-			<description>&lt;p&gt;&lt;small&gt;(About &lt;time datetime="PT568S"&gt;9 minutes&lt;/time&gt; to read)&lt;/small&gt;&lt;/p&gt;
+			<description>&lt;p&gt;&lt;small&gt;(About &lt;time datetime="PT569S"&gt;9 minutes&lt;/time&gt; to read)&lt;/small&gt;&lt;/p&gt;
 &lt;p&gt;Several static site generators and content management systems have built in functionality to mark posts as drafts. Eleventy (11ty) isn&#39;t one of these but fortunately it is possible to implement.&lt;/p&gt;
 &lt;p&gt;The core concept is to use two &lt;a href=&quot;https://www.11ty.dev/docs/data-frontmatter/&quot;&gt;front matter&lt;/a&gt; &lt;a href=&quot;https://www.11ty.dev/docs/data-configuration/&quot;&gt;keys&lt;/a&gt; — &lt;a href=&quot;https://www.11ty.dev/docs/permalinks/&quot;&gt;&lt;code&gt;permalink&lt;/code&gt;&lt;/a&gt; and &lt;a href=&quot;https://www.11ty.dev/docs/collections/#option-exclude-content-from-collections&quot;&gt;&lt;code&gt;eleventyExcludeFromCollections&lt;/code&gt;&lt;/a&gt; — to hide pages from users and then &lt;a href=&quot;https://www.11ty.dev/docs/data-computed/&quot;&gt;computed data&lt;/a&gt; with environment variables to automatically toggle visibility depending on the environment.&lt;/p&gt;
 &lt;h2&gt;What Functionality Is Needed?&lt;/h2&gt;
@@ -226,6 +226,7 @@ draft: true
 &lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/data-computed/&quot;&gt;Computed data documentation&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/data-cascade/&quot;&gt;Data cascade documentation&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/data-template-dir/&quot;&gt;Directory specific data files documentation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.11ty.dev/docs/quicktips/draft-posts/&quot;&gt;Draft posts using computed data&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
 			<guid>https://jkc.codes/blog/creating-drafts-in-eleventy/</guid>
