@@ -1,8 +1,5 @@
 .netlify
-.env
 docs
 node_modules
 site/.vscode
-site/css
-site/html
 package-lock.json

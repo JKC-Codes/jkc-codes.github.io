@@ -12,13 +12,17 @@ function reset() {
 	return shell(`npx del-cli ${destination}`);
 }
 
-function cname() {
-	return gulp.src('./CNAME')
+function redirect() {
+	return gulp.src('./.netlify/_redirects')
 		.pipe(gulp.dest(destination));
 }
 
 function eleventy() {
 	return shell(`npx @11ty/eleventy --output="${destination}"`);
+}
+
+function css() {
+	return shell(`npx sass site/Styles:${destination}css --style=compressed --no-source-map`);
 }
 
 function html() {
@@ -40,10 +44,6 @@ function html() {
 	.pipe(gulp.dest(destination));
 }
 
-function css() {
-	return shell(`npx sass site/Styles:${destination}css --style=compressed --no-source-map`);
-}
-
 function js() {
 	return Promise.all([
 		gulp.src(['./site/Scripts/**/*.js', '!./site/Scripts/**/serviceworker.js'])
@@ -57,7 +57,7 @@ function js() {
 }
 
 function img() {
-	return gulp.src(destination + './site/Images/**')
+	return gulp.src(destination + 'img/**')
 	.pipe(minifyIMG([
 		minifyIMG.gifsicle(),
 		minifyIMG.mozjpeg(),
@@ -65,11 +65,6 @@ function img() {
 		minifyIMG.svgo({plugins: [{removeViewBox: false}]})
 	]))
 	.pipe(gulp.dest(destination + 'img/'));
-}
-
-function redirect() {
-	return gulp.src('./.netlify/_redirects')
-		.pipe(gulp.dest(destination));
 }
 
 function netlify() {
@@ -84,15 +79,16 @@ function browser() {
 exports.default = gulp.series(
 	reset,
 	gulp.parallel(
-		cname,
+		redirect,
+		css,
 		gulp.series(
 			eleventy,
-			html
+			gulp.parallel(
+				html,
+				js,
+				img
+			),
 		),
-		css,
-		js,
-		img,
-		redirect
 	),
 	netlify,
 	gulp.parallel(
@@ -104,13 +100,14 @@ exports.default = gulp.series(
 exports.publish = gulp.series(
 	reset,
 	gulp.parallel(
-		cname,
+		css,
 		gulp.series(
 			eleventy,
-			html
+			gulp.parallel(
+				html,
+				js,
+				img
+			),
 		),
-		css,
-		js,
-		img
-	)
+	),
 );

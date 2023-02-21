@@ -2,7 +2,6 @@
 	"dependencies": {
 		"@11ty/eleventy": "^2.0.0",
 		"@11ty/eleventy-plugin-rss": "^1.0.0",
-		"@11ty/eleventy-server-browsersync": "^1.0.0",
 		"del-cli": "^5.0.0",
 		"eleventy-plugin-automatic-noopener": "^2.0.0",
 		"eleventy-plugin-code-style-hooks": "^2.0.0",
@@ -17,11 +16,11 @@
 		"sass": "^1.0.0"
 	},
 	"scripts": {
-		"preeleventy": "del-cli site/html/**",
+		"preeleventy": "del-cli ./docs/** !./docs/css/**",
 		"eleventy": "npx @11ty/eleventy",
 		"watch:eleventy": "npm run eleventy -- --serve",
-		"presass": "del-cli site/css/**",
-		"sass": "npx sass site/Styles:site/css --embed-sources",
+		"presass": "del-cli ./docs/css/**",
+		"sass": "npx sass site/Styles:./docs/css --embed-sources",
 		"watch:sass": "npm run sass -- --watch",
 		"stage": "npx gulp",
 		"build": "npx gulp publish"

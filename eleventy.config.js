@@ -10,24 +10,17 @@ const { posthtml: pluginManageWhitespace, parser: parserManageWhitespace } = req
 
 
 module.exports = function(eleventyConfig) {
+	// Refresh browser when CSS updates
 	eleventyConfig.setServerOptions({
-    module: "@11ty/eleventy-server-browsersync",
-
-		// Refresh browser when CSS updates
-		files: './site/css/**/*.css',
-		ignore: './site/css/**/*.map',
-
-		// Redirect live server requests so content isn't duplicated
-		server: {
-			baseDir: './site/html',
-			routes: {
-				'/css': './site/css',
-				'/img': './site/Images',
-				'/js': './site/Scripts',
-				'/serviceworker.js': './site/Scripts/serviceworker.js'
-			}
-		}
+		watch: ['./docs/css/**/*.css'],
 	});
+
+	// Redirect live server requests so content isn't duplicated
+	eleventyConfig.setServerPassthroughCopyBehavior("passthrough");
+	eleventyConfig.addPassthroughCopy({'./site/Images/':'/img/'});
+	eleventyConfig.addPassthroughCopy({'./site/Scripts/':'/js/'}, {filter: ['*', '!serviceworker.js']});
+	eleventyConfig.addPassthroughCopy({'./site/Scripts/serviceworker.js':'/serviceworker.js'});
+	eleventyConfig.addPassthroughCopy('./CNAME');
 
 	// Pre-parse PostHTML plugin options
 	const optionsAutomaticNoopener = parserAutomaticNoopener({
@@ -47,7 +40,6 @@ module.exports = function(eleventyConfig) {
 	const optionsManageWhitespace = parserManageWhitespace({
 		tabSize: 2
 	});
-
 
 	// Add plugins
 	eleventyConfig.addPlugin(pluginExtract, {
@@ -79,7 +71,6 @@ module.exports = function(eleventyConfig) {
 			return HTMLString;
 		}
 	});
-
 
 	// Group all blog posts together, newest first
 	eleventyConfig.addCollection('posts', function(collectionAPI) {
@@ -129,7 +120,7 @@ module.exports = function(eleventyConfig) {
 	return {
 		dir: {
 			input: './site/Markup/',
-			output: './site/html/',
+			output: './docs/',
 			includes: './_templates/_includes',
 			layouts: './_templates/_layouts'
 		}
