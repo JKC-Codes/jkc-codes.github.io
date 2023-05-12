@@ -16,7 +16,7 @@ module.exports = function(eleventyConfig) {
 	});
 
 	// Redirect live server requests so content isn't duplicated
-	eleventyConfig.setServerPassthroughCopyBehavior("passthrough");
+	eleventyConfig.setServerPassthroughCopyBehavior('passthrough');
 	eleventyConfig.addPassthroughCopy({'./site/Images/':'/img/'});
 	eleventyConfig.addPassthroughCopy({'./site/Scripts/':'/js/'}, {filter: ['*', '!serviceworker.js']});
 	eleventyConfig.addPassthroughCopy({'./site/Scripts/serviceworker.js':'/serviceworker.js'});
@@ -107,7 +107,7 @@ module.exports = function(eleventyConfig) {
 		postDates = {};
 
 		for(const post of feedData.items) {
-			postDates[post.url.replace('https://jkc.codes', '')] = {
+			postDates[new URL(post.url).pathname] = {
 				published: new Date(post.date_published),
 				modified: new Date(post.date_modified)
 			};
