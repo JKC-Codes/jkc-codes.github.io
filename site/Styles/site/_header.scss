@@ -197,6 +197,7 @@ background: $colour-brand;
 		justify-content: space-between;
 		align-items: center;
 		padding: 0.75rem 1rem;
+		background: none;
 	}
 
 	@media (min-width: $mq-header-wide) {

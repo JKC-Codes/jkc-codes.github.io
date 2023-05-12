@@ -18,7 +18,7 @@ I had chosen to keep my mobile navigation menu open until JavaScript downloaded 
 
 ## Possible Solutions
 
-Here are the solutions I considered when trying to fix the problem. If you have your own that I didn't think of [let me know on Twitter](https://twitter.com/intent/tweet?screen_name=jkc_codes).
+Here are the solutions I considered when trying to fix the problem. If you have your own that I didn't think of let me know!
 
 
 ### Do Nothing
