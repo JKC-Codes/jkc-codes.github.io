@@ -243,7 +243,7 @@ draft: true
 			<name>John Kemp-Cruz</name>
 			<uri>https://jkc.codes</uri>
 		</author>
-		<content type="html">&lt;p&gt;&lt;small&gt;(About &lt;time datetime="PT500S"&gt;8 minutes&lt;/time&gt; to read)&lt;/small&gt;&lt;/p&gt;
+		<content type="html">&lt;p&gt;&lt;small&gt;(About &lt;time datetime="PT499S"&gt;8 minutes&lt;/time&gt; to read)&lt;/small&gt;&lt;/p&gt;
 &lt;p&gt;I recently noticed that my site&#39;s speed index had shot up dramatically on the &lt;a href=&quot;https://www.11ty.dev/speedlify/&quot;&gt;Eleventy leaderboards&lt;/a&gt; and managed to track the issue down to my mobile navigation menu. I was deliberately leaving the menu open until JavaScript kicked in to keep it accessible but this had the unfortunate side effect of it always being briefly visible at each page load.&lt;/p&gt;
 &lt;p&gt;Here&#39;s the thought process I went through when fixing it so that it doesn&#39;t affect my site&#39;s speed index or layout shift but still remains usable even if CSS and/or JavaScript fail.&lt;/p&gt;
 &lt;h2&gt;The Problem&lt;/h2&gt;
@@ -252,7 +252,7 @@ draft: true
 &lt;p&gt;Graceful degradation uses a &amp;quot;top down&amp;quot; approach which starts with fully enhanced code and then asks what would happen if each piece failed and implements fall backs to handle those errors. This way, instead of your site outright failing, it gracefully degrades to a less enhanced version instead.&lt;/p&gt;
 &lt;p&gt;I had chosen to keep my mobile navigation menu open until JavaScript downloaded and executed to ensure it was always available. Otherwise, if the menu was initially closed and JavaScript failed to work then the open menu button would do nothing and users wouldn&#39;t be able to navigate my site. Unfortunately, the slower the connection the longer it took to close and this sometimes led to a brief flash of the menu on page load.&lt;/p&gt;
 &lt;h2&gt;Possible Solutions&lt;/h2&gt;
-&lt;p&gt;Here are the solutions I considered when trying to fix the problem. If you have your own that I didn&#39;t think of &lt;a href=&quot;https://twitter.com/intent/tweet?screen_name=jkc_codes&quot;&gt;let me know on Twitter&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Here are the solutions I considered when trying to fix the problem. If you have your own that I didn&#39;t think of let me know!&lt;/p&gt;
 &lt;h3&gt;Do Nothing&lt;/h3&gt;
 &lt;p&gt;It may feel bad to leave a known bug in my code but if a solution causes side effects that outweigh this minor inconvenience then doing nothing is the better option.&lt;/p&gt;
 &lt;h3&gt;Closed By Default&lt;/h3&gt;

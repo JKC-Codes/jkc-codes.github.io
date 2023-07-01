@@ -16,7 +16,7 @@
 <link rel="icon" href="/img/site/icon-site.svg" type="image/svg+xml" sizes="any">
 <link rel="manifest" href="/manifest.webmanifest">
 <meta name="theme-color" content="#203060">
-<meta name="generator" content="Eleventy v2.0.0">
+<meta name="generator" content="Eleventy v2.0.1">
 <meta name="author" content="John Kemp-Cruz">
 <meta name="description" content="I recently noticed that my site's speed index had shot up dramatically on the Eleventy leaderboards and managed to track the issue down to my mobile …">
 <meta name="og:title" content="Building A Robust Toggle Menu">
@@ -31,10 +31,6 @@
 <meta name="og:description" content="I recently noticed that my site's speed index had shot up dramatically on the Eleventy leaderboards and managed to track the issue down to my mobile …">
 <meta name="og:locale" content="en-GB">
 <meta name="og:site_name" content="John Kemp-Cruz">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:site" content="@jkc_codes">
-<meta name="twitter:creator" content="@jkc_codes">
-<meta name="twitter:image:alt" content="JKC on space cadet blue background">
 <script type="application/ld+json">
 {
 			"@context": "http://schema.org",
@@ -72,14 +68,13 @@
 <li><a href="/#projects"><img src="/img/site/icon-projects.svg" alt="" width="40" height="40">Projects</a></li>
 <li><a href="https://github.com/JKC-Codes" rel="me"><img src="/img/site/icon-github.svg" alt="" width="40" height="40">GitHub</a></li>
 <li><a href="https://mastodonapp.uk/@jkc_codes" rel="me"><img src="/img/site/icon-mastodon.svg" alt="" width="40" height="40">Mastodon</a></li>
-<li><a href="https://twitter.com/jkc_codes" rel="me"><img src="/img/site/icon-twitter.svg" alt="" width="40" height="40">Twitter</a></li>
 </ul>
 </nav>
 </header>
 <main id="site-main" class="h-entry" tabindex="-1">
 <header id="header">
 <h1 id="page-heading" class="p-name">Building A Robust Toggle Menu</h1>
-<p class="reading-time"><img class="clock" src="/img/blog/clock.svg" alt="" width="13" height="13" hidden>About <time datetime="PT500S">8 minutes</time> to read</p>
+<p class="reading-time"><img class="clock" src="/img/blog/clock.svg" alt="" width="13" height="13" hidden>About <time datetime="PT499S">8 minutes</time> to read</p>
 </header>
 <div class="e-content">
 <p>I recently noticed that my site's speed index had shot up dramatically on the <a href="https://www.11ty.dev/speedlify/">Eleventy leaderboards</a> and managed to track the issue down to my mobile navigation menu. I was deliberately leaving the menu open until JavaScript kicked in to keep it accessible but this had the unfortunate side effect of it always being briefly visible at each page load.</p>
@@ -90,7 +85,7 @@
 <p>Graceful degradation uses a &quot;top down&quot; approach which starts with fully enhanced code and then asks what would happen if each piece failed and implements fall backs to handle those errors. This way, instead of your site outright failing, it gracefully degrades to a less enhanced version instead.</p>
 <p>I had chosen to keep my mobile navigation menu open until JavaScript downloaded and executed to ensure it was always available. Otherwise, if the menu was initially closed and JavaScript failed to work then the open menu button would do nothing and users wouldn't be able to navigate my site. Unfortunately, the slower the connection the longer it took to close and this sometimes led to a brief flash of the menu on page load.</p>
 <h2>Possible Solutions</h2>
-<p>Here are the solutions I considered when trying to fix the problem. If you have your own that I didn't think of <a href="https://twitter.com/intent/tweet?screen_name=jkc_codes">let me know on Twitter</a>.</p>
+<p>Here are the solutions I considered when trying to fix the problem. If you have your own that I didn't think of let me know!</p>
 <h3>Do Nothing</h3>
 <p>It may feel bad to leave a known bug in my code but if a solution causes side effects that outweigh this minor inconvenience then doing nothing is the better option.</p>
 <h3>Closed By Default</h3>
