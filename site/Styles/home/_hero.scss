@@ -18,7 +18,8 @@
 	font-size: 1.8rem;
 
 	@media (min-width: $mq-hero-narrow) {
-		font-size: 6.8vw;
+		font-size: 2.4rem;
+		font-size: clamp(1.8rem, 7.161vw + -0.14783rem, 3.2rem);
 	}
 
 	@media (min-width: 58.5em) {
