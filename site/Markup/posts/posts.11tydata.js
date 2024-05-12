@@ -1,4 +1,4 @@
-module.exports = () => {
+export default function() {
 	return {
 		layout: 'post.html',
 		eleventyComputed: {
