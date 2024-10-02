@@ -10,8 +10,8 @@
 		"build": "npx gulp publish"
 	},
 	"dependencies": {
-		"@11ty/eleventy": "^3.0.0-beta.1",
-		"@11ty/eleventy-plugin-rss": "^1.0.0",
+		"@11ty/eleventy": "^3.0.0",
+		"@11ty/eleventy-plugin-rss": "^2.0.0",
 		"del-cli": "^5.0.0",
 		"eleventy-plugin-automatic-noopener": "^2.0.0",
 		"eleventy-plugin-code-style-hooks": "^2.0.0",
