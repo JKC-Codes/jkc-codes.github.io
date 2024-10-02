@@ -119,9 +119,18 @@ export default async function(eleventyConfig) {
 	// Add default layout to all pages
 	eleventyConfig.addGlobalData('layout', () => 'default.html');
 
-	// Make environment available on all pages
+
+	// Add draft feature
 	const runMode = process.env.ELEVENTY_RUN_MODE;
-	eleventyConfig.addGlobalData('isDevEnvironment', runMode === 'serve' || runMode === 'watch');
+	const isDevEnvironment = runMode === 'serve' || runMode === 'watch';
+
+	eleventyConfig.addPreprocessor('drafts', '*', (data, content) => {
+		const isDraft = 'draft' in data && data.draft !== false;
+
+		if(isDraft && isDevEnvironment !== true) {
+			return false;
+		}
+	});
 
 	// Keep dates in sync with the server
 	eleventyConfig.addGlobalData('postDates', async function() {
