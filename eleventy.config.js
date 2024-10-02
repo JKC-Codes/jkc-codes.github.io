@@ -3,6 +3,15 @@
 import posthtml from 'posthtml';
 import pluginExtract from './extract-plugin.js';
 
+export const config = {
+	dir: {
+		input: './site/Markup/',
+		output: './docs/',
+		includes: './_templates/_includes',
+		layouts: './_templates/_layouts'
+	}
+};
+
 export default async function(eleventyConfig) {
 	const {
 		pluginRSS,
@@ -129,18 +138,7 @@ export default async function(eleventyConfig) {
 
 		return postDates;
 	});
-
-
-	return {
-		dir: {
-			input: './site/Markup/',
-			output: './docs/',
-			includes: './_templates/_includes',
-			layouts: './_templates/_layouts'
-		}
-	};
 };
-
 
 async function getModules(modulesArray) {
 	const pendingImports = [];
