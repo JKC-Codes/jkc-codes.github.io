@@ -1,26 +1,23 @@
 {
 	"scripts": {
-		"preeleventy": "del-cli ./docs/** !./docs/css/**",
+		"preeleventy": "node --run command -- preEleventy",
 		"eleventy": "npx @11ty/eleventy",
 		"watch:eleventy": "npm run eleventy -- --serve",
-		"presass": "del-cli ./docs/css/**",
+		"presass": "node --run command -- preSASS",
 		"sass": "npx sass site/Styles:./docs/css --embed-sources",
 		"watch:sass": "npm run sass -- --watch",
-		"stage": "npx gulp",
-		"build": "npx gulp publish"
+		"command": "node commands.js",
+		"stage": "node --run command -- stage",
+		"build": "node --run command -- build"
 	},
 	"dependencies": {
 		"@11ty/eleventy": "^3.0.0",
 		"@11ty/eleventy-plugin-rss": "^2.0.0",
-		"del-cli": "^5.0.0",
 		"eleventy-plugin-automatic-noopener": "^2.0.0",
 		"eleventy-plugin-code-style-hooks": "^2.0.0",
 		"eleventy-plugin-manage-whitespace": "github:JKC-Codes/eleventy-plugin-manage-whitespace",
 		"eleventy-plugin-time-to-read": "^1.0.0",
-		"gulp": "^5.0.0",
-		"gulp-html-minimizer": "^2.0.0",
-		"gulp-imagemin": "^9.0.0",
-		"gulp-terser": "^2.0.0",
+		"netlify-cli": "^22.0.0",
 		"posthtml": "^0.16.0",
 		"sass": "^1.0.0"
 	},
