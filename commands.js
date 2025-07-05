@@ -1,7 +1,10 @@
-import { promisify } from 'node:util';
-import { exec } from 'node:child_process';
+import {promisify} from 'node:util';
+import {exec} from 'node:child_process';
 import Path from 'node:path';
 import FS from 'node:fs/promises';
+
+import minifyHTML from 'htmlnano';
+import {minify as minifyJS} from 'terser';
 
 const shell = promisify(exec);
 const args = process.argv.slice(2);
@@ -81,7 +84,7 @@ async function del(pathGlob, options) {
 		paths = paths.filter(path => {return path !== Path.join(pathGlob, '..')});
 	}
 
-	let promises = [];
+	const promises = [];
 
 	for(let path of paths) {
 		promises.push(FS.rm(path, options));
@@ -102,8 +105,41 @@ function eleventy() {
 	return shell(`npx @11ty/eleventy --output="${destination}"`);
 }
 
-function html() {
-	// TODO: minify HTML
+async function html() {
+	const promises = [];
+	const files = await Array.fromAsync(FS.glob('**/*.html', {cwd: destination}));
+	const options = {
+		collapseAttributeWhitespace: true,
+		collapseWhitespace: 'conservative',
+		deduplicateAttributeValues: true,
+		removeComments: 'safe',
+		removeEmptyAttributes: true,
+		removeAttributeQuotes: false,
+		removeUnusedCss: false,
+		minifyCss: false,
+		minifyJs: true,
+		minifyJson: true,
+		minifySvg: false,
+		minifyConditionalComments: false,
+		removeRedundantAttributes: false,
+		collapseBooleanAttributes: true,
+		mergeStyles: false,
+		mergeScripts: false,
+		sortAttributesWithLists: false,
+		sortAttributes: false,
+		minifyUrls: false,
+		removeOptionalTags: false,
+		normalizeAttributeValues: false
+	};
+
+	for(const file of files) {
+		const filePath = Path.join(destination, file);
+		const raw = await FS.readFile(filePath, {encoding: 'utf8'});
+		const minified = await minifyHTML.process(raw, options).then(result => result.html);
+		promises.push(FS.writeFile(filePath, minified));
+	}
+
+	return Promise.all(promises);
 }
 
 function css() {

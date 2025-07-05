@@ -17,9 +17,11 @@
 		"eleventy-plugin-code-style-hooks": "^2.0.0",
 		"eleventy-plugin-manage-whitespace": "github:JKC-Codes/eleventy-plugin-manage-whitespace",
 		"eleventy-plugin-time-to-read": "^1.0.0",
+		"htmlnano": "^2.0.0",
 		"netlify-cli": "^22.0.0",
 		"posthtml": "^0.16.0",
-		"sass": "^1.0.0"
+		"sass": "^1.0.0",
+		"terser": "^5.0.0"
 	},
 	"type": "module",
 	"repository": {
