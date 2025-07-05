@@ -146,15 +146,25 @@ function css() {
 	return shell(`npx sass site/Styles:${destination}css --style=compressed --no-source-map`);
 }
 
-function js() {
-	// TODO: minify JS
-	const JS = FS.cp('./site/Scripts/', Path.join(destination, './js/'), {
-		recursive: true,
-		filter: (src, dest) => {return src.endsWith('serviceworker.js') ? false : true}
-	});
-	const serviceWorker = FS.cp('./site/Scripts/serviceworker.js', Path.join(destination, './serviceworker.js'));
+async function js() {
+	const promises = [];
+	const JSFolder = Path.join(destination, './js/');
+	const files = await Array.fromAsync(FS.glob('**/*.js', {cwd: JSFolder}));
 
-	return Promise.all([JS, serviceWorker]);
+	for(const file of files) {
+		minify(file, JSFolder);
+	}
+
+	minify('serviceworker.js', destination);
+
+	return Promise.all(promises);
+
+	async function minify(file, folderPath) {
+		const filePath = Path.join(folderPath, file);
+		const raw = await FS.readFile(filePath, {encoding: 'utf8'});
+		const minified = await minifyJS(raw);
+		promises.push(FS.writeFile(filePath, minified.code));
+	}
 }
 
 function img() {
