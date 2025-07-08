@@ -123,7 +123,20 @@ async function html() {
 		minifyCss: false,
 		minifyJs: true,
 		minifyJson: true,
-		minifySvg: {plugins: [{name: 'preset-default'}]},
+		minifySvg: {
+			plugins: [
+				{
+					name: 'preset-default',
+					params: {
+						overrides: {
+							removeHiddenElems: false,
+							sortAttrs: false,
+							sortDefsChildren: false
+						}
+					}
+				}
+			]
+		},
 		minifyConditionalComments: false,
 		removeRedundantAttributes: false,
 		collapseBooleanAttributes: true,
