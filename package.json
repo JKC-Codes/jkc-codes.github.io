@@ -21,6 +21,8 @@
 		"netlify-cli": "^22.0.0",
 		"posthtml": "^0.16.0",
 		"sass": "^1.0.0",
+		"sharp": "^0.34.0",
+		"svgo": "^3.0.0",
 		"terser": "^5.0.0"
 	},
 	"type": "module",

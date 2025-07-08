@@ -5,6 +5,10 @@ import FS from 'node:fs/promises';
 
 import minifyHTML from 'htmlnano';
 import {minify as minifyJS} from 'terser';
+import minifyIMG from 'sharp';
+import { optimize as minifySVG } from 'svgo';
+
+minifyIMG.cache(false);
 
 const shell = promisify(exec);
 const args = process.argv.slice(2);
@@ -119,7 +123,7 @@ async function html() {
 		minifyCss: false,
 		minifyJs: true,
 		minifyJson: true,
-		minifySvg: false,
+		minifySvg: {plugins: [{name: 'preset-default'}]},
 		minifyConditionalComments: false,
 		removeRedundantAttributes: false,
 		collapseBooleanAttributes: true,
@@ -143,7 +147,7 @@ async function html() {
 }
 
 function css() {
-	return shell(`npx sass site/Styles:${destination}css --style=compressed --no-source-map`);
+	return shell(`npx sass ./site/Styles:${Path.join(destination, './css/')} --style=compressed --no-source-map`);
 }
 
 async function js() {
@@ -167,8 +171,25 @@ async function js() {
 	}
 }
 
-function img() {
-	// TODO: optimise images
+async function img() {
+	const promises = [];
+	const imgFolder = Path.join(destination, './img/');
+	const files = await Array.fromAsync(FS.glob('**/*.{jpg,jpeg,png,webp,avif,gif,svg}', {cwd: imgFolder}));
+
+	for(const file of files) {
+		const path = Path.join(imgFolder, file);
+		const image = await new minifyIMG(path);
+		const meta = await image.metadata();
+
+		if(meta.format === 'svg') {
+			const SVG = await FS.readFile(path);
+			promises.push(FS.writeFile(path, minifySVG(SVG).data));
+		}
+		else {
+			const buffer = await image.toBuffer();
+			promises.push(minifyIMG(buffer).toFile(path));
+		}
+	}
 }
 
 function netlify() {
