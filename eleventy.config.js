@@ -1,15 +1,40 @@
 /** @param {import("@11ty/eleventy").UserConfig} eleventyConfig */
 
-const pluginExtract = require('./extract-plugin.js');
-const pluginRSS = require('@11ty/eleventy-plugin-rss');
-const pluginTimeToRead = require('eleventy-plugin-time-to-read');
-const posthtml = require('posthtml');
-const { posthtml: pluginAutomaticNoopener, parser: parserAutomaticNoopener } = require('eleventy-plugin-automatic-noopener');
-const { posthtml: pluginCodeStyleHooks, parser: parserCodeStyleHooks, markdownTrimTrailingNewline} = require('eleventy-plugin-code-style-hooks');
-const { posthtml: pluginManageWhitespace, parser: parserManageWhitespace } = require('eleventy-plugin-manage-whitespace');
+import posthtml from 'posthtml';
+import pluginExtract from './extract-plugin.js';
 
+export const config = {
+	dir: {
+		input: './site/Markup/',
+		output: './docs/',
+		includes: './_templates/_includes',
+		layouts: './_templates/_layouts'
+	}
+};
 
-module.exports = function(eleventyConfig) {
+export default async function(eleventyConfig) {
+	const {
+		pluginRSS,
+		pluginTimeToRead,
+		pluginAutomaticNoopener,
+		parserAutomaticNoopener,
+		pluginCodeStyleHooks,
+		parserCodeStyleHooks,
+		markdownTrimTrailingNewline,
+		pluginManageWhitespace,
+		parserManageWhitespace
+	} = await getModules([
+		['pluginRSS', '@11ty/eleventy-plugin-rss'],
+		['pluginTimeToRead', 'eleventy-plugin-time-to-read'],
+		['pluginAutomaticNoopener', 'eleventy-plugin-automatic-noopener', 'posthtml'],
+		['parserAutomaticNoopener', 'eleventy-plugin-automatic-noopener', 'parser'],
+		['pluginCodeStyleHooks', 'eleventy-plugin-code-style-hooks', 'posthtml'],
+		['parserCodeStyleHooks', 'eleventy-plugin-code-style-hooks', 'parser'],
+		['markdownTrimTrailingNewline', 'eleventy-plugin-code-style-hooks', 'markdownTrimTrailingNewline'],
+		['pluginManageWhitespace', 'eleventy-plugin-manage-whitespace', 'posthtml'],
+		['parserManageWhitespace', 'eleventy-plugin-manage-whitespace', 'parser'],
+	]);
+
 	// Refresh browser when CSS updates
 	eleventyConfig.setServerOptions({
 		watch: ['./docs/css/**/*.css'],
@@ -94,17 +119,24 @@ module.exports = function(eleventyConfig) {
 	// Add default layout to all pages
 	eleventyConfig.addGlobalData('layout', () => 'default.html');
 
-	// Make environment available on all pages
+
+	// Add draft feature
 	const runMode = process.env.ELEVENTY_RUN_MODE;
-	eleventyConfig.addGlobalData('isDevEnvironment', runMode === 'serve' || runMode === 'watch');
+	const isDevEnvironment = runMode === 'serve' || runMode === 'watch';
+
+	eleventyConfig.addPreprocessor('drafts', '*', (data, content) => {
+		const isDraft = 'draft' in data && data.draft !== false;
+
+		if(isDraft && isDevEnvironment !== true) {
+			return false;
+		}
+	});
 
 	// Keep dates in sync with the server
 	eleventyConfig.addGlobalData('postDates', async function() {
-		const {default: fetch} = await import('node-fetch');
 		const feed = await fetch('https://jkc.codes/feed.json');
 		const feedData = await feed.json();
-
-		postDates = {};
+		const postDates = {};
 
 		for(const post of feedData.items) {
 			postDates[new URL(post.url).pathname] = {
@@ -115,14 +147,19 @@ module.exports = function(eleventyConfig) {
 
 		return postDates;
 	});
-
-
-	return {
-		dir: {
-			input: './site/Markup/',
-			output: './docs/',
-			includes: './_templates/_includes',
-			layouts: './_templates/_layouts'
-		}
-	};
 };
+
+async function getModules(modulesArray) {
+	const pendingImports = [];
+	const modules = {};
+
+	for(const module of modulesArray) {
+		const [variable, location, name = 'default'] = module;
+
+		pendingImports.push(import(`${location}`).then(module => modules[variable] = module[name]));
+	}
+
+	await Promise.all(pendingImports);
+
+	return modules;
+}

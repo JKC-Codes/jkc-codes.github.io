@@ -1,5 +1,4 @@
-module.exports = function(eleventyConfig, options = {}) {
-
+export default function(eleventyConfig, options = {}) {
 	eleventyConfig.addShortcode('extract', function(article) {
 		return createExtract(article, options);
 	});
@@ -126,5 +125,4 @@ module.exports = function(eleventyConfig, options = {}) {
 
 		return extract;
 	}
-
 }

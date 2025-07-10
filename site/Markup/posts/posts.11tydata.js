@@ -1,4 +1,4 @@
-module.exports = () => {
+export default function() {
 	return {
 		layout: 'post.html',
 		eleventyComputed: {
@@ -21,17 +21,8 @@ module.exports = () => {
 					return data.date || storedDate || data.page.date;
 				}
 			},
-			eleventyExcludeFromCollections: data => {
-				const isDraft = 'draft' in data && data.draft !== false;
-				return (isDraft && !data.isDevEnvironment) ? true : data.eleventyExcludeFromCollections;
-			},
 			permalink: data => {
-				const isDraft = 'draft' in data && data.draft !== false;
-
-				if(isDraft && !data.isDevEnvironment) {
-					return false;
-				}
-				else if(data.permalink === '') {
+				if(data.permalink === '') {
 					return '/blog/{{ page.fileSlug | slugify }}/';
 				}
 				else {
