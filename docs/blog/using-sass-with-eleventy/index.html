@@ -1,126 +1,16 @@
-<!DOCTYPE html>
-<html lang="en-GB">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Using SASS With Eleventy — John Kemp-Cruz</title>
-<link rel="stylesheet" href="/css/site.css">
-<link rel="stylesheet" href="/css/post.css">
-<script src="/js/site.js" defer></script>
-<link rel="canonical" href="https://jkc.codes/blog/using-sass-with-eleventy/">
-<link rel="alternate" href="/feed.atom" type="application/atom+xml" title="Atom feed for John Kemp-Cruz's blog">
-<link rel="alternate" href="/feed.json" type="application/feed+json" title="JSON feed for John Kemp-Cruz's blog">
-<link rel="alternate" href="/feed.rss" type="application/rss+xml" title="RSS feed for John Kemp-Cruz's blog">
-<link rel="icon" href="/img/site/icon-site-16x16.png" type="image/png" sizes="16x16">
-<link rel="icon" href="/img/site/icon-site-32x32.png" type="image/png" sizes="32x32">
-<link rel="icon" href="/img/site/icon-site.svg" type="image/svg+xml" sizes="any">
-<link rel="manifest" href="/manifest.webmanifest">
-<meta name="theme-color" content="#203060">
-<meta name="generator" content="Eleventy v2.0.1">
-<meta name="author" content="John Kemp-Cruz">
-<meta name="description" content="Eleventy (11ty) is a super customisable static site generator that at its core transforms template language into HTML. However, template languages li…">
-<meta name="og:title" content="Using SASS With Eleventy">
-<meta name="og:type" content="article">
-<meta name="og:article:author" content="John Kemp-Cruz">
-<meta name="og:image" content="https://jkc.codes/img/site/icon-site-512x512.png">
-<meta name="og:image:type" content="image/png">
-<meta name="og:image:width" content="512">
-<meta name="og:image:height" content="512">
-<meta name="og:image:alt" content="JKC on space cadet blue background">
-<meta name="og:url" content="https://jkc.codes/blog/using-sass-with-eleventy/">
-<meta name="og:description" content="Eleventy (11ty) is a super customisable static site generator that at its core transforms template language into HTML. However, template languages li…">
-<meta name="og:locale" content="en-GB">
-<meta name="og:site_name" content="John Kemp-Cruz">
-<script type="application/ld+json">
-{
-			"@context": "http://schema.org",
-			"@type": "Person",
-			"address": {
-				"@type": "PostalAddress",
-				"addressCountry": "GB",
-				"addressLocality": "London"
-			},
-			"jobTitle": "Front-end web developer",
-			"name": "John Kemp-Cruz",
-			"url": "https://jkc.codes/"
-		}
-</script>
-<link rel="stylesheet" href="/css/syntax.css"></head>
-<body>
-<div id="site-container">
-<header id="site-header">
-<a href="#site-main" class="skip-to-content">Skip to main content</a>
-<nav class="navigation">
-<input class="menu-checkbox js-site-nav-input" type="checkbox" id="site-nav-menu-checkbox" hidden>
-<label class="menu-button js-site-nav-button" for="site-nav-menu-checkbox" hidden>
-<svg class="menu-button-icon" width="48" height="48" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-<rect class="line-top-left" x="0" y="0" width="60" height="20"></rect>
-<rect class="line-top-right" x="40" y="0" width="60" height="20"></rect>
-<rect class="line-mid-left" x="0" y="40" width="60" height="20"></rect>
-<rect class="line-mid-right" x="40" y="40" width="60" height="20"></rect>
-<rect class="line-bottom-left" x="0" y="80" width="60" height="20"></rect>
-<rect class="line-bottom-right" x="40" y="80" width="60" height="20"></rect>
-</svg><span class="menu-button-text js-site-nav-button-text">Open menu</span>
-</label>
-<ul class="navigation-links prevent-transition js-site-nav-menu" id="site-nav-menu" tabindex="-1">
-<li><a class="navigation-name" href="/">John Kemp-Cruz</a></li>
-<li><a href="/blog/"><img src="/img/site/icon-blog.svg" alt="" width="40" height="40">Blog</a></li>
-<li><a href="/#projects"><img src="/img/site/icon-projects.svg" alt="" width="40" height="40">Projects</a></li>
-<li><a href="https://github.com/JKC-Codes" rel="me"><img src="/img/site/icon-github.svg" alt="" width="40" height="40">GitHub</a></li>
-<li><a href="https://mastodonapp.uk/@jkc_codes" rel="me"><img src="/img/site/icon-mastodon.svg" alt="" width="40" height="40">Mastodon</a></li>
-</ul>
-</nav>
-</header>
-<main id="site-main" class="h-entry" tabindex="-1">
-<header id="header">
-<h1 id="page-heading" class="p-name">Using SASS With Eleventy</h1>
-<p class="reading-time"><img class="clock" src="/img/blog/clock.svg" alt="" width="13" height="13" hidden>About <time datetime="PT296S">5 minutes</time> to read</p>
-</header>
-<div class="e-content">
-<p><a href="https://www.11ty.dev/">Eleventy (11ty)</a> is a super customisable static site generator that at its core transforms template language into HTML. However, template languages like Liquid and Nunjucks are designed to output HTML rather than CSS so how does Eleventy handle styling?</p>
-<p>Let me show you how I compile SASS automatically and display the output on a local server without triggering a build from Eleventy or refreshing the browser.</p>
-<p>If you haven't already, you'll need to install <a href="https://nodejs.org/">Node</a>, create a package.json file by typing <code>npm init</code> in the command line and then run <code>npm i @11ty/eleventy</code>.</p>
-<h2>Transform SCSS Files</h2>
-<p>I use the terminal and <a href="https://sass-lang.com/documentation/cli/dart-sass">SASS' CLI commands</a> to compile CSS but you can use any build system and skip this section if you want. The only Eleventy specific thing is placing the CSS in Eleventy's output folder — by default this is &quot;_site&quot;.</p>
-<p>First, install the <a href="https://www.npmjs.com/package/sass">SASS package</a>: <code>npm i sass</code>.</p>
-<p>Then, tell SASS where the SCSS files are and where to output the CSS. I do this through NPM so I don't need to type out the command every time.</p>
-<p>Assuming your file structure looks like this:</p>
-<pre>_site
+<!DOCTYPE html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Using SASS With Eleventy — John Kemp-Cruz</title><link rel="stylesheet" href="/css/site.css"><link rel="stylesheet" href="/css/post.css"><script src="/js/site.js" defer></script><link rel="canonical" href="https://jkc.codes/blog/using-sass-with-eleventy/"><link rel="alternate" href="/feed.atom" type="application/atom+xml" title="Atom feed for John Kemp-Cruz's blog"><link rel="alternate" href="/feed.json" type="application/feed+json" title="JSON feed for John Kemp-Cruz's blog"><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="RSS feed for John Kemp-Cruz's blog"><link rel="icon" href="/img/site/icon-site-16x16.png" type="image/png" sizes="16x16"><link rel="icon" href="/img/site/icon-site-32x32.png" type="image/png" sizes="32x32"><link rel="icon" href="/img/site/icon-site.svg" type="image/svg+xml" sizes="any"><link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#203060"><meta name="generator" content="Eleventy v3.1.2"><meta name="author" content="John Kemp-Cruz"><meta name="description" content="Eleventy (11ty) is a super customisable static site generator that at its core transforms template language into HTML. However, template languages li…"><meta name="og:title" content="Using SASS With Eleventy"><meta name="og:type" content="article"><meta name="og:article:author" content="John Kemp-Cruz"><meta name="og:image" content="https://jkc.codes/img/site/icon-site-512x512.png"><meta name="og:image:type" content="image/png"><meta name="og:image:width" content="512"><meta name="og:image:height" content="512"><meta name="og:image:alt" content="JKC on space cadet blue background"><meta name="og:url" content="https://jkc.codes/blog/using-sass-with-eleventy/"><meta name="og:description" content="Eleventy (11ty) is a super customisable static site generator that at its core transforms template language into HTML. However, template languages li…"><meta name="og:locale" content="en-GB"><meta name="og:site_name" content="John Kemp-Cruz"><script type="application/ld+json">{"@context":"http://schema.org","@type":"Person","address":{"@type":"PostalAddress","addressCountry":"GB","addressLocality":"London"},"jobTitle":"Front-end web developer","name":"John Kemp-Cruz","url":"https://jkc.codes/"}</script><link rel="stylesheet" href="/css/syntax.css"></head><body> <div id="site-container"> <header id="site-header"> <a href="#site-main" class="skip-to-content">Skip to main content</a> <nav class="navigation"> <input class="menu-checkbox js-site-nav-input" type="checkbox" id="site-nav-menu-checkbox" hidden> <label class="menu-button js-site-nav-button" for="site-nav-menu-checkbox" hidden> <svg class="menu-button-icon" width="48" height="48" viewBox="0 0 100 100" aria-hidden="true"><path class="line-top-left" d="M0 0h60v20H0z"/><path class="line-top-right" d="M40 0h60v20H40z"/><path class="line-mid-left" d="M0 40h60v20H0z"/><path class="line-mid-right" d="M40 40h60v20H40z"/><path class="line-bottom-left" d="M0 80h60v20H0z"/><path class="line-bottom-right" d="M40 80h60v20H40z"/></svg><span class="menu-button-text js-site-nav-button-text">Open menu</span> </label> <ul class="navigation-links prevent-transition js-site-nav-menu" id="site-nav-menu" tabindex="-1"> <li><a class="navigation-name" href="/">John Kemp-Cruz</a></li> <li><a href="/blog/"><img src="/img/site/icon-blog.svg" alt width="40" height="40">Blog</a></li> <li><a href="/#projects"><img src="/img/site/icon-projects.svg" alt width="40" height="40">Projects</a></li> <li><a href="https://github.com/JKC-Codes" rel="me"><img src="/img/site/icon-github.svg" alt width="40" height="40">GitHub</a></li> <li><a href="https://mastodonapp.uk/@jkc_codes" rel="me"><img src="/img/site/icon-mastodon.svg" alt width="40" height="40">Mastodon</a></li> </ul> </nav> </header> <main id="site-main" class="h-entry" tabindex="-1"> <header id="header"> <h1 id="page-heading" class="p-name">Using SASS With Eleventy</h1> <p class="reading-time"><img class="clock" src="/img/blog/clock.svg" alt width="13" height="13" hidden>About <time datetime="PT296S">5 minutes</time> to read</p> </header> <div class="e-content"> <p><a href="https://www.11ty.dev/">Eleventy (11ty)</a> is a super customisable static site generator that at its core transforms template language into HTML. However, template languages like Liquid and Nunjucks are designed to output HTML rather than CSS so how does Eleventy handle styling?</p> <p>Let me show you how I compile SASS automatically and display the output on a local server without triggering a build from Eleventy or refreshing the browser.</p> <p>If you haven't already, you'll need to install <a href="https://nodejs.org/">Node</a>, create a package.json file by typing <code>npm init</code> in the command line and then run <code>npm i @11ty/eleventy</code>.</p> <h2>Transform SCSS Files</h2> <p>I use the terminal and <a href="https://sass-lang.com/documentation/cli/dart-sass">SASS' CLI commands</a> to compile CSS but you can use any build system and skip this section if you want. The only Eleventy specific thing is placing the CSS in Eleventy's output folder — by default this is &quot;_site&quot;.</p> <p>First, install the <a href="https://www.npmjs.com/package/sass">SASS package</a>: <code>npm i sass</code>.</p> <p>Then, tell SASS where the SCSS files are and where to output the CSS. I do this through NPM so I don't need to type out the command every time.</p> <p>Assuming your file structure looks like this:</p> <pre>_site
 	|- index.html
 	|- css
 		|- styles.css
 sass
 	|- styles.scss
-index.html</pre>
-<p>You would use the following in <code>package.json</code>:</p>
-<pre class="language-json line-numbers"><code class="language-json line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+index.html</pre> <p>You would use the following in <code>package.json</code>:</p> <pre class="language-json line-numbers"><code class="language-json line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"watch:sass"</span><span class="token operator">:</span> <span class="token string">"npx sass sass:_site/css --watch"</span>
-<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
-<p>This allows you to enter <code>npm run watch:sass</code> in the command line to take any .scss files in the &quot;sass&quot; directory and put them in the &quot;_site/css&quot; directory as .css files any time a change is made.</p>
-<p>You can rename the script from &quot;watch:sass&quot; to anything you like. Similarly, you can customise the input and output paths; the sass input goes before the : and the css output goes after it. There are also a number of flags you can customise other than the <code>--watch</code> flag, full details are in the <a href="https://sass-lang.com/documentation/cli/dart-sass">SASS documentation</a>.</p>
-<h2>Refresh The Browser</h2>
-<p>In order to show the newly converted CSS live in the browser I use Eleventy's <code>--serve</code> command.</p>
-<h3>What Is <code>eleventy --serve</code>?</h3>
-<p><code>eleventy --serve</code> is a command line instruction that can be broken down into 3 steps: build, watch and serve.</p>
-<h4>Build</h4>
-<p>The build step will tell Eleventy to take template files like Markdown, Nunjucks or Liquid and create HTML files from them. It is equivalent to running <code>eleventy</code> in the command line.</p>
-<h4>Watch</h4>
-<p>The watch step will run the above build step every time a change is made to any of the template files. It is equivalent to running <code>eleventy --watch</code> in the command line.</p>
-<h4>Serve</h4>
-<p>The serve step will start a local server to display your website and update it automatically whenever files are changed through the above watch step. It is similar to running <code>eleventy --watch &amp; browser-sync start</code> in the command line.</p>
-<p>Eleventy uses Browsersync under the hood to handle its live server. Notably this means that any options are detailed in the <a href="https://browsersync.io/docs/">Browsersync docs</a> and not the <a href="https://www.11ty.dev/docs/">Eleventy docs</a>.</p>
-<h3>Configuring BrowserSync</h3>
-<p>BrowserSync is automatically run when using <code>eleventy --serve</code> and its options are set via <a href="https://www.11ty.dev/docs/watch-serve/#override-browsersync-server-options">EleventyConfig's <code>setBrowserSyncConfig</code> method</a>.</p>
-<p>In my <a href="https://www.11ty.dev/docs/config/">Eleventy config file</a> (.eleventy.js by default) I add this:</p>
-<pre class="language-js line-numbers"><code class="language-js line-numbers"><span class="token line-number" aria-hidden="true"></span>module<span class="token punctuation">.</span><span class="token method-variable function-variable method function property-access">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">eleventyConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre> <p>This allows you to enter <code>npm run watch:sass</code> in the command line to take any .scss files in the &quot;sass&quot; directory and put them in the &quot;_site/css&quot; directory as .css files any time a change is made.</p> <p>You can rename the script from &quot;watch:sass&quot; to anything you like. Similarly, you can customise the input and output paths; the sass input goes before the : and the css output goes after it. There are also a number of flags you can customise other than the <code>--watch</code> flag, full details are in the <a href="https://sass-lang.com/documentation/cli/dart-sass">SASS documentation</a>.</p> <h2>Refresh The Browser</h2> <p>In order to show the newly converted CSS live in the browser I use Eleventy's <code>--serve</code> command.</p> <h3>What Is <code>eleventy --serve</code>?</h3> <p><code>eleventy --serve</code> is a command line instruction that can be broken down into 3 steps: build, watch and serve.</p> <h4>Build</h4> <p>The build step will tell Eleventy to take template files like Markdown, Nunjucks or Liquid and create HTML files from them. It is equivalent to running <code>eleventy</code> in the command line.</p> <h4>Watch</h4> <p>The watch step will run the above build step every time a change is made to any of the template files. It is equivalent to running <code>eleventy --watch</code> in the command line.</p> <h4>Serve</h4> <p>The serve step will start a local server to display your website and update it automatically whenever files are changed through the above watch step. It is similar to running <code>eleventy --watch &amp; browser-sync start</code> in the command line.</p> <p>Eleventy uses Browsersync under the hood to handle its live server. Notably this means that any options are detailed in the <a href="https://browsersync.io/docs/">Browsersync docs</a> and not the <a href="https://www.11ty.dev/docs/">Eleventy docs</a>.</p> <h3>Configuring BrowserSync</h3> <p>BrowserSync is automatically run when using <code>eleventy --serve</code> and its options are set via <a href="https://www.11ty.dev/docs/watch-serve/#override-browsersync-server-options">EleventyConfig's <code>setBrowserSyncConfig</code> method</a>.</p> <p>In my <a href="https://www.11ty.dev/docs/config/">Eleventy config file</a> (.eleventy.js by default) I add this:</p> <pre class="language-js line-numbers"><code class="language-js line-numbers"><span class="token line-number" aria-hidden="true"></span>module<span class="token punctuation">.</span><span class="token method-variable function-variable method function property-access">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">eleventyConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 <span class="token line-number" aria-hidden="true"></span>	eleventyConfig<span class="token punctuation">.</span><span class="token method function property-access">setBrowserSyncConfig</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
 <span class="token line-number" aria-hidden="true"></span>		<span class="token literal-property property">files</span><span class="token operator">:</span> <span class="token string">'./_site/css/**/*.css'</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<p>I'm using BrowserSync's <a href="https://browsersync.io/docs/options#option-files">files option</a> to watch any file in the <code>_site/css/</code> folder with a <code>.css</code> extension and add that CSS to the page whenever those files update. It doesn't use Eleventy's build command and therefore doesn't trigger a rebuild of the HTML.</p>
-<h3>What about addPassthroughCopy?</h3>
-<p>You may have seen other sites build their CSS files in the same folder as their SASS and then use Eleventy config's <a href="https://www.11ty.dev/docs/copy/">addPassthroughCopy</a> method to copy the CSS to Eleventy's output folder. The file structure looks something like this:</p>
-<pre>_site
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre> <p>I'm using BrowserSync's <a href="https://browsersync.io/docs/options#option-files">files option</a> to watch any file in the <code>_site/css/</code> folder with a <code>.css</code> extension and add that CSS to the page whenever those files update. It doesn't use Eleventy's build command and therefore doesn't trigger a rebuild of the HTML.</p> <h3>What about addPassthroughCopy?</h3> <p>You may have seen other sites build their CSS files in the same folder as their SASS and then use Eleventy config's <a href="https://www.11ty.dev/docs/copy/">addPassthroughCopy</a> method to copy the CSS to Eleventy's output folder. The file structure looks something like this:</p> <pre>_site
 	|- index.html
 	|- css
 	|- styles.css
@@ -128,64 +18,19 @@ sass
 	|- styles.scss
 css
 	|- styles.css
-index.html</pre>
-<p>This works, but there are two reasons why I don't like it.</p>
-<ol>
-<li>The CSS folder is duplicated which makes unnecessary writes to my hard drive and uses additional space.</li>
-<li>It increases build times because the SCSS file and the CSS file both trigger an Eleventy build. In the terminal you see a message like this: <samp>You saved while Eleventy was running, let’s run again. (1 remain)</samp>.</li>
-</ol>
-<h3>What about addWatchTarget?</h3>
-<p>Eleventy config's <a href="https://www.11ty.dev/docs/watch-serve/">addWatchTarget</a> method allows you to specify a file or folder which will trigger an Eleventy build whenever it's updated.</p>
-<p>In theory this means that we could watch our SASS folder but in practice it creates a race condition which hopes that SASS will create a CSS file faster than Eleventy can start its build. You could watch the CSS folder instead but this creates the same problems as addPassthroughCopy.</p>
-<h2>Wrapping up</h2>
-<p>With the configuration set up, the last step is to run Eleventy and SASS together. I use VS Code's Tasks to do this but you can update your <code>package.json</code> with this instead:</p>
-<pre class="language-json line-numbers"><code class="language-json line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+index.html</pre> <p>This works, but there are two reasons why I don't like it.</p> <ol> <li>The CSS folder is duplicated which makes unnecessary writes to my hard drive and uses additional space.</li> <li>It increases build times because the SCSS file and the CSS file both trigger an Eleventy build. In the terminal you see a message like this: <samp>You saved while Eleventy was running, let’s run again. (1 remain)</samp>.</li> </ol> <h3>What about addWatchTarget?</h3> <p>Eleventy config's <a href="https://www.11ty.dev/docs/watch-serve/">addWatchTarget</a> method allows you to specify a file or folder which will trigger an Eleventy build whenever it's updated.</p> <p>In theory this means that we could watch our SASS folder but in practice it creates a race condition which hopes that SASS will create a CSS file faster than Eleventy can start its build. You could watch the CSS folder instead but this creates the same problems as addPassthroughCopy.</p> <h2>Wrapping up</h2> <p>With the configuration set up, the last step is to run Eleventy and SASS together. I use VS Code's Tasks to do this but you can update your <code>package.json</code> with this instead:</p> <pre class="language-json line-numbers"><code class="language-json line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"watch:eleventy"</span><span class="token operator">:</span> <span class="token string">"npx @11ty/eleventy --serve"</span><span class="token punctuation">,</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"watch:sass"</span><span class="token operator">:</span> <span class="token string">"npx sass sass:_site/css --watch"</span><span class="token punctuation">,</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"start"</span><span class="token operator">:</span> <span class="token string">"npm run watch:eleventy &amp; npm run watch:sass"</span>
-<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
-<p>And then run <code>npm start</code> in your terminal whenever you open your project.</p>
-<p>If you're using Windows and/or Powershell, the start script's <code>&amp;</code> syntax won't work so I recommend using <a href="https://www.npmjs.com/package/npm-run-all">npm-run-all</a> or <a href="https://www.npmjs.com/package/concurrently">concurrently</a> to run the two scripts at the same time instead.</p>
-<h3>Advantages</h3>
-<ol>
-<li>Zero build time when CSS is updated</li>
-<li>No duplicated CSS files</li>
-<li>No additional dependencies</li>
-</ol>
-<h3>Disadvantages</h3>
-<ol>
-<li>Doesn't work with inline styles</li>
-<li>Some configuration is outside of Eleventy</li>
-</ol>
-<h3>TL;DR</h3>
-<pre class="language-json line-numbers">package.json
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre> <p>And then run <code>npm start</code> in your terminal whenever you open your project.</p> <p>If you're using Windows and/or Powershell, the start script's <code>&amp;</code> syntax won't work so I recommend using <a href="https://www.npmjs.com/package/npm-run-all">npm-run-all</a> or <a href="https://www.npmjs.com/package/concurrently">concurrently</a> to run the two scripts at the same time instead.</p> <h3>Advantages</h3> <ol> <li>Zero build time when CSS is updated</li> <li>No duplicated CSS files</li> <li>No additional dependencies</li> </ol> <h3>Disadvantages</h3> <ol> <li>Doesn't work with inline styles</li> <li>Some configuration is outside of Eleventy</li> </ol> <h3>TL;DR</h3> <pre class="language-json line-numbers">package.json
 <code class="language-json line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token property">"scripts"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"watch:eleventy"</span><span class="token operator">:</span> <span class="token string">"npx @11ty/eleventy --serve"</span><span class="token punctuation">,</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"watch:sass"</span><span class="token operator">:</span> <span class="token string">"npx sass sass:_site/css --watch"</span><span class="token punctuation">,</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token property">"start"</span><span class="token operator">:</span> <span class="token string">"npm run watch:eleventy &amp; npm run watch:sass"</span>
-<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre>
-<pre class="language-js line-numbers">.eleventy.js
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">,</span></code></pre> <pre class="language-js line-numbers">.eleventy.js
 <code class="language-js line-numbers"><span class="token line-number" aria-hidden="true"></span>module<span class="token punctuation">.</span><span class="token method-variable function-variable method function property-access">exports</span> <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token parameter">eleventyConfig</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
 <span class="token line-number" aria-hidden="true"></span>	eleventyConfig<span class="token punctuation">.</span><span class="token method function property-access">setBrowserSyncConfig</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
 <span class="token line-number" aria-hidden="true"></span>		<span class="token literal-property property">files</span><span class="token operator">:</span> <span class="token string">'./_site/css/**/*.css'</span>
 <span class="token line-number" aria-hidden="true"></span>	<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
-<pre class="language-shell line-numbers">command line
-<code class="language-shell line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token function">npm</span> start</code></pre>
-<h3>Further Reading</h3>
-<ul>
-<li><a href="https://www.11ty.dev/docs/watch-serve/">11ty setBrowserSyncConfig documentation</a></li>
-<li><a href="https://browsersync.io/docs/options#option-files">BrowserSync files option documentation</a></li>
-<li><a href="https://sass-lang.com/documentation/cli/dart-sass">SASS CLI documentation</a></li>
-<li><a href="https://www.11ty.dev/docs/quicktips/inline-css/">How to inline minified CSS</a></li>
-</ul>
-</div>
-</main>
-<footer id="site-footer">
-<p><small>Site built using <a href="https://www.11ty.dev/">Eleventy</a> and knowledge from <a href="/credits/">several wonderful people</a>.</small></p>
-<p><small>Source code available at <a href="https://github.com/JKC-Codes/jkc-codes.github.io">GitHub</a>.</small></p>
-<p><small>&copy; John Kemp-Cruz <time datetime="2018">2018</time>&ndash;<time datetime="2025">2025</time></small></p>
-</footer>
-</div>
-</body>
-</html>
+<span class="token line-number" aria-hidden="true"></span><span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre> <pre class="language-shell line-numbers">command line
+<code class="language-shell line-numbers"><span class="token line-number" aria-hidden="true"></span><span class="token function">npm</span> start</code></pre> <h3>Further Reading</h3> <ul> <li><a href="https://www.11ty.dev/docs/watch-serve/">11ty setBrowserSyncConfig documentation</a></li> <li><a href="https://browsersync.io/docs/options#option-files">BrowserSync files option documentation</a></li> <li><a href="https://sass-lang.com/documentation/cli/dart-sass">SASS CLI documentation</a></li> <li><a href="https://www.11ty.dev/docs/quicktips/inline-css/">How to inline minified CSS</a></li> </ul> </div> </main> <footer id="site-footer"> <p><small>Site built using <a href="https://www.11ty.dev/">Eleventy</a> and knowledge from <a href="/credits/">several wonderful people</a>.</small></p> <p><small>Source code available at <a href="https://github.com/JKC-Codes/jkc-codes.github.io">GitHub</a>.</small></p> <p><small>&copy; John Kemp-Cruz <time datetime="2018">2018</time>&ndash;<time datetime="2025">2025</time></small></p> </footer> </div> </body></html>
