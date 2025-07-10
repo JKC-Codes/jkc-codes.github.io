@@ -67,6 +67,8 @@ async function compile(type) {
 }
 
 async function del(pathGlob, options) {
+	console.log(`Deleting ${pathGlob}`);
+
 	const CWD = Path.resolve();
 
 	pathGlob = Path.resolve(pathGlob);
@@ -94,7 +96,8 @@ async function del(pathGlob, options) {
 		promises.push(FS.rm(path, options));
 	}
 
-	return Promise.all(promises);
+	return Promise.all(promises)
+		.then(() => console.log(`Finished deleting ${pathGlob}`));
 }
 
 function reset() {
@@ -102,14 +105,22 @@ function reset() {
 }
 
 function redirect() {
-	return FS.cp('./.netlify/_redirects', Path.join(destination, './_redirects'));
+	console.log('Copying Netlify redirects');
+
+	return FS.cp('./.netlify/_redirects', Path.join(destination, './_redirects'))
+		.then(() => console.log('Finished copying Netlify redirects'));
 }
 
 function eleventy() {
-	return shell(`npx @11ty/eleventy --output="${destination}"`);
+	console.log('Running Eleventy');
+
+	return shell(`npx @11ty/eleventy --output="${destination}"`)
+		.then(() => console.log('Finished running Eleventy'));
 }
 
 async function html() {
+	console.log('Minifying HTML');
+
 	const promises = [];
 	const files = await Array.fromAsync(FS.glob('**/*.html', {cwd: destination}));
 	const options = {
@@ -156,14 +167,20 @@ async function html() {
 		promises.push(FS.writeFile(filePath, minified));
 	}
 
-	return Promise.all(promises);
+	return Promise.all(promises)
+		.then(() => console.log('Finished minifying HTML'));
 }
 
 function css() {
-	return shell(`npx sass ./site/Styles:${Path.join(destination, './css/')} --style=compressed --no-source-map`);
+	console.log('Minifying CSS');
+
+	return shell(`npx sass ./site/Styles:${Path.join(destination, './css/')} --style=compressed --no-source-map`)
+		.then(() => console.log('Finished minifying CSS'));
 }
 
 async function js() {
+	console.log('Minifying JS');
+
 	const promises = [];
 	const JSFolder = Path.join(destination, './js/');
 	const files = await Array.fromAsync(FS.glob('**/*.js', {cwd: JSFolder}));
@@ -174,7 +191,8 @@ async function js() {
 
 	minify('serviceworker.js', destination);
 
-	return Promise.all(promises);
+	return Promise.all(promises)
+		.then(() => console.log('Finished minifying JS'));
 
 	async function minify(file, folderPath) {
 		const filePath = Path.join(folderPath, file);
@@ -185,6 +203,8 @@ async function js() {
 }
 
 async function img() {
+	console.log('Minifying images');
+
 	const promises = [];
 	const imgFolder = Path.join(destination, './img/');
 	const files = await Array.fromAsync(FS.glob('**/*.{jpg,jpeg,png,webp,avif,gif,svg}', {cwd: imgFolder}));
@@ -203,12 +223,21 @@ async function img() {
 			promises.push(minifyIMG(buffer).toFile(path));
 		}
 	}
+
+	return Promise.all(promises)
+		.then(() => console.log('Finished minifying images'));
 }
 
 function netlify() {
-	return shell(`netlify deploy --dir=${destination} --prod --no-build`);
+	console.log('Deploying to Netlify');
+
+	return shell(`netlify deploy --dir=${destination} --prod --no-build`)
+		.then(() => console.log('Finished deploying to Netlify'));
 }
 
 function browser() {
-	return shell('start firefox.exe -private-window https://jkc-codes.netlify.app');
+	console.log('Opening browser');
+
+	return shell('start firefox.exe -private-window https://jkc-codes.netlify.app')
+		.then(() => console.log('Finished opening browser'));
 }
