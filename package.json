@@ -1,14 +1,14 @@
 {
 	"scripts": {
-		"preeleventy": "node --run command -- preEleventy",
+		"preeleventy": "npm run command -- preEleventy",
 		"eleventy": "npx @11ty/eleventy",
 		"watch:eleventy": "npm run eleventy -- --serve",
-		"presass": "node --run command -- preSASS",
+		"presass": "npm run command -- preSASS",
 		"sass": "npx sass site/Styles:./docs/css --embed-sources",
 		"watch:sass": "npm run sass -- --watch",
 		"command": "node commands.js",
-		"stage": "node --run command -- stage",
-		"build": "node --run command -- build"
+		"stage": "npm run command -- stage",
+		"build": "npm run command -- build"
 	},
 	"dependencies": {
 		"@11ty/eleventy": "^3.0.0",
