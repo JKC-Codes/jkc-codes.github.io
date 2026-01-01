@@ -32,7 +32,7 @@ jobs:
           git reset
 
       - name: Install packages
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Run build
         run: npm run build
