@@ -13,27 +13,11 @@ export const config = {
 };
 
 export default async function(eleventyConfig) {
-	const {
-		pluginRSS,
-		pluginTimeToRead,
-		pluginAutomaticNoopener,
-		parserAutomaticNoopener,
-		pluginCodeStyleHooks,
-		parserCodeStyleHooks,
-		markdownTrimTrailingNewline,
-		pluginManageWhitespace,
-		parserManageWhitespace
-	} = await getModules([
-		['pluginRSS', '@11ty/eleventy-plugin-rss'],
-		['pluginTimeToRead', 'eleventy-plugin-time-to-read'],
-		['pluginAutomaticNoopener', 'eleventy-plugin-automatic-noopener', 'posthtml'],
-		['parserAutomaticNoopener', 'eleventy-plugin-automatic-noopener', 'parser'],
-		['pluginCodeStyleHooks', 'eleventy-plugin-code-style-hooks', 'posthtml'],
-		['parserCodeStyleHooks', 'eleventy-plugin-code-style-hooks', 'parser'],
-		['markdownTrimTrailingNewline', 'eleventy-plugin-code-style-hooks', 'markdownTrimTrailingNewline'],
-		['pluginManageWhitespace', 'eleventy-plugin-manage-whitespace', 'posthtml'],
-		['parserManageWhitespace', 'eleventy-plugin-manage-whitespace', 'parser'],
-	]);
+	const {default: pluginRSS} = await import('@11ty/eleventy-plugin-rss');
+	const {default: pluginTimeToRead} = await import('eleventy-plugin-time-to-read');
+	const {posthtml: pluginAutomaticNoopener, parser: parserAutomaticNoopener} = await import('eleventy-plugin-automatic-noopener');
+	const {posthtml: pluginCodeStyleHooks, parser: parserCodeStyleHooks, markdownTrimTrailingNewline} = await import('eleventy-plugin-code-style-hooks');
+	const {posthtml: pluginManageWhitespace, parser: parserManageWhitespace} = await import('eleventy-plugin-manage-whitespace');
 
 	// Refresh browser when CSS updates
 	eleventyConfig.setServerOptions({
@@ -148,18 +132,3 @@ export default async function(eleventyConfig) {
 		return postDates;
 	});
 };
-
-async function getModules(modulesArray) {
-	const pendingImports = [];
-	const modules = {};
-
-	for(const module of modulesArray) {
-		const [variable, location, name = 'default'] = module;
-
-		pendingImports.push(import(`${location}`).then(module => modules[variable] = module[name]));
-	}
-
-	await Promise.all(pendingImports);
-
-	return modules;
-}
